@@ -3,17 +3,18 @@ using UnityEngine;
 
 public class Modos : MonoBehaviour
 {
-    [SerializeField] private Config_PucKahoot config;
-    [SerializeField] public GameObject[] perguntas;
+    [SerializeField] private Config_PucQuiz config;
+    [SerializeField] private GameObject[] questions;
+    [SerializeField] private GameObject question_actualy;
     public void Awake()
     {
-        if(config == null) { config = Resources.Load<Config_PucKahoot>("Config/Kahoot"); }
+        if(config == null) { config = Resources.Load<Config_PucQuiz>("Config/Kahoot"); }
 
-        for (int i = 0; i < perguntas.Length; i++)
+        for (int i = 0; i < questions.Length; i++)
         {
-            if (perguntas[i] == null) { return; }
+            if (questions[i] == null) { return; }
 
-            Perguntas pergunta = perguntas[i].GetComponent<Perguntas>();
+            Perguntas pergunta = questions[i].GetComponent<Perguntas>();
             pergunta.Pre_Load(transform.gameObject);
         }
     }
@@ -23,13 +24,7 @@ public class Modos : MonoBehaviour
     }
     public void Update()
     {
-        for (int i = 0; i < perguntas.Length; i++)
-        {
-            if (perguntas[i] == null) { return; }
-
-            Perguntas pergunta = perguntas[i].GetComponent<Perguntas>();
-            pergunta.Update_Layout(transform.gameObject);
-        }
-
+        Perguntas pergunta = question_actualy.GetComponent<Perguntas>();
+        pergunta.Update_Layout(transform.gameObject);
     }
 }

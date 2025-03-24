@@ -4,8 +4,10 @@ using UnityEngine;
 [Serializable]
 public abstract class Perguntas : MonoBehaviour
 {
-
+    [Header("Variaveis Gerais")]
+    [Space]
     public string type;
+    public string question;
 
     public abstract void Pre_Load(GameObject mod);
     public abstract void Start_Layout(GameObject mod);
