@@ -8,6 +8,7 @@ public abstract class Perguntas : MonoBehaviour
     [Space]
     public string type;
     public string question;
+    public int points = 10;
 
     public abstract void Pre_Load(GameObject mod);
     public abstract void Start_Layout(GameObject mod);

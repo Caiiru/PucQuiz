@@ -1,39 +1,44 @@
+using System;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
+[Serializable]
 public class Quiz : Perguntas
 {
-    [Header("Opções")]
-    [Space]
-    public int choice_correct;
-    public bool chose;
-    [Header("---------------")]
-    public string Option1;
-    public string Option2, Option3, Option4;
-    [Header("---------------")]
-    public bool choice1;
-    public bool choice2, choice3, choice4;
+    #region @Variaveis Locais
 
-    [Header("Time")]
-    public float timer = 30;
-    public bool pause = Event_PucQuiz.pause;
+    [Header("Variaveis Locais")]
+    public int choice_max; //Numero max de escolhas.
+    public int choice_actualy; //Numero atual escolhidos.
+    public bool chose; //Já fez a escolha?
+
+    #endregion
+
+    public Quiz_Attributes attributes;
 
     [Header("Event Variables")]
-    private string question_event = Event_PucQuiz.question_event;
-    private bool question_lock = Event_PucQuiz.question_lock;
-    private bool change = Event_PucQuiz.change;
+    private string question_event = Event_PucQuiz.question_event; //Puxa o evento de respota e qual pergunta foi respondida.
+    private bool question_lock = Event_PucQuiz.question_lock; //Puxa o evento que bloqueia as escolhas.
+    public bool pause = Event_PucQuiz.pause; //
     public override void Pre_Load(GameObject mod)
     {
-        if(timer == 0) { timer = 30; }
+        if(attributes.timer == 0) { attributes.timer = 30; }
+        attributes.choices = new bool[attributes.options.Length];
     }
 
     public override void Start_Layout(GameObject mod)
     {
+        choice_max = attributes.choice_correct.Length;
         //throw new System.NotImplementedException();
     }
+
     public override void Update_Layout(GameObject mod)
     {
+        if (Event_PucQuiz.start_layoult) { Start_Layout(mod); }
+
         pause = Event_PucQuiz.pause;
         if (pause) { return; }
 
@@ -44,7 +49,7 @@ public class Quiz : Perguntas
          * rodara o nada abaixo
         \*                    */
 
-        switch (timer)
+        switch (attributes.timer)
         {
             case -1:
                 break;
@@ -52,8 +57,8 @@ public class Quiz : Perguntas
                 End_Layout(mod);
                 break;
             default:
-                timer = timer - Time.deltaTime;
-                if (timer < 0) { timer = 0; } //Quebra caso o numero seja negativo, mas não igual a 1.
+                attributes.timer = attributes.timer - Time.deltaTime;
+                if (attributes.timer < 0) { attributes.timer = 0; } //Quebra caso o numero seja negativo, mas não igual a 1.
                 break;
         }
 
@@ -63,26 +68,30 @@ public class Quiz : Perguntas
 
         if (question_event != "" && !question_lock)
         {
-            if (chose && change) { return; } //Quebra a execução do codigo.
+            if (chose && !attributes.change) { Debug.Log("Escolha feita."); return; } //Quebra a execução do codigo.
 
-            Choices_Reset();
+            if (choice_max == 1) { Choices_Reset(); }
 
             switch (question_event)
             {
                 case "chose_01":
-                    choice1 = true;
+                    if (attributes.choices[0]) { choice_actualy--; attributes.choices[0] = false; }
+                    else { choice_actualy++; attributes.choices[0] = true; }
                     Make_Chose();
                     break;
                 case "chose_02":
-                    choice2 = true;
+                    if (attributes.choices[1]) { choice_actualy--; attributes.choices[1] = false; }
+                    else { choice_actualy++; attributes.choices[1] = true; }
                     Make_Chose();
                     break;
                 case "chose_03":
-                    choice3 = true;
+                    if (attributes.choices[2]) { choice_actualy--; attributes.choices[2] = false; }
+                    else { choice_actualy++; attributes.choices[2] = true; }
                     Make_Chose();
                     break;
                 case "chose_04":
-                    choice4 = true;
+                    if (attributes.choices[3]) { choice_actualy--; attributes.choices[3] = false; }
+                    else { choice_actualy++; attributes.choices[3] = true; }
                     Make_Chose();
                     break;
                 default:
@@ -99,15 +108,76 @@ public class Quiz : Perguntas
          * para baixo.
         \*                    */
     }
+
     public override void End_Layout(GameObject mod)
     {
-        throw new System.NotImplementedException();
+
+        if (Event_PucQuiz.question_next) { return; }
+
+        Event_PucQuiz.question_event = "";
+        Event_PucQuiz.question_lock = false;
+
+        bool uncorrect = false;
+
+        for (int i = 0; i < attributes.choices.Length; i++)
+        {
+            if (attributes.choices[i] == true)
+            {
+                bool search = true;
+
+                for(int o = 0; o < attributes.choice_correct.Length; o++)
+                {
+                    if (attributes.choice_correct[o] == i+1) { search = false; break; }
+                }
+
+                if(search) { uncorrect = true; }
+                Debug.Log("i = " + search);
+            }
+        }
+
+        if(!uncorrect)
+        { 
+            Debug.Log("You win");
+            Event_PucQuiz.question_result = "win";
+        }
+        else
+        {
+            Debug.Log("You lose");
+            Event_PucQuiz.question_result = "lose";
+        }
+        Debug.Log(uncorrect);
+
+        Event_PucQuiz.question_next = true;
+
+        Debug.Log("End Layoult");
+
+        //throw new System.NotImplementedException();
     }
 
     #region || Funções Rapidas ||
 
-    private void Make_Chose() { chose = true; Event_PucQuiz.question_event = ""; }
-    private void Choices_Reset(){ choice1 = false; choice2 = false; choice3 = false; choice4 = false; }
+    public void Choice_Event(string chose){ Debug.Log(chose); Event_PucQuiz.question_event = chose; }
+    private void Make_Chose() { if (choice_actualy == choice_max) { chose = true; }; Event_PucQuiz.question_event = ""; }
+    private void Choices_Reset()
+    { 
+        attributes.choices[0] = false; 
+        attributes.choices[1] = false;
+        attributes.choices[2] = false;
+        attributes.choices[3] = false;
+    }
 
     #endregion
 }
+
+[Serializable]
+public class Quiz_Attributes : Attribute
+{
+    public int[] choice_correct; //Quais respostas estão corretas.
+    public bool change; //Pode mudar a resposta?
+    public string[] options; //Texto de cada opção
+    public bool[] choices; //Bool que define quais opções foram escolhidas.
+
+    [Header("Time")]
+    public float timer = 30; //Tempo max até o fim da pergunta.
+}
+
