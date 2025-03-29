@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 [Serializable]
@@ -6,8 +7,7 @@ public abstract class Perguntas : MonoBehaviour
 {
     [Header("Variaveis Gerais")]
     [Space]
-    public string type;
-    public string question;
+    public TextMeshProUGUI question_text;
     public int points = 10;
 
     public abstract void Pre_Load(GameObject mod);

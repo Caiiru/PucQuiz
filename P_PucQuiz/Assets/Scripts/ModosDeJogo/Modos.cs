@@ -5,28 +5,22 @@ using UnityEngine;
 public class Modos : MonoBehaviour
 {
     [SerializeField] private Config_PucQuiz config;
-    [SerializeField] private GameObject[] questions;
+    [SerializeField] private Quiz_Attributes[] attributes;
     [SerializeField] private GameObject question_actualy;
     [SerializeField] private int question_actualy_index;
 
     [SerializeField] private int points = 0;
     public void Awake()
     {
-        question_actualy = Instantiate(questions[0],transform);
-        
         if (config == null) { config = Resources.Load<Config_PucQuiz>("Config/PucQuiz"); }
 
-        for (int i = 0; i < questions.Length; i++)
-        {
-            if (questions[i] == null) { return; }
+        question_actualy = GameObject.Instantiate(config.Get_Layout(attributes[0].question_type), transform);
+        question_actualy.GetComponent<Quiz>().attributes = attributes[0];
 
-            Perguntas pergunta = questions[i].GetComponent<Perguntas>();
-            pergunta.Pre_Load(transform.gameObject);
-        }
     }
     public void Start()
     {
-        Event_PucQuiz.start_layoult = true;
+        Event_PucQuiz.start_layout = true;
         question_actualy_index = 0;
     }
     public void Update()
@@ -34,7 +28,8 @@ public class Modos : MonoBehaviour
         if (question_actualy != null)
         { 
             Perguntas pergunta = question_actualy.GetComponent<Perguntas>();
-            
+
+            Event_PucQuiz.points = points;
             pergunta.Update_Layout(transform.gameObject);
         }
 
@@ -46,11 +41,15 @@ public class Modos : MonoBehaviour
 
     private void Change_Question()
     {
+        Event_PucQuiz.start_layout = true;
+        Event_PucQuiz.question_next = false;
+
         Perguntas pergunta_old = question_actualy.GetComponent<Perguntas>();
 
         if (Event_PucQuiz.question_result == "win")
         {
             points += pergunta_old.points;
+            Event_PucQuiz.points = points;
         }
 
         Event_PucQuiz.question_result = "";
@@ -66,13 +65,18 @@ public class Modos : MonoBehaviour
          * nova instancia.
         \*                    */
 
-        if (question_actualy_index + 1 != questions.Length)
+        if (question_actualy_index+1 != attributes.Length)
         {
             question_actualy_index++;
 
-            question_actualy = Instantiate(questions[question_actualy_index],transform);
+            question_actualy = Instantiate(config.Get_Layout(attributes[question_actualy_index].question_type), transform);
+            Quiz pergunta_new = question_actualy.GetComponent<Quiz>();
+            pergunta_new.attributes = attributes[question_actualy_index];
         }
-
-        Event_PucQuiz.question_next = false;
+        else
+        {
+            Debug.Log("Points = "+points);
+            Event_PucQuiz.Change_Scene("End");
+        }
     }    
 }
