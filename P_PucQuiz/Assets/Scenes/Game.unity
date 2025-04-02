@@ -395,7 +395,7 @@ MonoBehaviour:
     - Quem foi joao?3
     - Quem foi joao?4
     choices: 00000000
-    timer: 30
+    timer: 20
   - question_type: Quiz
     question: Pedro e o numero 4.
     choice_correct: 04000000
@@ -409,6 +409,7 @@ MonoBehaviour:
     timer: 30
   question_actualy: {fileID: 0}
   question_actualy_index: 0
+  path: Assets/Resources/Json/Text.txt
   points: 0
 --- !u!114 &1254502709
 MonoBehaviour:

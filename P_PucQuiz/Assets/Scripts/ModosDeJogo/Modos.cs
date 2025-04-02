@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections;
 using UnityEditor.Build.Content;
 using UnityEngine;
 
@@ -8,6 +10,7 @@ public class Modos : MonoBehaviour
     [SerializeField] private Quiz_Attributes[] attributes;
     [SerializeField] private GameObject question_actualy;
     [SerializeField] private int question_actualy_index;
+    [SerializeField] private string path;
 
     [SerializeField] private int points = 0;
     public void Awake()
@@ -25,6 +28,11 @@ public class Modos : MonoBehaviour
     }
     public void Update()
     {
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            //Translator.Get().Save_Attributes(attributes[0],path);
+        }
+
         if (question_actualy != null)
         { 
             Perguntas pergunta = question_actualy.GetComponent<Perguntas>();
