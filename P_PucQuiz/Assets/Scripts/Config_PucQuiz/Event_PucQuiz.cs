@@ -12,6 +12,7 @@ public static class Event_PucQuiz
     public static string question_result = "";
     public static bool start_layout = false;
     public static bool question_lock = false;
+    public static bool question_end_list = false;
     public static bool question_next = false;
     public static float points = 0;
 

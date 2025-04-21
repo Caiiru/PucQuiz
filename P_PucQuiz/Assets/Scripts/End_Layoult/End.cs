@@ -5,33 +5,49 @@ public class End : MonoBehaviour
 {
     //public UnityEngine.UI.Text points;
     public TextMeshProUGUI points;
-    public float local_points = 0;
+    public static float local_points = 0;
     public float speed = 5;
+
+    public Timer time;
 
     void Start()
     {
         points.text = "Points = " + local_points;
+        time.Reset();
     }
 
     void Update()
     {
-        if(Event_PucQuiz.points > 0)
+
+        if (Event_PucQuiz.points > local_points)
         {
             local_points = local_points + (Time.deltaTime * speed);
 
             if (local_points > Event_PucQuiz.points)
-            { 
+            {
                 local_points = Event_PucQuiz.points;
-                Event_PucQuiz.points = 0;
             }
 
-            points.text = "Points = "+((int)local_points);
+            points.text = "Points = " + ((int)local_points);
+        }
+        else
+        {
+            time.Run();
         }
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(time.End())
         {
-            Event_PucQuiz.points = 0;
-            Event_PucQuiz.Change_Scene("Start");
+            if (Modos.get.Final())
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Event_PucQuiz.Change_Scene(Config_PucQuiz.Get_Config().Layout_Start);
+                }
+            }
+            else
+            {
+                Event_PucQuiz.Change_Scene(Config_PucQuiz.Get_Config().Layout_Game);
+            }
         }
     }
 }

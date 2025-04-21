@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -24,13 +25,19 @@ public class Quiz : Perguntas
 
     public Quiz_Attributes attributes;
 
+    #region @Events
+
     [Header("Event Variables")]
     private string question_event = Event_PucQuiz.question_event; //Puxa o evento de respota e qual pergunta foi respondida.
     private bool question_lock = Event_PucQuiz.question_lock; //Puxa o evento que bloqueia as escolhas.
     public bool pause = Event_PucQuiz.pause; //
+
+    #endregion
+
     public override void Pre_Load(GameObject mod)
     {
-        if(attributes.timer == 0) { attributes.timer = 30; }
+        if(attributes.timer.start == 0) { attributes.timer.start = 30; }
+        attributes.timer.Reset();
 
         question_text.text = attributes.question;
 
@@ -68,20 +75,20 @@ public class Quiz : Perguntas
          * quebrar aqui e não
          * rodara o nada abaixo
         \*                    */
-        points_text.text = "Points : "+((int)Event_PucQuiz.points+" | Tempo : "+ ((int)attributes.timer));
+        points_text.text = "Points : "+((int)Event_PucQuiz.points+" | Tempo : "+ ((int)attributes.timer.time));
 
-        switch (attributes.timer)
-        {
-            case -1:
-                break;
-            case 0:
-                End_Layout(mod);
-                break;
-            default:
-                attributes.timer = attributes.timer - Time.deltaTime;
-                if (attributes.timer < 0) { attributes.timer = 0; } //Quebra caso o numero seja negativo, mas não igual a 1.
-                break;
-        }
+        if(!attributes.timer.infinity)
+            switch (attributes.timer.time)
+            {
+                case 0:
+                    End_Layout(mod);
+                    break;
+                default:
+                    attributes.timer.Run();
+                    //attributes.timer = attributes.timer - Time.deltaTime;
+                    //if (attributes.timer < 0) { attributes.timer = 0; } //Quebra caso o numero seja negativo, mas não igual a 1.
+                    break;
+            }
 
         //Puxando Eventos relacionados a tentativa de resposta das questoes.
         question_event = Event_PucQuiz.question_event;
@@ -130,13 +137,14 @@ public class Quiz : Perguntas
 
     public override void End_Layout(GameObject mod)
     {
+        FeedBack();
 
         if (Event_PucQuiz.question_next) { return; }
 
         Event_PucQuiz.question_event = "";
         Event_PucQuiz.question_lock = false;
 
-        bool uncorrect = false;
+        bool uncorrect = true;
 
         for (int i = 0; i < attributes.choices.Length; i++)
         {
@@ -146,7 +154,7 @@ public class Quiz : Perguntas
 
                 for(int o = 0; o < attributes.choice_correct.Length; o++)
                 {
-                    if (attributes.choice_correct[o] == i+1) { search = false; break; }
+                    if (attributes.choice_correct[o] == i+1) { search = false; uncorrect = false; break; }
                 }
 
                 if(search) { uncorrect = true; }
@@ -161,9 +169,31 @@ public class Quiz : Perguntas
         {
             Event_PucQuiz.question_result = "lose";
         }
-
         Event_PucQuiz.question_next = true;
+
     }
+
+    #region || Funções Gerais ||
+
+    private void FeedBack()
+    {
+        for(int i = 0; i < attributes.choices.Length; i++)
+        {
+            for(int o = 0; o < attributes.choice_correct.Length; o++)
+            {
+                if (i == attributes.choice_correct[o]-1)
+                {
+                    questions_text[i].color = Color.green; break;
+                }
+                else
+                {
+                    questions_text[i].color = Color.red;
+                }
+            }
+        }
+    }
+
+    #endregion
 
     #region || Funções Rapidas ||
 

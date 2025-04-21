@@ -12,6 +12,7 @@ public class Login : MonoBehaviour
 
     void Start()
     {
+        Modos.get = null;
         layout_actualy = "login";
         login.SetActive(true);
         codeORcreate.SetActive(false);
@@ -32,14 +33,14 @@ public class Login : MonoBehaviour
             if (layout_actualy == "createORcode" && Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("Create Game = Sucesso");
-                Event_PucQuiz.Change_Scene("Game");
+                Event_PucQuiz.Change_Scene(Config_PucQuiz.Get_Config().Layout_Game);
             }
         }
 
         if (layout_actualy == "createORcode" && (Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)))
         {
             Debug.Log("Enter Game = Sucesso");
-            Event_PucQuiz.Change_Scene("Game");
+            Event_PucQuiz.Change_Scene(Config_PucQuiz.Get_Config().Layout_Game);
         }
     }
 

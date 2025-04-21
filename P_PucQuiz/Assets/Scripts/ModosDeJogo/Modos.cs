@@ -3,34 +3,64 @@ using System;
 using System.Collections;
 using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Modos : MonoBehaviour
 {
     [SerializeField] private Config_PucQuiz config;
     [SerializeField] private Quiz_Attributes[] attributes;
     [SerializeField] private GameObject question_actualy;
+    [SerializeField] private int timer_next_max = 0;
+    [SerializeField] private Timer timer_next;
     [SerializeField] private int question_actualy_index;
     [SerializeField] private string path;
 
     [SerializeField] private int points = 0;
+
+    public static Modos get = null;
+    
     public void Awake()
     {
-        if (config == null) { config = Resources.Load<Config_PucQuiz>("Config/PucQuiz"); }
+        if(Modos.get == null)
+        {
+            Modos.get = this;
+            if (config == null) { config = Resources.Load<Config_PucQuiz>("Config/PucQuiz"); }
+            timer_next.start = 0;
 
-        question_actualy = GameObject.Instantiate(config.Get_Layout(attributes[0].question_type), transform);
-        question_actualy.GetComponent<Quiz>().attributes = attributes[0];
+            question_actualy = GameObject.Instantiate(config.Get_Layout(attributes[0].question_type), transform);
+            question_actualy.GetComponent<Quiz>().attributes = attributes[0];
+            question_actualy_index = 0;
+        }
+        else
+        {
+            Config_PucQuiz config = Modos.get.config;
+            Quiz_Attributes[] attributes = Modos.get.attributes;
+            GameObject question_actualy = Modos.get.question_actualy;
+            timer_next_max = 0;
+            Timer timer_next = Modos.get.timer_next;
+            question_actualy_index = Modos.get.question_actualy_index;
+            path = Modos.get.path;
+
+            question_actualy = Instantiate(config.Get_Layout(attributes[question_actualy_index].question_type), transform);
+            Quiz pergunta_new = question_actualy.GetComponent<Quiz>();
+            pergunta_new.attributes = attributes[question_actualy_index];
+
+            timer_next.start = 0;
+        }
 
     }
     public void Start()
     {
+        //Translator.Get().Save_Attributes(attributes, path);
         Event_PucQuiz.start_layout = true;
-        question_actualy_index = 0;
     }
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.W))
+        Modos.get = this;
+
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            //Translator.Get().Save_Attributes(attributes[0],path);
+            
         }
 
         if (question_actualy != null)
@@ -43,7 +73,19 @@ public class Modos : MonoBehaviour
 
         if (Event_PucQuiz.question_next)
         {
-            Change_Question();
+            if(timer_next.start == 0)
+            { 
+                timer_next.start = timer_next_max; 
+                timer_next.Reset();
+
+                if (Event_PucQuiz.question_result == "win")
+                {
+                    points += question_actualy.GetComponent<Perguntas>().points;
+                    Event_PucQuiz.points = points;
+                }
+            }
+            timer_next.Run();
+            if (timer_next.End()) { timer_next = null; Change_Question(); }
         }
     }
 
@@ -53,12 +95,6 @@ public class Modos : MonoBehaviour
         Event_PucQuiz.question_next = false;
 
         Perguntas pergunta_old = question_actualy.GetComponent<Perguntas>();
-
-        if (Event_PucQuiz.question_result == "win")
-        {
-            points += pergunta_old.points;
-            Event_PucQuiz.points = points;
-        }
 
         Event_PucQuiz.question_result = "";
 
@@ -73,18 +109,18 @@ public class Modos : MonoBehaviour
          * nova instancia.
         \*                    */
 
-        if (question_actualy_index+1 != attributes.Length)
+        if (question_actualy_index != attributes.Length)
         {
-            question_actualy_index++;
+            Modos.question_actualy_index++;
+        }
+        Debug.Log("Question = "+question_actualy_index);
+        Modos.get = this;
+        Event_PucQuiz.Change_Scene(config.Layout_Contagem);
+    }
 
-            question_actualy = Instantiate(config.Get_Layout(attributes[question_actualy_index].question_type), transform);
-            Quiz pergunta_new = question_actualy.GetComponent<Quiz>();
-            pergunta_new.attributes = attributes[question_actualy_index];
-        }
-        else
-        {
-            Debug.Log("Points = "+points);
-            Event_PucQuiz.Change_Scene("End");
-        }
-    }    
+    public bool Final()
+    {
+        if(question_actualy_index == attributes.Length) { return true; }
+        return false;
+    }
 }
