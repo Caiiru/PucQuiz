@@ -5,12 +5,22 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewConfig", menuName = "Scriptable Objects/PucKahoot/NewConfig")]
 public class Config_PucQuiz : ScriptableObject
 {
+    private static Config_PucQuiz instance;
+
     public string[] types_modes;
     public StringToGameObject[] layout_list;
-    //public string[] types_question;
-    //public GameObject[] layout_question;
 
-    public GameObject Get_Layout(string type)
+    [Header("Scenes")]
+    public string Layout_Start;
+    public string Layout_Contagem;
+    public string Layout_Game;
+
+    public static Config_PucQuiz Get_Config()
+    {
+        if(instance == null) { instance = Resources.Load<Config_PucQuiz>("Config/PucQuiz"); }
+        return instance;
+    }
+    public GameObject Get_Layout(Attributes.Type type)
     {
         for(int i = 0; i < layout_list.Length; i++)
         {
@@ -25,12 +35,12 @@ public class Config_PucQuiz : ScriptableObject
 [Serializable]
 public class StringToGameObject
 {
-    public string name;
+    public Attributes.Type type;
     public GameObject gameObject;
 
-    public GameObject GetObject(string test)
+    public GameObject GetObject(Attributes.Type test)
     {
-        if(test == name) { return  gameObject; }
+        if(type == test) { return  gameObject; }
 
         return null;
     }

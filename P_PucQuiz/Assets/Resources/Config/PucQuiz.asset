@@ -15,7 +15,10 @@ MonoBehaviour:
   types_modes:
   - Basic
   layout_list:
-  - name: Quiz
+  - type: 1
     gameObject: {fileID: 6916792732206141983, guid: 4581e28057bae524aa66b5026a783086, type: 3}
-  - name: VerdadeiroOUFalso
+  - type: 2
     gameObject: {fileID: 6916792732206141983, guid: f279004d24f6415468a8e286bebe8b89, type: 3}
+  Layout_Start: Start
+  Layout_Contagem: TelaDeContagem
+  Layout_Game: TelaDePerguntas
