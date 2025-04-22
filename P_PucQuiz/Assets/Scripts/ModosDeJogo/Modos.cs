@@ -103,8 +103,8 @@ public class Modos : MonoBehaviour
         /* ---- Lembrete ---- *\
          * A partir deste ponto
          * a pergunta e o layoult
-         * antigos não poderam
-         * ser acessados até que
+         * antigos nï¿½o poderam
+         * ser acessados atï¿½ que
          * o programa crie uma
          * nova instancia.
         \*                    */
