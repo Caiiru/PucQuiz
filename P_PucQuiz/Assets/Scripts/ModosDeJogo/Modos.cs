@@ -111,7 +111,9 @@ public class Modos : MonoBehaviour
 
         if (question_actualy_index != attributes.Length)
         {
-            Modos.question_actualy_index++;
+            //TODO -> FIX - An object reference is required for the non-static field, method, or property 'Modos.question_actualy_index'
+
+            //Modos.question_actualy_index++;
         }
         Debug.Log("Question = "+question_actualy_index);
         Modos.get = this;
