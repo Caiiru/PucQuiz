@@ -1,5 +1,5 @@
 .panel {
-    background-color: rgb(251, 247, 239);
+    background-color: rgba(251, 247, 239, 0);
 }
 
 .unity-button:hover {
