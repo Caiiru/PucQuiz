@@ -1,0 +1,53 @@
+.panel {
+}
+
+.login-button {
+    background-color: rgb(143, 217, 87);
+    color: rgb(255, 255, 255);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.login-button:hover {
+    background-color: rgb(128, 255, 32);
+}
+
+.login-button:active {
+    background-color: rgb(0, 0, 0);
+}
+
+.register-button {
+    background-color: rgb(30, 194, 232);
+    color: rgb(255, 255, 255);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.register-button:hover {
+    background-color: rgb(0, 250, 255);
+}
+
+.register-button:active {
+    background-color: rgb(0, 0, 0);
+}
+
+.entercode-button {
+    background-color: rgb(227, 108, 92);
+    color: rgb(255, 255, 255);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.entercode-button:hover {
+    background-color: rgb(236, 37, 26);
+}
+
+.entercode-button:active {
+    background-color: rgb(0, 0, 0);
+}
