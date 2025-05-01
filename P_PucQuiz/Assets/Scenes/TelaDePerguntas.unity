@@ -372,59 +372,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c9189d13a5a3364db0bb19e602ed173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  config: {fileID: 0}
-  attributes:
-  - question_type: 1
-    question: Ze e o numero 1 e o 3.
-    choice_correct: 0100000003000000
-    change: 0
-    options:
-    - Quem foi ze?1
-    - Quem foi ze?2
-    - Quem foi ze?3
-    - Quem foi ze?4
-    choices: 00000000
-    timer:
-      start: 30
+  modo:
+    config: {fileID: 0}
+    attributes:
+    - question_type: 1
+      question: Resposta 1 e 3
+      choice_correct: 0100000003000000
+      change: 0
+      options:
+      - "Op\xE7\xE3o 1"
+      - "Op\xE7\xE3o 2"
+      - "Op\xE7\xE3o 3"
+      - "Op\xE7\xE3o 4"
+      choices: 00000000
+      timer:
+        start: 30
+        time: 0
+        infinity: 0
+    - question_type: 1
+      question: Resposta 4
+      choice_correct: 04000000
+      change: 0
+      options:
+      - "Op\xE7\xE3o 1"
+      - "Op\xE7\xE3o 2"
+      - "Op\xE7\xE3o 3"
+      - "Op\xE7\xE3o 4"
+      choices: 00000000
+      timer:
+        start: 15
+        time: 0
+        infinity: 0
+    - question_type: 1
+      question: Resposta 2
+      choice_correct: 02000000
+      change: 1
+      options:
+      - "Op\xE7\xE3o 1"
+      - "Op\xE7\xE3o 2"
+      - "Op\xE7\xE3o 3"
+      - "Op\xE7\xE3o 4"
+      choices: 00000000
+      timer:
+        start: 10
+        time: 0
+        infinity: 0
+    question_actualy_index: 0
+    transform: {fileID: 0}
+    question_actualy: {fileID: 0}
+    timer_next:
+      start: 5
       time: 0
       infinity: 0
-  - question_type: 1
-    question: Joao e o numero 1.
-    choice_correct: 01000000
-    change: 1
-    options:
-    - Quem foi joao?1
-    - Quem foi joao?2
-    - Quem foi joao?3
-    - Quem foi joao?4
-    choices: 00000000
-    timer:
-      start: 20
-      time: 0
-      infinity: 0
-  - question_type: 1
-    question: Pedro e o numero 4.
-    choice_correct: 04000000
-    change: 0
-    options:
-    - Quem foi pedro?1
-    - Quem foi pedro?2
-    - Quem foi pedro?3
-    - Quem foi pedro?4
-    choices: 00000000
-    timer:
-      start: 15
-      time: 0
-      infinity: 0
-  question_actualy: {fileID: 0}
-  timer_next_max: 5
-  timer_next:
-    start: 0
-    time: 0
-    infinity: 0
-  question_actualy_index: 0
-  path: Assets/Resources/Json/Text.txt
-  points: 0
+    path: 
+    points: 0
 --- !u!114 &1254502709
 MonoBehaviour:
   m_ObjectHideFlags: 0
