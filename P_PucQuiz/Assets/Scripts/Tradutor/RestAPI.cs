@@ -9,10 +9,11 @@ namespace Tradutor
 {
     public class RestAPI:MonoBehaviour
     {
-        private string URL = "http://localhost:8080/api/quizzes?userID=1";
+        private string URL = "http://graspserver-dev.eba-n3incx6t.us-east-1.elasticbeanstalk.com/api/";
 
         public int index;
 
+        public string typeText = "name";
         public TMPro.TextMeshProUGUI quizTitle;
 
         public bool getData = false;
@@ -34,9 +35,10 @@ namespace Tradutor
         // ReSharper disable Unity.PerformanceAnalysis
         IEnumerator GetData()
         {
-            using (UnityWebRequest request = UnityWebRequest.Get(URL))
-            {
+            UnityWebRequest request = UnityWebRequest.Get(URL + "users");
+            
                 yield return request.SendWebRequest();
+ 
 
                 if (request.result == UnityWebRequest.Result.ConnectionError)
                 {
@@ -45,15 +47,14 @@ namespace Tradutor
                 else
                 {
                     string json = request.downloadHandler.text;
-                    SimpleJSON.JSONNode quizInfo = SimpleJSON.JSON.Parse(json);
+                    SimpleJSON.JSONNode userInfo = SimpleJSON.JSON.Parse(json);
 
-                    quizTitle.text = quizInfo[index]["title"];
+                    quizTitle.text = userInfo[index][typeText];
                     /*
                     Quiz q = new Quiz();
                     q.title=quizInfo[index]["title"];
                     */
                 }
-            }
         }
     }
 }
