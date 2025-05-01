@@ -9,7 +9,7 @@ namespace Tradutor
 {
     public class RestAPI:MonoBehaviour
     {
-        private string URL = "http://localhost:8080/api/quizzes?userID=1";
+        private string URL = "http://graspserver-dev.eba-n3incx6t.us-east-1.elasticbeanstalk.com/api/";
 
         public int index;
 
@@ -52,6 +52,23 @@ namespace Tradutor
                     Quiz q = new Quiz();
                     q.title=quizInfo[index]["title"];
                     */
+                }
+            }
+        }
+
+        IEnumerator Login(Dictionary<string,string> login)
+        {
+            using (UnityWebRequest request = UnityWebRequest.Post(URL + "/users/login", login))
+            {
+                yield return request.SendWebRequest();
+
+                if(request.result == UnityWebRequest.Result.ConnectionError)
+                {
+                    Debug.Log(request.result);
+                }
+                else
+                {
+
                 }
             }
         }
