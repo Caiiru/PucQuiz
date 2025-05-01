@@ -56,5 +56,22 @@ namespace Tradutor
                     */
                 }
         }
+
+        IEnumerator Login(Dictionary<string,string> login)
+        {
+            using (UnityWebRequest request = UnityWebRequest.Post(URL + "/users/login", login))
+            {
+                yield return request.SendWebRequest();
+
+                if(request.result == UnityWebRequest.Result.ConnectionError)
+                {
+                    Debug.Log(request.result);
+                }
+                else
+                {
+
+                }
+            }
+        }
     }
 }
