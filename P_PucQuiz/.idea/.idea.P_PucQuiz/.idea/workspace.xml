@@ -5,24 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d43d7a97-4c41-4be2-a70a-0fb3ecaf6d86" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Caiiru.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Caiiru.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tradutor/RestAPI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Tradutor/RestAPI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-1.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-10.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-10.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-11.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-11.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-12.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-12.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-13.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-13.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-2.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-3.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-3.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-4.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-4.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-5.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-5.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-6.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-6.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-7.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-7.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-8.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-8.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-9.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group-9.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/cube-group.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/stair-group.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI Toolkit/Shapes/Menu/stair-group.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,32 +16,44 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Tradutor/WebSocketTester.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/c9d75d3c147d4ccfa82368c900294ebf3bc00/f9/311a6f69/02000007.il" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/c9d75d3c147d4ccfa82368c900294ebf3bc00/f9/311a6f69/02000007Low.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c9d75d3c147d4ccfa82368c900294ebf3bc00/2d/8d051513/WebSocket.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/eb568f4769884e86869261a9ce3427b2e600/7e/d5e4e626/UnityWebRequest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Tradutor/StompHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Tradutor/WebSocketClient.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Tradutor/WebSocketTester.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="2wSTiwpAaJBwoQwc6Z11hXM1YUR" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\caiir\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
-      "C:\\Users\\caiir\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
-      "C:\\Users\\caiir\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\caiir\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\caiir\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\caiir\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="Z:\Unity\6000.0.42f1\Editor\Unity.exe" />
@@ -102,7 +100,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1746034118788</updated>
-      <workItem from="1746034124396" duration="2817000" />
+      <workItem from="1746034124396" duration="6326000" />
+      <workItem from="1746078542892" duration="7343000" />
+      <workItem from="1746132104312" duration="1144000" />
     </task>
     <servers />
   </component>
@@ -112,6 +112,7 @@
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
 </project>
