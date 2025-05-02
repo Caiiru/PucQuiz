@@ -1,4 +1,5 @@
 using System;
+using Tradutor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,7 +23,24 @@ public class Login : MonoBehaviour
 
     void Update()
     {
-
+        switch(Event_PucQuiz.login)
+        {
+            case "":
+                break;
+            case "true":
+                Debug.Log("Login = Sucesso");
+                RestAPI.login = false;
+                Event_PucQuiz.login = "";
+                break;
+            case "false":
+                Debug.Log("Login = Erro");
+                RestAPI.login = false;
+                Event_PucQuiz.login = "";
+                break;
+            default:
+                Debug.LogError("O evento login possui um valor indevido.");
+                break;
+        }
     }
 
     #region # Click Events #
@@ -39,15 +57,23 @@ public class Login : MonoBehaviour
     {
         try
         {
-            Debug.Log("Email = " + doc.rootVisualElement.Q<TextField>("Email").text);
-            Debug.Log("Senha = " + doc.rootVisualElement.Q<TextField>("Senha").text);
-            Debug.Log("Login = Sucesso");
+            if (RestAPI.login == false)
+            {
+                Debug.Log("Email = " + doc.rootVisualElement.Q<TextField>("Email").text);
+                Debug.Log("Senha = " + doc.rootVisualElement.Q<TextField>("Senha").text);
 
-            layout_actualy = "CreateOrCode";
+                RestAPI.login = true;
+                StartCoroutine(RestAPI.Login(doc.rootVisualElement.Q<TextField>("Email").text,
+                                             doc.rootVisualElement.Q<TextField>("Senha").text));
+            }
+            else
+            {
+                Debug.Log("E isso");
+            }
         }
         catch
         {
-            Debug.Log("Erro ao se logar.");
+            Debug.Log("Erro ao solicitar o login");
         }
     }
 
@@ -103,6 +129,7 @@ public class Login : MonoBehaviour
             }
         }
     }
+
     #endregion
 
     private void OnDisable()
@@ -129,6 +156,13 @@ public class Login : MonoBehaviour
             }
         }
     }
+}
+
+[System.Serializable]
+public class usuario
+{
+    public string email;
+    public string password;
 }
 
 [Serializable]

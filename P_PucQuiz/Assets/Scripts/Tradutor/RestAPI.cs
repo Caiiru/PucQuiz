@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -9,8 +10,11 @@ namespace Tradutor
 {
     public class RestAPI:MonoBehaviour
     {
-        private string URL = "http://graspserver-dev.eba-n3incx6t.us-east-1.elasticbeanstalk.com/api/";
+        private static string _URL = "http://graspserver-dev.eba-n3incx6t.us-east-1.elasticbeanstalk.com/api/";
+        public static bool login = false;
 
+        private string URL = "http://graspserver-dev.eba-n3incx6t.us-east-1.elasticbeanstalk.com/api/";
+        
         public int index;
 
         public string typeText = "name";
@@ -57,19 +61,31 @@ namespace Tradutor
                 }
         }
 
-        IEnumerator Login(Dictionary<string,string> login)
+        public static IEnumerator Login(string email, string senha)
         {
-            using (UnityWebRequest request = UnityWebRequest.Post(URL + "/users/login", login))
+            usuario login_usuario = new usuario();
+            login_usuario.email = email;
+            login_usuario.password = senha;
+            string login_json = JsonUtility.ToJson(login_usuario);
+
+            using (UnityWebRequest request = UnityWebRequest.Post(_URL+"users/login",login_json,"application/json"))
             {
+
                 yield return request.SendWebRequest();
 
-                if(request.result == UnityWebRequest.Result.ConnectionError)
+                if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
                 {
                     Debug.Log(request.result);
                 }
+                if(request.responseCode == 200)
+                {
+                    Debug.Log("Login e senha corretos.");
+                    Event_PucQuiz.login = "true";
+                }
                 else
                 {
-
+                    Debug.Log("Code = "+request.responseCode);
+                    Event_PucQuiz.login = "false";
                 }
             }
         }
