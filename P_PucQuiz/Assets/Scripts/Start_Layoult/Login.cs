@@ -2,10 +2,12 @@ using System;
 using Tradutor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 public class Login : MonoBehaviour
 {
     public DictionaryThree<String, GameObject, VisualTreeAsset>[] menu;
+    public string email, senha;
     public UIDocument doc;
 
     public string layout_actualy;
@@ -44,7 +46,7 @@ public class Login : MonoBehaviour
     }
 
     #region # Click Events #
-    private void ClickStart(ClickEvent evt)
+    private void ClickStart(ClickEvent evt) //Botão que transita da tela inicial para a tela de login.
     {
         Debug.Log("Start = Sucesso");
 
@@ -53,7 +55,7 @@ public class Login : MonoBehaviour
         ChangeMenu("Login");
     }
 
-    private void ClickLogin(ClickEvent click)
+    private void ClickLogin(ClickEvent click) //Botão que confere se o email e senha estão corretos e permite logar caso estejam.
     {
         try
         {
@@ -77,32 +79,81 @@ public class Login : MonoBehaviour
         }
     }
 
-    private void ChangeMenu(string menu_new)
+    private void ClickRegister(ClickEvent click) //Botão que transita da tela de login para a tela de registro.
     {
-        if (menu_new == null) { Debug.Log("Não foi atribuido um valor ao novo menu buscado."); return; }
+        ChangeMenu("Registro1");
+    }
 
-        layout_actualy = menu_new;
+    private void ClickProximo(ClickEvent click) //Botão que verifica se as senhas batem e passa para a tela de nickname.
+    {
+        //Fazer a logica de verificar se as senhas são iguais.
 
-        for (int i = 0; i < menu.Length; i++)
+        ChangeMenu("Registro2");
+    }
+
+    private void ClickFinalizar(ClickEvent click) //Botão que fnaliza o login do usuario e retorna para a tela de login.
+    {
+        //Fazer a logica de verificar se o nome de usuario já não esta em uso.
+
+        ChangeMenu("Login");
+    }
+
+    private void ClickVoltar(ClickEvent click) //Botão que retorna para a tela anterior.
+    {
+        switch(layout_actualy)
         {
-            try
-            {
-                if (menu[i].getValue1() == menu_new)
-                {
-                    menu[i].getValue2().SetActive(true);
-                    doc.visualTreeAsset = menu[i].getValue3();
-                }
-                else
-                {
-                    menu[i].getValue2().SetActive(false);
-                }
-            }
-            catch (Exception error)
-            {
+            case "Registro1":
+                ChangeMenu("Login");
+                break;
+            case "Registro2":
+                ChangeMenu("Registro1");
+                break;
+        }
+    }
 
-            }
+    private void ClickCodigo(ClickEvent click) //Botão que passa da tela de login para a tela de codigo ou a tela de guest.
+    {
+        switch(layout_actualy)
+        {
+            case "Login":
+                ChangeMenu("Codigo1");
+                break;
+            case "Logado":
+                ChangeMenu("Codigo2");
+                break;
+        }
+    }
+
+    private void ClickEntrar(ClickEvent click) //Botão que verifica o codigo e vai para a tela de espera caso seja encontrado.
+    {
+        //Adicionar logica que verifica se existe uma sala com esse codigo.
+
+        if(layout_actualy == "Codigo1")
+        {
+            ChangeMenu("Conectando");
+            return;
         }
 
+        //Colocar logica que verifica se o usuario colocou algum nome.
+        ChangeMenu("");
+    }
+
+    private void ClickCriarPartida(ClickEvent click) //Botão que vai da tela de login para a de criar partida ou cria a partida.
+    {
+        //Adicionar logica que verifica se o usuario selecionou um quiz existente na sua conta.
+        ChangeMenu("Criando");
+    }
+
+    private void ClickCriarQuiz(ClickEvent click) //Botão que vai para a tela de criar quiz para vc desenvolver o seu quiz.
+    {
+        Debug.Log("Esta mecanica inda não foi implementada.");
+        if(false)
+        ChangeMenu("Criando");
+    }
+    #endregion
+
+    private void SetButtons()
+    {
         for (int i = 0; i < menu.Length; i++)
         {
             try
@@ -129,8 +180,34 @@ public class Login : MonoBehaviour
             }
         }
     }
+    private void ChangeMenu(string menu_new)
+    {
+        if (menu_new == null) { Debug.Log("Não foi atribuido um valor ao novo menu buscado."); return; }
 
-    #endregion
+        layout_actualy = menu_new;
+
+        for (int i = 0; i < menu.Length; i++)
+        {
+            try
+            {
+                if (menu[i].getValue1() == menu_new)
+                {
+                    menu[i].getValue2().SetActive(true);
+                    doc.visualTreeAsset = menu[i].getValue3();
+                }
+                else
+                {
+                    menu[i].getValue2().SetActive(false);
+                }
+            }
+            catch (Exception error)
+            {
+
+            }
+        }
+
+        SetButtons();
+    }
 
     private void OnDisable()
     {
