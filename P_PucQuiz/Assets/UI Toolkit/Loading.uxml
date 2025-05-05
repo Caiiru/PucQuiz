@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Loading.uss?fileID=7433441132597879392&amp;guid=0dadaae78633f6c43892502ad9d2034a&amp;type=3#Loading" />
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; align-items: center; background-color: rgba(251, 247, 239, 0); height: 430px;">
+        <ui:VisualElement name="Component" style="background-color: rgba(0, 0, 0, 0); width: 1180px; height: 1097px; align-items: stretch; align-self: center; align-content: flex-start; justify-content: center;">
+            <ui:Label text="Conectando a Partida..." name="LoadingText" style="align-self: center; font-size: 67px; -unity-font-style: bold; color: rgb(69, 69, 69); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
