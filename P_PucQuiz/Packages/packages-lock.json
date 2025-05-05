@@ -1,12 +1,5 @@
 {
   "dependencies": {
-    "com.mikeschweitzer.websocket": {
-      "version": "https://github.com/mikerochip/unity-websocket.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "0cc81d4f318796046d6c95cfc11b9f0e50f5cc93"
-    },
     "com.unity.2d.animation": {
       "version": "10.1.4",
       "depth": 1,
