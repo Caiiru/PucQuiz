@@ -1,0 +1,22 @@
+.panel {
+    background-color: rgba(251, 247, 239, 0);
+}
+
+.resposta1 {
+    max-width: 784px;
+    max-height: 160px;
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
+    -unity-font-style: bold;
+    background-color: rgb(143, 217, 87);
+    color: rgb(255, 255, 255);
+}
+
+.resposta1:hover {
+    background-color: rgb(255, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
+.resposta1:active {
+    background-color: rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+}
