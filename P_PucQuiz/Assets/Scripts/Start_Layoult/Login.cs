@@ -46,7 +46,7 @@ public class Login : MonoBehaviour
     }
 
     #region # Click Events #
-    private void ClickStart(ClickEvent evt) //Botão que transita da tela inicial para a tela de login.
+    private void ClickStart(ClickEvent evt) //Botï¿½o que transita da tela inicial para a tela de login.
     {
         Debug.Log("Start = Sucesso");
 
@@ -55,7 +55,7 @@ public class Login : MonoBehaviour
         ChangeMenu("Login");
     }
 
-    private void ClickLogin(ClickEvent click) //Botão que confere se o email e senha estão corretos e permite logar caso estejam.
+    private void ClickLogin(ClickEvent click) //Botï¿½o que confere se o email e senha estï¿½o corretos e permite logar caso estejam.
     {
         try
         {
@@ -79,26 +79,26 @@ public class Login : MonoBehaviour
         }
     }
 
-    private void ClickRegister(ClickEvent click) //Botão que transita da tela de login para a tela de registro.
+    private void ClickRegister(ClickEvent click) //Botï¿½o que transita da tela de login para a tela de registro.
     {
         ChangeMenu("Registro1");
     }
 
-    private void ClickProximo(ClickEvent click) //Botão que verifica se as senhas batem e passa para a tela de nickname.
+    private void ClickProximo(ClickEvent click) //Botï¿½o que verifica se as senhas batem e passa para a tela de nickname.
     {
-        //Fazer a logica de verificar se as senhas são iguais.
+        //Fazer a logica de verificar se as senhas sï¿½o iguais.
 
         ChangeMenu("Registro2");
     }
 
-    private void ClickFinalizar(ClickEvent click) //Botão que fnaliza o login do usuario e retorna para a tela de login.
+    private void ClickFinalizar(ClickEvent click) //Botï¿½o que fnaliza o login do usuario e retorna para a tela de login.
     {
-        //Fazer a logica de verificar se o nome de usuario já não esta em uso.
+        //Fazer a logica de verificar se o nome de usuario jï¿½ nï¿½o esta em uso.
 
         ChangeMenu("Login");
     }
 
-    private void ClickVoltar(ClickEvent click) //Botão que retorna para a tela anterior.
+    private void ClickVoltar(ClickEvent click) //Botï¿½o que retorna para a tela anterior.
     {
         switch(layout_actualy)
         {
@@ -111,7 +111,7 @@ public class Login : MonoBehaviour
         }
     }
 
-    private void ClickCodigo(ClickEvent click) //Botão que passa da tela de login para a tela de codigo ou a tela de guest.
+    private void ClickCodigo(ClickEvent click) //Botï¿½o que passa da tela de login para a tela de codigo ou a tela de guest.
     {
         switch(layout_actualy)
         {
@@ -124,7 +124,7 @@ public class Login : MonoBehaviour
         }
     }
 
-    private void ClickEntrar(ClickEvent click) //Botão que verifica o codigo e vai para a tela de espera caso seja encontrado.
+    private void ClickEntrar(ClickEvent click) //Botï¿½o que verifica o codigo e vai para a tela de espera caso seja encontrado.
     {
         //Adicionar logica que verifica se existe uma sala com esse codigo.
 
@@ -138,17 +138,17 @@ public class Login : MonoBehaviour
         ChangeMenu("");
     }
 
-    private void ClickCriarPartida(ClickEvent click) //Botão que vai da tela de login para a de criar partida ou cria a partida.
+    private void ClickCriarPartida(ClickEvent click) //Botï¿½o que vai da tela de login para a de criar partida ou cria a partida.
     {
         //Adicionar logica que verifica se o usuario selecionou um quiz existente na sua conta.
         ChangeMenu("Criando");
     }
 
-    private void ClickCriarQuiz(ClickEvent click) //Botão que vai para a tela de criar quiz para vc desenvolver o seu quiz.
+    private void ClickCriarQuiz(ClickEvent click) //Botï¿½o que vai para a tela de criar quiz para vc desenvolver o seu quiz.
     {
-        Debug.Log("Esta mecanica inda não foi implementada.");
-        if(false)
-        ChangeMenu("Criando");
+        Debug.Log("Esta mecanica inda nao foi implementada.");
+        //if(false)
+        //ChangeMenu("Criando");
     }
     #endregion
 
@@ -182,7 +182,7 @@ public class Login : MonoBehaviour
     }
     private void ChangeMenu(string menu_new)
     {
-        if (menu_new == null) { Debug.Log("Não foi atribuido um valor ao novo menu buscado."); return; }
+        if (menu_new == null) { Debug.Log("Nï¿½o foi atribuido um valor ao novo menu buscado."); return; }
 
         layout_actualy = menu_new;
 
@@ -202,7 +202,7 @@ public class Login : MonoBehaviour
             }
             catch (Exception error)
             {
-
+                Debug.LogError(error);
             }
         }
 

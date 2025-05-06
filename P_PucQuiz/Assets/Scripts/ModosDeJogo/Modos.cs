@@ -1,9 +1,5 @@
-using NUnit.Framework;
-using System;
-using System.Collections;
-using UnityEditor.Build.Content;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+ using System; 
+using UnityEngine; 
 
 [Serializable]
 public class Modos

@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Caiiru.unity
+    path: Assets/Scenes/Caiiru/Caiiru.unity
     guid: 5ad2d2faae68f124da89c222730eb4d9
   - enabled: 1
     path: Assets/Scenes/Start.unity
