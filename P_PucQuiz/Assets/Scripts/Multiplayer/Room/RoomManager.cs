@@ -72,7 +72,7 @@ public class RoomManager : MonoBehaviour, INetworkRunnerCallbacks
         Debug.Log("Network Runner started successfully");
         Debug.Log($"Room created with code: {roomCode}");
         feedbackText.text = $"Room created with code: {roomCode}";
-        _networkRunnerInstance.LoadScene(_waitingSceneName, LoadSceneMode.Single);
+        //_networkRunnerInstance.LoadScene(_waitingSceneName, LoadSceneMode.Single);
     }
     public async void JoinRoom()
     {
@@ -213,7 +213,7 @@ public class RoomManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
