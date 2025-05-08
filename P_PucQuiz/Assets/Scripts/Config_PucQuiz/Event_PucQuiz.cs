@@ -7,6 +7,13 @@ public static class Event_PucQuiz
     //Mods Events
     public static bool change = true;
 
+<<<<<<< Updated upstream
+=======
+    //Menu Events
+    public static string login = "";
+    public static string layout_actualy;
+
+>>>>>>> Stashed changes
     //Question Events
     public static string question_event = "";
     public static string question_result = "";
