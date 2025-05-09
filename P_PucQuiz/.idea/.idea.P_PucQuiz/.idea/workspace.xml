@@ -5,17 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d43d7a97-4c41-4be2-a70a-0fb3ecaf6d86" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/PlayerQuiz.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/PlayerQuiz.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Caiiru/MultiplayerTest.unity" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Caiiru/MultiplayerTest.unity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/BasicSpawner.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/FusionConnector.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/FusionConnector.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerSpawner.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerSpawner.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/NetworkRunnerPrefab.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/NetworkRunnerPrefab.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/Player.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/Player.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/PlayerDataPrefab.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/PlayerDataPrefab.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/CallbackHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/CallbackHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/GameStateController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/GameStateController.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/LobbyScreenUI.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/LobbyScreenUI.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerData.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerDataNetworked.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerDataNetworked.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayersManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayersManager.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/RoomManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/RoomManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefab/PlayerQuiz.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefab/PlayerQuiz.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Caiiru/MultiplayerTest.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Caiiru/MultiplayerTest.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Caiiru/WaitingRoom.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Caiiru/WaitingRoom.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/BasicSpawner.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/BasicSpawner.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/FusionConnector.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/FusionConnector.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerInfo.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerSpawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerSpawner.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerSpawner.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerSpawner.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/RoomManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/RoomManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/WaitingRoomUIManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/WaitingRoomUIManager.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,14 +54,15 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/29/dec02b12/ClientWebSocket.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c9d75d3c147d4ccfa82368c900294ebf3bc00/2d/8d051513/WebSocket.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/eb568f4769884e86869261a9ce3427b2e600/7e/d5e4e626/UnityWebRequest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ef58b458094c4ca8aee5197d68ecde6bbfa00/2b/26ae7208/NetworkBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ef58b458094c4ca8aee5197d68ecde6bbfa00/54/a498689d/IPlayerJoined.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ef58b458094c4ca8aee5197d68ecde6bbfa00/61/d6a85fd3/RpcHostMode.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ef58b458094c4ca8aee5197d68ecde6bbfa00/98/fd535973/PlayerRef.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ef58b458094c4ca8aee5197d68ecde6bbfa00/bc/0c936c78/StartGameArgs.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/FusionConnector.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/FusionConnectorCallbacks.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerInfo.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/PlayerSpawner.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/WaitingRoomUIManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Photon/Fusion/Editor/Fusion.Unity.Editor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/CallbackHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/GameStateController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/LobbyScreenUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Start_Layoult/Login.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="2wSTiwpAaJBwoQwc6Z11hXM1YUR" />
@@ -133,7 +159,17 @@
       <workItem from="1746581401470" duration="2319000" />
       <workItem from="1746583796187" duration="103000" />
       <workItem from="1746583924727" duration="3266000" />
-      <workItem from="1746624753148" duration="17236000" />
+      <workItem from="1746624753148" duration="22146000" />
+      <workItem from="1746727846474" duration="4435000" />
+      <workItem from="1746732696564" duration="6678000" />
+      <workItem from="1746750267420" duration="562000" />
+      <workItem from="1746755072060" duration="1168000" />
+      <workItem from="1746756353348" duration="1533000" />
+      <workItem from="1746757977354" duration="3489000" />
+      <workItem from="1746802571467" duration="5002000" />
+      <workItem from="1746809091370" duration="135000" />
+      <workItem from="1746809419918" duration="5567000" />
+      <workItem from="1746818676757" duration="4862000" />
     </task>
     <servers />
   </component>
