@@ -9,6 +9,8 @@ public static class Event_PucQuiz
 
     //Menu Events
     public static string login = "";
+    public static string layout_actualy;
+    public static string scene_actualy;
 
     //Question Events
     public static string question_event = "";

@@ -12,7 +12,6 @@ public class Modos
 
     [SerializeField] private GameObject question_actualy;
     [SerializeField] private Timer timer_next;
-    [SerializeField] private string path;
 
     
     [SerializeField] private int points = 0;
@@ -50,7 +49,6 @@ public class Modos
     }
     public void Start()
     {
-        //Translator.Get().Save_Attributes(attributes, path);
         Event_PucQuiz.start_layout = true;
     }
     public void Update()

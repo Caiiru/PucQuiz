@@ -1280,8 +1280,9 @@ MonoBehaviour:
   - value1: Login
     value2: {fileID: 1328107730}
     value3: {fileID: 9197481963319205126, guid: 886d31d2c690f98409551abf1224692a, type: 3}
+  email: 
+  senha: 
   doc: {fileID: 1619775375}
-  layout_actualy: 
 --- !u!1 &1328107730
 GameObject:
   m_ObjectHideFlags: 0
@@ -1294,7 +1295,7 @@ GameObject:
   - component: {fileID: 1328107732}
   - component: {fileID: 1328107731}
   m_Layer: 5
-  m_Name: Background (1)
+  m_Name: Background_Login
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
