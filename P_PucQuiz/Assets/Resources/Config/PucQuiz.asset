@@ -19,6 +19,11 @@ MonoBehaviour:
     gameObject: {fileID: 6916792732206141983, guid: 4581e28057bae524aa66b5026a783086, type: 3}
   - type: 2
     gameObject: {fileID: 6916792732206141983, guid: f279004d24f6415468a8e286bebe8b89, type: 3}
+  base_correct: 100
+  base_incorrect: 20
+  bonus_streak: 0
+  "bonus_recupera\xE7\xE3o": 0
+  bonus_velocidade: 0
   Layout_Start: Start
   Layout_Contagem: TelaDeContagem
   Layout_Game: TelaDePerguntas

@@ -12,7 +12,6 @@ public class Modos
 
     [SerializeField] private GameObject question_actualy;
     [SerializeField] private Timer timer_next;
-    [SerializeField] private string path;
 
     
     [SerializeField] private int points = 0;
@@ -50,7 +49,6 @@ public class Modos
     }
     public void Start()
     {
-        //Translator.Get().Save_Attributes(attributes, path);
         Event_PucQuiz.start_layout = true;
     }
     public void Update()
@@ -72,6 +70,9 @@ public class Modos
         {
             if (Event_PucQuiz.question_result == "win")
             {
+                //Mudar Streak.
+                //Travar Time.
+                Config_PucQuiz.Get_Points(true,1,5);
                 points = question_actualy.GetComponent<Perguntas>().points;
             }
             timer_next.Run();

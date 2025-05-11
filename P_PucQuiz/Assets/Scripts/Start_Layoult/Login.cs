@@ -4,28 +4,36 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 
-public class Login : MonoBehaviour
+[Serializable]
+public class Login
 {
-    public DictionaryThree<String, GameObject, VisualTreeAsset>[] menu;
-    public string email, senha;
+    [Header("Basic Variables")]
     public UIDocument doc;
+    public LayoutManager manager;
 
-    public string layout_actualy;
+    [Header("Login Variables")]
+    [SerializeField] private bool test = false;
+    public string email;
+    public string senha;
 
-    private void Awake()
+    [Header("Layouts")]
+    public DictionaryThree<String, GameObject, VisualTreeAsset>[] menu;
+    public DictionaryThree<String, GameObject, VisualTreeAsset>[] game;
+
+    public void Awake()
     {
         Modos.get = null;
-        layout_actualy = "Start";
+        Event_PucQuiz.layout_actualy = "Start";
     }
 
-    void Start()
+    public void Start()
     {
         ChangeMenu("Start");
     }
 
-    void Update()
+    public void Update()
     {
-        switch(Event_PucQuiz.login)
+        switch(Event_PucQuiz.login.ToLower())
         {
             case "":
                 break;
@@ -33,6 +41,7 @@ public class Login : MonoBehaviour
                 Debug.Log("Login = Sucesso");
                 RestAPI.login = false;
                 Event_PucQuiz.login = "";
+                Event_PucQuiz.scene_actualy = "Quiz";
                 break;
             case "false":
                 Debug.Log("Login = Erro");
@@ -59,14 +68,21 @@ public class Login : MonoBehaviour
     {
         try
         {
-            if (RestAPI.login == false)
+            if (RestAPI.login == false && Event_PucQuiz.login == "")
             {
                 Debug.Log("Email = " + doc.rootVisualElement.Q<TextField>("Email").text);
                 Debug.Log("Senha = " + doc.rootVisualElement.Q<TextField>("Senha").text);
 
                 RestAPI.login = true;
-                StartCoroutine(RestAPI.Login(doc.rootVisualElement.Q<TextField>("Email").text,
-                                             doc.rootVisualElement.Q<TextField>("Senha").text));
+                if (!test) 
+                {
+                    manager.StartCoroutine(RestAPI.Login(doc.rootVisualElement.Q<TextField>("Email").text,
+                                                         doc.rootVisualElement.Q<TextField>("Senha").text));
+                }
+                else
+                {
+                    Event_PucQuiz.login = "true";
+                }
             }
             else
             {
@@ -100,7 +116,7 @@ public class Login : MonoBehaviour
 
     private void ClickVoltar(ClickEvent click) //Bot�o que retorna para a tela anterior.
     {
-        switch(layout_actualy)
+        switch(Event_PucQuiz.layout_actualy)
         {
             case "Registro1":
                 ChangeMenu("Login");
@@ -113,7 +129,7 @@ public class Login : MonoBehaviour
 
     private void ClickCodigo(ClickEvent click) //Bot�o que passa da tela de login para a tela de codigo ou a tela de guest.
     {
-        switch(layout_actualy)
+        switch(Event_PucQuiz.layout_actualy)
         {
             case "Login":
                 ChangeMenu("Codigo1");
@@ -128,7 +144,7 @@ public class Login : MonoBehaviour
     {
         //Adicionar logica que verifica se existe uma sala com esse codigo.
 
-        if(layout_actualy == "Codigo1")
+        if(Event_PucQuiz.layout_actualy == "Codigo1")
         {
             ChangeMenu("Conectando");
             return;
@@ -159,7 +175,7 @@ public class Login : MonoBehaviour
             try
             {
 
-                if (menu[i].getValue1() == layout_actualy)
+                if (menu[i].getValue1() == Event_PucQuiz.layout_actualy)
                 {
                     switch (menu[i].getValue1())
                     {
@@ -184,26 +200,35 @@ public class Login : MonoBehaviour
     {
         if (menu_new == null) { Debug.Log("N�o foi atribuido um valor ao novo menu buscado."); return; }
 
-        layout_actualy = menu_new;
+        Event_PucQuiz.layout_actualy = menu_new;
 
-        for (int i = 0; i < menu.Length; i++)
+        GameObject background = null;
+
+        try
         {
-            try
+            for (int i = 0; i < menu.Length; i++)
             {
                 if (menu[i].getValue1() == menu_new)
                 {
-                    menu[i].getValue2().SetActive(true);
+                    background = menu[i].getValue2();
                     doc.visualTreeAsset = menu[i].getValue3();
                 }
-                else
+
+            }
+
+            if(background.active == false && background != null) { background.SetActive(true); }
+
+            for (int i = 0; i < menu.Length; i++)
+            {
+                if (menu[i].getValue1() != menu_new && menu[i].getValue2() != background)
                 {
                     menu[i].getValue2().SetActive(false);
                 }
             }
-            catch (Exception error)
-            {
-                Debug.LogError(error);
-            }
+        }
+        catch (Exception error)
+        {
+            Debug.Log(error);
         }
 
         SetButtons();
