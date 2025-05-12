@@ -216,7 +216,7 @@ public class Login
 
             }
 
-            if(background.active == false && background != null) { background.SetActive(true); }
+            if(!background.activeSelf && background != null) { background.SetActive(true); }
 
             for (int i = 0; i < menu.Length; i++)
             {

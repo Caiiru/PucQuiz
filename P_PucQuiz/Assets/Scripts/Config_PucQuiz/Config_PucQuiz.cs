@@ -14,7 +14,7 @@ public class Config_PucQuiz : ScriptableObject
     public float base_correct;
     public float base_incorrect;
     public float bonus_streak;
-    public float bonus_recuperação;
+    public float bonus_recuperacao;
     public float bonus_velocidade;
 
     [Header("Scenes")]
@@ -35,7 +35,7 @@ public class Config_PucQuiz : ScriptableObject
         if (win) { base_ = config.base_correct; }
 
         float rec = 0;
-        if (true) { rec = config.bonus_recuperação; }
+        if (true) { rec = config.bonus_recuperacao; }
 
         float points = base_ + rec + (config.bonus_streak*streak) + (config.bonus_velocidade*speed);
         

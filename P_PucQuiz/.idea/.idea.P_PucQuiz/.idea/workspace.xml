@@ -6,12 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d43d7a97-4c41-4be2-a70a-0fb3ecaf6d86" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunInfo.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunSettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Caiiru/MultiplayerTest.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Caiiru/MultiplayerTest.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/CallbackHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/CallbackHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/MainMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Room/MainMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Config_PucQuiz/Config_PucQuiz.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Config_PucQuiz/Config_PucQuiz.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Start_Layoult/Login.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Start_Layoult/Login.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,6 +137,7 @@
       <workItem from="1746809419918" duration="5567000" />
       <workItem from="1746818676757" duration="4862000" />
       <workItem from="1746991825901" duration="710000" />
+      <workItem from="1747077168764" duration="120000" />
     </task>
     <servers />
   </component>
