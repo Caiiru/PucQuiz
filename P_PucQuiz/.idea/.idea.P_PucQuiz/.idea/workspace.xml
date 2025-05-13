@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d43d7a97-4c41-4be2-a70a-0fb3ecaf6d86" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/QuizLobby.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/QuizLobby.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/UILobbyHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/UILobbyHandler.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Config_PucQuiz/Config_PucQuiz.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Config_PucQuiz/Config_PucQuiz.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Start_Layoult/Login.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Start_Layoult/Login.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Font/Fredoka-VariableFont_wdth,wght SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Font/Fredoka-VariableFont_wdth,wght SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Caiiru/Caiiru.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Caiiru/Caiiru.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Caiiru/WaitingRoom.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Caiiru/WaitingRoom.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +142,8 @@
       <workItem from="1746809419918" duration="5567000" />
       <workItem from="1746818676757" duration="4862000" />
       <workItem from="1746991825901" duration="710000" />
-      <workItem from="1747077168764" duration="120000" />
+      <workItem from="1747077168764" duration="4197000" />
+      <workItem from="1747082972469" duration="3569000" />
     </task>
     <servers />
   </component>
