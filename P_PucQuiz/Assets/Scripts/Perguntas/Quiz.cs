@@ -144,6 +144,7 @@ public class Quiz : Perguntas
         Event_PucQuiz.question_event = "";
         Event_PucQuiz.question_lock = false;
 
+
         bool uncorrect = true;
 
         for (int i = 0; i < attributes.choices.Length; i++)
@@ -164,6 +165,7 @@ public class Quiz : Perguntas
         if(!uncorrect)
         { 
             Event_PucQuiz.question_result = "win";
+            Event_PucQuiz.points += points;
         }
         else
         {

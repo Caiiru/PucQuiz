@@ -21,6 +21,14 @@ public class Timer
 
         time = time - Time.deltaTime;
     }
+    public float SimulateRun()
+    {
+        float test = time - Time.deltaTime;
+
+        if (infinity || test <= 0) { return 0; }
+
+        return test;
+    }
 
     public bool End()
     {

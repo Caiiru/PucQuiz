@@ -12,23 +12,30 @@ public class End : MonoBehaviour
 
     void Start()
     {
-        points.text = "Points = " + local_points;
+        if (Modos.get.question_actualy_index != Modos.get.attributes.Length)
+        {
+            //TODO -> FIX - An object reference is required for the non-static field, method, or property 'Modos.question_actualy_index'
+
+            Modos.get.question_actualy_index++;
+        }
+
+        points.text = "Points = " + End.local_points;
         time.Reset();
     }
 
     void Update()
     {
 
-        if (Event_PucQuiz.points > local_points)
+        if (Event_PucQuiz.points > End.local_points)
         {
-            local_points = local_points + (Time.deltaTime * speed);
+            End.local_points = End.local_points + (Time.deltaTime * speed);
 
-            if (local_points > Event_PucQuiz.points)
+            if (End.local_points > Event_PucQuiz.points)
             {
-                local_points = Event_PucQuiz.points;
+                End.local_points = Event_PucQuiz.points;
             }
 
-            points.text = "Points = " + ((int)local_points);
+            points.text = "Points = " + ((int)End.local_points);
         }
         else
         {

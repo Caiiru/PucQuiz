@@ -9,6 +9,13 @@ public class Config_PucQuiz : ScriptableObject
     public string[] types_modes;
     public StringToGameObject[] layout_list;
 
+    [Header("Quiz")]
+    public float base_correct;
+    public float base_incorrect;
+    public float bonus_streak;
+    public float bonus_recuperação;
+    public float bonus_velocidade;
+
     [Header("Scenes")]
     public string Layout_Start;
     public string Layout_Contagem;
@@ -18,6 +25,20 @@ public class Config_PucQuiz : ScriptableObject
     {
         if(instance == null) { instance = Resources.Load<Config_PucQuiz>("Config/PucQuiz"); }
         return instance;
+    }
+    public static float Get_Points(bool win, int streak, int speed)
+    {
+        Config_PucQuiz config = Config_PucQuiz.Get_Config();
+
+        float base_ = config.base_incorrect;
+        if (win) { base_ = config.base_correct; }
+
+        float rec = 0;
+        if (true) { rec = config.bonus_recuperação; }
+
+        float points = base_ + rec + (config.bonus_streak*streak) + (config.bonus_velocidade*speed);
+        
+        return points;
     }
     public GameObject Get_Layout(Attributes.Type type)
     {
