@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
-using System.Runtime.CompilerServices;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.SocialPlatforms;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+using System; 
+using TMPro; 
+using UnityEngine; 
 
 [Serializable]
 public class Quiz : Perguntas
@@ -15,7 +10,7 @@ public class Quiz : Perguntas
     [Header("Variaveis Locais")]
     public int choice_max; //Numero max de escolhas.
     public int choice_actualy; //Numero atual escolhidos.
-    public bool chose; //Já fez a escolha?
+    public bool chose; //Jï¿½ fez a escolha?
 
     [Header("Questions")]
     public TextMeshProUGUI points_text;
@@ -72,7 +67,7 @@ public class Quiz : Perguntas
         /* ---- Lembrete ---- *\
          * Caso o jogo esteja
          * pausado, o codigo ira
-         * quebrar aqui e não
+         * quebrar aqui e nï¿½o
          * rodara o nada abaixo
         \*                    */
         points_text.text = "Points : "+((int)Event_PucQuiz.points+" | Tempo : "+ ((int)attributes.timer.time));
@@ -86,7 +81,7 @@ public class Quiz : Perguntas
                 default:
                     attributes.timer.Run();
                     //attributes.timer = attributes.timer - Time.deltaTime;
-                    //if (attributes.timer < 0) { attributes.timer = 0; } //Quebra caso o numero seja negativo, mas não igual a 1.
+                    //if (attributes.timer < 0) { attributes.timer = 0; } //Quebra caso o numero seja negativo, mas nï¿½o igual a 1.
                     break;
             }
 
@@ -96,7 +91,7 @@ public class Quiz : Perguntas
 
         if (question_event != "" && !question_lock)
         {
-            if (chose && !attributes.change) { Debug.Log("Escolha feita."); return; } //Quebra a execução do codigo.
+            if (chose && !attributes.change) { Debug.Log("Escolha feita."); return; } //Quebra a execuï¿½ï¿½o do codigo.
 
             if (choice_max == 1) { Choices_Reset(); }
 
@@ -119,7 +114,7 @@ public class Quiz : Perguntas
                     else { choice_actualy++; attributes.choices[3] = true; }
                     break;
                 default:
-                    throw new System.Exception("Evento não reconhecido.");
+                    throw new System.Exception("Evento nï¿½o reconhecido.");
             }
 
             Make_Chose();
@@ -127,7 +122,7 @@ public class Quiz : Perguntas
 
         /* ---- Lembrete ---- *\
          * Caso o usuario decida
-         * não permitir mudar a
+         * nï¿½o permitir mudar a
          * escolha, o programa
          * ira deixar de ser
          * executado desta parte
@@ -175,7 +170,7 @@ public class Quiz : Perguntas
 
     }
 
-    #region || Funções Gerais ||
+    #region || Funï¿½ï¿½es Gerais ||
 
     private void FeedBack()
     {
@@ -197,7 +192,7 @@ public class Quiz : Perguntas
 
     #endregion
 
-    #region || Funções Rapidas ||
+    #region || Funï¿½ï¿½es Rapidas ||
 
     public void Choice_Event(string chose){ Debug.Log(chose); Event_PucQuiz.question_event = chose; }
     private void Make_Chose() { if (choice_actualy == choice_max) { chose = true; }; Event_PucQuiz.question_event = ""; }

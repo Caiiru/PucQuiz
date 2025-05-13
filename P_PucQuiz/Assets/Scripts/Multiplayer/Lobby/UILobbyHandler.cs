@@ -1,8 +1,10 @@
+using TMPro;
 using UnityEngine;
 
 public class UILobbyHandler : MonoBehaviour
 {
     [SerializeField] private GameObject lobbyPlayerPrefab;
+    [SerializeField] private TextMeshProUGUI roomCodeText;
 
     private QuizLobby _quizLobby;
     void Start()
@@ -17,8 +19,12 @@ public class UILobbyHandler : MonoBehaviour
         
     }
 
-    private void UpdateLobbyUI()
+    private void UpdateLobbyUI(int playerCount)
     {
-        Debug.Log("New Player joined bitch sapeca");
+        Debug.Log($"player joined, count: {playerCount}");
+        var lobbyPlayer = Instantiate(lobbyPlayerPrefab, FindAnyObjectByType<Canvas>().transform, true);
+        lobbyPlayer.transform.position = new Vector3(-100 + (150 % playerCount), -100, 0);
+        roomCodeText.text = $"Room Code: {QuizLobby.Instance.GetJoinedLobby().LobbyCode}";
+        //lobbyPlayer.transform.GetComponentInChildren<TextMeshProUGUI>().text = QuizLobby.Instance.
     }
 }

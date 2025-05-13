@@ -148,7 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a50fe66afd30b54e867e4606cafb1ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobbyPlayerPrefab: {fileID: 0}
+  lobbyPlayerPrefab: {fileID: 2911691245093787948, guid: 4d5c7c1fdd6f30a4cb4a333c54c600d7, type: 3}
+  roomCodeText: {fileID: 2059725814}
 --- !u!4 &80667723
 Transform:
   m_ObjectHideFlags: 0
@@ -646,7 +647,7 @@ GameObject:
   - component: {fileID: 2059725815}
   - component: {fileID: 2059725814}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: codeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -693,8 +694,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Room Code: XXXX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0592fba1ac639ac499a595ad5e692346, type: 2}
+  m_sharedMaterial: {fileID: -2118030177308035751, guid: 0592fba1ac639ac499a595ad5e692346, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -724,7 +725,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

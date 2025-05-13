@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
+
 [Serializable]
 public abstract class Perguntas : MonoBehaviour
 {

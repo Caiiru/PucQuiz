@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+ 
 
 public static class Event_PucQuiz
 {

@@ -32,7 +32,7 @@ public class QuizLobby : MonoBehaviour
     public static QuizLobby Instance;
 
     [HideInInspector]
-    public UnityEvent playerJoined;
+    public UnityEvent<int> playerJoined;
 
     private void Awake()
     {
@@ -99,8 +99,8 @@ public class QuizLobby : MonoBehaviour
         if (_joinedLobby == null) return;
         if (_playersJoined != _joinedLobby.Players.Count)
         {
-            playerJoined?.Invoke();
             _playersJoined = _joinedLobby.Players.Count;
+            playerJoined?.Invoke(_playersJoined);
         }
 
     }
