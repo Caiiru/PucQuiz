@@ -5,17 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d43d7a97-4c41-4be2-a70a-0fb3ecaf6d86" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/MOnkey.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Art/Art-Login.unity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/LobbyPlayerUI.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/LobbyPlayerUI.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Netcode.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Font/Fredoka-VariableFont_wdth,wght SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Font/Fredoka-VariableFont_wdth,wght SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/LobbyPlayerPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/LobbyPlayerPrefab.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Caiiru/WaitingRoom.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Caiiru/WaitingRoom.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Caiiru/Caiiru.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Caiiru/Caiiru.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/QuizLobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/QuizLobby.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/UILobbyHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/UILobbyHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,6 +148,7 @@
       <workItem from="1747357212276" duration="7744000" />
       <workItem from="1747367384862" duration="1428000" />
       <workItem from="1747370995768" duration="946000" />
+      <workItem from="1747432938050" duration="2406000" />
     </task>
     <servers />
   </component>

@@ -23,10 +23,10 @@ public class QuizLobby : MonoBehaviour
     
 
     [Header("Lobby UI")] 
-    [SerializeField] private GameObject lobbyObject;
     [SerializeField] private GameObject loadingObject;
     [SerializeField] private TextMeshProUGUI loadingText;
-    [SerializeField] private String lobbySceneName;
+    [SerializeField] private GameObject menuObject;
+    [SerializeField] private GameObject lobbyObject;
     
 
     private Lobby _hostLobby;
@@ -158,7 +158,8 @@ public class QuizLobby : MonoBehaviour
             _joinedLobby = _hostLobby;
             Debug.Log($"Room Code:{lobby.LobbyCode} / max players: {lobby.MaxPlayers}");
             OnJoinedLobby?.Invoke(this, new LobbyEventArgs{lobby = _joinedLobby});
-            SceneManager.LoadScene(lobbySceneName);
+            //ceneManager.LoadScene(lobbySceneName);
+            SetScene(lobbyObject);
         }
         catch (LobbyServiceException e)
         {
@@ -167,6 +168,7 @@ public class QuizLobby : MonoBehaviour
             lobbyObject.SetActive(true);
             loadingObject.SetActive(false);
             FindDoc();
+            SetScene(menuObject);
         }
     }
 
@@ -187,7 +189,7 @@ public class QuizLobby : MonoBehaviour
             _hostLobby = lobby;
             _joinedLobby = _hostLobby;
             OnJoinedLobby?.Invoke(this, new LobbyEventArgs{lobby = _joinedLobby}); 
-            SceneManager.LoadScene(lobbySceneName);
+            SetScene(lobbyObject);
         }
         catch (LobbyServiceException e)
         {
@@ -197,6 +199,7 @@ public class QuizLobby : MonoBehaviour
             loadingObject.SetActive(false);
             FindDoc();
             
+            SetScene(menuObject);
         }
     }
 
@@ -255,5 +258,14 @@ public class QuizLobby : MonoBehaviour
         {
             Debug.Log(e);
         }
+    }
+
+    private void SetScene(GameObject objectScene)
+    {
+        menuObject.SetActive(false);
+        lobbyObject.SetActive(false);
+        loadingObject.SetActive(false);
+        objectScene.SetActive(true);
+        Debug.Log($"Activating {objectScene.name}");
     }
 }
