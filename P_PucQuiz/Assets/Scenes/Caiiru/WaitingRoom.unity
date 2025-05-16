@@ -150,6 +150,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyPlayerPrefab: {fileID: 2911691245093787948, guid: 4d5c7c1fdd6f30a4cb4a333c54c600d7, type: 3}
   roomCodeText: {fileID: 2059725814}
+  container: {fileID: 1640913006}
+  _playerIndex: -1
 --- !u!4 &80667723
 Transform:
   m_ObjectHideFlags: 0
@@ -414,6 +416,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 339770530}
+  - {fileID: 2059725813}
   - {fileID: 1640913006}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -570,6 +573,7 @@ GameObject:
   - component: {fileID: 1640913006}
   - component: {fileID: 1640913008}
   - component: {fileID: 1640913007}
+  - component: {fileID: 1640913009}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -588,8 +592,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2059725813}
+  m_Children: []
   m_Father: {fileID: 821996283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -635,6 +638,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640913005}
   m_CullTransparentMesh: 1
+--- !u!114 &1640913009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640913005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 150
+    m_Right: 0
+    m_Top: 200
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 400, y: 175}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &2059725812
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,7 +692,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: -1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1640913006}
+  m_Father: {fileID: 821996283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

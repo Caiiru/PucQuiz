@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.Services.Authentication;
@@ -11,6 +12,16 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements; 
 public class QuizLobby : MonoBehaviour
 {
+    //CONST
+    public const string KEY_PLAYER_NAME = "PlayerName";
+    
+    
+    [Header("Players")] 
+    [SerializeField] private Dictionary<int, String> players = new();
+
+    [SerializeField] private String playerName;
+    
+
     [Header("Lobby UI")] 
     [SerializeField] private GameObject lobbyObject;
     [SerializeField] private GameObject loadingObject;
@@ -18,8 +29,10 @@ public class QuizLobby : MonoBehaviour
     [SerializeField] private String lobbySceneName;
     
 
-    private Unity.Services.Lobbies.Models.Lobby _hostLobby;
-    private Unity.Services.Lobbies.Models.Lobby _joinedLobby;
+    private Lobby _hostLobby;
+    private Lobby _joinedLobby;
+    
+    
     private float _hearbeatTimer;
     private float _lobbyUpdateTimer;
     private int _playersJoined = 0;
@@ -29,11 +42,17 @@ public class QuizLobby : MonoBehaviour
     private UIDocument doc;
 
     
+    //SINGLETON
     public static QuizLobby Instance;
 
     [HideInInspector]
-    public UnityEvent<int> playerJoined;
-
+    public EventHandler<LobbyEventArgs> OnJoinedLobby;
+ 
+    public class LobbyEventArgs : EventArgs
+    {
+        public Lobby lobby;
+    }
+ 
     private void Awake()
     {
         if(Instance !=null)
@@ -55,10 +74,7 @@ public class QuizLobby : MonoBehaviour
             Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
         };
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
-
-        if (doc == null)
-            doc = FindAnyObjectByType<UIDocument>();
-        doc.rootVisualElement.Q<Button>(name:"Entrar").RegisterCallback<ClickEvent>(ClickEnterButton);
+        FindDoc();
     }
  
 
@@ -100,14 +116,16 @@ public class QuizLobby : MonoBehaviour
         if (_playersJoined != _joinedLobby.Players.Count)
         {
             _playersJoined = _joinedLobby.Players.Count;
-            playerJoined?.Invoke(_playersJoined);
+            OnJoinedLobby?.Invoke(this, new LobbyEventArgs{lobby = _joinedLobby});
         }
 
     }
 
     private void ClickEnterButton(ClickEvent evt)
     {
+        Debug.Log("Click Button");
         string roomCode = doc.rootVisualElement.Q<TextField>("Code").text;
+        playerName = doc.rootVisualElement.Q<TextField>("Name").text;
         bool isHosting = string.IsNullOrEmpty(roomCode);
         Debug.Log(isHosting?"Hosting a new Room.. " : $"Joining a room {roomCode}");
         if(isHosting)
@@ -127,24 +145,28 @@ public class QuizLobby : MonoBehaviour
             lobbyObject.SetActive(false);
             loadingObject.SetActive(true);
             loadingText.text = "Creating Room...";
-
+            Player player = GetPlayer();
             CreateLobbyOptions _options = new CreateLobbyOptions()
             {
-                
+                IsPrivate = false,
+                Player = player
             };
             
             Unity.Services.Lobbies.Models.Lobby lobby = 
-                await LobbyService.Instance.CreateLobbyAsync(roomCode, maxPlayers);
+                await LobbyService.Instance.CreateLobbyAsync(roomCode, maxPlayers,_options);
             _hostLobby = lobby;
             _joinedLobby = _hostLobby;
             Debug.Log($"Room Code:{lobby.LobbyCode} / max players: {lobby.MaxPlayers}");
-
-            SceneManager.LoadScene(lobbySceneName, LoadSceneMode.Single);
-
+            OnJoinedLobby?.Invoke(this, new LobbyEventArgs{lobby = _joinedLobby});
+            SceneManager.LoadScene(lobbySceneName);
         }
         catch (LobbyServiceException e)
         {
-            Debug.Log(e);
+            Debug.Log(e); 
+            loadingText.text = "Cannot Join"; 
+            lobbyObject.SetActive(true);
+            loadingObject.SetActive(false);
+            FindDoc();
         }
     }
 
@@ -155,17 +177,26 @@ public class QuizLobby : MonoBehaviour
         loadingText.text = "Joining room...";
         try
         {
-            var lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code);
-            
+            Player player = GetPlayer();
+            JoinLobbyByCodeOptions joinLobbyByCodeOptions = new JoinLobbyByCodeOptions
+            {
+                Player = player
+            };
+            var lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code,joinLobbyByCodeOptions);
             Debug.Log($"Joined Room {code}");
             _hostLobby = lobby;
             _joinedLobby = _hostLobby;
-            SceneManager.LoadScene(lobbySceneName, LoadSceneMode.Single);
-            
+            OnJoinedLobby?.Invoke(this, new LobbyEventArgs{lobby = _joinedLobby}); 
+            SceneManager.LoadScene(lobbySceneName);
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
+            loadingText.text = "Cannot Join"; 
+            lobbyObject.SetActive(true);
+            loadingObject.SetActive(false);
+            FindDoc();
+            
         }
     }
 
@@ -185,4 +216,44 @@ public class QuizLobby : MonoBehaviour
         return code;
     }
 
+    private void FindDoc()
+    {
+        if (doc == null)
+            doc = FindAnyObjectByType<UIDocument>();
+        doc.rootVisualElement.Q<Button>(name:"Entrar").RegisterCallback<ClickEvent>(ClickEnterButton);
+    }
+
+    private Player GetPlayer()
+    {
+        PlayerDataObject playerData = new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, playerName);
+        var data = new Dictionary<string, PlayerDataObject>();
+        data.Add(KEY_PLAYER_NAME,playerData);
+        return new Player(
+            id: AuthenticationService.Instance.PlayerId,
+            connectionInfo:null,
+            data: data);
+    }
+
+    private async void UpdatePLayerName(string newPlayerName)
+    {
+        playerName = newPlayerName;
+        try
+        {
+            var _data = new Dictionary<string, PlayerDataObject>();
+            _data.Add(KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName));
+            Lobby lobby = await LobbyService.Instance.UpdatePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId,
+                new UpdatePlayerOptions()
+                {
+                    Data = _data
+                });
+            _joinedLobby = lobby;
+            
+            OnJoinedLobby?.Invoke(this, new LobbyEventArgs{lobby = _joinedLobby});
+
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
 }
