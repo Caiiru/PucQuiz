@@ -9,8 +9,8 @@
             <ui:VisualElement style="flex-grow: 1; width: 2%;" />
             <ui:VisualElement name="Container" style="width: 100%; flex-direction: row; flex-wrap: wrap;">
                 <ui:VisualElement name="Points_Bar" style="height: 47px; background-color: rgba(0, 0, 0, 0); width: 100%; flex-direction: row; margin-bottom: 102px;">
-                    <ui:VisualElement name="Progress" style="width: 14%; background-color: rgb(255, 199, 91);" />
-                    <ui:Label text="PlayerName" name="PlayerName" style="font-size: 52px; -unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;); color: rgb(0, 0, 0); -unity-text-align: middle-left;" />
+                    <ui:VisualElement name="Progress" style="width: 10%; background-color: rgb(255, 199, 91);" />
+                    <ui:Label text="PlayerName" name="PlayerName" style="font-size: 52px; -unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;); color: rgb(70, 69, 70); -unity-text-align: middle-left;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 1; width: 2%;" />
