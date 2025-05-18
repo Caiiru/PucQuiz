@@ -18,11 +18,9 @@ public class Login
 
     [Header("Layouts")]
     public DictionaryThree<String, GameObject, VisualTreeAsset>[] menu;
-    public DictionaryThree<String, GameObject, VisualTreeAsset>[] game;
 
     public void Awake()
     {
-        Modos.get = null;
         Event_PucQuiz.layout_actualy = "Start";
     }
 
@@ -196,7 +194,8 @@ public class Login
             }
         }
     }
-    private void ChangeMenu(string menu_new)
+
+    public void ChangeMenu(string menu_new)
     {
         if (menu_new == null) { Debug.Log("N�o foi atribuido um valor ao novo menu buscado."); return; }
 
@@ -233,7 +232,7 @@ public class Login
 
         SetButtons();
     }
-
+    
     private void OnDisable()
     {
         for (int i = 0; i < menu.Length; i++)

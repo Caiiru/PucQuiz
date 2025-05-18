@@ -11,11 +11,7 @@ public class LayoutManager : MonoBehaviour
     {
         Event_PucQuiz.scene_actualy = "Menu";
 
-        if(Modos.get != null)
-        {
-            quiz = Modos.get;
-        }
-        quiz.Set_Transform(transform);
+        quiz.transform = transform;
     }
 
     public void Update()
@@ -36,11 +32,11 @@ public class LayoutManager : MonoBehaviour
     {
         if (quiz_start)
         {
-            quiz.Awake();
-            quiz.Start();
+            quiz.Awake(gameObject);
+            quiz.Start(gameObject);
             quiz_start = false;
         }
-        quiz.Update();
+        quiz.Update(gameObject);
     }
 
     private void Menu_Run()

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Basico : MonoBehaviour
 {
-    public Modos modo;
+    /*public Modos modo;
 
     public void Awake()
     {
@@ -23,5 +23,5 @@ public class Basico : MonoBehaviour
     public void Update()
     {
         modo.Update();
-    }
+    }*/
 }

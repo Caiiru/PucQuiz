@@ -1,60 +1,37 @@
 using System;
-using System.Collections;
-using System.Runtime.CompilerServices;
-using TMPro;
-using Unity.VisualScripting;
+using UnityEditor.Searcher;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+using UnityEngine.UIElements;
 
 [Serializable]
 public class Quiz : Perguntas
 {
-    #region @Variaveis Locais
-
     [Header("Variaveis Locais")]
     public int choice_max; //Numero max de escolhas.
     public int choice_actualy; //Numero atual escolhidos.
     public bool chose; //Já fez a escolha?
 
     [Header("Questions")]
-    public TextMeshProUGUI points_text;
-    public TextMeshProUGUI[] questions_text;
-
-    #endregion
-
+    public Modos mod = null;
     public Quiz_Attributes attributes;
-
-    #region @Events
 
     [Header("Event Variables")]
     private string question_event = Event_PucQuiz.question_event; //Puxa o evento de respota e qual pergunta foi respondida.
     private bool question_lock = Event_PucQuiz.question_lock; //Puxa o evento que bloqueia as escolhas.
-    public bool pause = Event_PucQuiz.pause; //
+    public bool pause = Event_PucQuiz.pause;
 
-    #endregion
-
-    public override void Pre_Load(GameObject mod)
+    public override void Pre_Load(GameObject obj)
     {
-        if(attributes.timer.start == 0) { attributes.timer.start = 30; }
+
+        if (attributes.timer.start == 0) { attributes.timer.start = 30; }
         attributes.timer.Reset();
-
-        question_text.text = attributes.question;
-
-        for(int i = 0; i < questions_text.Length; i++)
-        {
-            if (questions_text[i] != null && attributes.options[i] != null)
-            {
-                questions_text[i].text = attributes.options[i];
-            }
-        }
     }
 
-    public override void Start_Layout(GameObject mod)
+    public override void Start_Layout(GameObject obj)
     {
         Event_PucQuiz.start_layout = false;
 
-        Pre_Load(mod);
+        Pre_Load(obj);
         
         choice_max = attributes.choice_correct.Length;
         attributes.choices = new bool[attributes.options.Length];
@@ -62,9 +39,9 @@ public class Quiz : Perguntas
         //throw new System.NotImplementedException();
     }
 
-    public override void Update_Layout(GameObject mod)
+    public override void Update_Layout(GameObject obj)
     {
-        if (Event_PucQuiz.start_layout) { Start_Layout(mod); }
+        if (Event_PucQuiz.start_layout) { Start_Layout(obj); }
 
         pause = Event_PucQuiz.pause;
         if (pause) { return; }
@@ -75,13 +52,12 @@ public class Quiz : Perguntas
          * quebrar aqui e não
          * rodara o nada abaixo
         \*                    */
-        points_text.text = "Points : "+((int)Event_PucQuiz.points+" | Tempo : "+ ((int)attributes.timer.time));
 
         if(!attributes.timer.infinity)
             switch (attributes.timer.time)
             {
                 case 0:
-                    End_Layout(mod);
+                    End_Layout(obj);
                     break;
                 default:
                     attributes.timer.Run();
@@ -135,9 +111,9 @@ public class Quiz : Perguntas
         \*                    */
     }
 
-    public override void End_Layout(GameObject mod)
+    public override void End_Layout(GameObject obj)
     {
-        FeedBack();
+        mod.FeedBack();
 
         if (Event_PucQuiz.question_next) { return; }
 
@@ -149,16 +125,13 @@ public class Quiz : Perguntas
 
         for (int i = 0; i < attributes.choices.Length; i++)
         {
-            if (attributes.choices[i] == true)
+            if (attributes.choices[i] = attributes.choice_correct[i])
             {
-                bool search = true;
-
-                for(int o = 0; o < attributes.choice_correct.Length; o++)
-                {
-                    if (attributes.choice_correct[o] == i+1) { search = false; uncorrect = false; break; }
-                }
-
-                if(search) { uncorrect = true; }
+                uncorrect = false;
+            }
+            else
+            {
+                uncorrect = true;
             }
         }
 
@@ -175,24 +148,23 @@ public class Quiz : Perguntas
 
     }
 
-    #region || Funções Gerais ||
+    #region ClickEvents
 
-    private void FeedBack()
+    public void ClickPergunta1(ClickEvent click)
     {
-        for(int i = 0; i < attributes.choices.Length; i++)
-        {
-            for(int o = 0; o < attributes.choice_correct.Length; o++)
-            {
-                if (i == attributes.choice_correct[o]-1)
-                {
-                    questions_text[i].color = Color.green; break;
-                }
-                else
-                {
-                    questions_text[i].color = Color.red;
-                }
-            }
-        }
+        Debug.Log("Pergunta1");
+    }
+    public void ClickPergunta2(ClickEvent click)
+    {
+        Debug.Log("Pergunta2");
+    }
+    public void ClickPergunta3(ClickEvent click)
+    {
+        Debug.Log("Pergunta3");
+    }
+    public void ClickPergunta4(ClickEvent click)
+    {
+        Debug.Log("Pergunta4");
     }
 
     #endregion
