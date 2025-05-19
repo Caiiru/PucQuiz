@@ -7,7 +7,10 @@ public class Config_PucQuiz : ScriptableObject
     private static Config_PucQuiz instance;
 
     public string[] types_modes;
-    public StringToGameObject[] layout_list;
+
+    [Header("Question Types")]
+    public Quiz quiz;
+    //public StringToGameObject[] layout_list;
 
     [Header("Quiz")]
     public float base_correct;
@@ -40,12 +43,14 @@ public class Config_PucQuiz : ScriptableObject
         
         return points;
     }
-    public GameObject Get_Layout(Attributes.Type type)
+    public Perguntas Get_Layout(Attributes.Type type)
     {
-        for(int i = 0; i < layout_list.Length; i++)
+        switch(type)
         {
-            GameObject layout = layout_list[i].GetObject(type);
-            if (layout != null) { return layout; }
+            case Attributes.Type.quiz:
+                return quiz;
+            case Attributes.Type.verdadeiroOUfalso:
+                return null;
         }
 
         return null;

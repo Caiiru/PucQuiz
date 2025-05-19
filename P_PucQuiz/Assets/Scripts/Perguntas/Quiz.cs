@@ -1,55 +1,37 @@
-using System; 
-using TMPro; 
-using UnityEngine; 
+using System;
+using UnityEditor.Searcher;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 [Serializable]
 public class Quiz : Perguntas
 {
-    #region @Variaveis Locais
-
     [Header("Variaveis Locais")]
     public int choice_max; //Numero max de escolhas.
     public int choice_actualy; //Numero atual escolhidos.
-    public bool chose; //Jï¿½ fez a escolha?
+    public bool chose; //Já fez a escolha?
 
     [Header("Questions")]
-    public TextMeshProUGUI points_text;
-    public TextMeshProUGUI[] questions_text;
-
-    #endregion
-
+    public Modos mod = null;
     public Quiz_Attributes attributes;
-
-    #region @Events
 
     [Header("Event Variables")]
     private string question_event = Event_PucQuiz.question_event; //Puxa o evento de respota e qual pergunta foi respondida.
     private bool question_lock = Event_PucQuiz.question_lock; //Puxa o evento que bloqueia as escolhas.
-    public bool pause = Event_PucQuiz.pause; //
+    public bool pause = Event_PucQuiz.pause;
 
-    #endregion
-
-    public override void Pre_Load(GameObject mod)
+    public override void Pre_Load(GameObject obj)
     {
-        if(attributes.timer.start == 0) { attributes.timer.start = 30; }
+
+        if (attributes.timer.start == 0) { attributes.timer.start = 30; }
         attributes.timer.Reset();
-
-        question_text.text = attributes.question;
-
-        for(int i = 0; i < questions_text.Length; i++)
-        {
-            if (questions_text[i] != null && attributes.options[i] != null)
-            {
-                questions_text[i].text = attributes.options[i];
-            }
-        }
     }
 
-    public override void Start_Layout(GameObject mod)
+    public override void Start_Layout(GameObject obj)
     {
         Event_PucQuiz.start_layout = false;
 
-        Pre_Load(mod);
+        Pre_Load(obj);
         
         choice_max = attributes.choice_correct.Length;
         attributes.choices = new bool[attributes.options.Length];
@@ -57,9 +39,9 @@ public class Quiz : Perguntas
         //throw new System.NotImplementedException();
     }
 
-    public override void Update_Layout(GameObject mod)
+    public override void Update_Layout(GameObject obj)
     {
-        if (Event_PucQuiz.start_layout) { Start_Layout(mod); }
+        if (Event_PucQuiz.start_layout) { Start_Layout(obj); }
 
         pause = Event_PucQuiz.pause;
         if (pause) { return; }
@@ -67,21 +49,20 @@ public class Quiz : Perguntas
         /* ---- Lembrete ---- *\
          * Caso o jogo esteja
          * pausado, o codigo ira
-         * quebrar aqui e nï¿½o
+         * quebrar aqui e não
          * rodara o nada abaixo
         \*                    */
-        points_text.text = "Points : "+((int)Event_PucQuiz.points+" | Tempo : "+ ((int)attributes.timer.time));
 
         if(!attributes.timer.infinity)
             switch (attributes.timer.time)
             {
                 case 0:
-                    End_Layout(mod);
+                    End_Layout(obj);
                     break;
                 default:
                     attributes.timer.Run();
                     //attributes.timer = attributes.timer - Time.deltaTime;
-                    //if (attributes.timer < 0) { attributes.timer = 0; } //Quebra caso o numero seja negativo, mas nï¿½o igual a 1.
+                    //if (attributes.timer < 0) { attributes.timer = 0; } //Quebra caso o numero seja negativo, mas não igual a 1.
                     break;
             }
 
@@ -91,7 +72,7 @@ public class Quiz : Perguntas
 
         if (question_event != "" && !question_lock)
         {
-            if (chose && !attributes.change) { Debug.Log("Escolha feita."); return; } //Quebra a execuï¿½ï¿½o do codigo.
+            if (chose && !attributes.change) { Debug.Log("Escolha feita."); return; } //Quebra a execução do codigo.
 
             if (choice_max == 1) { Choices_Reset(); }
 
@@ -114,7 +95,7 @@ public class Quiz : Perguntas
                     else { choice_actualy++; attributes.choices[3] = true; }
                     break;
                 default:
-                    throw new System.Exception("Evento nï¿½o reconhecido.");
+                    throw new System.Exception("Evento não reconhecido.");
             }
 
             Make_Chose();
@@ -122,7 +103,7 @@ public class Quiz : Perguntas
 
         /* ---- Lembrete ---- *\
          * Caso o usuario decida
-         * nï¿½o permitir mudar a
+         * não permitir mudar a
          * escolha, o programa
          * ira deixar de ser
          * executado desta parte
@@ -130,9 +111,9 @@ public class Quiz : Perguntas
         \*                    */
     }
 
-    public override void End_Layout(GameObject mod)
+    public override void End_Layout(GameObject obj)
     {
-        FeedBack();
+        mod.FeedBack();
 
         if (Event_PucQuiz.question_next) { return; }
 
@@ -144,16 +125,13 @@ public class Quiz : Perguntas
 
         for (int i = 0; i < attributes.choices.Length; i++)
         {
-            if (attributes.choices[i] == true)
+            if (attributes.choices[i] = attributes.choice_correct[i])
             {
-                bool search = true;
-
-                for(int o = 0; o < attributes.choice_correct.Length; o++)
-                {
-                    if (attributes.choice_correct[o] == i+1) { search = false; uncorrect = false; break; }
-                }
-
-                if(search) { uncorrect = true; }
+                uncorrect = false;
+            }
+            else
+            {
+                uncorrect = true;
             }
         }
 
@@ -170,29 +148,28 @@ public class Quiz : Perguntas
 
     }
 
-    #region || Funï¿½ï¿½es Gerais ||
+    #region ClickEvents
 
-    private void FeedBack()
+    public void ClickPergunta1(ClickEvent click)
     {
-        for(int i = 0; i < attributes.choices.Length; i++)
-        {
-            for(int o = 0; o < attributes.choice_correct.Length; o++)
-            {
-                if (i == attributes.choice_correct[o]-1)
-                {
-                    questions_text[i].color = Color.green; break;
-                }
-                else
-                {
-                    questions_text[i].color = Color.red;
-                }
-            }
-        }
+        Debug.Log("Pergunta1");
+    }
+    public void ClickPergunta2(ClickEvent click)
+    {
+        Debug.Log("Pergunta2");
+    }
+    public void ClickPergunta3(ClickEvent click)
+    {
+        Debug.Log("Pergunta3");
+    }
+    public void ClickPergunta4(ClickEvent click)
+    {
+        Debug.Log("Pergunta4");
     }
 
     #endregion
 
-    #region || Funï¿½ï¿½es Rapidas ||
+    #region || Funções Rapidas ||
 
     public void Choice_Event(string chose){ Debug.Log(chose); Event_PucQuiz.question_event = chose; }
     private void Make_Chose() { if (choice_actualy == choice_max) { chose = true; }; Event_PucQuiz.question_event = ""; }

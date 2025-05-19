@@ -18,7 +18,7 @@ public class Attributes
 [Serializable]
 public class Quiz_Attributes : Attributes
 {
-    [SerializeField] public int[] choice_correct; //Quais respostas estão corretas.
+    [SerializeField] public bool[] choice_correct; //Quais respostas estão corretas.
     [SerializeField] public bool change; //Pode mudar a resposta?
     [SerializeField] public string[] options; //Texto de cada opção
     [SerializeField] public bool[] choices; //Bool que define quais opções foram escolhidas.

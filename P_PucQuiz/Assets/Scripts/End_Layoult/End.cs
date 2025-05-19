@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class End : MonoBehaviour
 {
+    /*
     //public UnityEngine.UI.Text points;
     public TextMeshProUGUI points;
     public static float local_points = 0;
@@ -56,5 +57,5 @@ public class End : MonoBehaviour
                 Event_PucQuiz.Change_Scene(Config_PucQuiz.Get_Config().Layout_Game);
             }
         }
-    }
+    }*/
 }
