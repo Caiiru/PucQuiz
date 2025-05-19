@@ -123,11 +123,10 @@ public class QuizLobby : MonoBehaviour
 
     private void ClickEnterButton(ClickEvent evt)
     {
-        Debug.Log("Click Button");
         string roomCode = doc.rootVisualElement.Q<TextField>("Code").text;
         playerName = doc.rootVisualElement.Q<TextField>("Name").text;
         bool isHosting = string.IsNullOrEmpty(roomCode);
-        Debug.Log(isHosting?"Hosting a new Room.. " : $"Joining a room {roomCode}");
+        //Debug.Log(isHosting?"Hosting a new Room.. " : $"Joining a room {roomCode}");
         if(isHosting)
             CreateLobby();
         else
@@ -156,7 +155,7 @@ public class QuizLobby : MonoBehaviour
                 await LobbyService.Instance.CreateLobbyAsync(roomCode, maxPlayers,_options);
             _hostLobby = lobby;
             _joinedLobby = _hostLobby;
-            Debug.Log($"Room Code:{lobby.LobbyCode} / max players: {lobby.MaxPlayers}");
+            //Debug.Log($"Room Code:{lobby.LobbyCode} / max players: {lobby.MaxPlayers}");
             OnJoinedLobby?.Invoke(this, new LobbyEventArgs{lobby = _joinedLobby});
             //ceneManager.LoadScene(lobbySceneName);
             SetScene(lobbyObject);
@@ -185,7 +184,7 @@ public class QuizLobby : MonoBehaviour
                 Player = player
             };
             var lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code,joinLobbyByCodeOptions);
-            Debug.Log($"Joined Room {code}");
+            //Debug.Log($"Joined Room {code}");
             _hostLobby = lobby;
             _joinedLobby = _hostLobby;
             OnJoinedLobby?.Invoke(this, new LobbyEventArgs{lobby = _joinedLobby}); 
@@ -266,6 +265,6 @@ public class QuizLobby : MonoBehaviour
         lobbyObject.SetActive(false);
         loadingObject.SetActive(false);
         objectScene.SetActive(true);
-        Debug.Log($"Activating {objectScene.name}");
+        //Debug.Log($"Activating {objectScene.name}");
     }
 }
