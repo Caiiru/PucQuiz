@@ -6,7 +6,7 @@
             <ui:Label text="Grasp" name="Title" style="font-size: 256px; -unity-font-style: bold; color: rgb(69, 69, 69); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;); margin-bottom: 46px; align-self: center;" />
         </ui:VisualElement>
         <ui:VisualElement name="Email_Component" style="flex-grow: 1; height: 10%;">
-            <ui:Label text="Email" name="Senha_Title" style="width: 730px; justify-content: flex-start; align-items: stretch; align-self: center; color: rgb(0, 0, 0);" />
+            <ui:Label text="Email" name="Email_Title" style="width: 730px; justify-content: flex-start; align-items: stretch; align-self: center; color: rgb(0, 0, 0);" />
             <ui:TextField placeholder-text="Insira seu Email" name="Email" style="width: 730px; height: 55px; align-self: center;" />
         </ui:VisualElement>
         <ui:VisualElement name="Senha_Component" style="flex-grow: 1; height: 10%;">
