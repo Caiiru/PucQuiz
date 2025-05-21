@@ -16,7 +16,7 @@ public class Modos
 
     [Header("Quiz Variables")]
     [SerializeField] public Quiz_Attributes[] attributes;
-    private Dictionary<String, Perguntas> question_manager = new Dictionary<string, Perguntas>();
+    [SerializeField] private Dictionary<String, Perguntas> question_manager = new Dictionary<string, Perguntas>();
     [SerializeField] public int question_actualy_index;
     [SerializeField] private Timer timer_next;
 
@@ -28,7 +28,7 @@ public class Modos
         Debug.Log("Start to set Awake");
 
         //Variaveis De "Sistema"
-        question_manager.Add("quiz",new Quiz());
+        question_manager.Add("Quiz",new Quiz());
         Debug.Log("Frag");
         doc = obj.GetComponent<UIDocument>();
         manager = obj.GetComponent<LayoutManager>();
@@ -57,13 +57,15 @@ public class Modos
     }
     public void Update(GameObject obj)
     {
+        if(question_manager == null) { Debug.Log("Manager Null"); }
 
-        if (question_manager != null && Event_PucQuiz.question_result != "")
+        if (question_manager != null && Event_PucQuiz.question_result == "")
         {
+            Debug.Log("Manager exist");
             if(obj!=null)
             {
-                question_manager["quiz"].Update_Layout(obj);
-                doc.rootVisualElement.Q<TextElement>().text = "Points : " + ((int)Event_PucQuiz.points + " | " +
+                question_manager["Quiz"].Update_Layout(obj);//TIMER AQUI
+                doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
                                                                "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
             }
             else
@@ -79,8 +81,8 @@ public class Modos
             {
                 //Mudar Streak.
                 //Travar Time.
-                Config_PucQuiz.Get_Points(true,1,5);
-                points = question_manager["quiz"].points;
+                //Calcular Pontos?
+                //Config_PucQuiz.Get_Points(true,1,5);
             }
             timer_next.Run();
             if (timer_next.End()) { Change_Question(); }
@@ -92,8 +94,7 @@ public class Modos
         Event_PucQuiz.start_layout = true;
         Event_PucQuiz.question_next = false;
         Event_PucQuiz.question_result = "";
-        //Event_PucQuiz.points = points;
-
+        Event_PucQuiz.points = points;
 
         question_actualy_index++;
 
@@ -125,7 +126,16 @@ public class Modos
     {
         Debug.Log("Start Feedback.");
 
-        for (int i = 0; i < attributes[question_actualy_index].choice_correct.Length; i++)
+        switch(Event_PucQuiz.question_result)
+        {
+            case "win":
+                ChangeMenu("Correct");
+                break;
+            case "lose":
+                ChangeMenu("Incorrect");
+                break;
+        }
+        /*for (int i = 0; i < attributes[question_actualy_index].choice_correct.Length; i++)
         {
             if (attributes[question_actualy_index].choice_correct[i])
             {
@@ -135,16 +145,13 @@ public class Modos
             {
                 doc.rootVisualElement.Q<Button>("Pergunta" + (i + 1)).style.backgroundColor = Color.gray;
             }
-        }
+        }*/
 
         Debug.Log("End Feedback.");
     }
     public void ChangeMenu(string menu_new)
     {
         if (menu_new == null) { Debug.Log("N�o foi atribuido um valor ao novo menu buscado."); return; }
-
-        menu_new.ToLower();
-        Debug.Log("Novo menu de jogo = " + menu_new);
 
         Event_PucQuiz.layout_actualy = menu_new;
 
@@ -154,7 +161,7 @@ public class Modos
         {
             for (int i = 0; i < menu.Length; i++)
             {
-                if (menu[i].getValue1().ToLower() == menu_new)
+                if (menu[i].getValue1() == menu_new)
                 {
                     background = menu[i].getValue2();
                     doc.visualTreeAsset = menu[i].getValue3();
@@ -166,7 +173,7 @@ public class Modos
 
             for (int i = 0; i < menu.Length; i++)
             {
-                if (menu[i].getValue1().ToLower() != menu_new && menu[i].getValue2() != background)
+                if (menu[i].getValue1() != menu_new && menu[i].getValue2() != background)
                 {
                     menu[i].getValue2().SetActive(false);
                 }
@@ -184,34 +191,48 @@ public class Modos
         Debug.Log("Set Questions");
         for (int i = 0; i < menu.Length; i++)
         {
-            if (menu[i].getValue1().ToLower() == Event_PucQuiz.layout_actualy)
+            if (menu[i].getValue1() == Event_PucQuiz.layout_actualy)
             {
-                switch (menu[i].getValue1().ToLower())
+                switch (menu[i].getValue1())
                 {
-                    case "quiz":
+                    case "Quiz":
                         Debug.Log("Start set quiz");
 
-                        Quiz quiz = question_manager["quiz"] as Quiz;
+                        Quiz quiz = question_manager["Quiz"] as Quiz;
 
                         quiz.attributes = attributes[question_actualy_index];
                         quiz.mod = this;
-                        doc.rootVisualElement.Q<TextElement>("Titulo").text = attributes[question_actualy_index].question;
+
+                        doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
+                                                             "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
+
+                        doc.rootVisualElement.Q<TextElement>("Pergunta").text = attributes[question_actualy_index].question;
 
                         Debug.Log("Start set quiz buttons");
 
-                        doc.rootVisualElement.Q<Button>("Pergunta1").text = attributes[question_actualy_index].options[0];
-                        doc.rootVisualElement.Q<Button>("Pergunta1").RegisterCallback<ClickEvent>(quiz.ClickPergunta1);
+                        doc.rootVisualElement.Q<Button>("Resposta_1").text = attributes[question_actualy_index].options[0];
+                        doc.rootVisualElement.Q<Button>("Resposta_1").RegisterCallback<ClickEvent>(quiz.ClickPergunta1);
 
-                        doc.rootVisualElement.Q<Button>("Pergunta2").text = attributes[question_actualy_index].options[1];
-                        doc.rootVisualElement.Q<Button>("Pergunta2").RegisterCallback<ClickEvent>(quiz.ClickPergunta2);
+                        doc.rootVisualElement.Q<Button>("Resposta_2").text = attributes[question_actualy_index].options[1];
+                        doc.rootVisualElement.Q<Button>("Resposta_2").RegisterCallback<ClickEvent>(quiz.ClickPergunta2);
 
-                        doc.rootVisualElement.Q<Button>("Pergunta3").text = attributes[question_actualy_index].options[2];
-                        doc.rootVisualElement.Q<Button>("Pergunta3").RegisterCallback<ClickEvent>(quiz.ClickPergunta3);
+                        doc.rootVisualElement.Q<Button>("Resposta_3").text = attributes[question_actualy_index].options[2];
+                        doc.rootVisualElement.Q<Button>("Resposta_3").RegisterCallback<ClickEvent>(quiz.ClickPergunta3);
 
-                        doc.rootVisualElement.Q<Button>("Pergunta4").text = attributes[question_actualy_index].options[3];
-                        doc.rootVisualElement.Q<Button>("Pergunta4").RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
+                        doc.rootVisualElement.Q<Button>("Resposta_4").text = attributes[question_actualy_index].options[3];
+                        doc.rootVisualElement.Q<Button>("Resposta_4").RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
+
+                        Debug.Log("Reset Timers");
+
+                        timer_next.Reset();
 
                         Debug.Log("End set quiz");
+                        break;
+                    case "Correct":
+                        doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
+                        break;
+                    case "Incorrect":
+                        doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
                         break;
                 }
             }

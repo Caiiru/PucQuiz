@@ -2,7 +2,6 @@ using System;
 using Tradutor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System.Collections.Generic;
 
 [Serializable]
 public class Login

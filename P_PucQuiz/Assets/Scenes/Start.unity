@@ -1440,6 +1440,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3180be7a19b18f24f8a1735430fe8b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene_actualy: 
+  layout_actualy: 
+  question_result: 
   menu:
     doc: {fileID: 1254502716}
     manager: {fileID: 1254502715}
@@ -1455,7 +1458,7 @@ MonoBehaviour:
       value3: {fileID: 9197481963319205126, guid: 886d31d2c690f98409551abf1224692a, type: 3}
     - value1: Registro1
       value2: {fileID: 1708037319}
-      value3: {fileID: 0}
+      value3: {fileID: 9197481963319205126, guid: 3b8a5c22cd739d1429ed6b17eed95dfd, type: 3}
     - value1: Registro2
       value2: {fileID: 1708037319}
       value3: {fileID: 0}
@@ -1463,21 +1466,30 @@ MonoBehaviour:
       value2: {fileID: 0}
       value3: {fileID: 0}
     - value1: Codigo
-      value2: {fileID: 0}
+      value2: {fileID: 1708037319}
       value3: {fileID: 9197481963319205126, guid: f6677f7c6fed03d438767debf9b6864a, type: 3}
     - value1: CriarPartida
       value2: {fileID: 0}
       value3: {fileID: 0}
     - value1: Conectando
-      value2: {fileID: 0}
+      value2: {fileID: 1708037319}
       value3: {fileID: 9197481963319205126, guid: 7a81aeeb66c224f45957f2a0cedbf837, type: 3}
   quiz:
     config: {fileID: 11400000, guid: 8ce29715b9588764cb60db019c9aae44, type: 2}
     doc: {fileID: 1254502716}
     menu:
+    - value1: Aguardando
+      value2: {fileID: 1277771894}
+      value3: {fileID: 9197481963319205126, guid: e9f4027c3cf863b42b7e74673b25a512, type: 3}
     - value1: Quiz
       value2: {fileID: 1277771894}
       value3: {fileID: 9197481963319205126, guid: dd337f611a43aec49bd2078a216860bb, type: 3}
+    - value1: Incorrect
+      value2: {fileID: 1277771894}
+      value3: {fileID: 9197481963319205126, guid: c52d509bbd4df2d4490ca3c09e2a3b52, type: 3}
+    - value1: Correct
+      value2: {fileID: 1277771894}
+      value3: {fileID: 9197481963319205126, guid: 6160a2e2ede5f954d9c4fbcf23a1ecef, type: 3}
     manager: {fileID: 0}
     transform: {fileID: 0}
     points: 0
