@@ -2,7 +2,7 @@
     "name": "Network.",
     "rootNamespace": "",
     "references": [
-        "Project",
+        "",
         "Unity.TextMeshPro",
         "Unity.Services.Multiplayer",
         "Unity.Services.Core",

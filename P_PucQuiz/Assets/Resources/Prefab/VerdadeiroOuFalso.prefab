@@ -415,7 +415,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7638338997219731518}
-  - component: {fileID: 8861762287816655044}
   m_Layer: 5
   m_Name: VerdadeiroOuFalso
   m_TagString: Untagged
@@ -448,32 +447,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -1820, y: -980}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8861762287816655044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6916792732206141983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4be93721cb12f304899d9bc81c993069, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: Quiz
-  question: 
-  choice_correct: 0
-  chose: 0
-  Option1: 
-  Option2: 
-  Option3: 
-  Option4: 
-  choice1: 0
-  choice2: 0
-  choice3: 0
-  choice4: 0
-  limit: 0
-  pause: 0
 --- !u!1 &8169419656988526484
 GameObject:
   m_ObjectHideFlags: 0

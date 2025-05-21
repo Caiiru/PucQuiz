@@ -26,27 +26,19 @@ public class UILobbyHandler : MonoBehaviour
 
     private void UpdateLobbyUI(object sender, QuizLobby.LobbyEventArgs e)
     {
+        Hide();
         int playerCount = e.lobby.Players.Count;
         _playerIndex = _playerIndex == -1 ? playerCount:_playerIndex;
         ClearLobby(); 
-        roomCodeText.text = $"Room Code: {QuizLobby.Instance.GetJoinedLobby().LobbyCode}";
-        int _index = 0 ;
+        roomCodeText.text = $"Room Code: {QuizLobby.Instance.GetJoinedLobby().LobbyCode}"; 
         foreach (var player in e.lobby.Players)
         {
-            var lobbyPlayer = Instantiate(lobbyPlayerPrefab, container.transform, true);
-            //lobbyPlayer.GetComponent<RectTransform>().position = new Vector3(0 + (-10 % playerCount - 1), 0, 0);
+            var lobbyPlayer = Instantiate(lobbyPlayerPrefab, container.transform, true); 
             LobbyPlayerUI lobbyPlayerUI = lobbyPlayer.GetComponent<LobbyPlayerUI>();
-            lobbyPlayerUI.UpdatePlayer(player); 
+            lobbyPlayerUI.UpdatePlayer(player);  
 
-            //lobbyPlayer.GetComponent<RectTransform>().transform.localPosition = new Vector3(-800+(110*_playerIndex), 0);
-
-        }
-        
-        
-        
-        Show();
-         
-        //lobbyPlayer.transform.GetComponentInChildren<TextMeshProUGUI>().text = QuizLobby.Instance.
+        } 
+        Show(); 
     }
 
     private void ClearLobby()

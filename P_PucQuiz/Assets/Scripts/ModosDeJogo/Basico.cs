@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class Basico : MonoBehaviour
-{
+{ 
     /*public Modos modo;
 
     public void Awake()
