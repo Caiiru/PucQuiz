@@ -138,11 +138,13 @@ public class Quiz : Perguntas
         if(!uncorrect)
         { 
             Event_PucQuiz.question_result = "win";
-            Event_PucQuiz.points += points;
+            //Calcular pontos.
+            //Event_PucQuiz.points += Config_PucQuiz.Get_Points(true,);
         }
         else
         {
             Event_PucQuiz.question_result = "lose";
+            //Calcular pontos.
         }
         Event_PucQuiz.question_next = true;
 

@@ -47,9 +47,9 @@ public class Config_PucQuiz : ScriptableObject
     {
         switch(type)
         {
-            case Attributes.Type.quiz:
+            case Attributes.Type.Quiz:
                 return quiz;
-            case Attributes.Type.verdadeiroOUfalso:
+            case Attributes.Type.VerdadeiroOuFalso:
                 return null;
         }
 

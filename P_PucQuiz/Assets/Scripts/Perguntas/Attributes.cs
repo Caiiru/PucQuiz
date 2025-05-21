@@ -10,8 +10,8 @@ public class Attributes
     public enum Type
     {
         none,
-        quiz,
-        verdadeiroOUfalso
+        Quiz,
+        VerdadeiroOuFalso
     }
 }
 
