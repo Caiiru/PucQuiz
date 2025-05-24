@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Incorreto.uss?fileID=7433441132597879392&amp;guid=aa2199b99c448fb418e24a2fc92544b4&amp;type=3#Incorreto" />
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; align-items: center; background-color: rgba(251, 247, 239, 0); height: 430px;">
+        <ui:VisualElement name="Barra" style="flex-grow: 1; width: 100%; height: 20%;" />
+        <ui:VisualElement name="Texto_Container" style="background-color: rgba(0, 0, 0, 0); align-items: stretch; align-self: center; align-content: flex-start; justify-content: center; width: 100%; height: 30%;">
+            <ui:Label text="Resposta Incorreta!!" name="Resposta_Incorreta" style="align-self: center; font-size: 67px; -unity-font-style: bold; color: rgb(230, 63, 102); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Points_Container" style="flex-grow: 1; width: 100%; align-self: center; height: 20%; justify-content: center;">
+            <ui:Label text="Points" name="Points" style="align-self: center; align-items: stretch; justify-content: center; font-size: 48px; -unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;); color: rgb(230, 63, 102);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Texto_Container" style="background-color: rgba(0, 0, 0, 0); align-items: stretch; align-self: center; align-content: flex-start; justify-content: center; width: 100%; height: 20%;">
+            <ui:Label text="Aguardando Próxima Pergunta" name="LoadingText" style="align-self: center; font-size: 48px; -unity-font-style: bold; color: rgb(230, 63, 102); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Barra" style="flex-grow: 1; width: 100%; height: 20%;" />
+    </ui:VisualElement>
+</ui:UXML>

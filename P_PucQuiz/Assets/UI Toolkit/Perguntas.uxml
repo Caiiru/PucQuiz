@@ -1,26 +1,38 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/Perguntas.uss?fileID=7433441132597879392&amp;guid=a8cec6bdb3dfe4f4392de874fbddc6a7&amp;type=3#Perguntas" />
-    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; align-items: center; background-color: rgba(251, 247, 239, 0); justify-content: flex-start;">
-        <ui:VisualElement name="Component" style="background-color: rgba(0, 0, 0, 0); width: 1180px; height: 1097px; align-items: stretch; align-self: auto; align-content: flex-start; justify-content: center;">
-            <ui:Label text="Qual destes alimentos é uma fruta?" name="Pergunta" style="align-self: center; font-size: 96px; -unity-font-style: bold; color: rgb(69, 69, 69); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;); -unity-text-align: middle-center; height: 260px; width: 1787px;" />
-            <ui:VisualElement name="Area_Respostas" style="align-self: center; width: 1588px; height: 500px; flex-direction: row; flex-wrap: wrap; justify-content: center;">
-                <ui:VisualElement name="Resposta1" class="resposta1" style="flex-direction: row; max-width: 3661px; border-top-width: 14px; border-right-width: 14px; border-bottom-width: 14px; border-left-width: 14px; margin-top: 24px; margin-right: 24px; margin-bottom: 24px; margin-left: 24px; -unity-background-scale-mode: scale-and-crop; min-height: 160px; max-height: 160px;">
-                    <ui:VisualElement name="Symbol" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Shapes/Menu/cube-group-1.png?fileID=2800000&amp;guid=cbc1eedf83b141f4a98eae628e715cec&amp;type=3#cube-group-1&quot;); -unity-background-scale-mode: scale-to-fit; background-position-x: left 0; background-position-y: center 0; width: 174px; flex-direction: row; background-size: 121px 100%; align-self: auto;" />
-                    <ui:Label text="Tomate" name="Button_Text" style="font-size: 67px; align-self: center; flex-direction: row; max-width: 750px; flex-wrap: wrap; white-space: normal; -unity-text-align: middle-left;" />
+    <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Shapes/In%20Game%20-%2002.png?fileID=2800000&amp;guid=d6f5d0c209d1fcb40b160e21f3b63d20&amp;type=3#In Game - 02&quot;); -unity-background-scale-mode: scale-and-crop; -unity-background-image-tint-color: rgba(255, 255, 255, 0);">
+        <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; align-items: center; background-color: rgba(251, 247, 239, 0); justify-content: flex-start; align-self: auto;">
+            <ui:VisualElement name="Container_TEXTO" style="background-color: rgba(0, 255, 41, 0); width: 100%; height: 46%; justify-content: flex-start; align-self: auto;">
+                <ui:VisualElement name="Container_Timer" style="flex-grow: 1; align-self: center; justify-content: center;">
+                    <ui:Label text="Timer" name="Timer" style="font-size: 48px; align-self: center;" />
                 </ui:VisualElement>
-                <ui:VisualElement name="Resposta1" class="resposta1" style="flex-direction: row; max-width: 3661px; border-top-width: 14px; border-right-width: 14px; border-bottom-width: 14px; border-left-width: 14px; margin-top: 24px; margin-right: 24px; margin-bottom: 24px; margin-left: 24px; -unity-background-scale-mode: scale-and-crop; min-height: 160px; max-height: 160px;">
-                    <ui:VisualElement name="Symbol" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Shapes/Menu/cube-group-1.png?fileID=2800000&amp;guid=cbc1eedf83b141f4a98eae628e715cec&amp;type=3#cube-group-1&quot;); -unity-background-scale-mode: scale-to-fit; background-position-x: left 0; background-position-y: center 0; width: 174px; flex-direction: row; background-size: 121px 100%; align-self: auto;" />
-                    <ui:Label text="Tomate" name="Button_Text" style="font-size: 67px; align-self: center; flex-direction: row; max-width: 750px; flex-wrap: wrap; white-space: normal; -unity-text-align: middle-left;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="Resposta1" class="resposta1" style="flex-direction: row; max-width: 3661px; border-top-width: 14px; border-right-width: 14px; border-bottom-width: 14px; border-left-width: 14px; margin-top: 24px; margin-right: 24px; margin-bottom: 24px; margin-left: 24px; -unity-background-scale-mode: scale-and-crop; min-height: 160px; max-height: 160px;">
-                    <ui:VisualElement name="Symbol" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Shapes/Menu/cube-group-1.png?fileID=2800000&amp;guid=cbc1eedf83b141f4a98eae628e715cec&amp;type=3#cube-group-1&quot;); -unity-background-scale-mode: scale-to-fit; background-position-x: left 0; background-position-y: center 0; width: 174px; flex-direction: row; background-size: 121px 100%; align-self: auto;" />
-                    <ui:Label text="Tomate" name="Button_Text" style="font-size: 67px; align-self: center; flex-direction: row; max-width: 750px; flex-wrap: wrap; white-space: normal; -unity-text-align: middle-left;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="Resposta1" class="resposta1" style="flex-direction: row; max-width: 3661px; border-top-width: 14px; border-right-width: 14px; border-bottom-width: 14px; border-left-width: 14px; margin-top: 24px; margin-right: 24px; margin-bottom: 24px; margin-left: 24px; -unity-background-scale-mode: scale-and-crop; min-height: 160px; max-height: 160px;">
-                    <ui:VisualElement name="Symbol" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Shapes/Menu/cube-group-1.png?fileID=2800000&amp;guid=cbc1eedf83b141f4a98eae628e715cec&amp;type=3#cube-group-1&quot;); -unity-background-scale-mode: scale-to-fit; background-position-x: left 0; background-position-y: center 0; width: 174px; flex-direction: row; background-size: 121px 100%; align-self: auto;" />
-                    <ui:Label text="Tomate" name="Button_Text" style="font-size: 67px; align-self: center; flex-direction: row; max-width: 750px; flex-wrap: wrap; white-space: normal; -unity-text-align: middle-left;" />
+                <ui:VisualElement name="Container_Pergunta" style="flex-grow: 1;">
+                    <ui:Label text="Qual é o planeta vermelho?" name="Pergunta" style="font-size: 96px; align-self: center;" />
                 </ui:VisualElement>
             </ui:VisualElement>
+            <ui:VisualElement name="Container-Resposta1" style="width: 100%; height: 69%; justify-content: flex-start; align-self: auto; align-content: auto; align-items: center; flex-direction: row; flex-wrap: wrap;">
+                <ui:VisualElement name="Container_interno" style="flex-grow: 1; background-color: rgba(188, 172, 62, 0); height: 50%; width: 50%; justify-content: center; flex-direction: row;">
+                    <ui:VisualElement name="Padding_Left" style="flex-grow: 1; align-self: flex-start; width: 25%; height: 100%;" />
+                    <ui:Button text="Button" name="Resposta_1" icon-image="project://database/Assets/UI%20Toolkit/Shapes/Menu/cube-group-3.png?fileID=2800000&amp;guid=c5f86edd3d8200e49b042dbb9d0cd592&amp;type=3#cube-group-3" style="align-content: flex-start; min-width: 690px; min-height: 140px; flex-direction: row; flex-wrap: nowrap; justify-content: center; padding-right: 80px; padding-left: 80px;" />
+                    <ui:VisualElement name="Padding_right" style="flex-grow: 1; align-self: flex-start; width: 10%; height: 100%;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Container_interno" style="flex-grow: 1; background-color: rgba(188, 172, 62, 0); height: 50%; width: 50%; justify-content: center; flex-direction: row;">
+                    <ui:VisualElement name="Padding_right" style="flex-grow: 1; align-self: flex-start; width: 10%; height: 100%;" />
+                    <ui:Button text="Button" name="Resposta_2" icon-image="project://database/Assets/UI%20Toolkit/Shapes/Menu/cube-group-3.png?fileID=2800000&amp;guid=c5f86edd3d8200e49b042dbb9d0cd592&amp;type=3#cube-group-3" style="align-content: flex-start; min-width: 690px; min-height: 140px; flex-direction: row; flex-wrap: nowrap; justify-content: center; padding-right: 80px; padding-left: 80px;" />
+                    <ui:VisualElement name="Padding_Left" style="flex-grow: 1; align-self: flex-start; width: 25%; height: 100%;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Container_interno" style="flex-grow: 1; background-color: rgba(188, 172, 62, 0); height: 50%; width: 50%; justify-content: center; flex-direction: row;">
+                    <ui:VisualElement name="Padding_Left" style="flex-grow: 1; align-self: flex-start; width: 25%; height: 100%;" />
+                    <ui:Button text="Button" name="Resposta_3" icon-image="project://database/Assets/UI%20Toolkit/Shapes/Menu/cube-group-3.png?fileID=2800000&amp;guid=c5f86edd3d8200e49b042dbb9d0cd592&amp;type=3#cube-group-3" style="align-content: flex-start; min-width: 690px; min-height: 140px; flex-direction: row; flex-wrap: nowrap; justify-content: center; padding-right: 80px; padding-left: 80px;" />
+                    <ui:VisualElement name="Padding_right" style="flex-grow: 1; align-self: flex-start; width: 10%; height: 100%;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Container_interno" style="flex-grow: 1; background-color: rgba(188, 172, 62, 0); height: 50%; width: 50%; justify-content: center; flex-direction: row;">
+                    <ui:VisualElement name="Padding_right" style="flex-grow: 1; align-self: flex-start; width: 10%; height: 100%;" />
+                    <ui:Button text="Button" name="Resposta_4" icon-image="project://database/Assets/UI%20Toolkit/Shapes/Menu/cube-group-3.png?fileID=2800000&amp;guid=c5f86edd3d8200e49b042dbb9d0cd592&amp;type=3#cube-group-3" style="align-content: flex-start; min-width: 690px; min-height: 140px; flex-direction: row; flex-wrap: nowrap; justify-content: center; padding-right: 80px; padding-left: 80px;" />
+                    <ui:VisualElement name="Padding_Left" style="flex-grow: 1; align-self: flex-start; width: 25%; height: 100%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Barra" style="align-self: center; width: 100%; height: 68%; justify-content: center; -unity-text-align: upper-left; align-items: center; align-content: center; flex-direction: row; flex-wrap: wrap; background-color: rgba(206, 118, 215, 0);" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
