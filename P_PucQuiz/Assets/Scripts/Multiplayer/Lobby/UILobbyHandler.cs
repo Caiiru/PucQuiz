@@ -2,6 +2,7 @@ using Multiplayer.Lobby;
 using TMPro;
 using Unity.Services.Matchmaker.Models;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UILobbyHandler : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class UILobbyHandler : MonoBehaviour
     [SerializeField] private Transform container;
 
     [SerializeField] private int _playerIndex = -1;
+
+
+    public Label _textCode;
+    public UIDocument _document;
 
     private QuizLobby _quizLobby;
     void Start()
@@ -26,17 +31,32 @@ public class UILobbyHandler : MonoBehaviour
 
     private void UpdateLobbyUI(object sender, QuizLobby.LobbyEventArgs e)
     {
+
+        Debug.Log("enter update lobby");
+        _document = FindAnyObjectByType<UIDocument>();
+        Debug.Log(_document.name);
+
+
+
+        Debug.Log(_document.rootVisualElement.Q<Label>("CodeText").text);
+
+        //_textCode.text = $"Code: {e.lobby.LobbyCode}"; 
+
         Hide();
         int playerCount = e.lobby.Players.Count;
         _playerIndex = _playerIndex == -1 ? playerCount:_playerIndex;
         ClearLobby(); 
-        roomCodeText.text = $"Room Code: {QuizLobby.Instance.GetJoinedLobby().LobbyCode}"; 
+        //roomCodeText.text = $"Room Code: {QuizLobby.Instance.GetJoinedLobby().LobbyCode}";
+        int _index = 0;
         foreach (var player in e.lobby.Players)
         {
-            var lobbyPlayer = Instantiate(lobbyPlayerPrefab, container.transform, true); 
-            LobbyPlayerUI lobbyPlayerUI = lobbyPlayer.GetComponent<LobbyPlayerUI>();
-            lobbyPlayerUI.UpdatePlayer(player);  
-
+            if (_index != 0)
+            {
+                var lobbyPlayer = Instantiate(lobbyPlayerPrefab, container.transform, true);
+                LobbyPlayerUI lobbyPlayerUI = lobbyPlayer.GetComponent<LobbyPlayerUI>();
+                lobbyPlayerUI.UpdatePlayer(player);
+            }
+            _index++;
         } 
         Show(); 
     }

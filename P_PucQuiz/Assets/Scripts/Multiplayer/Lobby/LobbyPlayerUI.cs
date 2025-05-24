@@ -13,8 +13,7 @@ namespace Multiplayer.Lobby
         public void UpdatePlayer(Player player)
         {
             this._player = player;
-            playerNameText.text = player.Data[QuizLobby.KEY_PLAYER_NAME].Value;
-            //Debug.Log(player.Data[QuizLobby.KEY_PLAYER_NAME].Value);
+            playerNameText.text = player.Data[QuizLobby.KEY_PLAYER_NAME].Value; 
         }
     }
 }

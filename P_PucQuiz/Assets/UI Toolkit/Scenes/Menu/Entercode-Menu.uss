@@ -24,7 +24,36 @@
 }
 
 .unity-button {
+    background-color: rgb(143, 217, 87);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
     font-size: 48px;
     -unity-font-style: bold;
     -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
+}
+
+.unity-button:hover {
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    background-color: rgb(230, 63, 102);
+    color: rgb(255, 255, 255);
+    font-size: 48px;
+    -unity-font-style: bold;
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
+}
+
+.login-button {
+    background-color: rgb(49, 115, 129);
+    -unity-text-align: middle-center;
+    font-size: 44px;
+    width: 250px;
+    height: 100px;
+}
+
+.login-button:hover {
+    background-color: rgb(230, 63, 102);
 }

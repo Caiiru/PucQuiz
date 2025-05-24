@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -15,21 +18,20 @@ public class QuizLobby : MonoBehaviour
     //CONST
     public const string KEY_PLAYER_NAME = "PlayerName";
     public const string KEY_PLAYER_POINTS = "PlayerPoints";
+    public const string KEY_RELAY_JOINCODE = "RelayJoinCode";
+    public const string KEY_ENCRYPTION_DLTS = "dkts";
+    public const string KEY_ENCRYPTION_WSS = "wss";
 
 
     [Header("Players")]
-    [SerializeField] private Dictionary<int, String> players = new();
-    [SerializeField] private Dictionary<int, QuizPlayer> quizPlayers = new();
+    [SerializeField] private Dictionary<int, String> players = new(); 
 
     [SerializeField] private String playerName;
 
+    [SerializeField] private int maxPlayers = 4;
 
-    [Header("Lobby UI")]
-    [SerializeField] private GameObject loadingObject;
-    [SerializeField] private TextMeshProUGUI loadingText;
-    [SerializeField] private GameObject menuObject;
-    [SerializeField] private GameObject lobbyObject;
-
+    [SerializeField] private EncryptionType encryptionType = EncryptionType.WSS;
+ 
 
     private Lobby _hostLobby;
     private Lobby _joinedLobby;
@@ -39,18 +41,19 @@ public class QuizLobby : MonoBehaviour
     private float _lobbyUpdateTimer;
     private int _playersJoined = 0;
 
+    NetworkManager _networkManager;
+    private string _connectionType => encryptionType == EncryptionType.DTLS ? KEY_ENCRYPTION_DLTS : KEY_ENCRYPTION_WSS;
 
-    [Header("References")]
-    [SerializeField]
-    private UIDocument doc;
+ 
 
 
     //SINGLETON
     public static QuizLobby Instance;
-
+    #region Events
     [HideInInspector]
     public EventHandler<LobbyEventArgs> OnJoinedLobby;
-
+    public EventHandler OnJoiningLobby;
+    #endregion
     public class LobbyEventArgs : EventArgs
     {
         public Lobby lobby;
@@ -66,18 +69,15 @@ public class QuizLobby : MonoBehaviour
     }
 
     async void Start()
-    {
-
-        lobbyObject.SetActive(true);
-        loadingObject.SetActive(false);
+    { 
+        _networkManager = FindAnyObjectByType<NetworkManager>();
 
         await UnityServices.InitializeAsync();
         AuthenticationService.Instance.SignedIn += () =>
         {
             Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
         };
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        FindDoc();
+        await AuthenticationService.Instance.SignInAnonymouslyAsync(); 
     }
 
 
@@ -124,59 +124,69 @@ public class QuizLobby : MonoBehaviour
 
     }
 
-    private void ClickEnterButton(ClickEvent evt)
-    {
-        string roomCode = doc.rootVisualElement.Q<TextField>("Code").text;
-        playerName = doc.rootVisualElement.Q<TextField>("Name").text;
-        bool isHosting = string.IsNullOrEmpty(roomCode);
-        //Debug.Log(isHosting?"Hosting a new Room.. " : $"Joining a room {roomCode}");
-        if (isHosting)
-            CreateLobby();
-        else
-            JoinLobby(roomCode);
+     
 
-    }
-
-    public async void CreateLobby()
+    public async void CreateLobby(string userName)
     {
+        playerName = userName;
+
+        OnJoiningLobby?.Invoke(this, null);
         try
         {
             string roomCode = GenerateRandomRoomCode(4);
-            int maxPlayers = 4;
 
-            lobbyObject.SetActive(false);
-            loadingObject.SetActive(true);
-            loadingText.text = "Creating Room...";
             Player player = GetPlayer();
             CreateLobbyOptions _options = new CreateLobbyOptions()
             {
                 IsPrivate = false,
-                Player = player
+
+                //Player = player
             };
 
-            Unity.Services.Lobbies.Models.Lobby lobby =
-                await LobbyService.Instance.CreateLobbyAsync(roomCode, maxPlayers, _options);
+            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(roomCode, maxPlayers, _options);
+            /*
+            Allocation _allocation = await AllocateRelay();
+            string relayJoinCode = await GetRelayJoinCode(_allocation);
+            
+            DataObject relayDataObject = new DataObject(DataObject.VisibilityOptions.Member, relayJoinCode);
+            Dictionary<string, DataObject> _updateLobbyOptions = new();
+            _updateLobbyOptions.Add(KEY_RELAY_JOINCODE, relayDataObject);
+            await LobbyService.Instance.UpdateLobbyAsync(lobby.Id, new UpdateLobbyOptions
+            {
+                Data = _updateLobbyOptions
+            });
+            
+            JoinAllocation _joinAllocation = new JoinAllocation(_allocation);
+
+            RelayServerData _relayServerData = new RelayServerData(allocation,_connectionType);
+            _relayServerData.AllocationId = _allocation.AllocationId;
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation:_allocation, _connectionType: _connectionType));
+            NetworkManager.Singleton.StartHost();
+            */
+
+
+            _networkManager.StartServer();
+
+
             _hostLobby = lobby;
             _joinedLobby = _hostLobby;
-            OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
-            SetScene(lobbyObject);
+            //OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby }); 
+            
+            Debug.Log($"Hosting Lobby: { _joinedLobby.LobbyCode}");
         }
         catch (LobbyServiceException e)
         {
-            Debug.Log(e);
-            loadingText.text = "Cannot Join";
-            lobbyObject.SetActive(true);
-            loadingObject.SetActive(false);
-            FindDoc();
-            SetScene(menuObject);
+            Debug.LogError("Failed to create lobby: " + e.Message);
         }
     }
 
-    private async void JoinLobby(string code)
+    public async void JoinLobby(string code, string userName)
     {
-        lobbyObject.SetActive(false);
-        loadingObject.SetActive(true);
-        loadingText.text = "Joining room...";
+        playerName = userName;
+        //lobbyObject.SetActive(false);
+        //loadingObject.SetActive(true);
+        //loadingText.text = "Joining room...";
+        OnJoiningLobby?.Invoke(this, null);
         try
         {
             Player player = GetPlayer();
@@ -189,21 +199,20 @@ public class QuizLobby : MonoBehaviour
             {
                 _hostLobby = lobby;
                 _joinedLobby = _hostLobby;
+                _networkManager.StartClient();
                 OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
-                SetScene(lobbyObject);
+                //SetScene(lobbyObject);
             }
         }
         catch (LobbyServiceException e)
         {
-            Debug.Log(e);
-            loadingText.text = "Cannot Join";
-            lobbyObject.SetActive(true);
-            loadingObject.SetActive(false);
-            FindDoc();
+            Debug.Log(e); 
 
-            SetScene(menuObject);
+            //SetScene(menuObject);
         }
     }
+
+
 
     public Lobby GetJoinedLobby()
     {
@@ -221,12 +230,7 @@ public class QuizLobby : MonoBehaviour
         return code;
     }
 
-    private void FindDoc()
-    {
-        if (doc == null)
-            doc = FindAnyObjectByType<UIDocument>();
-        doc.rootVisualElement.Q<Button>(name: "Entrar").RegisterCallback<ClickEvent>(ClickEnterButton);
-    }
+     
 
     private Player GetPlayer()
     {
@@ -262,16 +266,53 @@ public class QuizLobby : MonoBehaviour
         }
     }
 
-    private void SetScene(GameObject objectScene)
+    async Task<Allocation> AllocateRelay()
     {
-        menuObject.SetActive(false);
-        lobbyObject.SetActive(false);
-        loadingObject.SetActive(false);
-        objectScene.SetActive(true);
-        //Debug.Log($"Activating {objectScene.name}");
+        try
+        {
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxPlayers - 1); //exclude host
+            return allocation;
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.LogError("Failed to allocate relay: " + e.Message);
+            return default;
+        }
     }
 
-    
+    async Task<string> GetRelayJoinCode(Allocation allocation)
+    {
+        try
+        {
+            string relayJoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            return relayJoinCode;
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.LogError("Failed to get relay code: " + e.Message);
+            return default;
+        }
+    }
+
+    async Task<JoinAllocation> JoinRelay(string relayCode)
+    {
+        try
+        {
+            JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(relayCode);
+            return joinAllocation;
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.LogError("Failed to join relay: " + e.Message);
+            return default;
+        }
+    }
+ 
+
+    public string GetPlayerName()
+    {
+        return playerName;
+    }
 
     public List<Player> GetPlayers()
     {
@@ -292,4 +333,12 @@ public class QuizLobby : MonoBehaviour
 
         }
     }
+}
+
+
+[System.Serializable]
+public enum EncryptionType
+{
+    DTLS,
+    WSS
 }
