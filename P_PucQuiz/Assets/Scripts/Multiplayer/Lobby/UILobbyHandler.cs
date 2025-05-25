@@ -29,8 +29,7 @@ public class UILobbyHandler : MonoBehaviour
     {
         var _lobby = QuizLobby.Instance.GetJoinedLobby();
 
-
-        Debug.Log("enter update lobby");
+ 
         Hide();
         int playerCount = _lobby.Players.Count;
         _playerIndex = _playerIndex == -1 ? playerCount : _playerIndex;

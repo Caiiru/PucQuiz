@@ -1,6 +1,9 @@
+using System;
+using DeveloperConsole;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UIElements;
+
 
 public class GameManager : NetworkBehaviour
 {
@@ -24,7 +27,8 @@ public class GameManager : NetworkBehaviour
     void Start()
     {
         //var doc = FindAnyObjectByType<UIDocument>();
-        //doc.rootVisualElement.Q<Label>("CodeText").text = "Codigo: ABCDERFG";
+        //doc.rootVisualElement.Q<Label>("CodeText").text = "Codigo: ABCDERFG"; 
+        DeveloperConsole.Console.AddCommand("startquiz", StartQuizCommand);
     }
 
     // Update is called once per frame
@@ -40,6 +44,19 @@ public class GameManager : NetworkBehaviour
                 
                  
         }  
+    }
+    void StartQuizCommand(string[] args)
+    {
+        if(IsServer)
+            StartQuiz_Rpc();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void StartQuiz_Rpc()
+    {
+        Debug.Log("Starting quiz...");
+        Event_PucQuiz.scene_actualy = "Quiz";
+        
     }
 
     public void ChangeText(string newText)

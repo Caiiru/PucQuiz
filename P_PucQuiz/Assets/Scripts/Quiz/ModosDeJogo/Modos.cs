@@ -187,16 +187,14 @@ public class Modos
         SetQuestion();
     }
     public void SetQuestion()
-    {
-        Debug.Log("Set Questions");
+    { 
         for (int i = 0; i < menu.Length; i++)
         {
             if (menu[i].getValue1() == Event_PucQuiz.layout_actualy)
             {
                 switch (menu[i].getValue1())
                 {
-                    case "Quiz":
-                        Debug.Log("Start set quiz");
+                    case "Quiz": 
 
                         Quiz quiz = question_manager["Quiz"] as Quiz;
 

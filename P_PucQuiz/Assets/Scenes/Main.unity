@@ -1868,7 +1868,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5184560967433839411, guid: 4691c1407fe029b3fa5980a4364f6075, type: 3}
       propertyPath: keyType
-      value: 126
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5184560968353071101, guid: 4691c1407fe029b3fa5980a4364f6075, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2312,8 +2312,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: 
-  maxPlayers: 4
   encryptionType: 1
+  isHost: 0
+  maxPlayers: 4
 --- !u!4 &2006780885
 Transform:
   m_ObjectHideFlags: 0

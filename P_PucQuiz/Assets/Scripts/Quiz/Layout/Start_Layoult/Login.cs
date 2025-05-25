@@ -31,12 +31,13 @@ public class Login
     public void Start()
     {
         ChangeMenu("Start");
-
+        DeveloperConsole.Console.AddCommand("loginquiz", LoginStartQuiz);
 
     }
 
     public void Update()
     {
+        /* A cada frame essa verificação é feita
         switch (Event_PucQuiz.login.ToLower())
         {
             case "":
@@ -56,6 +57,7 @@ public class Login
                 Debug.LogError("O evento login possui um valor indevido.");
                 break;
         }
+        */
     }
 
     #region # Click Events #
@@ -99,6 +101,18 @@ public class Login
             Debug.Log("Erro ao solicitar o login");
         }
         */
+    }
+    private void ClickStartQuiz(ClickEvent clickEvent)
+    {
+        GameManager.Instance.StartQuiz_Rpc();
+
+    }
+
+    void LoginStartQuiz(string[] args)
+    {
+        Debug.Log("LoginStartQuiz");
+        DeveloperConsole.Console.Print("Login Start Quiz");
+        Event_PucQuiz.scene_actualy = "Quiz";
     }
 
     private void ClickRegister(ClickEvent click) //Bot�o que transita da tela de login para a tela de registro.
@@ -276,13 +290,20 @@ public class Login
         //Verifica se o jogador é host ou não para deixar ativo o boão de iniciar quiz/partida
         var _startButton = doc.rootVisualElement.Q<Button>("Iniciar");
         if (!QuizLobby.Instance.GetIsHost())
-        { 
+        {
             //NOT HOST:
             _startButton.parent.Remove(_startButton);
 
         }
-       
+        _startButton.RegisterCallback<ClickEvent>(ClickStartQuiz);
 
+
+    }
+
+    public void StartQuiz()
+    {
+        
+        Event_PucQuiz.scene_actualy = "Quiz";
     }
     
      
