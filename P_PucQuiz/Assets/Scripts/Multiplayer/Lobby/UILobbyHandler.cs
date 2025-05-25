@@ -1,26 +1,22 @@
+using System;
 using Multiplayer.Lobby;
 using TMPro;
+using Unity.Netcode;
 using Unity.Services.Matchmaker.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class UILobbyHandler : MonoBehaviour
 {
-    [SerializeField] private GameObject lobbyPlayerPrefab;
-    [SerializeField] private TextMeshProUGUI roomCodeText;
+    [SerializeField] private GameObject lobbyPlayerPrefab; 
     [SerializeField] private Transform container;
 
     [SerializeField] private int _playerIndex = -1;
-
-
-    public Label _textCode;
-    public UIDocument _document;
-
-    private QuizLobby _quizLobby;
+ 
+ 
     void Start()
-    {
-        _quizLobby = QuizLobby.Instance;
-        QuizLobby.Instance.OnJoinedLobby+=UpdateLobbyUI;
+    { 
+        QuizLobby.Instance.OnJoinedLobbyUI+=UpdateLobbyUI;
     }
 
     // Update is called once per frame
@@ -29,36 +25,30 @@ public class UILobbyHandler : MonoBehaviour
         
     }
 
-    private void UpdateLobbyUI(object sender, QuizLobby.LobbyEventArgs e)
+    private void UpdateLobbyUI(object sender, EventArgs e)
     {
+        var _lobby = QuizLobby.Instance.GetJoinedLobby();
+
 
         Debug.Log("enter update lobby");
-        _document = FindAnyObjectByType<UIDocument>();
-        Debug.Log(_document.name);
-
-
-
-        Debug.Log(_document.rootVisualElement.Q<Label>("CodeText").text);
-
-        //_textCode.text = $"Code: {e.lobby.LobbyCode}"; 
-
         Hide();
-        int playerCount = e.lobby.Players.Count;
-        _playerIndex = _playerIndex == -1 ? playerCount:_playerIndex;
-        ClearLobby(); 
+        int playerCount = _lobby.Players.Count;
+        _playerIndex = _playerIndex == -1 ? playerCount : _playerIndex;
+        ClearLobby();
         //roomCodeText.text = $"Room Code: {QuizLobby.Instance.GetJoinedLobby().LobbyCode}";
         int _index = 0;
-        foreach (var player in e.lobby.Players)
+
+        foreach (var player in _lobby.Players)
         {
             if (_index != 0)
             {
-                var lobbyPlayer = Instantiate(lobbyPlayerPrefab, container.transform, true);
+                var lobbyPlayer = Instantiate(lobbyPlayerPrefab, container.gameObject.transform, true);
                 LobbyPlayerUI lobbyPlayerUI = lobbyPlayer.GetComponent<LobbyPlayerUI>();
                 lobbyPlayerUI.UpdatePlayer(player);
             }
             _index++;
-        } 
-        Show(); 
+        }
+        Show();
     }
 
     private void ClearLobby()
@@ -71,12 +61,12 @@ public class UILobbyHandler : MonoBehaviour
 
     private void Hide()
     {
-        gameObject.SetActive(false);
+        container.gameObject.SetActive(false);
     }
 
     private void Show()
     {
-        gameObject.SetActive(true);
+        container.gameObject.SetActive(true);
     }
 
     private void UpdateNamesPosition()

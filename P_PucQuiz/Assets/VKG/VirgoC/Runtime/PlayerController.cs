@@ -46,7 +46,7 @@ namespace DeveloperConsole
 
         void Movement()
         {
-            velocity = rb.velocity;
+            velocity = rb.linearVelocity;
 
             if (velocity.x > 0.01f)
             {
@@ -90,7 +90,7 @@ namespace DeveloperConsole
                 velocity = new Vector2(velocity.x, jumpSpeed);
             }
 
-            rb.velocity = velocity;
+            rb.linearVelocity = velocity;
 
             animator.SetFloat("speedAbs", Mathf.Abs(velocity.x));
             animator.SetBool("isGrounded", isGrounded);

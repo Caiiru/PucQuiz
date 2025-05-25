@@ -18,12 +18,14 @@ public class Login
     [Header("Layouts")]
     public DictionaryThree<String, GameObject, VisualTreeAsset>[] menu;
 
- 
+
 
 
     public void Awake()
     {
         Event_PucQuiz.layout_actualy = "Start";
+        QuizLobby.Instance.OnJoiningLobby += JoiningLobby;
+        QuizLobby.Instance.OnJoinedLobby += JoinedLobby;
     }
 
     public void Start()
@@ -31,8 +33,6 @@ public class Login
         ChangeMenu("Start");
 
 
-        QuizLobby.Instance.OnJoiningLobby += JoiningLobby;
-        QuizLobby.Instance.OnJoinedLobby += JoinedLobby;
     }
 
     public void Update()
@@ -202,7 +202,12 @@ public class Login
                         case "Codigo":
                             doc.rootVisualElement.Q<Button>("Entrar").RegisterCallback<ClickEvent>(ClickEntrar);
                             break;
-  
+                        case "CriarPartida":
+                            doc.rootVisualElement.Q<Label>("CodeText").text = $"Codigo: {QuizLobby.Instance.GetJoinedLobby().LobbyCode}";
+                            QuizLobby.Instance.OnJoinedLobbyUI?.Invoke(this, null);
+                            CheckHostStatus();
+                            break;
+
                         default:
                             break;
                     }
@@ -251,19 +256,36 @@ public class Login
         }
 
         SetButtons();
-    } 
+    }
 
 
     private void JoiningLobby(object sender, EventArgs e)
     {
+        //Verifica se esta se juntando, tentando conectar e muda para uma tela de aguardo. 
         ChangeMenu("Conectando");
     }
 
     private void JoinedLobby(object sender, QuizLobby.LobbyEventArgs e)
     {
-        Debug.Log("Change Criar partida");
+        //como conseguiu conectar, muda para a tela do lobby com os players 
         ChangeMenu("CriarPartida");
     }
+
+    void CheckHostStatus()
+    {
+        //Verifica se o jogador é host ou não para deixar ativo o boão de iniciar quiz/partida
+        var _startButton = doc.rootVisualElement.Q<Button>("Iniciar");
+        if (!QuizLobby.Instance.GetIsHost())
+        { 
+            //NOT HOST:
+            _startButton.parent.Remove(_startButton);
+
+        }
+       
+
+    }
+    
+     
 }
 
 [System.Serializable]

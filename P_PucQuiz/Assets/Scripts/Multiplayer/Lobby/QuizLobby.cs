@@ -22,16 +22,22 @@ public class QuizLobby : MonoBehaviour
     public const string KEY_ENCRYPTION_DLTS = "dkts";
     public const string KEY_ENCRYPTION_WSS = "wss";
 
+    [Header("Local")]
+
+    [SerializeField] private String playerName;
+
+    [SerializeField] private EncryptionType encryptionType = EncryptionType.WSS;
+
+    [SerializeField] private bool isHost = false;
+
 
     [Header("Players")]
     [SerializeField] private Dictionary<int, String> players = new(); 
 
-    [SerializeField] private String playerName;
-
     [SerializeField] private int maxPlayers = 4;
 
-    [SerializeField] private EncryptionType encryptionType = EncryptionType.WSS;
  
+
 
     private Lobby _hostLobby;
     private Lobby _joinedLobby;
@@ -43,16 +49,16 @@ public class QuizLobby : MonoBehaviour
 
     NetworkManager _networkManager;
     private string _connectionType => encryptionType == EncryptionType.DTLS ? KEY_ENCRYPTION_DLTS : KEY_ENCRYPTION_WSS;
-
  
-
-
     //SINGLETON
     public static QuizLobby Instance;
+
+
     #region Events
     [HideInInspector]
     public EventHandler<LobbyEventArgs> OnJoinedLobby;
     public EventHandler OnJoiningLobby;
+    public EventHandler OnJoinedLobbyUI;
     #endregion
     public class LobbyEventArgs : EventArgs
     {
@@ -69,7 +75,7 @@ public class QuizLobby : MonoBehaviour
     }
 
     async void Start()
-    { 
+    {
         _networkManager = FindAnyObjectByType<NetworkManager>();
 
         await UnityServices.InitializeAsync();
@@ -77,7 +83,11 @@ public class QuizLobby : MonoBehaviour
         {
             Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
         };
-        await AuthenticationService.Instance.SignInAnonymouslyAsync(); 
+        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+ 
+
+
+        
     }
 
 
@@ -167,10 +177,10 @@ public class QuizLobby : MonoBehaviour
 
             _networkManager.StartServer();
 
-
+            isHost = true;
             _hostLobby = lobby;
             _joinedLobby = _hostLobby;
-            //OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby }); 
+            OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby }); 
             
             Debug.Log($"Hosting Lobby: { _joinedLobby.LobbyCode}");
         }
@@ -183,9 +193,6 @@ public class QuizLobby : MonoBehaviour
     public async void JoinLobby(string code, string userName)
     {
         playerName = userName;
-        //lobbyObject.SetActive(false);
-        //loadingObject.SetActive(true);
-        //loadingText.text = "Joining room...";
         OnJoiningLobby?.Invoke(this, null);
         try
         {
@@ -307,7 +314,11 @@ public class QuizLobby : MonoBehaviour
             return default;
         }
     }
- 
+
+    public void PrintPlayersCount()
+    {
+        Debug.Log(_joinedLobby.Players.Count);
+    }
 
     public string GetPlayerName()
     {
@@ -317,6 +328,11 @@ public class QuizLobby : MonoBehaviour
     public List<Player> GetPlayers()
     {
         return _joinedLobby.Players;
+    }
+
+    public bool GetIsHost()
+    {
+        return isHost;
     }
 
     //TODO -> Remove this function later;

@@ -866,7 +866,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &848591723
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1026,8 +1026,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1759529554}
   - {fileID: 1261129218}
+  - {fileID: 1759529554}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1084,7 +1084,7 @@ MonoBehaviour:
       value2: {fileID: 1708037319}
       value3: {fileID: 9197481963319205126, guid: f6677f7c6fed03d438767debf9b6864a, type: 3}
     - value1: CriarPartida
-      value2: {fileID: 1759529553}
+      value2: {fileID: 1708037319}
       value3: {fileID: 9197481963319205126, guid: e9f4027c3cf863b42b7e74673b25a512, type: 3}
     - value1: Conectando
       value2: {fileID: 1708037319}
@@ -1246,7 +1246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1268237085
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1382,7 +1382,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1277771894}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1764,7 +1764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2885056388026107288, guid: 4691c1407fe029b3fa5980a4364f6075, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2885056388026107292, guid: 4691c1407fe029b3fa5980a4364f6075, type: 3}
       propertyPath: m_Pivot.x
@@ -1872,11 +1872,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5184560968353071101, guid: 4691c1407fe029b3fa5980a4364f6075, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5184560968353071101, guid: 4691c1407fe029b3fa5980a4364f6075, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5184560968657041386, guid: 4691c1407fe029b3fa5980a4364f6075, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -1998,10 +1998,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1268237085}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 620.5, y: -298.5}
+  m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1810267993
 MonoBehaviour:
@@ -2403,11 +2403,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a50fe66afd30b54e867e4606cafb1ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobbyPlayerPrefab: {fileID: 2911691245093787948, guid: 4d5c7c1fdd6f30a4cb4a333c54c600d7, type: 3}
-  roomCodeText: {fileID: 0}
+  lobbyPlayerPrefab: {fileID: 2911691245093787948, guid: 041486ffdc7085a41866819587ebec6a, type: 3}
   container: {fileID: 1268237085}
   _playerIndex: -1
-  _document: {fileID: 0}
 --- !u!4 &2145240074
 Transform:
   m_ObjectHideFlags: 0

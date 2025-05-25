@@ -7,7 +7,8 @@
         "Unity.TextMeshPro",
         "Unity.Services.Multiplayer",
         "Unity.Services.Core",
-        "Unity.Services.Authentication"
+        "Unity.Services.Authentication",
+        "Project.External.Console"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
