@@ -1055,6 +1055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3180be7a19b18f24f8a1735430fe8b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   scene_actualy: 
   layout_actualy: 
   question_result: 
@@ -1107,7 +1108,6 @@ MonoBehaviour:
       value3: {fileID: 9197481963319205126, guid: 6160a2e2ede5f954d9c4fbcf23a1ecef, type: 3}
     manager: {fileID: 0}
     transform: {fileID: 0}
-    points: 0
     attributes:
     - question_type: 1
       question: Teste 1
@@ -1172,6 +1172,7 @@ MonoBehaviour:
       infinity: 0
   quiz_start: 1
   menu_start: 1
+  multiplayer_on: 0
 --- !u!114 &1254502716
 MonoBehaviour:
   m_ObjectHideFlags: 0
