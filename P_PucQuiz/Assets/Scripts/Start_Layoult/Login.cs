@@ -37,6 +37,9 @@ public class Login
             case "true":
                 Debug.Log("Login = Sucesso");
                 RestAPI.login = false;
+                Event_PucQuiz.player = new QuizPlayer();
+                Event_PucQuiz.player.SetPlayerName(email);
+                Event_PucQuiz.player.SetPlayerPoints(0);
                 Event_PucQuiz.login = "";
                 Event_PucQuiz.scene_actualy = "Quiz";
                 break;

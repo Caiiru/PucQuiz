@@ -29,15 +29,17 @@ public class Config_PucQuiz : ScriptableObject
         if(instance == null) { instance = Resources.Load<Config_PucQuiz>("Config/PucQuiz"); }
         return instance;
     }
-    public static float Get_Points(bool win, int streak, int speed)
+    public static float Get_Points(bool win, int streak, float speed)
     {
         Config_PucQuiz config = Config_PucQuiz.Get_Config();
 
         float base_ = config.base_incorrect;
+
         if (win) { base_ = config.base_correct; }
+        else if(streak > 0) { streak = 0; }
 
         float rec = 0;
-        if (true) { rec = config.bonus_recuperacao; }
+        if (streak < 0) { rec = config.bonus_recuperacao; }
 
         float points = base_ + rec + (config.bonus_streak*streak) + (config.bonus_velocidade*speed);
         

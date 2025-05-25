@@ -12,7 +12,6 @@ public class Modos
     [SerializeField] public DictionaryThree<String, GameObject, VisualTreeAsset>[] menu;
     [SerializeField] public LayoutManager manager;
     [SerializeField] public Transform transform;
-    [SerializeField] private int points = 0;
 
     [Header("Quiz Variables")]
     [SerializeField] public Quiz_Attributes[] attributes;
@@ -59,20 +58,19 @@ public class Modos
     {
         if(question_manager == null) { Debug.Log("Manager Null"); }
 
-        if (question_manager != null && Event_PucQuiz.question_result == "")
+        if (question_manager != null && Event_PucQuiz.layout_actualy == "Quiz")
         {
             Debug.Log("Manager exist");
             if(obj!=null)
             {
-                question_manager["Quiz"].Update_Layout(obj);//TIMER AQUI
                 doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
-                                                               "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
+                                                                     "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
+                question_manager["Quiz"].Update_Layout(obj);//TIMER AQUI
             }
             else
             {
                 Debug.Log("Sem obj");
             }
-            points = (int)Event_PucQuiz.points;
         }
 
         if (Event_PucQuiz.question_next)
@@ -94,7 +92,6 @@ public class Modos
         Event_PucQuiz.start_layout = true;
         Event_PucQuiz.question_next = false;
         Event_PucQuiz.question_result = "";
-        Event_PucQuiz.points = points;
 
         question_actualy_index++;
 
@@ -133,6 +130,9 @@ public class Modos
                 break;
             case "lose":
                 ChangeMenu("Incorrect");
+                break;
+            case "":
+                Debug.Log("No Result");
                 break;
         }
         /*for (int i = 0; i < attributes[question_actualy_index].choice_correct.Length; i++)

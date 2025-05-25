@@ -12,6 +12,7 @@ public class Quiz : Perguntas
 
     [Header("Questions")]
     public Modos mod = null;
+    public float speed_to_complet;
     public Quiz_Attributes attributes;
 
     [Header("Event Variables")]
@@ -43,8 +44,12 @@ public class Quiz : Perguntas
         if (Event_PucQuiz.start_layout) { Start_Layout(obj); }
 
         pause = Event_PucQuiz.pause;
-        if (pause) { return; }
+        if (pause) { Debug.Log("-- Game paused --"); return; }
 
+        if(!question_lock)
+        {
+            speed_to_complet = attributes.timer.time;
+        }
         /* ---- Lembrete ---- *\
          * Caso o jogo esteja
          * pausado, o codigo ira
@@ -112,29 +117,24 @@ public class Quiz : Perguntas
 
     public override void End_Layout(GameObject obj)
     {
-        mod.FeedBack();
-
         if (Event_PucQuiz.question_next) { return; }
 
         Event_PucQuiz.question_event = "";
         Event_PucQuiz.question_lock = false;
 
 
-        bool uncorrect = true;
+        bool correct = true;
 
         for (int i = 0; i < attributes.choices.Length; i++)
         {
-            if (attributes.choices[i] = attributes.choice_correct[i])
+            if (!attributes.choices[i] == attributes.choice_correct[i])
             {
-                uncorrect = false;
-            }
-            else
-            {
-                uncorrect = true;
+                correct = false;
+                break;
             }
         }
 
-        if(!uncorrect)
+        if(correct)
         { 
             Event_PucQuiz.question_result = "win";
             //Calcular pontos.
@@ -145,6 +145,8 @@ public class Quiz : Perguntas
             Event_PucQuiz.question_result = "lose";
             //Calcular pontos.
         }
+        LayoutManager.instance.SendToHost(Event_PucQuiz.player, Config_PucQuiz.Get_Config(), 1, speed_to_complet);
+        mod.FeedBack();
         Event_PucQuiz.question_next = true;
 
     }
@@ -153,19 +155,19 @@ public class Quiz : Perguntas
 
     public void ClickPergunta1(ClickEvent click)
     {
-        Debug.Log("Pergunta1");
+        Choice_Event("chose_01");
     }
     public void ClickPergunta2(ClickEvent click)
     {
-        Debug.Log("Pergunta2");
+        Choice_Event("chose_02");
     }
     public void ClickPergunta3(ClickEvent click)
     {
-        Debug.Log("Pergunta3");
+        Choice_Event("chose_03");
     }
     public void ClickPergunta4(ClickEvent click)
     {
-        Debug.Log("Pergunta4");
+        Choice_Event("Pergunta4");
     }
 
     #endregion

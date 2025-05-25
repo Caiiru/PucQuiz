@@ -16,7 +16,6 @@ MonoBehaviour:
   - Basic
   quiz:
     Type: 1
-    points: 10
     choice_max: 0
     choice_actualy: 0
     chose: 0
@@ -26,7 +25,6 @@ MonoBehaviour:
       menu: []
       manager: {fileID: 0}
       transform: {fileID: 0}
-      points: 0
       attributes:
       - question_type: 1
         question: Teste 1
@@ -89,6 +87,7 @@ MonoBehaviour:
         start: 5
         time: 5
         infinity: 0
+    speed_to_complet: 0
     attributes:
       question_type: 1
       question: Teste 1
@@ -108,8 +107,8 @@ MonoBehaviour:
   base_correct: 100
   base_incorrect: 20
   bonus_streak: 0
-  "bonus_recupera\xE7\xE3o": 0
-  bonus_velocidade: 0
+  bonus_recuperacao: 0
+  bonus_velocidade: 10
   Layout_Start: Start
   Layout_Contagem: TelaDeContagem
   Layout_Game: TelaDePerguntas
