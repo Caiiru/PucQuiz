@@ -33,6 +33,12 @@ public class Config_PucQuiz : ScriptableObject
     {
         Config_PucQuiz config = Config_PucQuiz.Get_Config();
 
+        Debug.Log("--------------------------------");
+        Debug.Log("Vitoria = " + win);
+        Debug.Log("Streak Atual = " + streak);
+        Debug.Log("Speed Atual = " + speed);
+        Debug.Log("--------------------------------");
+
         float base_ = config.base_incorrect;
 
         if (win) { base_ = config.base_correct; }
@@ -42,7 +48,13 @@ public class Config_PucQuiz : ScriptableObject
         if (streak < 0) { rec = config.bonus_recuperacao; }
 
         float points = base_ + rec + (config.bonus_streak*streak) + (config.bonus_velocidade*speed);
-        
+
+        Debug.Log("--------------------------------");
+        Debug.Log("Points = " + points);
+        Debug.Log("Streak Bonus = " + config.bonus_streak * streak);
+        Debug.Log("Speed Bonus = " + config.bonus_velocidade * speed);
+        Debug.Log("--------------------------------");
+
         return points;
     }
     public Perguntas Get_Layout(Attributes.Type type)

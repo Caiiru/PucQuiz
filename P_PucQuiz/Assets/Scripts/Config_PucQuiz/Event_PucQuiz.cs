@@ -21,8 +21,15 @@ public static class Event_PucQuiz
     public static string scene_actualy;
 
     #endregion
-    
-    # region @ Question Events @
+
+    #region @ Player Events @
+
+    public static int streak = 0;
+    public static float points = 0;
+
+    #endregion
+
+    #region @ Question Events @
 
     public static string question_event = "";
     [Tooltip("'' = sem resultado | 'win' = acertou | 'lose' = errou.")]
@@ -33,7 +40,6 @@ public static class Event_PucQuiz
     [Tooltip("Verifica se pode trocar de pergunta.")]
     public static bool question_next = false;
     [Tooltip("Quantos pontos o player possui.")]
-    public static float points = 0;
 
     #endregion
 

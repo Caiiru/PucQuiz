@@ -106,8 +106,8 @@ MonoBehaviour:
     pause: 0
   base_correct: 100
   base_incorrect: 20
-  bonus_streak: 0
-  bonus_recuperacao: 0
+  bonus_streak: 5
+  bonus_recuperacao: 5
   bonus_velocidade: 10
   Layout_Start: Start
   Layout_Contagem: TelaDeContagem
