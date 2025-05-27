@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class DEV : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class DEV : MonoBehaviour
 
     public bool isDebug = true;
     public static DEV Instance;
+ 
 
     void Awake()
     {
@@ -18,6 +20,8 @@ public class DEV : MonoBehaviour
     void Start()
     {
         consoleCanvas.gameObject.SetActive(true);
+
+        DeveloperConsole.Console.AddCommand("testAnim", TestAnimCommand);
     }
 
     // Update is called once per frame
@@ -26,8 +30,21 @@ public class DEV : MonoBehaviour
 
     }
 
+    public void TestAnimCommand(string[] args)
+    {
+        if (GameManager.Instance.CurrentGameState.Value != GameState.DisplayingQuestion) return;
+        var document = FindAnyObjectByType<UIDocument>();
+        var textContainer = document.rootVisualElement.Q<VisualElement>("Container_Pergunta");
+        var timerContainer = document.rootVisualElement.Q<VisualElement>("Container_Timer");
+        var answersContainer = document.rootVisualElement.Q<VisualElement>("Container-Resposta1");
+        textContainer.RemoveFromClassList("QuestionTextStart");
+        answersContainer.RemoveFromClassList("ScaleUpStart"); 
+        timerContainer.RemoveFromClassList("TimerStart"); 
+    }
+
     public void DevPrint(string text)
     {
+        if (!isDebug) return;
         Debug.Log(text);
         DeveloperConsole.Console.Print(text);
     }
