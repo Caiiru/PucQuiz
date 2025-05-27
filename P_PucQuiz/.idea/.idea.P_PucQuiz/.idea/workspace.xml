@@ -5,11 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d43d7a97-4c41-4be2-a70a-0fb3ecaf6d86" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Netcode.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/QuizPlayerPrefab.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/QuizPlayerPrefab.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/NetworkPlayer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/NetworkPlayer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/global.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.P_PucQuiz/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Font/Fredoka-VariableFont_wdth,wght SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Font/Fredoka-VariableFont_wdth,wght SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Caiiru/Caiiru.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Caiiru/Caiiru.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/LobbyPlayerPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/LobbyPlayerPrefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/LobbyPlayerPrefab.prefab.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/LobbyPlayerPrefab.prefab.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/LobbyPlayerUI.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefab/Network/LobbyPlayerUI.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DEV.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DEV.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/QuizLobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/QuizLobby.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/QuizPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/QuizPlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/UILobbyHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/UILobbyHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Netcode/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Netcode/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Quiz/Layout/Start_Layoult/Login.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Quiz/Layout/Start_Layoult/Login.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Quiz/ModosDeJogo/LayoutManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Quiz/ModosDeJogo/LayoutManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Quiz/ModosDeJogo/Modos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Quiz/ModosDeJogo/Modos.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,11 +43,11 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ef58b458094c4ca8aee5197d68ecde6bbfa00/61/d6a85fd3/RpcHostMode.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ef58b458094c4ca8aee5197d68ecde6bbfa00/98/fd535973/PlayerRef.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ef58b458094c4ca8aee5197d68ecde6bbfa00/bc/0c936c78/StartGameArgs.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Config_PucQuiz/Event_PucQuiz.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/LobbyPlayerUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/QuizLobby.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/QuizPlayer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Multiplayer/Lobby/UILobbyHandler.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Perguntas/Perguntas.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Start_Layoult/Login.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.services.multiplayer@e9296dd42336/Runtime/Lobbies/Http/ResponseHandler.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="2wSTiwpAaJBwoQwc6Z11hXM1YUR" />
   <component name="ProjectLevelVcsManager">
@@ -149,6 +165,7 @@
       <workItem from="1747367384862" duration="1428000" />
       <workItem from="1747370995768" duration="946000" />
       <workItem from="1747432938050" duration="2406000" />
+      <workItem from="1748357385705" duration="3424000" />
     </task>
     <servers />
   </component>

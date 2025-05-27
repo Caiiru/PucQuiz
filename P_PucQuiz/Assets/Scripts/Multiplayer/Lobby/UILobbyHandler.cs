@@ -12,11 +12,12 @@ public class UILobbyHandler : MonoBehaviour
     [SerializeField] private Transform container;
 
     [SerializeField] private int _playerIndex = -1;
- 
- 
+
+
     void Start()
-    { 
-        QuizLobby.Instance.OnJoinedLobbyUI+=UpdateLobbyUI;
+    {
+        QuizLobby.Instance.onUpdateLobbyUI += UpdateLobbyUI;
+        GameManager.Instance.OnQuizStarted += QuizStarted;
     }
 
     // Update is called once per frame
@@ -25,35 +26,35 @@ public class UILobbyHandler : MonoBehaviour
         
     }
 
-    private void UpdateLobbyUI(object sender, EventArgs e)
+    private void UpdateLobbyUI(object sender, QuizLobby.UpdateLobbyUIArgs e)
     {
-        var _lobby = QuizLobby.Instance.GetJoinedLobby();
-
- 
+        var lobby = QuizLobby.Instance.GetJoinedLobby();
         Hide();
-        int playerCount = _lobby.Players.Count;
+        int playerCount = lobby.Players.Count;
         _playerIndex = _playerIndex == -1 ? playerCount : _playerIndex;
         ClearLobby();
-        //roomCodeText.text = $"Room Code: {QuizLobby.Instance.GetJoinedLobby().LobbyCode}";
-        int _index = 0;
+        int index = 0;
 
-        foreach (var player in _lobby.Players)
+        foreach (var player in lobby.Players)
         {
-            if (_index != 0)
+            if (index != 0)
             {
                 var lobbyPlayer = Instantiate(lobbyPlayerPrefab, container.gameObject.transform, true);
                 LobbyPlayerUI lobbyPlayerUI = lobbyPlayer.GetComponent<LobbyPlayerUI>();
                 lobbyPlayerUI.UpdatePlayer(player);
             }
-            _index++;
+            index++;
         }
         Show();
+    }
+    private void QuizStarted(object sender, EventArgs e) {
+        Hide();
     }
 
     private void ClearLobby()
     {
         foreach (Transform child in container)
-        { 
+        {
             Destroy(child.gameObject);
         }
     }
@@ -68,8 +69,4 @@ public class UILobbyHandler : MonoBehaviour
         container.gameObject.SetActive(true);
     }
 
-    private void UpdateNamesPosition()
-    {
-        
-    }
 }

@@ -146,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3525960972314543679}
   - component: {fileID: 6620484688823975809}
-  - component: {fileID: -5411157125998161238}
+  - component: {fileID: -7084705549363237155}
   m_Layer: 5
   m_Name: LobbyPlayerPrefab
   m_TagString: Untagged
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameText: {fileID: 2444878631827402204}
---- !u!114 &-5411157125998161238
+--- !u!114 &-7084705549363237155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3660121717
+  GlobalObjectIdHash: 2178584058
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1

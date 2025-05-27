@@ -24,8 +24,8 @@ public class Login
     public void Awake()
     {
         Event_PucQuiz.layout_actualy = "Start";
-        QuizLobby.Instance.OnJoiningLobby += JoiningLobby;
-        QuizLobby.Instance.OnJoinedLobby += JoinedLobby;
+        QuizLobby.Instance.onJoiningLobby += JoiningLobby;
+        QuizLobby.Instance.onJoinedLobby += JoinedLobby;
     }
 
     public void Start()
@@ -108,7 +108,9 @@ public class Login
     }
     private void ClickStartQuiz(ClickEvent clickEvent)
     {
-        GameManager.Instance.StartQuiz_Rpc();
+        //GameManager.Instance.StartQuiz_Rpc();
+        GameManager.Instance.StartQuizRpc();
+        
 
     }
 
@@ -222,7 +224,7 @@ public class Login
                             break;
                         case "CriarPartida":
                             doc.rootVisualElement.Q<Label>("CodeText").text = $"Codigo: {QuizLobby.Instance.GetJoinedLobby().LobbyCode}";
-                            QuizLobby.Instance.OnJoinedLobbyUI?.Invoke(this, null);
+                            QuizLobby.Instance.onUpdateLobbyUI?.Invoke(this, null);
                             CheckHostStatus();
                             break;
 

@@ -22,8 +22,7 @@ public class LayoutManager : MonoBehaviour
 
 
     public LayoutManager()
-    {
-        Debug.Log("Instance LayoutManager = true.");
+    { 
         instance = this;
     }
 
@@ -43,7 +42,7 @@ public class LayoutManager : MonoBehaviour
 
         if (player != null)
         {
-            Event_PucQuiz.points = player.Points;
+            //Event_PucQuiz.points = player.Points;
         }
 
         switch (Event_PucQuiz.scene_actualy)
@@ -89,7 +88,7 @@ public class LayoutManager : MonoBehaviour
         
         for(int i = 0; i < players.Count; i++)
         {
-            if(players[i].name == Event_PucQuiz.player_name)
+            if(players[i].playerName.Value == Event_PucQuiz.player_name)
             {
                 Event_PucQuiz.player = players[i];
             }
@@ -108,7 +107,7 @@ public class LayoutManager : MonoBehaviour
         else
         {
             Event_PucQuiz.points = Config_PucQuiz.Get_Points(win,streak,time);
-            if (Event_PucQuiz.player != null) { player.SetPlayerPoints((int)Event_PucQuiz.points); }
+            //if (Event_PucQuiz.player != null) { player.SetPlayerPoints((int)Event_PucQuiz.points); }
         }
     }
     //Mandar para o host as informa��es.

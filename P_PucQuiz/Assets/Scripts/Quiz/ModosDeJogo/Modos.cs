@@ -28,27 +28,26 @@ public class Modos
 
         //Variaveis De "Sistema"
         question_manager.Add("Quiz",new Quiz());
-        Debug.Log("Frag");
         doc = obj.GetComponent<UIDocument>();
         manager = obj.GetComponent<LayoutManager>();
         config = Resources.Load<Config_PucQuiz>("Config/PucQuiz");
 
-        Debug.Log("Variables Awake = Sistem Complet");
+        //Debug.Log("Variables Awake = Sistem Complet");
 
         //Variaveis do Quiz
         attributes = attributes;
         question_actualy_index = 0;
         timer_next = timer_next;
 
-        Debug.Log("Variables Awake = Quiz Complet");
+        //Debug.Log("Variables Awake = Quiz Complet");
 
         timer_next.Reset();
 
-        Debug.Log("Variables Awake = Reset Complet");
+        //Debug.Log("Variables Awake = Reset Complet");
 
         ChangeMenu(attributes[question_actualy_index].question_type.ToString());
 
-        Debug.Log("Variables Awake = ChangeMenu Complet");
+        //Debug.Log("Variables Awake = ChangeMenu Complet");
     }
     public void Start(GameObject obj)
     {

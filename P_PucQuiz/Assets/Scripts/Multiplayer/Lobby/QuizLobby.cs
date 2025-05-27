@@ -12,6 +12,7 @@ using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 public class QuizLobby : MonoBehaviour
 {
@@ -26,13 +27,15 @@ public class QuizLobby : MonoBehaviour
 
     [SerializeField] private String playerName;
 
+    [SerializeField] private string _playerIndex;
+
     [SerializeField] private EncryptionType encryptionType = EncryptionType.WSS;
 
     [SerializeField] private bool isHost = false;
+ 
 
 
-    [Header("Players")]
-    [SerializeField] private Dictionary<int, String> players = new(); 
+    [Header("Players")] 
 
     [SerializeField] private int maxPlayers = 4;
 
@@ -55,14 +58,18 @@ public class QuizLobby : MonoBehaviour
 
 
     #region Events
-    [HideInInspector]
-    public EventHandler<LobbyEventArgs> OnJoinedLobby;
-    public EventHandler OnJoiningLobby;
-    public EventHandler OnJoinedLobbyUI;
+    [HideInInspector] public EventHandler<LobbyEventArgs> onJoinedLobby;
+    [HideInInspector] public EventHandler onJoiningLobby;
+    [HideInInspector] public EventHandler <UpdateLobbyUIArgs> onUpdateLobbyUI; 
     #endregion
     public class LobbyEventArgs : EventArgs
     {
         public Lobby lobby;
+    }
+
+    public class UpdateLobbyUIArgs : EventArgs
+    {
+        public GameObject JoiningPlayer;
     }
 
     private void Awake()
@@ -84,8 +91,8 @@ public class QuizLobby : MonoBehaviour
             Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
         };
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
- 
 
+        _playerIndex = AuthenticationService.Instance.PlayerId;
 
         
     }
@@ -129,7 +136,7 @@ public class QuizLobby : MonoBehaviour
         if (_playersJoined != _joinedLobby.Players.Count)
         {
             _playersJoined = _joinedLobby.Players.Count;
-            OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
+            onJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
         }
 
     }
@@ -140,7 +147,7 @@ public class QuizLobby : MonoBehaviour
     {
         playerName = userName;
 
-        OnJoiningLobby?.Invoke(this, null);
+        onJoiningLobby?.Invoke(this, null);
         try
         {
             string roomCode = GenerateRandomRoomCode(4);
@@ -180,8 +187,7 @@ public class QuizLobby : MonoBehaviour
             isHost = true;
             _hostLobby = lobby;
             _joinedLobby = _hostLobby;
-            OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby }); 
-            
+            onJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby }); 
             Debug.Log($"Hosting Lobby: { _joinedLobby.LobbyCode}");
         }
         catch (LobbyServiceException e)
@@ -193,7 +199,7 @@ public class QuizLobby : MonoBehaviour
     public async void JoinLobby(string code, string userName)
     {
         playerName = userName;
-        OnJoiningLobby?.Invoke(this, null);
+        onJoiningLobby?.Invoke(this, null);
         try
         {
             Player player = GetPlayer();
@@ -206,9 +212,8 @@ public class QuizLobby : MonoBehaviour
             {
                 _hostLobby = lobby;
                 _joinedLobby = _hostLobby;
-                _networkManager.StartClient();
-                OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
-                //SetScene(lobbyObject);
+                _networkManager.StartClient(); 
+                onJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby }); 
             }
         }
         catch (LobbyServiceException e)
@@ -255,16 +260,16 @@ public class QuizLobby : MonoBehaviour
         playerName = newPlayerName;
         try
         {
-            var _data = new Dictionary<string, PlayerDataObject>();
-            _data.Add(KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName));
+            var data = new Dictionary<string, PlayerDataObject>();
+            data.Add(KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName));
             Lobby lobby = await LobbyService.Instance.UpdatePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId,
                 new UpdatePlayerOptions()
                 {
-                    Data = _data
+                    Data = data
                 });
             _joinedLobby = lobby;
 
-            OnJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
+            onJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
 
         }
         catch (LobbyServiceException e)
@@ -318,6 +323,10 @@ public class QuizLobby : MonoBehaviour
     public void PrintPlayersCount()
     {
         Debug.Log(_joinedLobby.Players.Count);
+    }
+    public string GetMyIndex()
+    {
+        return _playerIndex;
     }
 
     public string GetPlayerName()
