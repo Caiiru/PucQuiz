@@ -56,7 +56,7 @@ public class Modos
     public void Update(GameObject obj)
     {
         if(question_manager == null) { Debug.Log("Manager Null"); }
-
+        /*
         if (question_manager != null && Event_PucQuiz.layout_actualy == "Quiz")
         {
             //Debug.Log("Manager exist");
@@ -84,6 +84,7 @@ public class Modos
             timer_next.Run();
             if (timer_next.End()) { Change_Question(); }
         }
+        */
     }
 
     private void Change_Question()//Muda a pergunta.

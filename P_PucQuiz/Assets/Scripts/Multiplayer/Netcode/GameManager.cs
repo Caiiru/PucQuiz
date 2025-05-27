@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 public class GameManager : NetworkBehaviour
 {
     [Header("Game Config")]
-    [SerializeField] private float timeToShowQuestion = 3f;
+    [SerializeField] private float timeToShowQuestion = 99f;
     [SerializeField] private float timePerQuestion = 15f;
     [SerializeField] private float timeToShowResults = 5f;
 
@@ -117,8 +117,11 @@ public class GameManager : NetworkBehaviour
                 }
                 break;
             case GameState.CollectingAnswers:
+            /*
+
                 if (Timer.Value <= 0 || AllPlayersAnswered())
                     Debug.Log("All players answered or time pass");
+                    */
                     break;
 
             case GameState.GameOver:
@@ -191,7 +194,7 @@ public class GameManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void StartQuizRpc()
     {
-        Event_PucQuiz.scene_actualy = "Quiz";
+        //Event_PucQuiz.scene_actualy = "Quiz";
         CurrentGameState.Value = GameState.DisplayingQuestion;
         OnQuizStarted?.Invoke(this, null);
         Timer.Value = timeToShowQuestion;
