@@ -30,8 +30,7 @@ public class QuizPlayer : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
-        Debug.Log("Network Spawn");
+        base.OnNetworkSpawn(); 
         _gameManager = FindAnyObjectByType<GameManager>();
 
 
@@ -55,8 +54,7 @@ public class QuizPlayer : NetworkBehaviour
         this.playerName.Value = QuizLobby.Instance.GetPlayerName();
         this.points.Value = 0;
 
-        DEV.Instance.DevPrint($"Player Spawn:{playerName.Value} ");
-        Debug.Log("Joined");
+        DEV.Instance.DevPrint($"Player Spawn:{playerName.Value} "); 
     }
 
     public void AddPoints(int amount)

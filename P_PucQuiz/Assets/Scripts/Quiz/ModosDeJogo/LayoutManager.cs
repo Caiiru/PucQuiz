@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -112,14 +111,25 @@ public class LayoutManager : MonoBehaviour
         menu.Update();
     }
 
+    public void ChangeToQuiz()
+    {
+        scene_actualy = "Quiz";
+        Event_PucQuiz.scene_actualy = "Quiz";
+        quiz_start = true;
+        
+        Quiz_Run();
+        quiz.ChangeMenu("Quiz");
+        Debug.Log("Change to quiz"); 
+    }
+
     //[Rpc(SendTo.NoServer)]
-    private void SendToLocal(Dictionary<int,QuizPlayer> players)
+    private void SendToLocal(Dictionary<int, QuizPlayer> players)
     {
         Event_PucQuiz.players = players;
-        
-        for(int i = 0; i < players.Count; i++)
+
+        for (int i = 0; i < players.Count; i++)
         {
-            if(players[i].playerName.Value == Event_PucQuiz.player_name)
+            if (players[i].playerName.Value == Event_PucQuiz.player_name)
             {
                 Event_PucQuiz.player = players[i];
             }

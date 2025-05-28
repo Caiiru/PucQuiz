@@ -58,7 +58,7 @@ public class Modos
         if(timer_awake.End() == false) { timer_awake.Run(); return; }
 
         if(question_manager == null) { Debug.Log("Manager Null"); }
-        /*
+        
         if (question_manager != null && Event_PucQuiz.layout_actualy == "Quiz")
         {
             if(obj!=null)
@@ -85,7 +85,7 @@ public class Modos
             timer_next.Run();
             if (timer_next.End()) { Change_Question(); }
         }
-        */
+        
     }
 
     private void Change_Question()//Muda a pergunta.

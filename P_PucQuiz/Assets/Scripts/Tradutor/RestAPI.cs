@@ -10,6 +10,7 @@ namespace Tradutor
 {
     public class RestAPI:MonoBehaviour
     {
+        /*
         private static string _URL = "http://graspserver-dev.eba-n3incx6t.us-east-1.elasticbeanstalk.com/api/";
         public static bool login = false;
 
@@ -57,7 +58,7 @@ namespace Tradutor
                     /*
                     Quiz q = new Quiz();
                     q.title=quizInfo[index]["title"];
-                    */
+                    
                 }
         }
 
@@ -89,5 +90,8 @@ namespace Tradutor
                 }
             }
         }
+    
+    */
     }
+    
 }

@@ -37,8 +37,8 @@ MonoBehaviour:
         - Respsota Errada
         choices: 00000000
         timer:
-          start: 10
-          time: 10
+          start: 99
+          time: 99
           infinity: 0
       - question_type: 1
         question: Teste 2
@@ -51,8 +51,8 @@ MonoBehaviour:
         - Respsota Errada
         choices: 00000000
         timer:
-          start: 10
-          time: 0
+          start: 99
+          time: 99
           infinity: 0
       - question_type: 1
         question: Teste 3
@@ -65,8 +65,8 @@ MonoBehaviour:
         - Respsota Errada
         choices: 00000000
         timer:
-          start: 10
-          time: 0
+          start: 99
+          time: 99
           infinity: 0
       - question_type: 1
         question: Teste 4
@@ -79,10 +79,14 @@ MonoBehaviour:
         - Respsota Certa
         choices: 00000000
         timer:
-          start: 10
-          time: 0
+          start: 99
+          time: 99
           infinity: 0
       question_actualy_index: 0
+      timer_awake:
+        start: 0
+        time: 0
+        infinity: 0
       timer_next:
         start: 5
         time: 5

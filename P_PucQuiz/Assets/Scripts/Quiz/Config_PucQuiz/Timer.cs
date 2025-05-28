@@ -15,6 +15,8 @@ public class Timer
 
     public void Run()
     {
+        if(DEV.Instance.isTimerInfinity) return;
+        
         if (infinity) { return; }
 
         if(time <= 0) { time = 0; return; }
@@ -23,6 +25,7 @@ public class Timer
     }
     public float SimulateRun()
     {
+        
         float test = time - Time.deltaTime;
 
         if (infinity || test <= 0) { return 0; }

@@ -195,9 +195,10 @@ public class GameManager : NetworkBehaviour
     public void StartQuizRpc()
     {
         //Event_PucQuiz.scene_actualy = "Quiz";
-        CurrentGameState.Value = GameState.DisplayingQuestion;
+        LayoutManager.instance.ChangeToQuiz();
         OnQuizStarted?.Invoke(this, null);
         Timer.Value = timeToShowQuestion;
+        CurrentGameState.Value = GameState.DisplayingQuestion;
     }
 
     private void PrintPlayersConnectedCommand(string[] args)

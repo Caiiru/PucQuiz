@@ -8,6 +8,7 @@ public class DEV : MonoBehaviour
 
 
     public bool isDebug = true;
+    public bool isTimerInfinity = true;
     public static DEV Instance;
  
 
@@ -22,6 +23,8 @@ public class DEV : MonoBehaviour
         consoleCanvas.gameObject.SetActive(true);
 
         DeveloperConsole.Console.AddCommand("testAnim", TestAnimCommand);
+        DeveloperConsole.Console.AddCommand("loadAnim", LoadAnimCommand);
+        DeveloperConsole.Console.AddCommand("changeToQuiz", ChangeToQuizCommand);
     }
 
     // Update is called once per frame
@@ -29,14 +32,32 @@ public class DEV : MonoBehaviour
     {
 
     }
-
-    public void TestAnimCommand(string[] args)
+    public void ChangeToQuizCommand(string[] args)
     {
-        if (GameManager.Instance.CurrentGameState.Value != GameState.DisplayingQuestion) return;
+        var layoutManager = FindAnyObjectByType<LayoutManager>();
+        if (layoutManager == null) return;
+
+        layoutManager.ChangeToQuiz();
+        //TestAnimCommand(null);
+    }
+    public void LoadAnimCommand(string[] args)
+    {
         var document = FindAnyObjectByType<UIDocument>();
         var textContainer = document.rootVisualElement.Q<VisualElement>("Container_Pergunta");
         var timerContainer = document.rootVisualElement.Q<VisualElement>("Container_Timer");
         var answersContainer = document.rootVisualElement.Q<VisualElement>("Container-Resposta1");
+        textContainer.AddToClassList("QuestionTextStart");
+        answersContainer.AddToClassList("ScaleUpStart");
+        timerContainer.AddToClassList("TimerStart");
+    }
+    public void TestAnimCommand(string[] args)
+    {
+       
+        var document = FindAnyObjectByType<UIDocument>();
+        var textContainer = document.rootVisualElement.Q<VisualElement>("Container_Pergunta");
+        var timerContainer = document.rootVisualElement.Q<VisualElement>("Container_Timer");
+        var answersContainer = document.rootVisualElement.Q<VisualElement>("Container-Resposta1");
+        
         textContainer.RemoveFromClassList("QuestionTextStart");
         answersContainer.RemoveFromClassList("ScaleUpStart"); 
         timerContainer.RemoveFromClassList("TimerStart"); 
