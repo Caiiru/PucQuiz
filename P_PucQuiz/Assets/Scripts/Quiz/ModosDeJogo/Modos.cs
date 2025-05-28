@@ -17,6 +17,7 @@ public class Modos
     [SerializeField] public Quiz_Attributes[] attributes;
     [SerializeField] private Dictionary<String, Perguntas> question_manager = new Dictionary<string, Perguntas>();
     [SerializeField] public int question_actualy_index;
+    [SerializeField] private Timer timer_awake;
     [SerializeField] private Timer timer_next;
 
 
@@ -37,7 +38,6 @@ public class Modos
         //Variaveis do Quiz
         attributes = attributes;
         question_actualy_index = 0;
-        timer_next = timer_next;
 
         //Debug.Log("Variables Awake = Quiz Complet");
 
@@ -55,11 +55,12 @@ public class Modos
     }
     public void Update(GameObject obj)
     {
+        if(timer_awake.End() == false) { timer_awake.Run(); return; }
+
         if(question_manager == null) { Debug.Log("Manager Null"); }
         /*
         if (question_manager != null && Event_PucQuiz.layout_actualy == "Quiz")
         {
-            //Debug.Log("Manager exist");
             if(obj!=null)
             {
                 doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
@@ -99,7 +100,6 @@ public class Modos
         {
             Debug.Log("Question = " + question_actualy_index);
 
-            Event_PucQuiz.layout_actualy = "FeedBack";
             //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
 
             
@@ -220,11 +220,10 @@ public class Modos
                         doc.rootVisualElement.Q<Button>("Resposta_4").text = attributes[question_actualy_index].options[3];
                         doc.rootVisualElement.Q<Button>("Resposta_4").RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
 
-                        //Debug.Log("Reset Timers");
 
+                        timer_awake.Reset();
                         timer_next.Reset();
 
-                        //Debug.Log("End set quiz");
                         break;
                     case "Correct":
                         doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;

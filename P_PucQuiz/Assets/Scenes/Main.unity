@@ -713,6 +713,7 @@ GameObject:
   - component: {fileID: 674278233}
   - component: {fileID: 674278231}
   - component: {fileID: 674278232}
+  - component: {fileID: 674278234}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1874,6 +1875,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &674278234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674278230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93d561504befb904ca8089771d280a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  document: {fileID: 0}
+  questionDocument: {fileID: 9197481963319205126, guid: dd337f611a43aec49bd2078a216860bb, type: 3}
 --- !u!1 &798739522
 GameObject:
   m_ObjectHideFlags: 0
@@ -3489,7 +3505,7 @@ GameObject:
   - component: {fileID: 2145240074}
   - component: {fileID: 2145240073}
   m_Layer: 0
-  m_Name: UILobbyManager
+  m_Name: LocalLobbyUIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

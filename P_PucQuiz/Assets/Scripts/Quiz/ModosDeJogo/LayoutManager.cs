@@ -15,6 +15,7 @@ public class LayoutManager : MonoBehaviour
     public static LayoutManager instance;
     public Login menu;
     public Modos quiz;
+    public End rank;
     [SerializeField] private bool quiz_start, menu_start = true;
 
     [Header("Multiplayer Variables")]
@@ -40,9 +41,12 @@ public class LayoutManager : MonoBehaviour
         question_result = Event_PucQuiz.question_result;
         player = Event_PucQuiz.player;
 
-        if (player != null)
+        if (player != null) //Player to Events
         {
             //Event_PucQuiz.points = player.Points;
+            Event_PucQuiz.points = Set(Event_PucQuiz.points, player.Points);
+            //Event_PucQuiz.streak = player.Streak; @ Caso va colocar a streak no player.
+            
         }
 
         switch (Event_PucQuiz.scene_actualy)
@@ -55,6 +59,33 @@ public class LayoutManager : MonoBehaviour
                 break;
         }
         
+    }
+
+    /// <summary>
+    /// Tenta colocar um valor Y em um valor X de forma mais segura.
+    /// </summary>
+    /// <param name="x">Esta � a variavel que voce deseja alterar.</param>
+    /// <param name="y">Esta � a variavel que representa o novo valor desejado.</param>
+    /// <returns>
+    /// Retorna o valor X se Y n�o puder ser atribuido ou retorna Y se ele puder ser atribuido.
+    /// </returns>
+    private T Set<T>(T x, object y)
+    {
+        if (x is T)
+        {
+            return (T)y;
+        }
+        //Ideia do Gepeto abaixo ksksks
+        try
+        {
+            // Tenta converter se for poss�vel (ex.: string -> int, int -> double, etc.)
+            return (T)Convert.ChangeType(y, typeof(T));
+        }
+        catch
+        {
+            // Se n�o conseguir converter, mant�m o valor anterior
+            return x;
+        }
     }
 
     private void Quiz_Run()
@@ -96,7 +127,7 @@ public class LayoutManager : MonoBehaviour
     }
 
     //[Rpc(SendTo.Server)]
-    public void SendToHost(QuizPlayer player, Config_PucQuiz config, int streak, float time)
+    public void SendToHost(float time)
     {
         bool win = true; if (Event_PucQuiz.question_result == "lose") { win = false; }
 
@@ -108,6 +139,8 @@ public class LayoutManager : MonoBehaviour
         {
             Event_PucQuiz.points = Config_PucQuiz.Get_Points(win,streak,time);
             //if (Event_PucQuiz.player != null) { player.SetPlayerPoints((int)Event_PucQuiz.points); }
+            Event_PucQuiz.points = Config_PucQuiz.Get_Points(win,Event_PucQuiz.streak,time);
+            if (Event_PucQuiz.player != null) { player.SetPlayerPoints((int)Event_PucQuiz.points); Debug.Log("Player not exist"); }
         }
     }
     //Mandar para o host as informa��es.

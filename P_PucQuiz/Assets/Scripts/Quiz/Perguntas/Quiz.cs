@@ -32,8 +32,12 @@ public class Quiz : Perguntas
         Event_PucQuiz.start_layout = false;
 
         Pre_Load(obj);
-        
-        choice_max = attributes.choice_correct.Length;
+
+        /*for(int i = 0; i < attributes.choices.Length; i++)
+        {
+            if(attributes)
+        }*/
+
         attributes.choices = new bool[attributes.options.Length];
         
         //throw new System.NotImplementedException();
@@ -43,12 +47,24 @@ public class Quiz : Perguntas
     {
         if (Event_PucQuiz.start_layout) { Start_Layout(obj); }
 
+        int choice_max_local = 0;
+
+        foreach (bool i in attributes.choice_correct)
+        {
+            if (i)
+            {
+                choice_max_local++;
+            }
+        }
+
+        choice_max = choice_max_local;
+
         pause = Event_PucQuiz.pause;
         if (pause) { Debug.Log("-- Game paused --"); return; }
 
-        if(!question_lock)
+        if(!chose)
         {
-            speed_to_complet = attributes.timer.time;
+            speed_to_complet = (int)attributes.timer.time;
         }
         /* ---- Lembrete ---- *\
          * Caso o jogo esteja
@@ -134,18 +150,19 @@ public class Quiz : Perguntas
             }
         }
 
+        speed_to_complet = (1 * speed_to_complet) / attributes.timer.start;
+        Debug.Log("% do Buff de velocidade = " + speed_to_complet);
+
         if(correct)
         { 
             Event_PucQuiz.question_result = "win";
-            //Calcular pontos.
-            //Event_PucQuiz.points += Config_PucQuiz.Get_Points(true,);
         }
         else
         {
             Event_PucQuiz.question_result = "lose";
-            //Calcular pontos.
         }
-        LayoutManager.instance.SendToHost(Event_PucQuiz.player, Config_PucQuiz.Get_Config(), 1, speed_to_complet);
+
+        LayoutManager.instance.SendToHost(speed_to_complet);
         mod.FeedBack();
         Event_PucQuiz.question_next = true;
 
@@ -167,7 +184,7 @@ public class Quiz : Perguntas
     }
     public void ClickPergunta4(ClickEvent click)
     {
-        Choice_Event("Pergunta4");
+        Choice_Event("chose_04");
     }
 
     #endregion
