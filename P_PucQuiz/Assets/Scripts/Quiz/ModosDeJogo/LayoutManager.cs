@@ -44,7 +44,7 @@ public class LayoutManager : MonoBehaviour
         if (player != null) //Player to Events
         {
             //Event_PucQuiz.points = player.Points;
-            Event_PucQuiz.points = Set(Event_PucQuiz.points, player.Points);
+            //Event_PucQuiz.points = Set(Event_PucQuiz.points, player.Points);
             //Event_PucQuiz.streak = player.Streak; @ Caso va colocar a streak no player.
             
         }
@@ -137,10 +137,10 @@ public class LayoutManager : MonoBehaviour
         }
         else
         {
-            Event_PucQuiz.points = Config_PucQuiz.Get_Points(win,streak,time);
+            //Event_PucQuiz.points = Config_PucQuiz.Get_Points(win,streak,time);
             //if (Event_PucQuiz.player != null) { player.SetPlayerPoints((int)Event_PucQuiz.points); }
             Event_PucQuiz.points = Config_PucQuiz.Get_Points(win,Event_PucQuiz.streak,time);
-            if (Event_PucQuiz.player != null) { player.SetPlayerPoints((int)Event_PucQuiz.points); Debug.Log("Player not exist"); }
+            //if (Event_PucQuiz.player != null) { player.SetPlayerPoints((int)Event_PucQuiz.points); Debug.Log("Player not exist"); }
         }
     }
     //Mandar para o host as informa��es.
