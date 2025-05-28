@@ -59,8 +59,6 @@ public class Quiz : Perguntas
 
         choice_max = choice_max_local;
 
-        Debug.Log("Max choices = " + choice_max);
-
         pause = Event_PucQuiz.pause;
         if (pause) { Debug.Log("-- Game paused --"); return; }
 

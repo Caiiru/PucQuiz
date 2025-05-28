@@ -15,6 +15,7 @@ public class LayoutManager : MonoBehaviour
     public static LayoutManager instance;
     public Login menu;
     public Modos quiz;
+    public End rank;
     [SerializeField] private bool quiz_start, menu_start = true;
 
     [Header("Multiplayer Variables")]
@@ -96,7 +97,6 @@ public class LayoutManager : MonoBehaviour
             quiz.Start(gameObject);
             quiz_start = false;
         }
-        Debug.Log("Call to Update Quiz");
         quiz.Update(gameObject);
     }
 
