@@ -39,8 +39,6 @@ public class Quiz : Perguntas
         }*/
 
         attributes.choices = new bool[attributes.options.Length];
-        
-        //throw new System.NotImplementedException();
     }
 
     public override void Update_Layout(GameObject obj)
@@ -81,8 +79,6 @@ public class Quiz : Perguntas
                     break;
                 default:
                     attributes.timer.Run();
-                    //attributes.timer = attributes.timer - Time.deltaTime;
-                    //if (attributes.timer < 0) { attributes.timer = 0; } //Quebra caso o numero seja negativo, mas n�o igual a 1.
                     break;
             }
 

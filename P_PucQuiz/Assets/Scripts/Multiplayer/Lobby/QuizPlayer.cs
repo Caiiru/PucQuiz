@@ -20,8 +20,6 @@ public class QuizPlayer : NetworkBehaviour
 
     //Manager
     GameManager _gameManager;
- 
-
 
     public void Start()
     {

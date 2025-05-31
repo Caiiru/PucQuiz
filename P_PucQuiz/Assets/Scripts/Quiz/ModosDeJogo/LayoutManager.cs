@@ -1,26 +1,34 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using Unity.Netcode;
+using UnityEditor.EditorTools;
+using UnityEditor.Toolbars;
 using UnityEngine;
 
 public class LayoutManager : MonoBehaviour
 {
+    public static LayoutManager instance;
+
     [Header("Event Variables")]
-    [SerializeField] private QuizPlayer player;
+    public QuizPlayer player;
     [SerializeField] private string scene_actualy;
     [SerializeField] private string layout_actualy;
     [SerializeField] private string question_result;
 
     [Header("Manager Variables")]
-    public static LayoutManager instance;
     public Login menu;
     public Modos quiz;
-    public End rank;
-    [SerializeField] private bool quiz_start, menu_start = true;
+    public End end;
+    [Header("Manager Variables - Start Bools",order = 1)]
+    [SerializeField] public bool quiz_start = true;
+    [SerializeField] public bool menu_start, end_start = true;
 
     [Header("Multiplayer Variables")]
     [SerializeField] private bool multiplayer_on;
 
+    
 
     public LayoutManager()
     { 
@@ -30,7 +38,6 @@ public class LayoutManager : MonoBehaviour
     public void Awake()
     {
         Event_PucQuiz.scene_actualy = "Menu";
-
         quiz.transform = transform;
     }
 
@@ -56,6 +63,9 @@ public class LayoutManager : MonoBehaviour
                 break;
             case "Menu":
                 Menu_Run();
+                break;
+            case "End":
+                End_Run();
                 break;
         }
         
@@ -88,6 +98,16 @@ public class LayoutManager : MonoBehaviour
         }
     }
 
+    private void Menu_Run()
+    {
+        if (menu_start)
+        {
+            menu.Awake();
+            menu.Start();
+            menu_start = false;
+        }
+        menu.Update();
+    }
     private void Quiz_Run()
     {
         if (quiz_start)
@@ -100,18 +120,35 @@ public class LayoutManager : MonoBehaviour
         //Debug.Log("Call to Update Quiz");
         quiz.Update(gameObject);
     }
-
-    private void Menu_Run()
+    private void End_Run()
     {
-        if (menu_start)
+        if(end_start)
         {
-            menu.Awake();
-            menu.Start();
-            menu_start = false;
+            end.Awake(gameObject);
+            end.Start(gameObject);
+            end_start = false;
         }
-        menu.Update();
+        end.Update(gameObject);
     }
 
+    [Rpc(SendTo.Everyone)]
+    public void ChangeMenu(string scene, string layout)
+    {
+        if (!QuizLobby.Instance.GetIsHost()) { return; }
+
+        switch(scene)
+        {
+            case "Start":
+                menu.ChangeMenu(layout);
+                break;
+            case "Quiz":
+                quiz.ChangeMenu(layout);
+                break;
+            case "End":
+                end.ChangeMenu(layout);
+                break;
+        }
+    }
     //[Rpc(SendTo.NoServer)]
     private void SendToLocal(Dictionary<int,QuizPlayer> players)
     {

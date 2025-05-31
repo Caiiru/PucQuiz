@@ -29,6 +29,8 @@ public class Modos
 
         //Variaveis De "Sistema"
         question_manager.Add("Quiz",new Quiz());
+        Quiz quiz_manager = question_manager["Quiz"] as Quiz;
+
         doc = obj.GetComponent<UIDocument>();
         manager = obj.GetComponent<LayoutManager>();
         config = Resources.Load<Config_PucQuiz>("Config/PucQuiz");
@@ -55,16 +57,15 @@ public class Modos
     }
     public void Update(GameObject obj)
     {
-        if(timer_awake.End() == false) { timer_awake.Run(); return; }
+        if (question_manager == null) { Debug.Log("Manager Null"); }
 
-        if(question_manager == null) { Debug.Log("Manager Null"); }
-        /*
         if (question_manager != null && Event_PucQuiz.layout_actualy == "Quiz")
         {
             if(obj!=null)
             {
                 doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
                                                                      "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
+                if (timer_awake.End() == false) { timer_awake.Run(); return; }
                 question_manager["Quiz"].Update_Layout(obj);//TIMER AQUI
             }
             else
@@ -85,7 +86,6 @@ public class Modos
             timer_next.Run();
             if (timer_next.End()) { Change_Question(); }
         }
-        */
     }
 
     private void Change_Question()//Muda a pergunta.
@@ -102,13 +102,11 @@ public class Modos
 
             //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
 
-            
-            ChangeMenu(attributes[question_actualy_index].question_type.ToString());
+            manager.ChangeMenu("End", "Rank");
         }
         else
         {
-            Event_PucQuiz.layout_actualy = "Start";
-            manager.menu.ChangeMenu("Start");
+            manager.ChangeMenu("End", "End");
         }
         
         //Event_PucQuiz.Change_Scene(config.Layout_Contagem);
@@ -153,6 +151,7 @@ public class Modos
     {
         if (menu_new == null) { Debug.Log("Nao foi atribuido um valor ao novo menu buscado."); return; }
 
+        Event_PucQuiz.scene_actualy = "Quiz";
         Event_PucQuiz.layout_actualy = menu_new;
 
         GameObject background = null;
@@ -201,6 +200,7 @@ public class Modos
                         quiz.attributes = attributes[question_actualy_index];
                         quiz.mod = this;
 
+                        quiz.attributes.timer.Reset();
                         doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
                                                              "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
 
