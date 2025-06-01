@@ -102,11 +102,11 @@ public class Modos
 
             //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
 
-            manager.ChangeMenu("End", "Rank");
+            manager.ChangeMenuRpc("End", "Rank");
         }
         else
         {
-            manager.ChangeMenu("End", "End");
+            manager.ChangeMenuRpc("End", "End");
         }
         
         //Event_PucQuiz.Change_Scene(config.Layout_Contagem);
@@ -133,17 +133,6 @@ public class Modos
                 Debug.Log("No Result");
                 break;
         }
-        /*for (int i = 0; i < attributes[question_actualy_index].choice_correct.Length; i++)
-        {
-            if (attributes[question_actualy_index].choice_correct[i])
-            {
-                doc.rootVisualElement.Q<Button>("Pergunta" + (i + 1)).style.backgroundColor = Color.green;
-            }
-            else
-            {
-                doc.rootVisualElement.Q<Button>("Pergunta" + (i + 1)).style.backgroundColor = Color.gray;
-            }
-        }*/
 
         Debug.Log("End Feedback.");
     }

@@ -2173,7 +2173,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3180be7a19b18f24f8a1735430fe8b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1254502718}
+  ShowTopMostFoldoutHeaderGroup: 1
+  player:
+    playerName: Jogador
+    points: 0
+    slots: 4
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
   scene_actualy: 
   layout_actualy: 
   question_result: 
@@ -2265,13 +2277,13 @@ MonoBehaviour:
         infinity: 0
     - question_type: 1
       question: Teste 4
-      choice_correct: 00000004
+      choice_correct: 00000001
       change: 0
       options:
       - Resposta Errada
       - Resposta Errada
       - Resposta Errada
-      - Respsota Certa
+      - Resposta Certa
       choices: 00000000
       timer:
         start: 10
@@ -2287,6 +2299,7 @@ MonoBehaviour:
       time: 0
       infinity: 0
   end:
+    manager: {fileID: 1254502715}
     doc: {fileID: 1254502716}
     time:
       start: 5
@@ -2303,6 +2316,62 @@ MonoBehaviour:
   menu_start: 1
   end_start: 1
   multiplayer_on: 0
+  local_players:
+  - playerName: Jose
+    points: 100
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: Joao
+    points: 50
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: Jorgim
+    points: 25
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: Josemar
+    points: 0
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: Josefa
+    points: 15
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
 --- !u!114 &1254502716
 MonoBehaviour:
   m_ObjectHideFlags: 0

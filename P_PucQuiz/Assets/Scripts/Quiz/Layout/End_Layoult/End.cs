@@ -7,10 +7,10 @@ using UnityEngine.UIElements;
 public class End
 {
     Config_PucQuiz config;
-    public Dictionary<int,QuizPlayer> players => Event_PucQuiz.players;
-    private LayoutManager manager;
+    public MyPlayer[] players => Event_PucQuiz.players;
+    public LayoutManager manager;
     public UIDocument doc;
-    public int length => players.Count;
+    public int length => players.Length;
 
     public Timer time;
 
@@ -19,7 +19,7 @@ public class End
 
     public void Awake(GameObject obj)
     {
-        manager = obj.GetComponent<LayoutManager>();
+        manager = LayoutManager.instance;
         doc = obj.GetComponent<UIDocument>();
     }
 
@@ -59,53 +59,64 @@ public class End
     {
         for (int i = 0; i < layout.Length; i++)
         {
-            try
+            if (layout[i].getValue1() == Event_PucQuiz.layout_actualy)
             {
-
-                if (layout[i].getValue1() == Event_PucQuiz.layout_actualy)
+                switch (layout[i].getValue1())
                 {
-                    switch (layout[i].getValue1())
-                    {
-                        case "Rank":
+                    case "Rank":
 
-                            Debug.Log("Rank Set Start");
+                        Debug.Log("Rank Set Start");
 
-                            Debug.Log("Rank % = Start");
-                            int point_1 = 100;
-                            int point_2 = 78;
-                            int point_3 = 50;
-                            int point_4 = 20;
+                        Debug.Log("Rank % = Start");
 
-                            int porcent_1 = 1;
-                            int porcent_2 = ((100 * point_2) / point_1) / 100;
-                            int porcent_3 = ((100 * point_3) / point_1) / 100;
-                            int porcent_4 = ((100 * point_4) / point_1) / 100;
+                        string name_1;
+                        string name_2;
+                        string name_3;
+                        string name_4;
 
-                            doc.rootVisualElement.Q("Progress1").style.width = new Length(porcent_1 * 100, LengthUnit.Percent);
-                            doc.rootVisualElement.Q("Progress2").style.width = new Length(porcent_2 * 100, LengthUnit.Percent);
-                            doc.rootVisualElement.Q("Progress3").style.width = new Length(porcent_3 * 100, LengthUnit.Percent);
-                            doc.rootVisualElement.Q("Progress4").style.width = new Length(porcent_4 * 100, LengthUnit.Percent);
+                        float point_1;
+                        float point_2;
+                        float point_3;
+                        float point_4;
 
-                            Debug.Log("Rank Name = Start");
-                            doc.rootVisualElement.Q<Label>("PlayerName1").name = "Player1";
-                            doc.rootVisualElement.Q<Label>("PlayerName2").name = "Player2";
-                            doc.rootVisualElement.Q<Label>("PlayerName3").name = "Player3";
-                            doc.rootVisualElement.Q<Label>("PlayerName4").name = "Player4";
+                        Debug.Log("Players Count = " + Event_PucQuiz.players.Length);
 
-                            Debug.Log("Rank Set End");
+                        name_1 = Event_PucQuiz.players[0].playerName;
+                        name_2 = Event_PucQuiz.players[1].playerName;
+                        name_3 = Event_PucQuiz.players[2].playerName;
+                        name_4 = Event_PucQuiz.players[3].playerName;
 
-                            break;
-                        case "End":
 
-                            break;
-                        default:
-                            break;
-                    }
+                        point_1 = Event_PucQuiz.players[0].points;
+                        point_2 = Event_PucQuiz.players[1].points;
+                        point_3 = Event_PucQuiz.players[2].points;
+                        point_4 = Event_PucQuiz.players[3].points;
+
+                        float porcent_1 = 100;
+                        float porcent_2 = ((100 * point_2) / point_1);
+                        float porcent_3 = ((100 * point_3) / point_1);
+                        float porcent_4 = ((100 * point_4) / point_1);
+
+                        doc.rootVisualElement.Q("Progress1").style.width = new Length(porcent_1, LengthUnit.Percent);
+                        doc.rootVisualElement.Q("Progress2").style.width = new Length(porcent_2, LengthUnit.Percent);
+                        doc.rootVisualElement.Q("Progress3").style.width = new Length(porcent_3, LengthUnit.Percent);
+                        doc.rootVisualElement.Q("Progress4").style.width = new Length(porcent_4, LengthUnit.Percent);
+
+                        Debug.Log("Rank Name = Start");
+                        doc.rootVisualElement.Q<Label>("PlayerName1").text = name_1;
+                        doc.rootVisualElement.Q<Label>("PlayerName2").text = name_2;
+                        doc.rootVisualElement.Q<Label>("PlayerName3").text = name_3;
+                        doc.rootVisualElement.Q<Label>("PlayerName4").text = name_4;
+
+                        Debug.Log("Rank Set End");
+
+                        break;
+                    case "End":
+
+                        break;
+                    default:
+                        break;
                 }
-            }
-            catch (Exception error)
-            {
-                Debug.Log(error);
             }
         }
     }
