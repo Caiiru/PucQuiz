@@ -32,6 +32,7 @@ public class Config_PucQuiz : ScriptableObject
     public static float Get_Points(bool win, float speed)
     {
         Config_PucQuiz config = Config_PucQuiz.Get_Config();
+        MyPlayer player = LayoutManager.instance.player;
 
         Debug.Log("--------------------------------");
         Debug.Log("Vitoria = " + win);
@@ -43,7 +44,7 @@ public class Config_PucQuiz : ScriptableObject
 
         
         if (win) { base_ = config.base_correct; Event_PucQuiz.streak++; }
-        else if(Event_PucQuiz.streak > 0) { Event_PucQuiz.streak = 0; }
+        else if(Event_PucQuiz.streak > 0) { if (!player.protetor) { Event_PucQuiz.streak = 0; } }
         else { Event_PucQuiz.streak --; }
 
         float rec = 0;
@@ -60,6 +61,9 @@ public class Config_PucQuiz : ScriptableObject
         Debug.Log("Speed Bonus = " + config.bonus_velocidade * speed);
         Debug.Log("--------------------------------");
 
+        if (player.protetor) { player.protetor = false; }
+
+        if (player.dobrar) { player.dobrar = false; points = points * 2; }
         return points;
     }
     public Perguntas Get_Layout(Attributes.Type type)
