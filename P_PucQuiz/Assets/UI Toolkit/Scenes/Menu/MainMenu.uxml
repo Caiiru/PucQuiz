@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/Main-menu.uss?fileID=7433441132597879392&amp;guid=fe8017bc25ca4cb4c8cdfed447acb21d&amp;type=3#Main-menu" />
+    <Style src="project://database/Assets/UI%20Toolkit/Scenes/Menu/Main-menu.uss?fileID=7433441132597879392&amp;guid=fe8017bc25ca4cb4c8cdfed447acb21d&amp;type=3#Main-menu" />
     <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; align-items: center; background-color: rgba(251, 247, 239, 0); height: 430px;">
         <ui:VisualElement name="Component" style="background-color: rgba(0, 0, 0, 0); width: 1180px; height: 1097px; align-items: stretch; align-self: center; align-content: flex-start; justify-content: center;">
-            <ui:Label text="Grasp" name="Title" style="align-self: center; font-size: 256px; -unity-font-style: bold; color: rgb(69, 69, 69); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;);" />
+            <ui:Label text="Grasp" name="Title" class="Title_Default" style="align-self: center; font-size: 256px; -unity-font-style: bold; color: rgb(69, 69, 69); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;);" />
             <ui:Button text="PLAY" name="Play" style="align-self: center; font-size: 72px; white-space: nowrap; -unity-background-scale-mode: stretch-to-fill; border-top-width: 17px; border-right-width: 17px; border-bottom-width: 17px; border-left-width: 17px; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" />
         </ui:VisualElement>
     </ui:VisualElement>

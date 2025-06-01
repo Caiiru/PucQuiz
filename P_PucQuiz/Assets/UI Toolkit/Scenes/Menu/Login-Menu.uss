@@ -31,3 +31,20 @@
     font-size: 36px;
     -unity-font-style: bold;
 }
+
+.Title_Start {
+    scale: 0.8 0.8;
+}
+
+.Title_Default {
+    align-self: center;
+    font-size: 256px;
+    -unity-font-style: bold;
+    color: rgb(69, 69, 69);
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
+    margin-bottom: 46px;
+    transition-property: scale;
+    transition-timing-function: ease-out;
+    transition-duration: 2s;
+    transition-delay: 0.3s;
+}

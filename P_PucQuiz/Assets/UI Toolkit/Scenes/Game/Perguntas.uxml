@@ -2,23 +2,22 @@
     <Style src="project://database/Assets/UI%20Toolkit/Scenes/Game/Perguntas.uss?fileID=7433441132597879392&amp;guid=a8cec6bdb3dfe4f4392de874fbddc6a7&amp;type=3#Perguntas" />
     <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UI%20Toolkit/Shapes/In%20Game%20-%2002.png?fileID=2800000&amp;guid=d6f5d0c209d1fcb40b160e21f3b63d20&amp;type=3#In Game - 02&quot;); -unity-background-scale-mode: scale-and-crop; -unity-background-image-tint-color: rgba(255, 255, 255, 0);">
         <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; align-items: center; background-color: rgba(251, 247, 239, 0); justify-content: flex-start; align-self: auto;">
-            <ui:VisualElement name="Container_TEXTO" style="background-color: rgba(0, 255, 41, 0); width: 100%; height: 46%; justify-content: flex-start; align-self: auto;">
-                <ui:VisualElement name="Container_Timer" class="TimerDefault">
-                    <ui:Label text="Timer" name="Timer" style="font-size: 48px; align-self: center;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="Container_Pergunta" class="QuestionTextDefault">
-                    <ui:Label text="Qual é o planeta vermelho?" name="Pergunta" style="font-size: 96px; align-self: center;" />
-                </ui:VisualElement>
+            <ui:VisualElement name="Container_TEXTO" style="background-color: rgba(0, 255, 41, 0); width: 100%; height: 46%; justify-content: flex-start; align-self: auto; flex-direction: column;">
+                <ui:VisualElement style="flex-grow: 1; height: 25px; background-color: rgba(90, 159, 95, 0);" />
+                <ui:Label text="Tempo: 15" name="Timer" class="TimerDefault" style="font-size: 48px; align-self: center;" />
+                <ui:VisualElement style="flex-grow: 1; height: 70px; background-color: rgba(243, 23, 23, 0);" />
+                <ui:Label text="Qual planeta é conhecido como planeta vermelho?" name="Pergunta" class="QuestionTextDefault" style="font-size: 64px; align-self: center; white-space: normal; -unity-text-align: upper-center;" />
+                <ui:VisualElement style="flex-grow: 1; height: 25px;" />
             </ui:VisualElement>
             <ui:VisualElement name="Container-Resposta1" class="ScaleUpDefault">
-                <ui:VisualElement name="Container_interno" style="flex-grow: 1; background-color: rgba(188, 172, 62, 0); height: 50%; width: 50%; justify-content: center; flex-direction: row;">
+                <ui:VisualElement name="Container_interno" style="flex-grow: 1; background-color: rgba(188, 172, 62, 0); height: 50%; width: 50%; justify-content: center; flex-direction: row; align-items: stretch;">
                     <ui:VisualElement name="Padding_Left" style="flex-grow: 1; align-self: flex-start; width: 25%; height: 100%;" />
                     <ui:Button text="Button" name="Resposta_1" icon-image="project://database/Assets/UI%20Toolkit/Shapes/Menu/cube-group-3.png?fileID=2800000&amp;guid=c5f86edd3d8200e49b042dbb9d0cd592&amp;type=3#cube-group-3" style="align-content: flex-start; min-width: 690px; min-height: 140px; flex-direction: row; flex-wrap: nowrap; justify-content: center; padding-right: 80px; padding-left: 80px;" />
                     <ui:VisualElement name="Padding_right" style="flex-grow: 1; align-self: flex-start; width: 10%; height: 100%;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="Container_interno" style="flex-grow: 1; background-color: rgba(188, 172, 62, 0); height: 50%; width: 50%; justify-content: center; flex-direction: row;">
                     <ui:VisualElement name="Padding_right" style="flex-grow: 1; align-self: flex-start; width: 10%; height: 100%;" />
-                    <ui:Button text="Button" name="Resposta_2" icon-image="project://database/Assets/UI%20Toolkit/Shapes/Menu/cube-group-3.png?fileID=2800000&amp;guid=c5f86edd3d8200e49b042dbb9d0cd592&amp;type=3#cube-group-3" style="align-content: flex-start; min-width: 690px; min-height: 140px; flex-direction: row; flex-wrap: nowrap; justify-content: center; padding-right: 80px; padding-left: 80px;" />
+                    <ui:Button text="Button" name="Resposta_2" icon-image="project://database/Assets/UI%20Toolkit/Shapes/Menu/cube-group-3.png?fileID=2800000&amp;guid=c5f86edd3d8200e49b042dbb9d0cd592&amp;type=3#cube-group-3" display-tooltip-when-elided="false" style="align-content: flex-start; min-width: 690px; min-height: 140px; flex-direction: row; flex-wrap: nowrap; justify-content: center; padding-right: 80px; padding-left: 80px;" />
                     <ui:VisualElement name="Padding_Left" style="flex-grow: 1; align-self: flex-start; width: 25%; height: 100%;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="Container_interno" style="flex-grow: 1; background-color: rgba(188, 172, 62, 0); height: 50%; width: 50%; justify-content: center; flex-direction: row;">

@@ -27,3 +27,54 @@
     color: rgb(255, 255, 255);
     -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
 }
+
+.Resposta_Incorreta_Default {
+    align-self: center;
+    font-size: 67px;
+    -unity-font-style: bold;
+    color: rgb(230, 63, 102);
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
+    transition-property: scale;
+    transition-duration: 2s;
+    transition-delay: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.Resposta_Incorreta_Start {
+    scale: 0 0;
+}
+
+.Points_Default {
+    align-self: center;
+    align-items: stretch;
+    justify-content: center;
+    font-size: 48px;
+    -unity-font-style: bold;
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
+    color: rgb(230, 63, 102);
+    transition-property: scale;
+    transition-duration: 2s;
+    transition-delay: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.Points_Start {
+    scale: 0 0;
+}
+
+.Loading_Text_Default {
+    align-self: center;
+    font-size: 48px;
+    -unity-font-style: bold;
+    color: rgb(230, 63, 102);
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
+    transition-property: bottom;
+    transition-duration: 2s;
+    transition-delay: 0.3s;
+    transition-timing-function: ease-out;
+    bottom: 0;
+}
+
+.Loading_Text_start {
+    bottom: -299px;
+}

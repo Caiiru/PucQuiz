@@ -48,17 +48,6 @@
     scale: 0 1;
 }
 
-.TimerDefault {
-    flex-grow: 1;
-    align-self: center;
-    justify-content: center;
-    align-content: flex-start;
-    transition-property: scale, opacity;
-    transition-duration: 0.7s, 0.7s;
-    transition-timing-function: ease-in, ease-out;
-    transition-delay: 3s, 3s;
-}
-
 .QuestionTextDefault {
     flex-grow: 1;
     transition-property: translate, scale;
@@ -76,4 +65,15 @@
     opacity: 0;
     scale: 0 0;
     transition-delay: 0.1s;
+}
+
+.TimerDefault {
+    flex-grow: 1;
+    align-self: center;
+    justify-content: center;
+    align-content: flex-start;
+    transition-property: scale, opacity;
+    transition-duration: 0.7s, 0.7s;
+    transition-timing-function: ease-in, ease-out;
+    transition-delay: 3s, 3s;
 }
