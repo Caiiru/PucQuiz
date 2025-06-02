@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: b4c884b853d0c8d45a6eb90d692fd3f3
+guid: 0287672be7c825840bd14ef13ea0f830
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9039591458159818992
-    second: cube-group-7_0
+      213: -5231212235797477994
+    second: Group 69_0
+  - first:
+      213: -454464208524273164
+    second: Group 69_1
+  - first:
+      213: -4929980199024306129
+    second: Group 69_2
+  - first:
+      213: -3423726801735248615
+    second: Group 69_3
+  - first:
+      213: 6594699046914814243
+    second: Group 69_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +112,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cube-group-7_0
+      name: Group 69_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 466
-        height: 472
+        width: 92
+        height: 105
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +127,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0178abd667bec8280800000000000000
-      internalID: -9039591458159818992
+      spriteID: 6954d9c00300767b0800000000000000
+      internalID: -5231212235797477994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Group 69_1
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 0
+        width: 93
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f918cfc53b61b9f0800000000000000
+      internalID: -454464208524273164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Group 69_2
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 0
+        width: 93
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f28527f0121359bb0800000000000000
+      internalID: -4929980199024306129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Group 69_3
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 0
+        width: 93
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 915169e0d9a7c70d0800000000000000
+      internalID: -3423726801735248615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Group 69_4
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 0
+        width: 92
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 321f6fbc7d3158b50800000000000000
+      internalID: 6594699046914814243
       vertices: []
       indices: 
       edges: []
@@ -134,8 +234,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      cube-group-7_0: -9039591458159818992
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
