@@ -45,6 +45,7 @@ public class Quiz : Perguntas
 
     public override void Update_Layout(GameObject obj)
     {
+ 
         if (Event_PucQuiz.start_layout) { Start_Layout(obj); }
 
         int choice_max_local = 0;

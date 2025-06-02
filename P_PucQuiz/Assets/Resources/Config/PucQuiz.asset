@@ -37,8 +37,8 @@ MonoBehaviour:
         - Respsota Errada
         choices: 00000000
         timer:
-          start: 99
-          time: 99
+          start: 25
+          time: 25
           infinity: 0
       - question_type: 1
         question: Teste 2

@@ -96,14 +96,16 @@ public class Modos
 
         question_actualy_index++;
 
-        if(!Final())
+        if (!Final())
         {
             Debug.Log("Question = " + question_actualy_index);
 
             //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
 
-            
+
             ChangeMenu(attributes[question_actualy_index].question_type.ToString());
+            
+            GameManager.Instance.CurrentGameState.Value = GameState.DisplayingQuestion;
         }
         else
         {
@@ -123,7 +125,9 @@ public class Modos
     {
         Debug.Log("Start Feedback.");
 
-        switch(Event_PucQuiz.question_result)
+        GameManager.Instance.CurrentGameState.Value = GameState.ShowingResults;
+
+        switch (Event_PucQuiz.question_result)
         {
             case "win":
                 ChangeMenu("Correct");
@@ -187,14 +191,14 @@ public class Modos
         SetQuestion();
     }
     public void SetQuestion()
-    { 
+    {
         for (int i = 0; i < menu.Length; i++)
         {
             if (menu[i].getValue1() == Event_PucQuiz.layout_actualy)
             {
                 switch (menu[i].getValue1())
                 {
-                    case "Quiz": 
+                    case "Quiz":
 
                         Quiz quiz = question_manager["Quiz"] as Quiz;
 
@@ -235,12 +239,14 @@ public class Modos
             }
             try
             {
-                
+
             }
             catch (Exception error)
             {
                 Debug.Log(error);
             }
         }
+        
+        
     }
 }

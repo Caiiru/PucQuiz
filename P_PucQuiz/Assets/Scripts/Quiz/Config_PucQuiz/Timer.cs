@@ -15,7 +15,7 @@ public class Timer
 
     public void Run()
     {
-        if(DEV.Instance.isTimerInfinity) return;
+        //if(DEV.Instance.isTimerInfinity) return;
         
         if (infinity) { return; }
 

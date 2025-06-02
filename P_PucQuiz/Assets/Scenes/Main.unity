@@ -1888,8 +1888,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  document: {fileID: 0}
-  questionDocument: {fileID: 9197481963319205126, guid: dd337f611a43aec49bd2078a216860bb, type: 3}
 --- !u!1 &798739522
 GameObject:
   m_ObjectHideFlags: 0
@@ -2215,7 +2213,7 @@ MonoBehaviour:
       value3: {fileID: 9197481963319205126, guid: e9f4027c3cf863b42b7e74673b25a512, type: 3}
     - value1: Quiz
       value2: {fileID: 1277771894}
-      value3: {fileID: 9197481963319205126, guid: dd337f611a43aec49bd2078a216860bb, type: 3}
+      value3: {fileID: 9197481963319205126, guid: b2572ce63bb4fa14c9cb4f950bedc395, type: 3}
     - value1: Incorrect
       value2: {fileID: 1277771894}
       value3: {fileID: 9197481963319205126, guid: c52d509bbd4df2d4490ca3c09e2a3b52, type: 3}
@@ -2282,6 +2280,10 @@ MonoBehaviour:
         time: 0
         infinity: 0
     question_actualy_index: 0
+    timer_awake:
+      start: 0
+      time: 0
+      infinity: 0
     timer_next:
       start: 5
       time: 0
@@ -3479,6 +3481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   consoleCanvas: {fileID: 1238345917}
   isDebug: 1
+  isTimerInfinity: 1
 --- !u!4 &2039296513
 Transform:
   m_ObjectHideFlags: 0

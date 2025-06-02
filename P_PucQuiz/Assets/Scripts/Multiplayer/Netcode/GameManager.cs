@@ -19,6 +19,11 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<Question> CurrentQuestionData = new NetworkVariable<Question>();
     public NetworkVariable<float> Timer = new NetworkVariable<float>(0f);
     public NetworkVariable<int> CurrentQuestionNumber = new NetworkVariable<int>(0); // Número da pergunta atual na rodada 
+    public GameObject playerPrefab;
+    public QuizPlayer player;
+
+    public List<QuizPlayer> players = new();
+ 
 
 
     // --- Variáveis do Servidor ---
@@ -48,6 +53,7 @@ public class GameManager : NetworkBehaviour
 
     void Start()
     { 
+        //DeveloperConsole.Console.AddCommand("printConnectedPlayers", PrintPlayersConnectedCommand);  
     }
     public override void OnNetworkSpawn()
     {
@@ -56,23 +62,31 @@ public class GameManager : NetworkBehaviour
         CurrentQuestionData.OnValueChanged += OnQuestionChanged;
         Timer.OnValueChanged += OnTimerChanged;
 
+        var _player = Instantiate(playerPrefab);
+        if (IsOwner)
+        { 
+            if (player == null)
+            {
+                player = _player.GetComponent<QuizPlayer>();
+            }
+        }
         if (IsServer)
         {
-            PopulateQuestions();
             CurrentGameState.Value = GameState.WaitingToStart;
             Timer.Value = 0;
             _quizLobby = FindAnyObjectByType<QuizLobby>();
+            players.Add(player.GetComponent<QuizPlayer>());
+             
         }
 
         HandleGameStateChange(GameState.WaitingToStart, CurrentGameState.Value);
         HandleQuestionChange(default, CurrentQuestionData.Value);
         HandleTimerChange(0, Timer.Value);
 
+
         //DEBUG 
 
-        
-        if(IsServer)
-            DeveloperConsole.Console.AddCommand("printConnectedPlayers", PrintPlayersConnectedCommand);  
+
     }
 
     public override void OnNetworkDespawn()
@@ -195,7 +209,7 @@ public class GameManager : NetworkBehaviour
     public void StartQuizRpc()
     {
         //Event_PucQuiz.scene_actualy = "Quiz";
-        LayoutManager.instance.ChangeToQuiz();
+        LayoutManager.instance.ChangeToQuiz(); 
         OnQuizStarted?.Invoke(this, null);
         Timer.Value = timeToShowQuestion;
         CurrentGameState.Value = GameState.DisplayingQuestion;
@@ -203,7 +217,10 @@ public class GameManager : NetworkBehaviour
 
     private void PrintPlayersConnectedCommand(string[] args)
     {
-        DEV.Instance.DevPrint($"players connected count: ${NetworkManager.Singleton.ConnectedClientsList.Count}");
+        foreach(var player in players)
+        {
+            DEV.Instance.DevPrint($"Connected Player: ${player.playerName}");
+        }
     }
 }
 

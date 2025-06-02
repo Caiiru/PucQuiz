@@ -8,8 +8,7 @@ using UnityEngine.UIElements;
 public class GameHandlerUI : NetworkBehaviour
 {
 
-    public UIDocument document;
-    public VisualTreeAsset questionDocument;
+    UIDocument document; 
     public EventHandler OnStateChanged;
 
     void Start()
@@ -36,20 +35,20 @@ public class GameHandlerUI : NetworkBehaviour
 
         var textContainer = document.rootVisualElement.Q<VisualElement>("Container_Pergunta");
         var timerContainer = document.rootVisualElement.Q<VisualElement>("Container_Timer");
-        var answersContainer = document.rootVisualElement.Q<VisualElement>("Container-Resposta1");
+        var answersContainer = document.rootVisualElement.Q<VisualElement>("GridContainer");
 
         if (textContainer == null)
         {
-            Debug.LogError("Cant find question text container");
+            Debug.LogError($"Cant find question text container, current Document: {document.name}");
         }
         /*
         textContainer.AddToClassList("QuestionTextStart");
         answersContainer.AddToClassList("ScaleUpStart");
         timerContainer.AddToClassList("TimerStart");*/
 
-        textContainer.RemoveFromClassList("QuestionTextStart");
-        answersContainer.RemoveFromClassList("ScaleUpStart"); 
-        timerContainer.RemoveFromClassList("TimerStart"); 
+        textContainer.RemoveFromClassList("QuestionText_Anim");
+        answersContainer.RemoveFromClassList("Buttons_Anim"); 
+        timerContainer.RemoveFromClassList("TimerText_Anim"); 
     }
  
 }
