@@ -39,8 +39,6 @@ public class Quiz : Perguntas
         }*/
 
         attributes.choices = new bool[attributes.options.Length];
-        
-        //throw new System.NotImplementedException();
     }
 
     public override void Update_Layout(GameObject obj)
@@ -82,8 +80,6 @@ public class Quiz : Perguntas
                     break;
                 default:
                     attributes.timer.Run();
-                    //attributes.timer = attributes.timer - Time.deltaTime;
-                    //if (attributes.timer < 0) { attributes.timer = 0; } //Quebra caso o numero seja negativo, mas n�o igual a 1.
                     break;
             }
 
@@ -136,13 +132,14 @@ public class Quiz : Perguntas
     {
         if (Event_PucQuiz.question_next) { return; }
 
+        MyPlayer player = LayoutManager.instance.player;
         Event_PucQuiz.question_event = "";
         Event_PucQuiz.question_lock = false;
 
 
         bool correct = true;
 
-        for (int i = 0; i < attributes.choices.Length; i++)
+        for (int i = 0; i < attributes.choice_correct.Length; i++)
         {
             if (!attributes.choices[i] == attributes.choice_correct[i])
             {
@@ -154,16 +151,19 @@ public class Quiz : Perguntas
         speed_to_complet = (1 * speed_to_complet) / attributes.timer.start;
         Debug.Log("% do Buff de velocidade = " + speed_to_complet);
 
-        if(correct)
-        { 
+        if (correct)
+        {
+            
             Event_PucQuiz.question_result = "win";
+            player.points += (int)Config_PucQuiz.Get_Points(true, speed_to_complet);
         }
         else
         {
             Event_PucQuiz.question_result = "lose";
+            player.points += (int)Config_PucQuiz.Get_Points(false, speed_to_complet);
         }
+        Event_PucQuiz.points = player.points;
 
-        LayoutManager.instance.SendToHost(speed_to_complet);
         mod.FeedBack();
         Event_PucQuiz.question_next = true;
 
@@ -193,7 +193,7 @@ public class Quiz : Perguntas
     #region || Funcoes Rapidas ||
 
     public void Choice_Event(string chose){ Debug.Log(chose); Event_PucQuiz.question_event = chose; }
-    private void Make_Chose() { if (choice_actualy == choice_max) { chose = true; }; Event_PucQuiz.question_event = ""; }
+    private void Make_Chose() { if (choice_actualy == choice_max) { chose = true; Event_PucQuiz.question_event = ""; } }
     private void Choices_Reset()
     {
         Debug.Log("Reset Choices");

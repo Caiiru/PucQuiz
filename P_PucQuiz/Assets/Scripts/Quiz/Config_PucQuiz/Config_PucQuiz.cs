@@ -29,32 +29,41 @@ public class Config_PucQuiz : ScriptableObject
         if(instance == null) { instance = Resources.Load<Config_PucQuiz>("Config/PucQuiz"); }
         return instance;
     }
-    public static float Get_Points(bool win, int streak, float speed)
+    public static float Get_Points(bool win, float speed)
     {
         Config_PucQuiz config = Config_PucQuiz.Get_Config();
+        MyPlayer player = LayoutManager.instance.player;
 
         Debug.Log("--------------------------------");
         Debug.Log("Vitoria = " + win);
-        Debug.Log("Streak Atual = " + streak);
+        Debug.Log("Streak Atual = " + Event_PucQuiz.streak);
         Debug.Log("Speed Atual = " + speed);
         Debug.Log("--------------------------------");
 
         float base_ = config.base_incorrect;
 
-        if (win) { base_ = config.base_correct; }
-        else if(streak > 0) { streak = 0; }
+        
+        if (win) { base_ = config.base_correct; Event_PucQuiz.streak++; }
+        else if(Event_PucQuiz.streak > 0) { if (!player.protetor) { Event_PucQuiz.streak = 0; } }
+        else { Event_PucQuiz.streak --; }
 
         float rec = 0;
-        if (streak < 0) { rec = config.bonus_recuperacao; }
+        if (Event_PucQuiz.streak < 0) { rec = config.bonus_recuperacao; }
 
-        float points = base_ + rec + (config.bonus_streak*streak) + (config.bonus_velocidade*speed);
+        float real_bonus_streak = 0;
+        if(real_bonus_streak > 0) { real_bonus_streak = config.bonus_streak * Event_PucQuiz.streak; }
+
+        float points = base_ + rec + real_bonus_streak + (config.bonus_velocidade*speed);
 
         Debug.Log("--------------------------------");
         Debug.Log("Points = " + points);
-        Debug.Log("Streak Bonus = " + config.bonus_streak * streak);
+        Debug.Log("Streak Bonus = " + config.bonus_streak * Event_PucQuiz.streak);
         Debug.Log("Speed Bonus = " + config.bonus_velocidade * speed);
         Debug.Log("--------------------------------");
 
+        if (player.protetor) { player.protetor = false; }
+
+        if (player.dobrar) { player.dobrar = false; points = points * 2; }
         return points;
     }
     public Perguntas Get_Layout(Attributes.Type type)

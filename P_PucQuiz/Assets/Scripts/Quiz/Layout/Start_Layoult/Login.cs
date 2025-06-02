@@ -248,6 +248,7 @@ public class Login
     {
         if (menu_new == null) { Debug.Log("N�o foi atribuido um valor ao novo menu buscado."); return; }
 
+        Event_PucQuiz.scene_actualy = "Menu";
         Event_PucQuiz.layout_actualy = menu_new;
 
         GameObject background = null;

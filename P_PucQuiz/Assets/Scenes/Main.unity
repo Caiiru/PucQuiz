@@ -2056,7 +2056,9 @@ GameObject:
   - component: {fileID: 1254502710}
   - component: {fileID: 1254502709}
   - component: {fileID: 1254502714}
+  - component: {fileID: 1254502719}
   - component: {fileID: 1254502716}
+  - component: {fileID: 1254502718}
   - component: {fileID: 1254502715}
   m_Layer: 5
   m_Name: Canvas
@@ -2169,7 +2171,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3180be7a19b18f24f8a1735430fe8b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  ShowTopMostFoldoutHeaderGroup: 1
+  player:
+    playerName: Jogador
+    points: 0
+    slots: 4
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
   scene_actualy: 
   layout_actualy: 
   question_result: 
@@ -2186,12 +2200,6 @@ MonoBehaviour:
     - value1: Login
       value2: {fileID: 0}
       value3: {fileID: 9197481963319205126, guid: 886d31d2c690f98409551abf1224692a, type: 3}
-    - value1: Registro1
-      value2: {fileID: 1708037319}
-      value3: {fileID: 9197481963319205126, guid: 3b8a5c22cd739d1429ed6b17eed95dfd, type: 3}
-    - value1: Registro2
-      value2: {fileID: 1708037319}
-      value3: {fileID: 0}
     - value1: Logado
       value2: {fileID: 0}
       value3: {fileID: 0}
@@ -2267,13 +2275,13 @@ MonoBehaviour:
         infinity: 0
     - question_type: 1
       question: Teste 4
-      choice_correct: 00000004
+      choice_correct: 00000001
       change: 0
       options:
       - Resposta Errada
       - Resposta Errada
       - Resposta Errada
-      - Respsota Certa
+      - Resposta Certa
       choices: 00000000
       timer:
         start: 10
@@ -2281,16 +2289,87 @@ MonoBehaviour:
         infinity: 0
     question_actualy_index: 0
     timer_awake:
-      start: 0
+      start: 5
       time: 0
       infinity: 0
     timer_next:
       start: 5
       time: 0
       infinity: 0
+  end:
+    manager: {fileID: 1254502715}
+    doc: {fileID: 1254502716}
+    time:
+      start: 5
+      time: 0
+      infinity: 0
+    layout:
+    - value1: Rank
+      value2: {fileID: 1708037319}
+      value3: {fileID: 9197481963319205126, guid: 32d5e77e9e6a5c8498a86a26851a9abc, type: 3}
+    - value1: End
+      value2: {fileID: 1708037319}
+      value3: {fileID: 9197481963319205126, guid: 32d5e77e9e6a5c8498a86a26851a9abc, type: 3}
   quiz_start: 1
   menu_start: 1
+  end_start: 1
   multiplayer_on: 0
+  local_players:
+  - playerName: Jose
+    points: 100
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: Joao
+    points: 50
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: Jorgim
+    points: 25
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: Josemar
+    points: 0
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: Josefa
+    points: 15
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
 --- !u!114 &1254502716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2310,6 +2389,83 @@ MonoBehaviour:
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
+--- !u!114 &1254502718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254502707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cf99b2f9370c904986817e114afd249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  playerName:
+    m_InternalValue:
+      utf8LengthInBytes: 0
+      bytes:
+        offset0000:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0016: 0
+        byte0017: 0
+        byte0018: 0
+        byte0019: 0
+        byte0020: 0
+        byte0021: 0
+        byte0022: 0
+        byte0023: 0
+        byte0024: 0
+        byte0025: 0
+        byte0026: 0
+        byte0027: 0
+        byte0028: 0
+        byte0029: 0
+  points:
+    m_InternalValue: 0
+  alreadyAnswered:
+    m_InternalValue: 0
+--- !u!114 &1254502719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254502707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1487088364
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &1261129217
 GameObject:
   m_ObjectHideFlags: 0

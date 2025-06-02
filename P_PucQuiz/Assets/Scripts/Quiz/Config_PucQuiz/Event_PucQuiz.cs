@@ -46,8 +46,8 @@ public static class Event_PucQuiz
     #region @ Multiplayer Events @
 
     public static string player_name;
-    public static QuizPlayer player;
-    public static Dictionary<int, QuizPlayer> players;
+    public static MyPlayer player;
+    public static MyPlayer[] players = null;
 
     #endregion
 
