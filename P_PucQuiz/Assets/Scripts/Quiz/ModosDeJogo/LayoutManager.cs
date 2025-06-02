@@ -153,6 +153,17 @@ public class LayoutManager : NetworkBehaviour
                 break;
         }
     }
+
+    public void StartQuiz()
+    {
+        scene_actualy = "Quiz";
+        Event_PucQuiz.scene_actualy = "Quiz";
+        quiz_start = true;
+
+        Quiz_Run();
+        quiz.ChangeMenu("Quiz");
+        
+    }
     #endregion
 
     #region @ Multiplayer Functions @

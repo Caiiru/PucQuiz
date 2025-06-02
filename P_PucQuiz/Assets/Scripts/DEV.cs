@@ -37,7 +37,7 @@ public class DEV : MonoBehaviour
         var layoutManager = FindAnyObjectByType<LayoutManager>();
         if (layoutManager == null) return;
 
-        layoutManager.ChangeToQuiz();
+        //layoutManager.ChangeToQuiz();
         //TestAnimCommand(null);
     }
     public void LoadAnimCommand(string[] args)

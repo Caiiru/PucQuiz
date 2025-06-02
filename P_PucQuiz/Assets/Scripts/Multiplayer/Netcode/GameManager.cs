@@ -31,7 +31,7 @@ public class GameManager : NetworkBehaviour
 
     private Dictionary<ulong, int> _playerAnswers = new Dictionary<ulong, int>();
 
-    private QuizLobby _quizLobby;
+    [SerializeField]private QuizLobby _quizLobby;
 
     public EventHandler OnQuizStarted;
 
@@ -54,6 +54,7 @@ public class GameManager : NetworkBehaviour
     void Start()
     { 
         //DeveloperConsole.Console.AddCommand("printConnectedPlayers", PrintPlayersConnectedCommand);  
+        _quizLobby = FindAnyObjectByType<QuizLobby>();
     }
     public override void OnNetworkSpawn()
     {
@@ -74,7 +75,6 @@ public class GameManager : NetworkBehaviour
         {
             CurrentGameState.Value = GameState.WaitingToStart;
             Timer.Value = 0;
-            _quizLobby = FindAnyObjectByType<QuizLobby>();
             players.Add(player.GetComponent<QuizPlayer>());
              
         }
@@ -209,7 +209,7 @@ public class GameManager : NetworkBehaviour
     public void StartQuizRpc()
     {
         //Event_PucQuiz.scene_actualy = "Quiz";
-        LayoutManager.instance.ChangeToQuiz(); 
+        LayoutManager.instance.ChangeMenu("Quiz","Quiz"); 
         OnQuizStarted?.Invoke(this, null);
         Timer.Value = timeToShowQuestion;
         CurrentGameState.Value = GameState.DisplayingQuestion;
