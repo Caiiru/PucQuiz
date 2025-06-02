@@ -25,23 +25,22 @@ public class UILobbyHandler : MonoBehaviour
     {
         
     }
+ 
 
-    private void UpdateLobbyUI(object sender, QuizLobby.UpdateLobbyUIArgs e)
+    private void UpdateLobbyUI(object sender, EventArgs e)
     {
-        var lobby = QuizLobby.Instance.GetJoinedLobby();
-        Hide();
-        int playerCount = lobby.Players.Count;
-        _playerIndex = _playerIndex == -1 ? playerCount : _playerIndex;
+        Hide(); 
         ClearLobby();
         int index = 0;
-
-        foreach (var player in lobby.Players)
+        return;
+        foreach (var player in NetworkManager.Singleton.ConnectedClientsList)
         {
-            if (index != 0)
+            if (index != -1)
             {
                 var lobbyPlayer = Instantiate(lobbyPlayerPrefab, container.gameObject.transform, true);
                 LobbyPlayerUI lobbyPlayerUI = lobbyPlayer.GetComponent<LobbyPlayerUI>();
-                lobbyPlayerUI.UpdatePlayer(player);
+                //lobbyPlayerUI.UpdatePlayer(player);
+                lobbyPlayerUI.UpdatePlayerName(player.PlayerObject.GetComponent<QuizPlayer>().playerName.Value.ToString());
             }
             index++;
         }

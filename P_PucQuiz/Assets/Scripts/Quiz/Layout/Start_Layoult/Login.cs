@@ -114,7 +114,7 @@ public class Login
     {
         //GameManager.Instance.StartQuiz_Rpc();
         GameManager.Instance.StartQuizRpc();
-        
+
 
     }
 
@@ -170,12 +170,12 @@ public class Login
         }
     }
 
-    private void ClickEntrar(ClickEvent click) //Bot�o que verifica o codigo e vai para a tela de espera caso seja encontrado.
+    private async void ClickEntrar(ClickEvent click) //Bot�o que verifica o codigo e vai para a tela de espera caso seja encontrado.
     {
-        Debug.Log("Click Entrar");
-        string code = doc.rootVisualElement.Q<TextField>("Code").value;
+        string code = doc.rootVisualElement.Q<TextField>("Code").value.ToUpper();
         string userName = doc.rootVisualElement.Q<TextField>("Name").value;
 
+        QuizLobby.Instance.onJoiningLobby?.Invoke(this, null);
         if (string.IsNullOrEmpty(userName))
         {
             Debug.LogError("User name is null or empty");
@@ -183,11 +183,15 @@ public class Login
         }
 
         if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
-        {
-            QuizLobby.Instance.CreateLobby(userName);
-            return;
+        { 
+            await QuizLobby.Instance.StartHostWithRelay(5, userName);
         }
-        QuizLobby.Instance.JoinLobby(code, userName);
+        else
+        {
+            await QuizLobby.Instance.StartClientWithRelay(code, userName);
+        }
+        QuizLobby.Instance.onJoinedLobby?.Invoke(this, null);
+
     }
 
     private void ClickCriarPartida(ClickEvent click) //Bot�o que vai da tela de login para a de criar partida ou cria a partida.
@@ -227,7 +231,7 @@ public class Login
                             doc.rootVisualElement.Q<Button>("Entrar").RegisterCallback<ClickEvent>(ClickEntrar);
                             break;
                         case "CriarPartida":
-                            doc.rootVisualElement.Q<Label>("CodeText").text = $"Codigo: {QuizLobby.Instance.GetJoinedLobby().LobbyCode}";
+                            doc.rootVisualElement.Q<Label>("CodeText").text = $"Codigo: {QuizLobby.Instance.JoinCode}";
                             QuizLobby.Instance.onUpdateLobbyUI?.Invoke(this, null);
                             CheckHostStatus();
                             break;
@@ -277,7 +281,7 @@ public class Login
         }
         catch (Exception error)
         {
-            Debug.Log(error);
+            // Debug.Log(error);
         }
 
         SetButtons();
@@ -313,11 +317,11 @@ public class Login
 
     public void StartQuiz()
     {
-        
+
         Event_PucQuiz.scene_actualy = "Quiz";
     }
-    
-     
+
+
 }
 
 [System.Serializable]

@@ -309,8 +309,8 @@ public class MyPlayer
                 cartas[i] = card;
                 cartas_index++;
                 slots -= card.cust;
-                Debug.Log("Carta adicionada = " + card_values.name);
-                Debug.Log("Descrição : " + card_values.description);
+                //Debug.Log("Carta adicionada = " + card_values.name);
+                //Debug.Log("Descrição : " + card_values.description);
                 break;
             }
         }

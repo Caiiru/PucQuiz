@@ -18,12 +18,10 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<GameState> CurrentGameState = new NetworkVariable<GameState>(GameState.WaitingToStart);
     public NetworkVariable<Question> CurrentQuestionData = new NetworkVariable<Question>();
     public NetworkVariable<float> Timer = new NetworkVariable<float>(0f);
-    public NetworkVariable<int> CurrentQuestionNumber = new NetworkVariable<int>(0); // Número da pergunta atual na rodada 
-    public GameObject playerPrefab;
-    public QuizPlayer player;
-
-    public List<QuizPlayer> players = new();
+    public NetworkVariable<int> CurrentQuestionNumber = new NetworkVariable<int>(0); // Número da pergunta atual na rodada  
  
+ 
+
 
 
     // --- Variáveis do Servidor ---
@@ -31,7 +29,7 @@ public class GameManager : NetworkBehaviour
 
     private Dictionary<ulong, int> _playerAnswers = new Dictionary<ulong, int>();
 
-    [SerializeField]private QuizLobby _quizLobby;
+    [SerializeField] private QuizLobby _quizLobby;
 
     public EventHandler OnQuizStarted;
 
@@ -52,8 +50,8 @@ public class GameManager : NetworkBehaviour
 
 
     void Start()
-    { 
-        //DeveloperConsole.Console.AddCommand("printConnectedPlayers", PrintPlayersConnectedCommand);  
+    {
+        DeveloperConsole.Console.AddCommand("printConnectedPlayers", PrintPlayersConnectedCommand);
         _quizLobby = FindAnyObjectByType<QuizLobby>();
     }
     public override void OnNetworkSpawn()
@@ -63,9 +61,11 @@ public class GameManager : NetworkBehaviour
         CurrentQuestionData.OnValueChanged += OnQuestionChanged;
         Timer.OnValueChanged += OnTimerChanged;
 
+        /*
         var _player = Instantiate(playerPrefab);
+        DEV.Instance.DevPrint($"Player: {_player.GetComponent<QuizPlayer>().playerName.Value} joined");
         if (IsOwner)
-        { 
+        {
             if (player == null)
             {
                 player = _player.GetComponent<QuizPlayer>();
@@ -73,12 +73,27 @@ public class GameManager : NetworkBehaviour
         }
         if (IsServer)
         {
+            if (IsOwner)
+            {
+                Destroy(_player);
+            }
+            else
+            {
+                players.Add(player.GetComponent<QuizPlayer>());
+            }
+
             CurrentGameState.Value = GameState.WaitingToStart;
             Timer.Value = 0;
-            players.Add(player.GetComponent<QuizPlayer>());
-             
-        }
 
+        }
+        */
+        if (IsServer)
+        {
+            
+            CurrentGameState.Value = GameState.WaitingToStart;
+            Timer.Value = 0;
+        }
+        QuizLobby.Instance.onUpdateLobbyUI?.Invoke(this, null);
         HandleGameStateChange(GameState.WaitingToStart, CurrentGameState.Value);
         HandleQuestionChange(default, CurrentQuestionData.Value);
         HandleTimerChange(0, Timer.Value);
@@ -114,6 +129,7 @@ public class GameManager : NetworkBehaviour
 
     public void CheckGameState(GameState currentState)
     {
+        if (_quizLobby.GetJoinedLobby() == null) return;
         switch (currentState)
         {
             case GameState.WaitingToStart:
@@ -129,14 +145,37 @@ public class GameManager : NetworkBehaviour
                     Timer.Value = timePerQuestion;
 
                 }
+
                 break;
             case GameState.CollectingAnswers:
-            /*
+
 
                 if (Timer.Value <= 0 || AllPlayersAnswered())
+                {
                     Debug.Log("All players answered or time pass");
-                    */
+                    CurrentGameState.Value = GameState.ShowingResults;
+                    Timer.Value = timeToShowResults;
+                }
+                break;
+
+            case GameState.ShowingResults:
+
+                if (Timer.Value > 0) break;
+
+                if (CurrentQuestionNumber.Value == _allQuestions.Count)
+                {
+                    CurrentGameState.Value = GameState.GameOver;
                     break;
+                }
+
+                CurrentQuestionNumber.Value++;
+                CurrentQuestionData.Value = _allQuestions[CurrentQuestionNumber.Value];
+
+                CurrentGameState.Value = GameState.DisplayingQuestion;
+                Timer.Value = timeToShowQuestion;
+
+
+                break;
 
             case GameState.GameOver:
                 //tela de vitoria
@@ -188,7 +227,8 @@ public class GameManager : NetworkBehaviour
         _allQuestions.Add(new Question("Em que ano o Brasil foi descoberto?", "1500", "1492", "1822", "1889", 0));
     }
 
-    private bool AllPlayersAnswered() {
+    private bool AllPlayersAnswered()
+    {
         if (!IsServer)
         {
             return false;
@@ -209,7 +249,8 @@ public class GameManager : NetworkBehaviour
     public void StartQuizRpc()
     {
         //Event_PucQuiz.scene_actualy = "Quiz";
-        LayoutManager.instance.ChangeMenu("Quiz","Quiz"); 
+        //LayoutManager.instance.ChangeMenu("Quiz","Quiz"); 
+        LayoutManager.instance.StartQuiz();
         OnQuizStarted?.Invoke(this, null);
         Timer.Value = timeToShowQuestion;
         CurrentGameState.Value = GameState.DisplayingQuestion;
@@ -217,9 +258,9 @@ public class GameManager : NetworkBehaviour
 
     private void PrintPlayersConnectedCommand(string[] args)
     {
-        foreach(var player in players)
+        foreach (var player in NetworkManager.Singleton.ConnectedClientsList)
         {
-            DEV.Instance.DevPrint($"Connected Player: ${player.playerName}");
+            DEV.Instance.DevPrint($"Connected Player: ${player.PlayerObject.GetComponent<QuizPlayer>().playerName.Value}");
         }
     }
 }

@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TMPro;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -10,10 +11,6 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
 public class QuizLobby : MonoBehaviour
 {
     //CONST
@@ -22,6 +19,9 @@ public class QuizLobby : MonoBehaviour
     public const string KEY_RELAY_JOINCODE = "RelayJoinCode";
     public const string KEY_ENCRYPTION_DLTS = "dkts";
     public const string KEY_ENCRYPTION_WSS = "wss";
+
+    [Header("Join Code")]
+    public string JoinCode;
 
     [Header("Local")]
 
@@ -32,14 +32,14 @@ public class QuizLobby : MonoBehaviour
     [SerializeField] private EncryptionType encryptionType = EncryptionType.WSS;
 
     [SerializeField] private bool isHost = false;
- 
 
 
-    [Header("Players")] 
+
+    [Header("Players")]
 
     [SerializeField] private int maxPlayers = 4;
 
- 
+
 
 
     private Lobby _hostLobby;
@@ -52,25 +52,21 @@ public class QuizLobby : MonoBehaviour
 
     NetworkManager _networkManager;
     private string _connectionType => encryptionType == EncryptionType.DTLS ? KEY_ENCRYPTION_DLTS : KEY_ENCRYPTION_WSS;
- 
+
     //SINGLETON
     public static QuizLobby Instance;
 
 
     #region Events
-    [HideInInspector] public EventHandler<LobbyEventArgs> onJoinedLobby;
+    [HideInInspector] public EventHandler<LobbyEventArgs> onJoinedLobby;  
     [HideInInspector] public EventHandler onJoiningLobby;
-    [HideInInspector] public EventHandler <UpdateLobbyUIArgs> onUpdateLobbyUI; 
+    [HideInInspector] public EventHandler onUpdateLobbyUI;
     #endregion
     public class LobbyEventArgs : EventArgs
     {
         public Lobby lobby;
     }
-
-    public class UpdateLobbyUIArgs : EventArgs
-    {
-        public GameObject JoiningPlayer;
-    }
+ 
 
     private void Awake()
     {
@@ -85,16 +81,26 @@ public class QuizLobby : MonoBehaviour
     {
         _networkManager = FindAnyObjectByType<NetworkManager>();
 
-        await UnityServices.InitializeAsync();
-        AuthenticationService.Instance.SignedIn += () =>
+        try
         {
-            Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
-        };
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            await UnityServices.InitializeAsync();
+            if (AuthenticationService.Instance.IsSignedIn == false)
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            }
+            Debug.Log("Unity Services initialized and signed in!");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Unity Services failed to initialize: {e.Message}");
+        }
 
         _playerIndex = AuthenticationService.Instance.PlayerId;
 
-        
+        DeveloperConsole.Console.AddCommand("lobbyData", DisplayLobbyDataCommand);
+        DeveloperConsole.Console.AddCommand("relayCode", DisplayRelayCodeCommand);
+
+
     }
 
 
@@ -141,7 +147,45 @@ public class QuizLobby : MonoBehaviour
 
     }
 
-     
+    public async Task<string> StartHostWithRelay(int maxConnections = 5, string _playerName = "null")
+    {
+        playerName = _playerName;
+        await InitializeRelay();
+        
+        Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
+
+        JoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+
+        _networkManager.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, connectionType: "wss"));
+        _networkManager.GetComponent<UnityTransport>().UseWebSockets = true;
+        isHost = true;
+        return NetworkManager.Singleton.StartHost() ? JoinCode : null;
+    }
+
+    public async Task<bool> StartClientWithRelay(string _joinCode, string _playerName)
+    {
+        playerName = _playerName;
+        JoinCode = _joinCode;
+        await InitializeRelay();
+        var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode: _joinCode);
+        // Configure transport
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(joinAllocation, "wss"));
+
+
+        return !string.IsNullOrEmpty(_joinCode) && NetworkManager.Singleton.StartClient();
+    }
+    public async Task<bool> InitializeRelay()
+    {
+        await UnityServices.InitializeAsync();
+
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
+
+        return true;
+    }
+
 
     public async void CreateLobby(string userName)
     {
@@ -161,18 +205,26 @@ public class QuizLobby : MonoBehaviour
             };
 
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(roomCode, maxPlayers, _options);
-            /*
-            Allocation _allocation = await AllocateRelay();
-            string relayJoinCode = await GetRelayJoinCode(_allocation);
-            
+
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(5);
+
+            _networkManager.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, connectionType: "wss"));
+            _networkManager.GetComponent<UnityTransport>().UseWebSockets = true;
+            string relayJoinCode = await GetRelayJoinCode(allocation);
+
             DataObject relayDataObject = new DataObject(DataObject.VisibilityOptions.Member, relayJoinCode);
-            Dictionary<string, DataObject> _updateLobbyOptions = new();
-            _updateLobbyOptions.Add(KEY_RELAY_JOINCODE, relayDataObject);
+
+            Dictionary<string, DataObject> _updateLobbyOptions = new()
+            {
+                { KEY_RELAY_JOINCODE, relayDataObject }
+            };
+
             await LobbyService.Instance.UpdateLobbyAsync(lobby.Id, new UpdateLobbyOptions
             {
                 Data = _updateLobbyOptions
             });
-            
+
+            /*
             JoinAllocation _joinAllocation = new JoinAllocation(_allocation);
 
             RelayServerData _relayServerData = new RelayServerData(allocation,_connectionType);
@@ -187,8 +239,9 @@ public class QuizLobby : MonoBehaviour
             isHost = true;
             _hostLobby = lobby;
             _joinedLobby = _hostLobby;
-            onJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby }); 
-            Debug.Log($"Hosting Lobby: { _joinedLobby.LobbyCode}");
+            onJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
+            //Debug.Log($"Hosting Lobby: {_joinedLobby.LobbyCode} // Relay Code: {lobby.Data[KEY_RELAY_JOINCODE].Value}");
+
         }
         catch (LobbyServiceException e)
         {
@@ -208,20 +261,36 @@ public class QuizLobby : MonoBehaviour
                 Player = player
             };
             var lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code, joinLobbyByCodeOptions);
-            if (lobby != null)
+
+
+            if (lobby != null && await StartClientRelay(lobby.Data[KEY_RELAY_JOINCODE].Value, "wss"))
             {
+                Debug.Log("Start Client Relay");
                 _hostLobby = lobby;
                 _joinedLobby = _hostLobby;
-                _networkManager.StartClient(); 
-                onJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby }); 
+                _networkManager.StartClient();
+                onJoinedLobby?.Invoke(this, new LobbyEventArgs { lobby = _joinedLobby });
             }
         }
         catch (LobbyServiceException e)
         {
-            Debug.Log(e); 
+            Debug.Log(e);
 
             //SetScene(menuObject);
         }
+    }
+
+    public async Task<bool> StartClientRelay(string joinCode, string connectionType)
+    {
+        JoinCode = joinCode;
+        await UnityServices.InitializeAsync();
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
+        var allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, connectionType));
+        return !string.IsNullOrEmpty(joinCode) && NetworkManager.Singleton.StartClient();
     }
 
 
@@ -242,7 +311,7 @@ public class QuizLobby : MonoBehaviour
         return code;
     }
 
-     
+
 
     private Player GetPlayer()
     {
@@ -357,6 +426,29 @@ public class QuizLobby : MonoBehaviour
 
 
         }
+    }
+
+
+    public void DisplayLobbyDataCommand(string[] args)
+    {
+
+        foreach (var data in _joinedLobby.Data.Values)
+        {
+
+            DEV.Instance.DevPrint(data.Value.ToString());
+        }
+    }
+
+    public void DisplayRelayCodeCommand(string[] args)
+    {
+        if (_joinedLobby == null)
+        {
+            DEV.Instance.DevPrint("Join a Lobby first");
+            return;
+        }
+
+
+        DEV.Instance.DevPrint($"Relay Code:{_joinedLobby.Data[KEY_RELAY_JOINCODE].Value}");
     }
 }
 

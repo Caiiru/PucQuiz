@@ -9,6 +9,7 @@ public class QuizPlayer : NetworkBehaviour
 
     [Header("Player Name")]
     public NetworkVariable<FixedString32Bytes> playerName = new("",NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
+    public string PlayerName => playerName.Value.ToString();
 
     [Space]
     [Header("Points")]

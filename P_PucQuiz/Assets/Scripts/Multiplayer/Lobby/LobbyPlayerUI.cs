@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Multiplayer.Lobby
 {
-    public class LobbyPlayerUI:MonoBehaviour
+    public class LobbyPlayerUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI playerNameText;
 
@@ -13,7 +13,11 @@ namespace Multiplayer.Lobby
         public void UpdatePlayer(Player player)
         {
             this._player = player;
-            playerNameText.text = player.Data[QuizLobby.KEY_PLAYER_NAME].Value; 
+            playerNameText.text = player.Data[QuizLobby.KEY_PLAYER_NAME].Value;
+        }
+        public void UpdatePlayerName(string playerName)
+        {
+            playerNameText.text = playerName;
         }
     }
 }
