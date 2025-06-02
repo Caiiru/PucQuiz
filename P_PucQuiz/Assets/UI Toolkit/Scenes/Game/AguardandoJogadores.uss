@@ -27,3 +27,38 @@
     color: rgb(255, 255, 255);
     -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
 }
+
+.LoadingText-1_Default {
+    align-self: center;
+    font-size: 67px;
+    -unity-font-style: bold;
+    color: rgb(69, 69, 69);
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
+    transition-property: scale;
+    transition-duration: 2s;
+    transition-delay: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.LoadingText-1_Start {
+    scale: 0 0;
+}
+
+.CodeText_Default {
+    align-self: center;
+    font-size: 48px;
+    -unity-font-style: bold;
+    color: rgb(230, 63, 102);
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
+    -unity-text-outline-width: 0;
+    -unity-text-outline-color: rgb(238, 57, 57);
+    transition-property: left;
+    transition-duration: 2s;
+    transition-delay: 0.3s;
+    transition-timing-function: ease-out;
+    left: 0;
+}
+
+.CodeText_Start {
+    left: -1099px;
+}

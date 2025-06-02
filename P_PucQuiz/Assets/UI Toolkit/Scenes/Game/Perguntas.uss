@@ -64,17 +64,6 @@
     scale: 0 0;
 }
 
-.TimerDefault {
-    flex-grow: 1;
-    align-self: center;
-    justify-content: center;
-    align-content: flex-start;
-    transition-property: scale, opacity;
-    transition-duration: 0.7s, 0.7s;
-    transition-timing-function: ease-in, ease-out;
-    transition-delay: 3s, 3s;
-}
-
 .QuestionTextDefault {
     flex-grow: 1;
     transition-property: translate, scale;
