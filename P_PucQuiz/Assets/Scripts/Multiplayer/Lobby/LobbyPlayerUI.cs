@@ -9,12 +9,7 @@ namespace Multiplayer.Lobby
         [SerializeField] private TextMeshProUGUI playerNameText;
 
         private Player _player;
-
-        public void UpdatePlayer(Player player)
-        {
-            this._player = player;
-            playerNameText.text = player.Data[QuizLobby.KEY_PLAYER_NAME].Value;
-        }
+ 
         public void UpdatePlayerName(string playerName)
         {
             playerNameText.text = playerName;

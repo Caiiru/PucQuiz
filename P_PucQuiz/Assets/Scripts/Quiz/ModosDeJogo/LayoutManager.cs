@@ -7,7 +7,7 @@ using UnityEditor.EditorTools;
 using UnityEditor.Toolbars;
 using UnityEngine;
 
-public class LayoutManager : NetworkBehaviour
+public class LayoutManager : MonoBehaviour
 {
     public static LayoutManager instance;
 
@@ -138,7 +138,7 @@ public class LayoutManager : NetworkBehaviour
     }
     public void ChangeMenu(string scene, string layout)
     {
-        if (!QuizLobby.Instance.GetIsHost()) { return; }
+        if (!GameManager.Instance.IsServer) { return; }
 
         switch (scene)
         {
@@ -186,7 +186,7 @@ public class LayoutManager : NetworkBehaviour
     }
     private void MultiplayerOn()
     {
-        if(QuizLobby.Instance.GetIsHost())
+        if(GameManager.Instance.IsServer)
         {
             //players = players.
         }
@@ -214,7 +214,7 @@ public class LayoutManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void ChangeMenuRpc(string scene, string layout)
     {
-        if (!QuizLobby.Instance.GetIsHost()) { return; }
+        if (!GameManager.Instance.IsServer) { return; }
 
         switch(scene)
         {

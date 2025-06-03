@@ -1,37 +1,63 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DeveloperConsole;
+using Unity.Collections;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public enum GameState
+{
+    WaitingToStart,
+    DisplayingQuestion,
+    CollectingAnswers,
+    ShowingResults,
+    RoundOver,
+    GameOver
+}
 
 public class GameManager : NetworkBehaviour
 {
+    [Header("Lobby Settings")]
+    public string JoinCode;
+    public string LocalPlayerName;
+
     [Header("Game Config")]
     [SerializeField] private float timeToShowQuestion = 99f;
     [SerializeField] private float timePerQuestion = 15f;
     [SerializeField] private float timeToShowResults = 5f;
 
     // --- Variáveis de Rede ---
+    [Header("Network Settings")]
     public NetworkVariable<GameState> CurrentGameState = new NetworkVariable<GameState>(GameState.WaitingToStart);
     public NetworkVariable<Question> CurrentQuestionData = new NetworkVariable<Question>();
     public NetworkVariable<float> Timer = new NetworkVariable<float>(0f);
     public NetworkVariable<int> CurrentQuestionNumber = new NetworkVariable<int>(0); // Número da pergunta atual na rodada  
- 
- 
+
+
+    public NetworkList<QuizPlayerData> playersConnected = new();
+    NetworkManager _networkManager;
 
 
 
-    // --- Variáveis do Servidor ---
-    [SerializeField] private List<Question> _allQuestions = new List<Question>();
 
-    private Dictionary<ulong, int> _playerAnswers = new Dictionary<ulong, int>();
 
-    [SerializeField] private QuizLobby _quizLobby;
+    //EVENTS
 
+    public EventHandler onPlayerJoined;
+
+    public EventHandler onJoiningGame;
     public EventHandler OnQuizStarted;
+
+
 
     #region Singleton
     public static GameManager Instance;
@@ -51,15 +77,17 @@ public class GameManager : NetworkBehaviour
 
     void Start()
     {
-        DeveloperConsole.Console.AddCommand("printConnectedPlayers", PrintPlayersConnectedCommand);
-        _quizLobby = FindAnyObjectByType<QuizLobby>();
+        _networkManager = FindAnyObjectByType<NetworkManager>();
     }
+
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         CurrentGameState.OnValueChanged += OnGameStateChanged;
         CurrentQuestionData.OnValueChanged += OnQuestionChanged;
         Timer.OnValueChanged += OnTimerChanged;
+        playersConnected.OnListChanged += OnPlayersConnectedListChanged;
 
         /*
         var _player = Instantiate(playerPrefab);
@@ -87,21 +115,30 @@ public class GameManager : NetworkBehaviour
 
         }
         */
+
         if (IsServer)
         {
-            
             CurrentGameState.Value = GameState.WaitingToStart;
             Timer.Value = 0;
         }
-        QuizLobby.Instance.onUpdateLobbyUI?.Invoke(this, null);
+        if (IsOwner)
+        {
+            Debug.Log("Im owner inside gameManagers");
+        }
         HandleGameStateChange(GameState.WaitingToStart, CurrentGameState.Value);
         HandleQuestionChange(default, CurrentQuestionData.Value);
         HandleTimerChange(0, Timer.Value);
 
 
+
         //DEBUG 
 
 
+    }
+
+    private void OnPlayersConnectedListChanged(NetworkListEvent<QuizPlayerData> changeEvent)
+    { 
+        
     }
 
     public override void OnNetworkDespawn()
@@ -129,14 +166,10 @@ public class GameManager : NetworkBehaviour
 
     public void CheckGameState(GameState currentState)
     {
-        if (_quizLobby.GetJoinedLobby() == null) return;
         switch (currentState)
         {
             case GameState.WaitingToStart:
-                if (_quizLobby.GetJoinedLobby().Players.Count == _quizLobby.GetJoinedLobby().MaxPlayers)
-                {
-                    StartQuizRpc();
-                }
+
                 break;
             case GameState.DisplayingQuestion:
                 if (Timer.Value <= 0)
@@ -162,14 +195,14 @@ public class GameManager : NetworkBehaviour
 
                 if (Timer.Value > 0) break;
 
-                if (CurrentQuestionNumber.Value == _allQuestions.Count)
-                {
-                    CurrentGameState.Value = GameState.GameOver;
-                    break;
-                }
+                //if (CurrentQuestionNumber.Value == _allQuestions.Count)
+                //{
+                //   CurrentGameState.Value = GameState.GameOver;
+                //break;
+                //}
 
                 CurrentQuestionNumber.Value++;
-                CurrentQuestionData.Value = _allQuestions[CurrentQuestionNumber.Value];
+                //CurrentQuestionData.Value = _allQuestions[CurrentQuestionNumber.Value];
 
                 CurrentGameState.Value = GameState.DisplayingQuestion;
                 Timer.Value = timeToShowQuestion;
@@ -198,7 +231,7 @@ public class GameManager : NetworkBehaviour
     }
     private void HandleQuestionChange(Question previousQuestion, Question newQuestion)
     {
-        DEV.Instance.DevPrint($"New Question Loaded: {newQuestion.QuestionText}");
+        //DEV.Instance.DevPrint($"New Question Loaded: {newQuestion.QuestionText}");
         //TODO -> UPDATE UI
     }
 
@@ -211,21 +244,6 @@ public class GameManager : NetworkBehaviour
         //UI COM TEMPO 
     }
 
-    public void PopulateQuestions()
-    {
-        //TODO -> Remove this 
-        // Conect to Backend later
-        if (!IsServer) return;
-
-        _allQuestions.Clear();
-
-        _allQuestions.Add(new Question("Qual a cor do céu em um dia limpo?", "Azul", "Verde", "Vermelho", "Amarelo", 0));
-        _allQuestions.Add(new Question("Quantos dias tem uma semana?", "5", "6", "7", "8", 2));
-        _allQuestions.Add(new Question("Qual o planeta mais próximo do Sol?", "Vênus", "Terra", "Marte", "Mercúrio", 3));
-        _allQuestions.Add(new Question("2 + 2 = ?", "3", "4", "5", "22", 1));
-        _allQuestions.Add(new Question("Qual a capital do Brasil?", "Rio de Janeiro", "São Paulo", "Brasília", "Salvador", 2));
-        _allQuestions.Add(new Question("Em que ano o Brasil foi descoberto?", "1500", "1492", "1822", "1889", 0));
-    }
 
     private bool AllPlayersAnswered()
     {
@@ -256,21 +274,88 @@ public class GameManager : NetworkBehaviour
         CurrentGameState.Value = GameState.DisplayingQuestion;
     }
 
-    private void PrintPlayersConnectedCommand(string[] args)
+
+    #region Lobby Stuff
+    public async Task<string> StartHostWithRelay(int maxConnections = 5, string _playerName = "null")
     {
-        foreach (var player in NetworkManager.Singleton.ConnectedClientsList)
+        LocalPlayerName = _playerName;
+        await InitializeRelay();
+
+        Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
+
+        JoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+        NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalManager.AproveConnection;
+        _networkManager.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, connectionType: "wss"));
+        _networkManager.GetComponent<UnityTransport>().UseWebSockets = true;
+        return NetworkManager.Singleton.StartHost() ? JoinCode : null;
+    }
+
+    public async Task<bool> StartClientWithRelay(string _joinCode, string _playerName)
+    {
+        LocalPlayerName = _playerName;
+        JoinCode = _joinCode;
+        await InitializeRelay();
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.UTF8.GetBytes(_playerName);
+        var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode: _joinCode);
+        // Configure transport
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(joinAllocation, "wss"));
+
+
+        return !string.IsNullOrEmpty(_joinCode) && NetworkManager.Singleton.StartClient();
+    }
+    public async Task<bool> InitializeRelay()
+    {
+        await UnityServices.InitializeAsync();
+
+        if (!AuthenticationService.Instance.IsSignedIn)
         {
-            DEV.Instance.DevPrint($"Connected Player: ${player.PlayerObject.GetComponent<QuizPlayer>().playerName.Value}");
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
+
+        return true;
+    }
+
+    internal void AddConnectedPlayer(ulong clientNetworkId, string playerName)
+    {
+        if (!IsServer) return;
+
+
+        foreach (var player in playersConnected)
+        {
+            if (player.ClientId == clientNetworkId)
+            {
+                Debug.LogWarning($"Player {clientNetworkId} already in list");
+                return;
+            }
+
+        }
+
+        playersConnected.Add(new QuizPlayerData()
+        {
+            ClientId = clientNetworkId,
+            PlayerName = playerName
+        });
     }
 }
 
-public enum GameState
+
+public struct QuizPlayerData : INetworkSerializable, System.IEquatable<QuizPlayerData>
 {
-    WaitingToStart,
-    DisplayingQuestion,
-    CollectingAnswers,
-    ShowingResults,
-    RoundOver,
-    GameOver
+    public ulong ClientId;
+    public FixedString32Bytes PlayerName;
+    public bool Equals(QuizPlayerData other)
+    {
+        return ClientId == other.ClientId && PlayerName == other.PlayerName;
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref ClientId);
+        serializer.SerializeValue(ref PlayerName);
+    }
+    public override int GetHashCode()
+    {
+        return ClientId.GetHashCode() ^ PlayerName.GetHashCode();
+    }
+    #endregion
 }

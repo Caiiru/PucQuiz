@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Multiplayer.Lobby;
 using TMPro;
 using Unity.Netcode;
@@ -8,7 +9,7 @@ using UnityEngine.UIElements;
 
 public class UILobbyHandler : MonoBehaviour
 {
-    [SerializeField] private GameObject lobbyPlayerPrefab; 
+    [SerializeField] private GameObject lobbyPlayerPrefab;
     [SerializeField] private Transform container;
 
     [SerializeField] private int _playerIndex = -1;
@@ -16,37 +17,65 @@ public class UILobbyHandler : MonoBehaviour
 
     void Start()
     {
-        QuizLobby.Instance.onUpdateLobbyUI += UpdateLobbyUI;
+        //QuizLobby.Instance.onUpdateLobbyUI += UpdateLobbyUI;
+        //GameManager.Instance.onPlayerJoined += UpdateLobbyUI;
+        GameManager.Instance.playersConnected.OnListChanged += UpdateLobbyUI;
         GameManager.Instance.OnQuizStarted += QuizStarted;
+
+        DeveloperConsole.Console.AddCommand("updateUI", UpdateUICommand);
+
+    }
+
+    private void UpdateLobbyUI(NetworkListEvent<QuizPlayerData> changeEvent)
+    { 
+        Hide();
+        ClearLobby();
+
+        Debug.Log($"Player count: {GameManager.Instance.playersConnected.Count}");
+        foreach (var playerName in GameManager.Instance.playersConnected)
+        {
+            var lobbyPlayer = Instantiate(lobbyPlayerPrefab, container.gameObject.transform, true);
+            LobbyPlayerUI lobbyPlayerUI = lobbyPlayer.GetComponent<LobbyPlayerUI>();
+            lobbyPlayerUI.UpdatePlayerName(playerName.PlayerName.ToString());
+        } 
+        Show();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
- 
 
-    private void UpdateLobbyUI(object sender, EventArgs e)
+    }
+    public void UpdateUICommand(string[] args)
     {
-        Hide(); 
+        StartCoroutine("UpdatePlayerNames");
+    }
+
+    void UpdateLobbyUI(object sender, EventArgs e)
+    {
+        Debug.Log("UpdateLobbyEvent");
+        StartCoroutine("UpdatePlayerNames");
+    }
+
+    private IEnumerator UpdatePlayerNames()
+    {
+        yield return new WaitForSeconds(0.5f); 
+
+        Hide();
         ClearLobby();
-        int index = 0;
-        return;
-        foreach (var player in NetworkManager.Singleton.ConnectedClientsList)
+        /*
+        Debug.Log("Update PLayer Names");
+        foreach (var playerName in GameManager.Instance.networkPlayers.Values)
         {
-            if (index != -1)
-            {
-                var lobbyPlayer = Instantiate(lobbyPlayerPrefab, container.gameObject.transform, true);
-                LobbyPlayerUI lobbyPlayerUI = lobbyPlayer.GetComponent<LobbyPlayerUI>();
-                //lobbyPlayerUI.UpdatePlayer(player);
-                lobbyPlayerUI.UpdatePlayerName(player.PlayerObject.GetComponent<QuizPlayer>().playerName.Value.ToString());
-            }
-            index++;
-        }
+
+            var lobbyPlayer = Instantiate(lobbyPlayerPrefab, container.gameObject.transform, true);
+            LobbyPlayerUI lobbyPlayerUI = lobbyPlayer.GetComponent<LobbyPlayerUI>(); 
+            lobbyPlayerUI.UpdatePlayerName(playerName);
+        } */
         Show();
     }
-    private void QuizStarted(object sender, EventArgs e) {
+    private void QuizStarted(object sender, EventArgs e)
+    {
         Hide();
     }
 

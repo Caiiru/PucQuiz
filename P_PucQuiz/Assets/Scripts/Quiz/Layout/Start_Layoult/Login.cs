@@ -23,9 +23,7 @@ public class Login
 
     public void Awake()
     {
-        Event_PucQuiz.layout_actualy = "Start";
-        QuizLobby.Instance.onJoiningLobby += JoiningLobby;
-        QuizLobby.Instance.onJoinedLobby += JoinedLobby;
+        Event_PucQuiz.layout_actualy = "Start"; 
     }
 
     public void Start()
@@ -174,23 +172,32 @@ public class Login
     {
         string code = doc.rootVisualElement.Q<TextField>("Code").value.ToUpper();
         string userName = doc.rootVisualElement.Q<TextField>("Name").value;
-
-        QuizLobby.Instance.onJoiningLobby?.Invoke(this, null);
+ 
         if (string.IsNullOrEmpty(userName))
         {
             Debug.LogError("User name is null or empty");
             return;
         }
 
+        //GameManager.Instance.onJoiningGame?.Invoke(this,null);
+        ChangeMenu("Conectando");
         if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
-        { 
-            await QuizLobby.Instance.StartHostWithRelay(5, userName);
+        {
+            var host = await GameManager.Instance.StartHostWithRelay(5, userName);
+
+            if (host != null)
+            {
+                ChangeMenu("CriarPartida");
+            }
         }
         else
         {
-            await QuizLobby.Instance.StartClientWithRelay(code, userName);
-        }
-        QuizLobby.Instance.onJoinedLobby?.Invoke(this, null);
+            if (await GameManager.Instance.StartClientWithRelay(code, userName))
+            {
+                ChangeMenu("CriarPartida");
+                GameManager.Instance.onPlayerJoined?.Invoke(this, null);
+            }
+        } 
 
     }
 
@@ -231,8 +238,8 @@ public class Login
                             doc.rootVisualElement.Q<Button>("Entrar").RegisterCallback<ClickEvent>(ClickEntrar);
                             break;
                         case "CriarPartida":
-                            doc.rootVisualElement.Q<Label>("CodeText").text = $"Codigo: {QuizLobby.Instance.JoinCode}";
-                            QuizLobby.Instance.onUpdateLobbyUI?.Invoke(this, null);
+                            doc.rootVisualElement.Q<Label>("CodeText").text = $"Codigo: {GameManager.Instance.JoinCode}";
+                            //QuizLobby.Instance.onUpdateLobbyUI?.Invoke(this, null);
                             CheckHostStatus();
                             break;
 
@@ -293,18 +300,13 @@ public class Login
         //Verifica se esta se juntando, tentando conectar e muda para uma tela de aguardo. 
         ChangeMenu("Conectando");
     }
-
-    private void JoinedLobby(object sender, QuizLobby.LobbyEventArgs e)
-    {
-        //como conseguiu conectar, muda para a tela do lobby com os players 
-        ChangeMenu("CriarPartida");
-    }
+ 
 
     void CheckHostStatus()
     {
         //Verifica se o jogador é host ou não para deixar ativo o boão de iniciar quiz/partida
         var _startButton = doc.rootVisualElement.Q<Button>("Iniciar");
-        if (!QuizLobby.Instance.GetIsHost())
+        if (!GameManager.Instance.IsHost)
         {
             //NOT HOST:
             _startButton.parent.Remove(_startButton);
