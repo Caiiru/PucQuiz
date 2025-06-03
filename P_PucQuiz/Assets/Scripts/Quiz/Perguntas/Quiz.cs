@@ -24,6 +24,7 @@ public class Quiz : Perguntas
     {
 
         if (attributes.timer.start == 0) { attributes.timer.start = 30; }
+        choice_actualy = 0;
         attributes.timer.Reset();
     }
 
@@ -88,7 +89,7 @@ public class Quiz : Perguntas
 
         if (question_event != "" && !question_lock)
         {
-            if (chose && !attributes.change) { Debug.Log("Escolha feita."); return; } //Quebra a execucao do codigo.
+            if (chose && !attributes.change) { Debug.Log("Escolha feita."); question_event = ""; return; } //Quebra a execucao do codigo.
 
             if (choice_max == 1) { Choices_Reset(); }
 
@@ -192,7 +193,7 @@ public class Quiz : Perguntas
     #region || Funcoes Rapidas ||
 
     public void Choice_Event(string chose){ Debug.Log(chose); Event_PucQuiz.question_event = chose; }
-    private void Make_Chose() { if (choice_actualy == choice_max) { chose = true; Event_PucQuiz.question_event = ""; } }
+    private void Make_Chose() { if (choice_actualy == choice_max) { chose = true; } Event_PucQuiz.question_event = ""; }
     private void Choices_Reset()
     {
         Debug.Log("Reset Choices");
