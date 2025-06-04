@@ -84,10 +84,17 @@ public class End
         porcent_3 *= bar.getSize();
         porcent_4 *= bar.getSize();
 
-        doc.rootVisualElement.Q("Progress1").style.width = new Length(porcent_1, LengthUnit.Percent);
-        doc.rootVisualElement.Q("Progress2").style.width = new Length(porcent_2, LengthUnit.Percent);
-        doc.rootVisualElement.Q("Progress3").style.width = new Length(porcent_3, LengthUnit.Percent);
-        doc.rootVisualElement.Q("Progress4").style.width = new Length(porcent_4, LengthUnit.Percent);
+        VisualElement bar_1 = doc.rootVisualElement.Q("Progress1");
+        bar_1.style.width = new Length(porcent_1, LengthUnit.Percent);
+
+        VisualElement bar_2 = doc.rootVisualElement.Q("Progress2");
+        bar_2.Q("Progress2").style.width = new Length(porcent_2, LengthUnit.Percent);
+
+        VisualElement bar_3 = doc.rootVisualElement.Q("Progress3");
+        bar_3.style.width = new Length(porcent_3, LengthUnit.Percent);
+
+        VisualElement bar_4 = doc.rootVisualElement.Q("Progress4");
+        bar_4.style.width = new Length(porcent_4, LengthUnit.Percent);
     }
     private void SetLayout()
     {
