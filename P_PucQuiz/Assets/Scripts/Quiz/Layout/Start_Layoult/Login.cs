@@ -183,7 +183,7 @@ public class Login
         ChangeMenu("Conectando");
         if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
         {
-            var host = await GameManager.Instance.StartHostWithRelay(5, userName);
+            var host = await GameManager.Instance.StartHostWithRelay(30, userName);
 
             if (host != null)
             {
