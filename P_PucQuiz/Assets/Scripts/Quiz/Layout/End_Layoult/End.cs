@@ -36,6 +36,7 @@ public class End
             SetBars();
             return;
         }
+
         if(!time.End())
         {
             time.Run();
@@ -175,14 +176,15 @@ public class End
 public class anim_bar
 {
     [SerializeField] private AnimationCurve anim;
+    [SerializeField] private float time_max;
     [SerializeField] private float size = 0;
     [SerializeField] private float time = 0;
 
     public void Run() 
     {
-        if (time >= 1)
+        if (time <= time_max)
         { 
-            time = Time.deltaTime; size = anim.Evaluate(time); 
+            time += Time.deltaTime; size = anim.Evaluate(time/time_max); 
         } 
         else 
         { 
@@ -191,7 +193,7 @@ public class anim_bar
     }
 
     public void Reset() { time = 0; }
-    public bool finish() { return time >= 1; }
+    public bool finish() { return time >= time_max; }
     public float getSize()
     {
         return size;
