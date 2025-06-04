@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="MainFrame" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Scenes/In%20Game%20-%2002.png?fileID=2800000&amp;guid=5a69c3802ea5ffd4291e04cd8efc73d8&amp;type=3#In Game - 02&quot;);">
+        <ui:VisualElement name="TopFrame" style="flex-grow: 1; flex-basis: 70px; height: 347px;">
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(226, 31, 31, 0.84); flex-direction: column; flex-basis: 40%;" />
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(120, 226, 31, 0.84); flex-basis: 60%;" />
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(31, 226, 118, 0.84); flex-basis: 60%;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="BottomFrame" style="flex-grow: 1; flex-basis: 30px;" />
+    </ui:VisualElement>
+</ui:UXML>
