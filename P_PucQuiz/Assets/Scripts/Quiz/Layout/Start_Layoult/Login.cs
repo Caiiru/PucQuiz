@@ -194,8 +194,8 @@ public class Login
         {
             if (await GameManager.Instance.StartClientWithRelay(code, userName))
             {
+                //GameManager.Instance.onJoiningGame?.Invoke(this,null);
                 ChangeMenu("CriarPartida");
-                GameManager.Instance.onPlayerJoined?.Invoke(this, null);
             }
         } 
 

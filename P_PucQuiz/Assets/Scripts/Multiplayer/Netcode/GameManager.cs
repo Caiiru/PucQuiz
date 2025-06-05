@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,11 +50,9 @@ public class GameManager : NetworkBehaviour
 
 
 
-
     //EVENTS
 
     public EventHandler onPlayerJoined;
-
     public EventHandler onJoiningGame;
     public EventHandler OnQuizStarted;
 
@@ -74,7 +73,6 @@ public class GameManager : NetworkBehaviour
     }
     #endregion
 
-
     void Start()
     {
         _networkManager = FindAnyObjectByType<NetworkManager>();
@@ -87,58 +85,24 @@ public class GameManager : NetworkBehaviour
         CurrentGameState.OnValueChanged += OnGameStateChanged;
         CurrentQuestionData.OnValueChanged += OnQuestionChanged;
         Timer.OnValueChanged += OnTimerChanged;
-        playersConnected.OnListChanged += OnPlayersConnectedListChanged;
 
-        /*
-        var _player = Instantiate(playerPrefab);
-        DEV.Instance.DevPrint($"Player: {_player.GetComponent<QuizPlayer>().playerName.Value} joined");
-        if (IsOwner)
-        {
-            if (player == null)
-            {
-                player = _player.GetComponent<QuizPlayer>();
-            }
-        }
-        if (IsServer)
-        {
-            if (IsOwner)
-            {
-                Destroy(_player);
-            }
-            else
-            {
-                players.Add(player.GetComponent<QuizPlayer>());
-            }
 
-            CurrentGameState.Value = GameState.WaitingToStart;
-            Timer.Value = 0;
-
-        }
-        */
 
         if (IsServer)
         {
             CurrentGameState.Value = GameState.WaitingToStart;
             Timer.Value = 0;
+            HandleGameStateChange(GameState.WaitingToStart, CurrentGameState.Value);
+            HandleQuestionChange(default, CurrentQuestionData.Value);
+            HandleTimerChange(0, Timer.Value);
         }
-        if (IsOwner)
-        {
-            Debug.Log("Im owner inside gameManagers");
-        }
-        HandleGameStateChange(GameState.WaitingToStart, CurrentGameState.Value);
-        HandleQuestionChange(default, CurrentQuestionData.Value);
-        HandleTimerChange(0, Timer.Value);
 
 
+        //onPlayerJoined?.Invoke(this, null);
 
         //DEBUG 
 
 
-    }
-
-    private void OnPlayersConnectedListChanged(NetworkListEvent<QuizPlayerData> changeEvent)
-    { 
-        
     }
 
     public override void OnNetworkDespawn()
@@ -201,7 +165,7 @@ public class GameManager : NetworkBehaviour
                 //break;
                 //}
 
-                CurrentQuestionNumber.Value++;
+                //CurrentQuestionNumber.Value++;
                 //CurrentQuestionData.Value = _allQuestions[CurrentQuestionNumber.Value];
 
                 CurrentGameState.Value = GameState.DisplayingQuestion;
@@ -278,6 +242,7 @@ public class GameManager : NetworkBehaviour
     #region Lobby Stuff
     public async Task<string> StartHostWithRelay(int maxConnections = 5, string _playerName = "null")
     {
+        playersConnected = new();
         LocalPlayerName = _playerName;
         await InitializeRelay();
 
@@ -295,7 +260,14 @@ public class GameManager : NetworkBehaviour
         LocalPlayerName = _playerName;
         JoinCode = _joinCode;
         await InitializeRelay();
-        NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.UTF8.GetBytes(_playerName);
+
+        var connectionPayload = new ConnectionApprovalManager.ConnectionPayload()
+        {
+            PlayerAuthID = AuthenticationService.Instance.PlayerId,
+            PlayerName = _playerName
+        };
+
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = ConnectionApprovalManager.SerializeConnectionPayload(payload: connectionPayload);
         var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode: _joinCode);
         // Configure transport
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(joinAllocation, "wss"));
@@ -314,12 +286,18 @@ public class GameManager : NetworkBehaviour
 
         return true;
     }
-
-    internal void AddConnectedPlayer(ulong clientNetworkId, string playerName)
+    public NetworkList<QuizPlayerData> GetConnectedPlayers()
     {
-        if (!IsServer) return;
+        CheckList();
+        return playersConnected;
+    }
+    #endregion
+
+    #region Server Functions
 
 
+    internal void AddConnectedPlayer(string clientNetworkId, string playerName)
+    {
         foreach (var player in playersConnected)
         {
             if (player.ClientId == clientNetworkId)
@@ -330,18 +308,80 @@ public class GameManager : NetworkBehaviour
 
         }
 
+        DEV.Instance.DevPrint($"Player Joined: {clientNetworkId}:{playerName}");
+
         playersConnected.Add(new QuizPlayerData()
         {
             ClientId = clientNetworkId,
             PlayerName = playerName
         });
+
+
     }
+    internal void RemoveConnectedPlayerByID(string clientNetworkId)
+    {
+        //if (!IsServer) return;
+        Debug.Log($"Removing {clientNetworkId}");
+        foreach (var player in playersConnected)
+        {
+            if (player.ClientId == clientNetworkId)
+            {
+                playersConnected.Remove(player);
+                return;
+            }
+
+        }
+    }
+    internal void RemoveConnectedPlayerByName(string playerName)
+    {
+        //if (!IsServer) return;
+        Debug.Log($"Removing {playerName}");
+        foreach (var player in playersConnected)
+        {
+            if (player.PlayerName == playerName)
+            {
+                playersConnected.Remove(player);
+                return;
+            }
+
+        }
+
+        Debug.Log($"{playerName} not found");
+    }
+
+    public void ReceivePlayer(string playerId, string PlayerName)
+    {
+        if (!IsServer) return;
+
+        DEV.Instance.DevPrint($"A new player was joined: {playerId}:{PlayerName}");
+    }
+
+    internal void CheckList()
+    {
+        //if (!IsServer) return;
+
+        ArrayList _playersList = new();
+        foreach (var player in playersConnected)
+        {
+            if (_playersList.Contains(player.ClientId))
+            {
+                RemoveConnectedPlayerByID(player.ClientId.ToString());
+            }
+            _playersList.Add(player.ClientId);
+        }
+
+    }
+
+    #endregion  
+
 }
 
 
+
+#region Quiz Player Data
 public struct QuizPlayerData : INetworkSerializable, System.IEquatable<QuizPlayerData>
 {
-    public ulong ClientId;
+    public FixedString32Bytes ClientId;
     public FixedString32Bytes PlayerName;
     public bool Equals(QuizPlayerData other)
     {
@@ -357,5 +397,6 @@ public struct QuizPlayerData : INetworkSerializable, System.IEquatable<QuizPlaye
     {
         return ClientId.GetHashCode() ^ PlayerName.GetHashCode();
     }
-    #endregion
 }
+
+#endregion

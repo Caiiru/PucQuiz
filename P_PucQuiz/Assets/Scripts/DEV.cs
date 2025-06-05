@@ -10,7 +10,7 @@ public class DEV : MonoBehaviour
     public bool isDebug = true;
     public bool isTimerInfinity = true;
     public static DEV Instance;
- 
+
 
     void Awake()
     {
@@ -22,45 +22,39 @@ public class DEV : MonoBehaviour
     {
         consoleCanvas.gameObject.SetActive(true);
 
-        DeveloperConsole.Console.AddCommand("testAnim", TestAnimCommand);
-        DeveloperConsole.Console.AddCommand("loadAnim", LoadAnimCommand);
-        DeveloperConsole.Console.AddCommand("changeToQuiz", ChangeToQuizCommand);
+        DeveloperConsole.Console.AddCommand("PlayersNameCommand", PrintPlayersCommand);
+        DeveloperConsole.Console.AddCommand("AddPlayer", AddPlayerCommand);
+        DeveloperConsole.Console.AddCommand("RemovePlayer", RemovePlayerCommand);
     }
+    public void AddPlayerCommand(string[] args)
+    {
+        string playerID = (args[0]);
+        string playerName = args[1].ToString();
 
-    // Update is called once per frame
-    void Update()
+        GameManager.Instance.AddConnectedPlayer(playerID, playerName);
+    }
+    public void PrintPlayersCommand(string[] args)
     {
+        var printText = "";
+        var _index = 0;
+        foreach (var player in GameManager.Instance.playersConnected)
+        {
+            if (_index == 0)
+            {
+                printText = $"{player.ClientId}:{player.PlayerName}, ";
+            }
+            else
+            {
+                printText = $"{printText}{player.ClientId}:{player.PlayerName}, ";
+            }
+            _index++;
+        }
+        DevPrint($"Players connected: {printText}");
 
     }
-    public void ChangeToQuizCommand(string[] args)
+    public void RemovePlayerCommand(string[] args)
     {
-        var layoutManager = FindAnyObjectByType<LayoutManager>();
-        if (layoutManager == null) return;
-
-        //layoutManager.ChangeToQuiz();
-        //TestAnimCommand(null);
-    }
-    public void LoadAnimCommand(string[] args)
-    {
-        var document = FindAnyObjectByType<UIDocument>();
-        var textContainer = document.rootVisualElement.Q<VisualElement>("Container_Pergunta");
-        var timerContainer = document.rootVisualElement.Q<VisualElement>("Container_Timer");
-        var answersContainer = document.rootVisualElement.Q<VisualElement>("Container-Resposta1");
-        textContainer.AddToClassList("QuestionTextStart");
-        answersContainer.AddToClassList("ScaleUpStart");
-        timerContainer.AddToClassList("TimerStart");
-    }
-    public void TestAnimCommand(string[] args)
-    {
-       
-        var document = FindAnyObjectByType<UIDocument>();
-        var textContainer = document.rootVisualElement.Q<VisualElement>("Container_Pergunta");
-        var timerContainer = document.rootVisualElement.Q<VisualElement>("Container_Timer");
-        var answersContainer = document.rootVisualElement.Q<VisualElement>("Container-Resposta1");
-        
-        textContainer.RemoveFromClassList("QuestionTextStart");
-        answersContainer.RemoveFromClassList("ScaleUpStart"); 
-        timerContainer.RemoveFromClassList("TimerStart"); 
+        GameManager.Instance.RemoveConnectedPlayerByName(args[0]);
     }
 
     public void DevPrint(string text)

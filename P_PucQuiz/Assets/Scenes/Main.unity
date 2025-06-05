@@ -3584,7 +3584,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyPlayerPrefab: {fileID: 2911691245093787948, guid: 22d9f56bafd417540a0533fdca363e85, type: 3}
   container: {fileID: 1268237085}
-  _playerIndex: -1
 --- !u!4 &2145240074
 Transform:
   m_ObjectHideFlags: 0
