@@ -180,7 +180,7 @@ public class Login
         }
 
         //GameManager.Instance.onJoiningGame?.Invoke(this,null);
-        ChangeMenu("Conectando");
+        ChangeMenu("Conectando"); 
         if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
         {
             var host = await GameManager.Instance.StartHostWithRelay(30, userName);
@@ -194,11 +194,18 @@ public class Login
         {
             if (await GameManager.Instance.StartClientWithRelay(code, userName))
             {
-                //GameManager.Instance.onJoiningGame?.Invoke(this,null);
-                ChangeMenu("CriarPartida");
+                GameManager.Instance.OnUpdateUI += OnUpdateUI;
             }
         } 
 
+    }
+
+    private void OnUpdateUI(object sender, EventArgs e)
+    {
+        if (!(Event_PucQuiz.layout_actualy =="CriarPartida"))
+        {
+            ChangeMenu("CriarPartida");
+        }
     }
 
     private void ClickCriarPartida(ClickEvent click) //Bot�o que vai da tela de login para a de criar partida ou cria a partida.
@@ -294,12 +301,7 @@ public class Login
         SetButtons();
     }
 
-
-    private void JoiningLobby(object sender, EventArgs e)
-    {
-        //Verifica se esta se juntando, tentando conectar e muda para uma tela de aguardo. 
-        ChangeMenu("Conectando");
-    }
+ 
  
 
     void CheckHostStatus()

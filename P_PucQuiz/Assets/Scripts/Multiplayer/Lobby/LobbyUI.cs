@@ -19,13 +19,22 @@ public class LobbyUI : MonoBehaviour
     {
 
         gameManager = GameManager.Instance;
-        gameManager.onJoiningGame += OnJoiningGame;
-        gameManager.onPlayerJoined += OnPlayerJoined;
-        //gameManager.playersConnected.OnListChanged += OnLobbyUIListChanged;
+        gameManager.OnUpdateUI += OnUpdateUIRequested;
+        //gameManager.onPlayerJoined += OnPlayerJoined;
+        gameManager.playersConnected.OnListChanged += OnLobbyUIListChanged;
+        gameManager.OnQuizStarted += OnQuizStarted;
+
+        DeveloperConsole.Console.AddCommand("updateUI", UpdateUICommand);
     }
+
+    private void OnLobbyUIListChanged(NetworkListEvent<QuizPlayerData> changeEvent)
+    {
+        UpdateLobbyUI();
+    }
+
     void OnDisable()
     {
-        gameManager.onPlayerJoined -= OnPlayerJoined;
+        // gameManager.onPlayerJoined -= OnPlayerJoined;
     }
 
 
@@ -60,25 +69,21 @@ public class LobbyUI : MonoBehaviour
         container.gameObject.SetActive(true);
     }
 
-    #region Events
-    private void OnLobbyUIListChanged(NetworkListEvent<QuizPlayerData> changeEvent)
-    {
-        UpdateLobbyUI();
-    }
-    private void OnPlayerJoined(object sender, EventArgs e)
-    {
-        UpdateLobbyUI();
-    }
+    #region Events 
     private void OnQuizStarted(object sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        Hide();
     }
 
-    private void OnJoiningGame(object sender, EventArgs e)
+    private void OnUpdateUIRequested(object sender, EventArgs e)
     {
-        gameManager.onPlayerJoined += OnPlayerJoined;
-        gameManager.OnQuizStarted += OnQuizStarted;
+        UpdateLobbyUI();
     }
     #endregion
 
+
+    void UpdateUICommand(string[] args)
+    {
+        UpdateLobbyUI();
+    }
 }

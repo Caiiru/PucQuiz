@@ -37,6 +37,7 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private float timeToShowResults = 5f;
 
     // --- Variáveis de Rede ---
+    #region Network Settings
     [Header("Network Settings")]
     public NetworkVariable<GameState> CurrentGameState = new NetworkVariable<GameState>(GameState.WaitingToStart);
     public NetworkVariable<Question> CurrentQuestionData = new NetworkVariable<Question>();
@@ -47,15 +48,16 @@ public class GameManager : NetworkBehaviour
     public NetworkList<QuizPlayerData> playersConnected = new();
     NetworkManager _networkManager;
 
-
+    #endregion
 
 
     //EVENTS
 
-    public EventHandler onPlayerJoined;
-    public EventHandler onJoiningGame;
+    #region Events Call
+    public EventHandler OnUpdateUI;
+    public EventHandler OnJoiningGame;
     public EventHandler OnQuizStarted;
-
+    #endregion
 
 
     #region Singleton
@@ -96,7 +98,10 @@ public class GameManager : NetworkBehaviour
             HandleQuestionChange(default, CurrentQuestionData.Value);
             HandleTimerChange(0, Timer.Value);
         }
-
+        if (!IsServer)
+        {
+            SendPlayerInfoToServerRpc(AuthenticationService.Instance.PlayerId, LocalPlayerName);
+        }
 
         //onPlayerJoined?.Invoke(this, null);
 
@@ -241,8 +246,7 @@ public class GameManager : NetworkBehaviour
 
     #region Lobby Stuff
     public async Task<string> StartHostWithRelay(int maxConnections = 5, string _playerName = "null")
-    {
-        playersConnected = new();
+    { 
         LocalPlayerName = _playerName;
         await InitializeRelay();
 
@@ -298,6 +302,10 @@ public class GameManager : NetworkBehaviour
 
     internal void AddConnectedPlayer(string clientNetworkId, string playerName)
     {
+
+        if (!IsServer) return;
+
+
         foreach (var player in playersConnected)
         {
             if (player.ClientId == clientNetworkId)
@@ -316,6 +324,7 @@ public class GameManager : NetworkBehaviour
             PlayerName = playerName
         });
 
+        UpdateLobbyRPC();
 
     }
     internal void RemoveConnectedPlayerByID(string clientNetworkId)
@@ -327,6 +336,7 @@ public class GameManager : NetworkBehaviour
             if (player.ClientId == clientNetworkId)
             {
                 playersConnected.Remove(player);
+                UpdateLobbyRPC();
                 return;
             }
 
@@ -341,6 +351,7 @@ public class GameManager : NetworkBehaviour
             if (player.PlayerName == playerName)
             {
                 playersConnected.Remove(player);
+                UpdateLobbyRPC();
                 return;
             }
 
@@ -349,11 +360,17 @@ public class GameManager : NetworkBehaviour
         Debug.Log($"{playerName} not found");
     }
 
-    public void ReceivePlayer(string playerId, string PlayerName)
-    {
-        if (!IsServer) return;
 
-        DEV.Instance.DevPrint($"A new player was joined: {playerId}:{PlayerName}");
+    [ServerRpc(RequireOwnership = false)]
+    void SendPlayerInfoToServerRpc(string clientId, string playerName)
+    {
+        AddConnectedPlayer(clientId, playerName);
+        //Debug.Log($"Received message from: {playerName} - {clientId}");
+    }
+    [Rpc(SendTo.Everyone)]
+    void UpdateLobbyRPC()
+    {
+        OnUpdateUI?.Invoke(this, null);
     }
 
     internal void CheckList()
