@@ -3,27 +3,24 @@ using System.Collections;
 using Multiplayer.Lobby;
 using Unity.Collections;
 using Unity.Netcode;
+using Unity.Services.Authentication;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
-public class QuizPlayer : NetworkBehaviour
+public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<QuizPlayer>
 {
 
     [Header("Player Name")]
 
-    public NetworkVariable<FixedString32Bytes> playerName = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public string PlayerName => playerName.Value.ToString();
+    public NetworkVariable<FixedString32Bytes> PlayerName = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner); 
+    public NetworkVariable<FixedString32Bytes> ClientId = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Space]
     [Header("Points")]
 
-    public NetworkVariable<int> points = new(0, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> Score = new(0, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<FixedString32Bytes> cards = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);   // Cards uid separated by , 
 
-    public NetworkVariable<bool> alreadyAnswered = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    //UI
-    LobbyPlayerUI _lobbyPlayerUI;
-
-    //Manager
-    GameManager _gameManager;
 
     public void Start()
     {
@@ -33,32 +30,32 @@ public class QuizPlayer : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        _gameManager = FindAnyObjectByType<GameManager>();
-
 
 
         if (IsOwner)
         {
-            playerName.Value = GameManager.Instance.LocalPlayerName;
-            Debug.Log($"Sending to host...{OwnerClientId} - {playerName.Value}");
-
+            PlayerName.Value = GameManager.Instance.LocalPlayerName;
+            ClientId.Value = AuthenticationService.Instance.PlayerId;
+            Debug.Log($"Sending to host...{ClientId.Value} - {PlayerName.Value}");
+            //RegisterPlayerOnServerRPC(AuthenticationService.Instance.PlayerId, this);
         }
+ 
+    } 
+
+    public bool Equals(QuizPlayer other)
+    {
+        if (other == null) return false;
+        QuizPlayer objAsPart = other as QuizPlayer;
+        if (objAsPart == null) return false;
+        else return Equals(objAsPart);
     }
 
-    IEnumerator WaitToUpdate()
+    public int CompareTo(QuizPlayer other)
     {
-        yield return new WaitForSeconds(5f);
-        Debug.Log("Wait to ui update ended");
-    }
+        if (other.Score == null)
+            return 1;
 
-    [Rpc(SendTo.Server)]
-    void joinedToServerRpc(ulong clientId, string n)
-    {
-
-        Debug.Log($"Received from player {clientId}, his name: {n}");
+        else return this.Score.Value.CompareTo(other.Score.Value);
     }
  
- 
-
-
 }

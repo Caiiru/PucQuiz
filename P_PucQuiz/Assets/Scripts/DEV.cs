@@ -25,6 +25,7 @@ public class DEV : MonoBehaviour
         DeveloperConsole.Console.AddCommand("PlayersNameCommand", PrintPlayersCommand);
         DeveloperConsole.Console.AddCommand("AddPlayer", AddPlayerCommand);
         DeveloperConsole.Console.AddCommand("RemovePlayer", RemovePlayerCommand);
+        DeveloperConsole.Console.AddCommand("GivePoints", GameManager.Instance.GivePointsToEveryoneCommand);
     }
     public void AddPlayerCommand(string[] args)
     {
@@ -37,7 +38,7 @@ public class DEV : MonoBehaviour
     {
         var printText = "";
         var _index = 0;
-        foreach (var player in GameManager.Instance.playersConnected)
+        foreach (var player in GameManager.Instance.ConnectedPlayers)
         {
             if (_index == 0)
             {

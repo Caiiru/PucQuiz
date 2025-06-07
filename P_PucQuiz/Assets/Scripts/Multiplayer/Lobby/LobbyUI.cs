@@ -21,7 +21,7 @@ public class LobbyUI : MonoBehaviour
         gameManager = GameManager.Instance;
         gameManager.OnUpdateUI += OnUpdateUIRequested;
         //gameManager.onPlayerJoined += OnPlayerJoined;
-        gameManager.playersConnected.OnListChanged += OnLobbyUIListChanged;
+        gameManager.ConnectedPlayers.OnListChanged += OnLobbyUIListChanged;
         gameManager.OnQuizStarted += OnQuizStarted;
 
         DeveloperConsole.Console.AddCommand("updateUI", UpdateUICommand);

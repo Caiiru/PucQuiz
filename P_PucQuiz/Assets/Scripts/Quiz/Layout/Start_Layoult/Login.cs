@@ -308,7 +308,7 @@ public class Login
     {
         //Verifica se o jogador é host ou não para deixar ativo o boão de iniciar quiz/partida
         var _startButton = doc.rootVisualElement.Q<Button>("Iniciar");
-        if (!GameManager.Instance.IsHost)
+        if (!GameManager.Instance.IsServer)
         {
             //NOT HOST:
             _startButton.parent.Remove(_startButton);

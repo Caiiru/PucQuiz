@@ -2171,9 +2171,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player:
-    playerName: Jogador
+    playerName: 
     points: 0
-    slots: 4
+    slots: 0
     cartas:
     - {fileID: 0}
     - {fileID: 0}
@@ -2341,40 +2341,7 @@ MonoBehaviour:
   end_start: 1
   multiplayer_on: 0
   local_players:
-  - playerName: Jose
-    points: 100
-    slots: 0
-    cartas:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    cartas_index: 0
-    protetor: 0
-    dobrar: 0
-  - playerName: Joao
-    points: 50
-    slots: 0
-    cartas:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    cartas_index: 0
-    protetor: 0
-    dobrar: 0
-  - playerName: Jorgim
-    points: 25
-    slots: 0
-    cartas:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    cartas_index: 0
-    protetor: 0
-    dobrar: 0
-  - playerName: Josemar
+  - playerName: 
     points: 0
     slots: 0
     cartas:
@@ -2385,8 +2352,41 @@ MonoBehaviour:
     cartas_index: 0
     protetor: 0
     dobrar: 0
-  - playerName: Josefa
-    points: 15
+  - playerName: 
+    points: 0
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: 
+    points: 0
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: 
+    points: 0
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: 
+    points: 0
     slots: 0
     cartas:
     - {fileID: 0}
@@ -3464,7 +3464,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1921612032}
-    PlayerPrefab: {fileID: 0}
+    PlayerPrefab: {fileID: 2911691245093787948, guid: 041486ffdc7085a41866819587ebec6a, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 638f6851e5c735e45b47dfb8a3c2d7ae, type: 2}

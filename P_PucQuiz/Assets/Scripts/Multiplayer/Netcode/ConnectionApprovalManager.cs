@@ -52,9 +52,9 @@ public class ConnectionApprovalManager : MonoBehaviour
         //GameManager.Instance.AddConnectedPlayer(playerAuthID, playerName);
 
         response.Approved = true;
-        //response.CreatePlayerObject = true;
         response.Pending = false;
         response.Reason = string.Empty;
+        response.CreatePlayerObject = true;
 
     }
 }
