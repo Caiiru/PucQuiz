@@ -1,0 +1,50 @@
+.panel {
+}
+
+.login-button {
+    background-color: rgb(104, 208, 136);
+    color: rgb(255, 255, 255);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.login-button:hover {
+    background-color: rgb(128, 255, 32);
+}
+
+.login-button:active {
+    background-color: rgb(0, 0, 0);
+}
+
+#Email #unity-text-input {
+    background-color: rgb(49, 115, 129);
+}
+
+#Senha #unity-text-input {
+    background-color: rgb(49, 115, 129);
+}
+
+.unity-text-element {
+    color: rgb(255, 255, 255);
+    font-size: 36px;
+    -unity-font-style: bold;
+}
+
+.Title_Start {
+    scale: 0.8 0.8;
+}
+
+.Title_Default {
+    align-self: center;
+    font-size: 256px;
+    -unity-font-style: bold;
+    color: rgb(69, 69, 69);
+    -unity-font-definition: url("project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&guid=e30bd63670e9bca42927092983a72b4c&type=3#LexendDeca-VariableFont_wght");
+    margin-bottom: 46px;
+    transition-property: scale;
+    transition-timing-function: ease-out;
+    transition-duration: 2s;
+    transition-delay: 0.3s;
+}

@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Scenes/Menu/Entercode-Menu.uss?fileID=7433441132597879392&amp;guid=84ee818ea5706ce43a12ced8a932d00c&amp;type=3#Entercode-Menu" />
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; align-items: center; background-color: rgba(251, 247, 239, 0); height: 430px;">
+        <ui:VisualElement name="Barra" style="flex-grow: 1; height: 10%; align-self: center; width: 100%; align-content: flex-start; justify-content: center;" />
+        <ui:VisualElement name="Title_Component" style="background-color: rgba(0, 0, 0, 0); width: 1180px; align-items: stretch; align-self: center; align-content: flex-start; justify-content: center; height: 30%;">
+            <ui:Label text="Grasp" name="Title" class="Title_Default" style="transition-duration: 0.5s;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Name_Component" style="flex-grow: 1; height: 10%; align-self: auto; align-items: center; justify-content: center;">
+            <ui:TextField placeholder-text="Insira seu Nome" focusable="true" keyboard-type="Default" vertical-scroller-visibility="Auto" is-delayed="false" hide-placeholder-on-focus="false" usage-hints="None" enabled="true" hide-mobile-input="true" name="Name" style="width: 800px; height: 100px; font-size: 48px; -unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;); align-self: center; -unity-text-align: upper-left; justify-content: flex-start; align-items: center;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Code_Component" style="flex-grow: 1; justify-content: center; align-items: center; height: 10%; align-self: auto;">
+            <ui:TextField placeholder-text="Código do Quiz" focusable="true" keyboard-type="Default" vertical-scroller-visibility="Auto" is-delayed="false" hide-placeholder-on-focus="false" usage-hints="None" enabled="true" hide-mobile-input="true" name="Code" style="font-size: 48px; -unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;); align-self: center; align-items: center; justify-content: flex-start; height: 100px; width: 800px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Entrar_Container" style="flex-grow: 1;">
+            <ui:Button text="Entrar" name="Entrar" class="unity-button" style="width: 300px; height: 100px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Horizontal_Buttons_Component" style="flex-direction: row; margin-top: 32px; height: 10%; justify-content: center; -unity-background-scale-mode: stretch-to-fill; -unity-font-definition: resource(&apos;Font/LexendDeca-VariableFont_wght&apos;); align-content: flex-start; align-items: stretch; flex-wrap: nowrap;">
+            <ui:VisualElement name="Barra" style="flex-grow: 1;" />
+            <ui:Button text="Login" name="Login" class="login-button" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Barra_Voltar" style="flex-grow: 1; height: 10%; align-self: center; width: 100%; align-content: flex-start; justify-content: center;">
+            <ui:Button text="Voltar" name="Voltar" class="login-button" style="align-self: flex-start;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

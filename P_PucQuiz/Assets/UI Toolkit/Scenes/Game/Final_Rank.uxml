@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Scenes/Game/RankingFinal.uss?fileID=7433441132597879392&amp;guid=7caa1888de8c0b4459099434f6c582cb&amp;type=3#RankingFinal" />
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; align-items: center; background-color: rgba(251, 247, 239, 0); height: 430px;">
+        <ui:VisualElement name="Texto_Container" style="background-color: rgba(0, 0, 0, 0); align-items: stretch; align-self: center; align-content: flex-start; justify-content: center; width: 100%; height: 15%; flex-direction: row;">
+            <ui:Label text="Lebron James" name="1Lugar_Name" style="font-size: 67px; -unity-font-style: bold; white-space: normal; color: rgb(70, 69, 70); -unity-text-align: middle-left; -unity-font-definition: resource(&apos;Font/LexendDeca-VariableFont_wght&apos;); padding-right: 16px;" />
+            <ui:Label text="é o Vencedor" name="Loading_Text" style="align-self: center; font-size: 67px; -unity-font-style: bold; color: rgb(70, 69, 70); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;);" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; width: 100%;" />
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; width: 50%; flex-direction: row; align-self: auto; flex-wrap: wrap-reverse; justify-content: center; align-content: flex-start; height: 70%;">
+            <ui:VisualElement name="Coluna_2Lugar" class="Coluna_2Lugar_Default" style="transition-property: top; transition-duration: 2s; width: 33%; align-self: auto; justify-content: flex-start; align-items: center;">
+                <ui:VisualElement name="Barra" style="flex-grow: 1; width: 258px; background-color: rgb(104, 208, 136); max-width: 258px; max-height: 50%; flex-direction: column-reverse; flex-wrap: nowrap;" />
+                <ui:Label text="Jorginho Gameplays" name="2Lugar_Name" style="font-size: 40px; -unity-font-style: bold; white-space: normal; color: rgb(70, 69, 70); -unity-font-definition: resource(&apos;Font/LexendDeca-VariableFont_wght&apos;); -unity-text-align: upper-center; max-width: 258px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Coluna_1Lugar" class="Coluna_1Lugar_Default">
+                <ui:VisualElement name="Barra" style="flex-grow: 1; width: 258px; background-color: rgb(255, 200, 95); max-width: 258px; max-height: 782%; flex-direction: column-reverse; flex-wrap: nowrap;" />
+                <ui:Label text="Lebron James" name="1Lugar_Name" style="font-size: 40px; -unity-font-style: bold; white-space: normal; color: rgb(70, 69, 70); -unity-font-definition: resource(&apos;Font/LexendDeca-VariableFont_wght&apos;); -unity-text-align: upper-center; max-width: 258px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Coluna_3Lugar" class="Coluna_3Lugar_Default">
+                <ui:VisualElement name="Barra" style="flex-grow: 1; width: 258px; background-color: rgb(75, 209, 240); max-width: 258px; max-height: 25%; flex-direction: column-reverse; flex-wrap: nowrap;" />
+                <ui:Label text="Mago Davy Jones" name="3Lugar_Name" style="font-size: 40px; -unity-font-style: bold; white-space: normal; color: rgb(70, 69, 70); -unity-font-definition: resource(&apos;Font/LexendDeca-VariableFont_wght&apos;); -unity-text-align: upper-center; flex-wrap: nowrap; align-self: auto; max-width: 258px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

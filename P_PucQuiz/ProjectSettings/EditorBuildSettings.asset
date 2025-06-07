@@ -5,15 +5,27 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/Start.unity
+  - enabled: 0
+    path: Assets/Scenes/Caiiru/Caiiru.unity
+    guid: 5ad2d2faae68f124da89c222730eb4d9
+  - enabled: 0
+    path: Assets/Scenes/Main.unity
     guid: 27e94cf478c02ba48bd8163f533a662d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TelaDePerguntas.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TelaDeContagem.unity
     guid: f0d62f1b712a8c34ba308736ae7c9106
+  - enabled: 1
+    path: Assets/Scenes/Caiiru/MultiplayerTest.unity
+    guid: 44ff90a0b633d604aa09ca20dcc16d72
+  - enabled: 1
+    path: Assets/Scenes/Caiiru/WaitingRoom.unity
+    guid: c224a97265e8d3a44a4c8f62cf3ed208
+  - enabled: 1
+    path: Assets/Scenes/Caiiru/Network.unity
+    guid: ae0739b9f23518b45ae76983cd02829f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

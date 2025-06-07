@@ -14,11 +14,105 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   types_modes:
   - Basic
-  layout_list:
-  - type: 1
-    gameObject: {fileID: 6916792732206141983, guid: 4581e28057bae524aa66b5026a783086, type: 3}
-  - type: 2
-    gameObject: {fileID: 6916792732206141983, guid: f279004d24f6415468a8e286bebe8b89, type: 3}
+  quiz:
+    Type: 1
+    choice_max: 0
+    choice_actualy: 0
+    chose: 0
+    mod:
+      config: {fileID: 11400000}
+      doc: {fileID: 0}
+      menu: []
+      manager: {fileID: 0}
+      transform: {fileID: 0}
+      attributes:
+      - question_type: 1
+        question: Teste 1
+        choice_correct: 0102
+        change: 0
+        options:
+        - Resposta Certa
+        - Resposta Certa
+        - Resposta Errada
+        - Respsota Errada
+        choices: 00000000
+        timer:
+          start: 25
+          time: 25
+          infinity: 0
+      - question_type: 1
+        question: Teste 2
+        choice_correct: 01
+        change: 1
+        options:
+        - Resposta Certa
+        - Resposta Errada
+        - Resposta Errada
+        - Respsota Errada
+        choices: 00000000
+        timer:
+          start: 99
+          time: 99
+          infinity: 0
+      - question_type: 1
+        question: Teste 3
+        choice_correct: 010203
+        change: 1
+        options:
+        - Resposta Certa
+        - Resposta Certa
+        - Resposta Certa
+        - Respsota Errada
+        choices: 00000000
+        timer:
+          start: 99
+          time: 99
+          infinity: 0
+      - question_type: 1
+        question: Teste 4
+        choice_correct: 04
+        change: 0
+        options:
+        - Resposta Errada
+        - Resposta Errada
+        - Resposta Errada
+        - Respsota Certa
+        choices: 00000000
+        timer:
+          start: 99
+          time: 99
+          infinity: 0
+      question_actualy_index: 0
+      timer_awake:
+        start: 0
+        time: 0
+        infinity: 0
+      timer_next:
+        start: 5
+        time: 5
+        infinity: 0
+    speed_to_complet: 0
+    attributes:
+      question_type: 1
+      question: Teste 1
+      choice_correct: 0102
+      change: 0
+      options:
+      - Resposta Certa
+      - Resposta Certa
+      - Resposta Errada
+      - Respsota Errada
+      choices: 00000000
+      timer:
+        start: 10
+        time: 10
+        infinity: 0
+    pause: 0
+  base_correct: 100
+  base_incorrect: 20
+  bonus_streak: 5
+  bonus_recuperacao: 5
+  bonus_velocidade: 10
   Layout_Start: Start
   Layout_Contagem: TelaDeContagem
   Layout_Game: TelaDePerguntas
