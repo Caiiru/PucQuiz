@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instance: {fileID: 11400000}
   name: Retirar
+  cardID: 2
   types: 0
   cust: 1
   description: Use esta carta para desabilitar 1 resposta errada.

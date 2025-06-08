@@ -180,7 +180,7 @@ public class Login
         }
 
         //GameManager.Instance.onJoiningGame?.Invoke(this,null);
-        ChangeMenu("Conectando"); 
+        ChangeMenu("Conectando");
         if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
         {
             var host = await GameManager.Instance.StartHostWithRelay(30, userName);
@@ -196,6 +196,11 @@ public class Login
             {
                 GameManager.Instance.OnUpdateUI += OnUpdateUI;
             }
+            else
+            { 
+                ChangeMenu("Codigo");
+            }
+
         } 
 
     }
@@ -264,7 +269,7 @@ public class Login
 
     public void ChangeMenu(string menu_new)
     {
-        if (menu_new == null) { Debug.Log("N�o foi atribuido um valor ao novo menu buscado."); return; }
+        if (menu_new == null) { Debug.Log("Nao foi atribuido um valor ao novo menu buscado."); return; }
 
         Event_PucQuiz.scene_actualy = "Menu";
         Event_PucQuiz.layout_actualy = menu_new;
@@ -295,7 +300,7 @@ public class Login
         }
         catch (Exception error)
         {
-            // Debug.Log(error);
+             Debug.Log(error);
         }
 
         SetButtons();

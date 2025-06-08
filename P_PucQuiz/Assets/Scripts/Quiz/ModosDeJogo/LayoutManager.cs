@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Unity.Netcode;
 using UnityEditor;
 using UnityEditor.EditorTools;
@@ -26,8 +27,8 @@ public class LayoutManager : MonoBehaviour
     [SerializeField] public bool menu_start, end_start = true;
 
     [Header("Multiplayer Variables")]
-    [SerializeField] public bool multiplayer_on;
-    [SerializeField] Dictionary<int, QuizPlayer> players;
+    [SerializeField] public bool multiplayer_on; 
+    public List<QuizPlayer> players;
 
     [Header("Multiplayer Test Variables")]
     [SerializeField] public MyPlayer[] local_players = new MyPlayer[5];
@@ -76,6 +77,21 @@ public class LayoutManager : MonoBehaviour
         
     }
 
+    public bool AddQuizPlayer(QuizPlayer _player)
+    {
+        players.Add(_player);
+        return true;
+    }
+
+    public void RemovePlayer(QuizPlayer _player)
+    {
+
+        if (players.Contains(_player))
+        {
+            players.Remove(_player);
+        }
+        
+    }
     /// <summary>
     /// Tenta colocar um valor Y em um valor X de forma mais segura.
     /// </summary>
@@ -286,8 +302,8 @@ public class LayoutManager : MonoBehaviour
 public class MyPlayer
 {
     [Header("Atributos")]
-    public string playerName;
-    public int points;
+    public string playerName= "";
+    public int points = 0;
     public int slots;
     [SerializeField] private Cartas[] cartas = new Cartas[4];
     public int cartas_index = 0;
