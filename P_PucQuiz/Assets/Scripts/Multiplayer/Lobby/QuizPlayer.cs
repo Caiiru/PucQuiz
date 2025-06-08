@@ -36,8 +36,14 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
         {
             PlayerName.Value = GameManager.Instance.LocalPlayerName;
             ClientId.Value = AuthenticationService.Instance.PlayerId;
-            Debug.Log($"Sending to host...{ClientId.Value} - {PlayerName.Value}");
-            //RegisterPlayerOnServerRPC(AuthenticationService.Instance.PlayerId, this);
+            Debug.Log($"Sending to host...{ClientId.Value} - {PlayerName.Value}"); 
+        }
+
+        if (IsServer)
+        {
+            Debug.Log(ClientId.Value.ToString());
+            GameManager.Instance.AddPlayer(this);
+            //GameManager.Instance.AddQuizPlayer(ClientId.Value.ToString(),this);
         }
  
     } 

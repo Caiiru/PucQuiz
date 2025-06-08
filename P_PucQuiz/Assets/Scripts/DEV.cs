@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,11 +24,41 @@ public class DEV : MonoBehaviour
     {
         consoleCanvas.gameObject.SetActive(true);
 
-        DeveloperConsole.Console.AddCommand("PlayersNameCommand", PrintPlayersCommand);
-        DeveloperConsole.Console.AddCommand("AddPlayer", AddPlayerCommand);
-        DeveloperConsole.Console.AddCommand("RemovePlayer", RemovePlayerCommand);
-        DeveloperConsole.Console.AddCommand("GivePoints", GameManager.Instance.GivePointsToEveryoneCommand);
+        //DeveloperConsole.Console.AddCommand("PlayersNameCommand", PrintPlayersCommand);
+        //DeveloperConsole.Console.AddCommand("AddPlayer", AddPlayerCommand);
+        //DeveloperConsole.Console.AddCommand("RemovePlayer", RemovePlayerCommand);
+        DeveloperConsole.Console.AddCommand("AddPoints", GameManager.Instance.GivePointsToEveryoneCommand);
+        DeveloperConsole.Console.AddCommand("PlayersCount", PlayersCountCommand);
+        DeveloperConsole.Console.AddCommand("PlayersName", PlayersNameCommand);
+    
     }
+
+    private void PlayersNameCommand(string[] args)
+    {
+        List<QuizPlayer> _players = GameManager.Instance.players;
+        string textToPrint = "";
+        int _index = 0;
+        foreach(QuizPlayer player in _players)
+        {
+            if(_index == 0)
+            {
+                textToPrint = player.PlayerName.Value.ToString();
+            }
+            else
+            {
+                textToPrint += ", "+player.PlayerName.Value.ToString();
+            }
+
+        }
+
+        DevPrint($"players: {textToPrint}");
+    }
+
+    private void PlayersCountCommand(string[] args)
+    {
+        DevPrint($"Players Count: {GameManager.Instance.players.Count}");
+    }
+
     public void AddPlayerCommand(string[] args)
     {
         string playerID = (args[0]);

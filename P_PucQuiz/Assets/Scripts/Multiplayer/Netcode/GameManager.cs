@@ -52,9 +52,9 @@ public class GameManager : NetworkBehaviour
     NetworkManager _networkManager;
 
     #endregion
+     
 
-    Dictionary<string, QuizPlayer> quizPlayers;
-    public IReadOnlyDictionary<string, QuizPlayer> QuizPlayersOnServer => quizPlayers;
+    public List<QuizPlayer> players = new();
 
 
     //EVENTS
@@ -216,8 +216,7 @@ public class GameManager : NetworkBehaviour
         JoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
 
-        Debug.Log($"My AuthID: {AuthenticationService.Instance.PlayerId}");
-        quizPlayers = new();
+        Debug.Log($"My AuthID: {AuthenticationService.Instance.PlayerId}"); 
         _networkManager.GetComponent<UnityTransport>().UseWebSockets = true;
         NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalManager.AproveConnection;
         return NetworkManager.Singleton.StartServer() ? JoinCode : null;
@@ -319,22 +318,26 @@ public class GameManager : NetworkBehaviour
 
     public void SetPlayerScore(string clientID, int newScore)
     {
-        if (!IsServer) return;
-        if(quizPlayers[clientID] == null) return;
-
-
-        quizPlayers[clientID].Score.Value = newScore;
-
+        if (!IsServer) return; 
         
+        for(int i = 0; i < players.Count; i++)
+        {
+            var player = players[i];
+            if(player.ClientId.Value == clientID)
+            {
+                player.Score.Value = newScore;
+                return;
+            }
+        }
     }
 
     public void GivePointsToEveryoneCommand(string[] args)
     {
-        foreach (var player in quizPlayers.Values)
+        foreach (var player in players)
         {
             SetPlayerScore(player.ClientId.Value.ToString(), int.Parse(args[0]));
 
-            DEV.Instance.DevPrint($"{player.PlayerName} has {player.Score} points");
+            DEV.Instance.DevPrint($"{player.PlayerName.Value} has {player.Score.Value} points");
         }
     }
 
@@ -342,9 +345,9 @@ public class GameManager : NetworkBehaviour
 
     public QuizPlayer[] GetTop5Playes()
     {
-        List<QuizPlayer> allPlayers = quizPlayers.Values.ToList();
+        
 
-        List<QuizPlayer> topPlayers = allPlayers.OrderByDescending(player => player).Take(5).ToList();
+        List<QuizPlayer> topPlayers = players.OrderByDescending(player => player).Take(5).ToList();
 
 
 
@@ -383,6 +386,10 @@ public class GameManager : NetworkBehaviour
     public void AddQuizPlayer(string playerId, QuizPlayer quizPlayer)
     {
         throw new NotImplementedException();
+    }
+    public void AddPlayer(QuizPlayer quizPlayer)
+    {
+        players.Add(quizPlayer);
     }
 
 
