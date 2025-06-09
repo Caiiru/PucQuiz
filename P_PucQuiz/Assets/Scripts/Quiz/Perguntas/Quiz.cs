@@ -152,18 +152,14 @@ public class Quiz : Perguntas
         speed_to_complet = (1 * speed_to_complet) / attributes.timer.start;
         Debug.Log("% do Buff de velocidade = " + speed_to_complet);
 
-        if (correct)
-        {
-            
-            Event_PucQuiz.question_result = "win";
-            player.points += (int)Config_PucQuiz.Get_Points(true, speed_to_complet);
-        }
-        else
-        {
-            Event_PucQuiz.question_result = "lose";
-            player.points += (int)Config_PucQuiz.Get_Points(false, speed_to_complet);
-        }
+        Event_PucQuiz.question_result = correct ? "win" : "lose";
+        player.points += (int)Config_PucQuiz.Get_Points(correct, speed_to_complet); 
         Event_PucQuiz.points = player.points;
+        var r = new System.Random().Next(CardsManager.Instance.AllCards.Count - 1); 
+        var nextCard = CardsManager.Instance.AllCards[r];
+
+        GameManager.Instance.localPlayer.AddCardByID(nextCard.cardID);
+        GameManager.Instance.localPlayer.Score.Value = player.points;
 
         mod.FeedBack();
         Event_PucQuiz.question_next = true;

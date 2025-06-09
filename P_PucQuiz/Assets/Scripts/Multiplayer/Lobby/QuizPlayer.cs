@@ -20,11 +20,11 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
     [Space]
     [Header("Points")]
 
-    public NetworkVariable<int> Score = new(0, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> Score = new(0, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
     [Space]
     [Header("Cards")]
     public NetworkVariable<int> slots = new(4, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<FixedString32Bytes> cartas = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);   // Cards uid separated by , 
+    public NetworkVariable<FixedString32Bytes> cartas = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);   // Cards uid separated by , 
     private List<Cartas> playerCards = new List<Cartas>(); 
     [Header("Effects")]
     public NetworkVariable<bool> protetor = new(false, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
@@ -47,6 +47,7 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
             ClientId.Value = AuthenticationService.Instance.PlayerId;
             Debug.Log($"Sending to host...{ClientId.Value} - {PlayerName.Value}"); 
             cardsManager = CardsManager.Instance;
+            GameManager.Instance.localPlayer = this;
         }
 
         if (IsServer)

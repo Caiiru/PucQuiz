@@ -55,6 +55,7 @@ public class GameManager : NetworkBehaviour
      
 
     public List<QuizPlayer> players = new();
+    public QuizPlayer localPlayer;
 
 
     //EVENTS
@@ -389,7 +390,8 @@ public class GameManager : NetworkBehaviour
     void UpdateLobbyRPC()
     {
         OnUpdateUI?.Invoke(this, null);
-    }
+    } 
+
 
     internal void CheckList()
     {
