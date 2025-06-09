@@ -344,6 +344,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 160713324}
   m_CullTransparentMesh: 1
+--- !u!1 &339119785
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 339119786}
+  - component: {fileID: 339119787}
+  m_Layer: 0
+  m_Name: CardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &339119786
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339119785}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &339119787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339119785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 685041f32aec8bf49a916bea68fdcadf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllCards:
+  - {fileID: 11400000, guid: b1b30f417800a0e4a9cf8aacda1d20e1, type: 2}
+  - {fileID: 11400000, guid: b39fc5bddf52a054a82668b37478c07f, type: 2}
+  - {fileID: 11400000, guid: 0f1ff317d7041a548a819dc1c9991f0d, type: 2}
+  LocalPlayerCards: []
 --- !u!1 &451969532
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,9 +810,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   JoinCode: 
   LocalPlayerName: 
-  timeToShowQuestion: 3
-  timePerQuestion: 15
-  timeToShowResults: 5
+  usingRelay: 0
   CurrentGameState:
     m_InternalValue: 0
   CurrentQuestionData:
@@ -1861,6 +1908,7 @@ MonoBehaviour:
     m_InternalValue: 0
   CurrentQuestionNumber:
     m_InternalValue: 0
+  players: []
 --- !u!4 &674278233
 Transform:
   m_ObjectHideFlags: 0
@@ -2171,9 +2219,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player:
-    playerName: Jogador
+    playerName: 
     points: 0
-    slots: 4
+    slots: 0
     cartas:
     - {fileID: 0}
     - {fileID: 0}
@@ -2339,42 +2387,10 @@ MonoBehaviour:
   quiz_start: 1
   menu_start: 1
   end_start: 1
-  multiplayer_on: 0
+  multiplayer_on: 1
+  players: []
   local_players:
-  - playerName: Jose
-    points: 100
-    slots: 0
-    cartas:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    cartas_index: 0
-    protetor: 0
-    dobrar: 0
-  - playerName: Joao
-    points: 50
-    slots: 0
-    cartas:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    cartas_index: 0
-    protetor: 0
-    dobrar: 0
-  - playerName: Jorgim
-    points: 25
-    slots: 0
-    cartas:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    cartas_index: 0
-    protetor: 0
-    dobrar: 0
-  - playerName: Josemar
+  - playerName: 
     points: 0
     slots: 0
     cartas:
@@ -2385,8 +2401,41 @@ MonoBehaviour:
     cartas_index: 0
     protetor: 0
     dobrar: 0
-  - playerName: Josefa
-    points: 15
+  - playerName: 
+    points: 0
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: 
+    points: 0
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: 
+    points: 0
+    slots: 0
+    cartas:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    cartas_index: 0
+    protetor: 0
+    dobrar: 0
+  - playerName: 
+    points: 0
     slots: 0
     cartas:
     - {fileID: 0}
@@ -3464,7 +3513,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1921612032}
-    PlayerPrefab: {fileID: 0}
+    PlayerPrefab: {fileID: 2911691245093787948, guid: 041486ffdc7085a41866819587ebec6a, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 638f6851e5c735e45b47dfb8a3c2d7ae, type: 2}
@@ -3584,7 +3633,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyPlayerPrefab: {fileID: 2911691245093787948, guid: 22d9f56bafd417540a0533fdca363e85, type: 3}
   container: {fileID: 1268237085}
-  _playerIndex: -1
 --- !u!4 &2145240074
 Transform:
   m_ObjectHideFlags: 0
@@ -3606,6 +3654,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 515673383}
   - {fileID: 674278233}
+  - {fileID: 339119786}
   - {fileID: 1921612034}
   - {fileID: 2145240074}
   - {fileID: 2039296513}

@@ -7,6 +7,7 @@ public abstract class Cartas : ScriptableObject
 {
     [HideInInspector] public Cartas instance;
     public string name;
+    public int cardID;
     public Card_Types types = Card_Types.NoN;
     public int cust;
     [Multiline] public string description;

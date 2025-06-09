@@ -194,11 +194,23 @@ public class Login
         {
             if (await GameManager.Instance.StartClientWithRelay(code, userName))
             {
-                ChangeMenu("CriarPartida");
-                GameManager.Instance.onPlayerJoined?.Invoke(this, null);
+                GameManager.Instance.OnUpdateUI += OnUpdateUI;
             }
+            else
+            { 
+                ChangeMenu("Codigo");
+            }
+
         } 
 
+    }
+
+    private void OnUpdateUI(object sender, EventArgs e)
+    {
+        if (!(Event_PucQuiz.layout_actualy =="CriarPartida"))
+        {
+            ChangeMenu("CriarPartida");
+        }
     }
 
     private void ClickCriarPartida(ClickEvent click) //Bot�o que vai da tela de login para a de criar partida ou cria a partida.
@@ -257,7 +269,7 @@ public class Login
 
     public void ChangeMenu(string menu_new)
     {
-        if (menu_new == null) { Debug.Log("N�o foi atribuido um valor ao novo menu buscado."); return; }
+        if (menu_new == null) { Debug.Log("Nao foi atribuido um valor ao novo menu buscado."); return; }
 
         Event_PucQuiz.scene_actualy = "Menu";
         Event_PucQuiz.layout_actualy = menu_new;
@@ -288,25 +300,20 @@ public class Login
         }
         catch (Exception error)
         {
-            // Debug.Log(error);
+             Debug.Log(error);
         }
 
         SetButtons();
     }
 
-
-    private void JoiningLobby(object sender, EventArgs e)
-    {
-        //Verifica se esta se juntando, tentando conectar e muda para uma tela de aguardo. 
-        ChangeMenu("Conectando");
-    }
+ 
  
 
     void CheckHostStatus()
     {
         //Verifica se o jogador é host ou não para deixar ativo o boão de iniciar quiz/partida
         var _startButton = doc.rootVisualElement.Q<Button>("Iniciar");
-        if (!GameManager.Instance.IsHost)
+        if (!GameManager.Instance.IsServer)
         {
             //NOT HOST:
             _startButton.parent.Remove(_startButton);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Unity.Netcode;
 using UnityEditor;
 using UnityEditor.EditorTools;
@@ -26,8 +27,8 @@ public class LayoutManager : MonoBehaviour
     [SerializeField] public bool menu_start, end_start = true;
 
     [Header("Multiplayer Variables")]
-    [SerializeField] public bool multiplayer_on;
-    [SerializeField] Dictionary<int, QuizPlayer> players;
+    [SerializeField] public bool multiplayer_on; 
+    public List<QuizPlayer> players;
 
     [Header("Multiplayer Test Variables")]
     [SerializeField] public MyPlayer[] local_players = new MyPlayer[5];
@@ -46,7 +47,7 @@ public class LayoutManager : MonoBehaviour
 
         if(!multiplayer_on)
         {
-            player.AddCard((Cartas)Resources.Load<ScriptableObject>("Cartas/Comum/Retirar"));
+            //player.AddCard((Cartas)Resources.Load<ScriptableObject>("Cartas/Comum/Retirar"));
         }
     }
 
@@ -76,6 +77,21 @@ public class LayoutManager : MonoBehaviour
         
     }
 
+    public bool AddQuizPlayer(QuizPlayer _player)
+    {
+        players.Add(_player);
+        return true;
+    }
+
+    public void RemovePlayer(QuizPlayer _player)
+    {
+
+        if (players.Contains(_player))
+        {
+            players.Remove(_player);
+        }
+        
+    }
     /// <summary>
     /// Tenta colocar um valor Y em um valor X de forma mais segura.
     /// </summary>
@@ -190,23 +206,25 @@ public class LayoutManager : MonoBehaviour
         {
             //players = players.
         }
-
+        if (GameManager.Instance.CurrentGameState.Value == GameState.WaitingToStart)
+            return;
+        GameManager.Instance.GetTop5Playes();
         if (Event_PucQuiz.players == null) { Event_PucQuiz.players = new MyPlayer[5]; }
 
-        local_players[0].playerName = players[0].playerName.Value.ToString();
-        local_players[0].points = players[0].points.Value;
+        local_players[0].playerName = players[0].PlayerName.Value.ToString();
+        local_players[0].points = players[0].Score.Value;
 
-        local_players[1].playerName = players[1].playerName.Value.ToString();
-        local_players[1].points = players[1].points.Value;
+        local_players[1].playerName = players[1].PlayerName.Value.ToString();
+        local_players[1].points = players[1].Score.Value;
 
-        local_players[2].playerName = players[2].playerName.Value.ToString();
-        local_players[2].points = players[2].points.Value;
+        local_players[2].playerName = players[2].PlayerName.Value.ToString();
+        local_players[2].points = players[2].Score.Value;
 
-        local_players[3].playerName = players[3].playerName.Value.ToString();
-        local_players[3].points = players[3].points.Value;
+        local_players[3].playerName = players[3].PlayerName.Value.ToString();
+        local_players[3].points = players[3].Score.Value;
 
-        local_players[4].playerName = players[4].playerName.Value.ToString();
-        local_players[4].points = players[4].points.Value;
+        local_players[4].playerName = players[4].PlayerName.Value.ToString();
+        local_players[4].points = players[4].Score.Value;
 
         MultiplayerOff();
     }
@@ -284,8 +302,8 @@ public class LayoutManager : MonoBehaviour
 public class MyPlayer
 {
     [Header("Atributos")]
-    public string playerName;
-    public int points;
+    public string playerName= "";
+    public int points = 0;
     public int slots;
     [SerializeField] private Cartas[] cartas = new Cartas[4];
     public int cartas_index = 0;
