@@ -112,8 +112,6 @@ public class Modos
 
         question_actualy_index++;
 
-        if (GameManager.Instance.IsServer)
-            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.DisplayingQuestion, 3.5f);
         if (!Final())
         {
             Debug.Log("Question = " + question_actualy_index);

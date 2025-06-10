@@ -199,7 +199,7 @@ public class LayoutManager : MonoBehaviour
 
         Event_PucQuiz.player = player;
         Event_PucQuiz.points = player.points;
-
+        return;
         Event_PucQuiz.players[0] = local_players[0];
 
         Event_PucQuiz.players[1] = local_players[1];
@@ -223,11 +223,15 @@ public class LayoutManager : MonoBehaviour
         if(players != null)
         {
             local_players = new MyPlayer[players.Length];
-
+            Event_PucQuiz.players = new MyPlayer[local_players.Length];
             for (int i = 0; i < local_players.Length; i++)
             {
-                local_players[i].playerName = players[i].PlayerName.Value.ToString();
-                local_players[i].points = players[i].Score.Value;
+                if (players[i] == null) continue;
+                MyPlayer _player = new MyPlayer();
+                _player.playerName = players[i].PlayerName.Value.ToString();
+                _player.points = players[i].Score.Value;
+                local_players[i] = _player;
+                Event_PucQuiz.players[i] = _player;
             }
         }
         /*
