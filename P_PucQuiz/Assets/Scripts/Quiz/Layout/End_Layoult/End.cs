@@ -65,16 +65,33 @@ public class End
 
     private void SetBars()
     {
+        float[] points = new float[Event_PucQuiz.players.Length];
+        for(int i = 0; i < Event_PucQuiz.players.Length; i++)
+        {
+            if (i == 5) { break; }
+            points[i] = Event_PucQuiz.players[i].points;
+        }
+        /*
         float point_1;
         float point_2;
         float point_3;
         float point_4;
-
+        
         point_1 = Event_PucQuiz.players[0].points;
         point_2 = Event_PucQuiz.players[1].points;
         point_3 = Event_PucQuiz.players[2].points;
         point_4 = Event_PucQuiz.players[3].points;
+         */
 
+        float[] porcents = new float[points.Length];
+        for(int i = 0; i < Event_PucQuiz.players.Length; i++)
+        {
+            if(i == 5) { break; }
+            if (i == 0) { porcents[i] = 100; }
+            else { porcents[i] = ((100 * points[i]) / points[0]); }
+            porcents[i] *= bar.getSize();
+        }
+        /*
         float porcent_1 = 100;
         float porcent_2 = ((100 * point_2) / point_1);
         float porcent_3 = ((100 * point_3) / point_1);
@@ -84,7 +101,20 @@ public class End
         porcent_2 *= bar.getSize();
         porcent_3 *= bar.getSize();
         porcent_4 *= bar.getSize();
+        */
 
+        for(int i = 0; i < porcents.Length; i++)
+        {
+            if(i == 5) { break; }
+            VisualElement player_bar = doc.rootVisualElement.Q("Progress"+(i+1));
+            player_bar.style.width = new Length(porcents[i], LengthUnit.Percent);
+        }
+        for (int i = Event_PucQuiz.players.Length; i < 5; i++)
+        {
+            var remove = doc.rootVisualElement.Q<Label>("PlayerName"+(i+1));
+            remove.parent.Remove(remove);
+        }
+        /*
         VisualElement bar_1 = doc.rootVisualElement.Q("Progress1");
         bar_1.style.width = new Length(porcent_1, LengthUnit.Percent);
 
@@ -96,6 +126,7 @@ public class End
 
         VisualElement bar_4 = doc.rootVisualElement.Q("Progress4");
         bar_4.style.width = new Length(porcent_4, LengthUnit.Percent);
+        */
     }
     private void SetLayout()
     {
@@ -111,19 +142,31 @@ public class End
 
                         Debug.Log("Rank % = Start");
 
-                        string name_1 = Event_PucQuiz.players[0].playerName;
+                        string[] names = new string[Event_PucQuiz.players.Length];
+
+                        for(int o = 0; o < Event_PucQuiz.players.Length; o++)
+                        {
+                            if (o == 5) { break; }
+                            doc.rootVisualElement.Q<Label>("PlayerName"+(o+1)).text = Event_PucQuiz.players[o].playerName;
+                        }
+                        for(int o = Event_PucQuiz.players.Length; o < 5; o++)
+                        {
+                            var remove = doc.rootVisualElement.Q<Label>("PlayerName"+(o+1));
+                            remove.parent.Remove(remove);
+                        }
+                        /*
                         string name_2 = Event_PucQuiz.players[1].playerName;
                         string name_3 = Event_PucQuiz.players[2].playerName;
-                        string name_4 = Event_PucQuiz.players[3].playerName;
+                        string name_4 = Event_PucQuiz.players[3].playerName;*/
 
                         Debug.Log("Players Count = " + Event_PucQuiz.players.Length);
                         
-
+                        /*
                         Debug.Log("Rank Name = Start");
                         doc.rootVisualElement.Q<Label>("PlayerName1").text = name_1;
                         doc.rootVisualElement.Q<Label>("PlayerName2").text = name_2;
                         doc.rootVisualElement.Q<Label>("PlayerName3").text = name_3;
-                        doc.rootVisualElement.Q<Label>("PlayerName4").text = name_4;
+                        doc.rootVisualElement.Q<Label>("PlayerName4").text = name_4;*/
 
                         SetBars();
 

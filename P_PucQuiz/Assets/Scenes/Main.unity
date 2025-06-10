@@ -1835,8 +1835,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   LocalPlayerName: 
   LocalPlayer: {fileID: 0}
-  CurrentGameState:
-    m_InternalValue: 0
+  CurrentGameState: 0
   Timer:
     m_InternalValue: 0
   CurrentQuestionData:
@@ -4027,8 +4026,8 @@ MonoBehaviour:
     - value1: HostQuiz
       value2: {fileID: 1385919957}
       value3: {fileID: 9197481963319205126, guid: 343347aa1ca3906458d1893b314c6cfb, type: 3}
-    manager: {fileID: 0}
-    transform: {fileID: 0}
+    manager: {fileID: 1254502715}
+    transform: {fileID: 1254502712}
     attributes:
     - question_type: 1
       question: Teste 1
@@ -4140,7 +4139,7 @@ MonoBehaviour:
   quiz_start: 1
   menu_start: 1
   end_start: 1
-  multiplayer_on: 0
+  multiplayer_on: 1
   players: []
   local_players:
   - playerName: 
