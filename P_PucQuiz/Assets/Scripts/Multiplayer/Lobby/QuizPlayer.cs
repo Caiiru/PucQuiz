@@ -43,11 +43,10 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
 
         if (IsOwner)
         {
-            PlayerName.Value = GameManager.Instance.LocalPlayerName;
-            ClientId.Value = AuthenticationService.Instance.PlayerId;
-            Debug.Log($"Sending to host...{ClientId.Value} - {PlayerName.Value}"); 
+            PlayerName.Value = LobbyManager.Instance.LocalPlayerName;
+            ClientId.Value = AuthenticationService.Instance.PlayerId; 
             cardsManager = CardsManager.Instance;
-            GameManager.Instance.localPlayer = this;
+            GameManager.Instance.LocalPlayer = this;
         }
 
         if (IsServer)
@@ -65,8 +64,8 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
     { 
         Cartas card_values = card as Cartas;
         //DEV.Instance.DevPrint($"Trying to add {card.name} to {PlayerName.Value}");
-        if (card_values == null) { Debug.Log("Carta não atribuida."); return; }
-        if (slots.Value - card_values.cust < 0) { Debug.Log("O custo desta carta é maior do que seus slots."); return; }
+        if (card_values == null) { Debug.Log("Carta nï¿½o atribuida."); return; }
+        if (slots.Value - card_values.cust < 0) { Debug.Log("O custo desta carta ï¿½ maior do que seus slots."); return; }
         ;
 
         slots.Value -= card_values.cust;

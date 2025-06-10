@@ -183,7 +183,7 @@ public class Login
         ChangeMenu("Conectando");
         if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
         {
-            var host = await GameManager.Instance.StartHostWithRelay(30, userName);
+            var host = await LobbyManager.Instance.StartHostWithRelay(30, userName);
 
             if (host != null)
             {
@@ -192,7 +192,7 @@ public class Login
         }
         else
         {
-            if (await GameManager.Instance.StartClientWithRelay(code, userName))
+            if (await LobbyManager.Instance.StartClientWithRelay(code, userName))
             {
                 GameManager.Instance.OnUpdateUI += OnUpdateUI;
             }
@@ -250,7 +250,7 @@ public class Login
                             doc.rootVisualElement.Q<Button>("Entrar").RegisterCallback<ClickEvent>(ClickEntrar);
                             break;
                         case "CriarPartida":
-                            doc.rootVisualElement.Q<Label>("CodeText").text = $"Codigo: {GameManager.Instance.JoinCode}";
+                            doc.rootVisualElement.Q<Label>("CodeText").text = $"Codigo: {LobbyManager.Instance.JoinCode}";
                             //QuizLobby.Instance.onUpdateLobbyUI?.Invoke(this, null);
                             CheckHostStatus();
                             break;
