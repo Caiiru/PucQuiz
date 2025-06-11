@@ -9,7 +9,6 @@ public class Login
     [Header("Basic Variables")]
     public UIDocument doc;
     public LayoutManager manager;
-
     [Header("Login Variables")]
     [SerializeField] private bool test = false;
     public string email;
@@ -234,7 +233,8 @@ public class Login
                     switch (menu[i].getValue1())
                     {
                         case "Start":
-                            doc.rootVisualElement.Q<Button>("Play").RegisterCallback<ClickEvent>(ClickStart);
+                            Button start = doc.rootVisualElement.Q<Button>("Play");
+                            start.RegisterCallback<ClickEvent>(ClickStart);
                             break;
                         case "Login":
                             doc.rootVisualElement.Q<Button>("Login").RegisterCallback<ClickEvent>(ClickLogin);

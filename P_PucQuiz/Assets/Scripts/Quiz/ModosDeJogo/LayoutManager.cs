@@ -22,6 +22,7 @@ public class LayoutManager : MonoBehaviour
     public Login menu;
     public Modos quiz;
     public End end;
+    public SoundsManager manager;
     [Header("Manager Variables - Start Bools",order = 1)]
     [SerializeField] public bool quiz_start = true;
     [SerializeField] public bool menu_start, end_start = true;
@@ -219,7 +220,7 @@ public class LayoutManager : MonoBehaviour
         if (GameManager.Instance.CurrentGameState == GameState.WaitingToStart)
             return;
 
-        QuizPlayer[] players = GameManager.Instance.GetTop5Playes();
+        QuizPlayer[] players = GameManager.Instance.GetTop5Players();
         if(players != null)
         {
             local_players = new MyPlayer[players.Length];
