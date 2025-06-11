@@ -8,7 +8,8 @@ public class Card_Proteger : Cartas
     public void Set()
     {
         instance = this;
-        name = "Proteger";
+        //Não precisa ser hardcoded o nome, o intuito de ser scriptable object é a alteração facil pelo editor;
+        //name = "Proteger";
         types = Card_Types.Proteger;
     }
 
