@@ -218,9 +218,19 @@ public class LayoutManager : MonoBehaviour
         }
         if (GameManager.Instance.CurrentGameState == GameState.WaitingToStart)
             return;
-        GameManager.Instance.GetTop5Playes();
-        if (Event_PucQuiz.players == null) { Event_PucQuiz.players = new MyPlayer[5]; }
 
+        QuizPlayer[] players = GameManager.Instance.GetTop5Playes();
+        if(players != null)
+        {
+            local_players = new MyPlayer[players.Length];
+
+            for (int i = 0; i < local_players.Length; i++)
+            {
+                local_players[i].playerName = players[i].PlayerName.Value.ToString();
+                local_players[i].points = players[i].Score.Value;
+            }
+        }
+        /*
         local_players[0].playerName = players[0].PlayerName.Value.ToString();
         local_players[0].points = players[0].Score.Value;
 
@@ -235,7 +245,7 @@ public class LayoutManager : MonoBehaviour
 
         local_players[4].playerName = players[4].PlayerName.Value.ToString();
         local_players[4].points = players[4].Score.Value;
-
+        */
         MultiplayerOff();
     }
 

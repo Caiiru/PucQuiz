@@ -125,7 +125,7 @@ public class Modos
 
             manager.ChangeMenuRpc("End", "Rank");
 
-            ChangeMenu(attributes[question_actualy_index].question_type.ToString());
+            //ChangeMenu(attributes[question_actualy_index].question_type.ToString());
 
         }
         else
@@ -244,7 +244,8 @@ public class Modos
 
     public void SetQ(bool isServer)
     {
-
+        question_manager.Clear();
+        question_manager.Add("Quiz",new Quiz());
         Quiz quiz = question_manager["Quiz"] as Quiz;
 
         quiz.attributes = attributes[question_actualy_index];
