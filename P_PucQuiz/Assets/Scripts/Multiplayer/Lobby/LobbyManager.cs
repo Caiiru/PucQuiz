@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -13,10 +14,12 @@ public class LobbyManager : MonoBehaviour
 
     public string LocalPlayerName;
     public string JoinCode;
+
     void Start()
     {
-        _networkManager = NetworkManager.Singleton;
+        _networkManager = NetworkManager.Singleton; 
     }
+ 
 
     public async Task<string> StartHostWithRelay(int maxConnections = 5, string _playerName = "null")
     {
@@ -30,7 +33,7 @@ public class LobbyManager : MonoBehaviour
 
         //Debug.Log($"My AuthID: {AuthenticationService.Instance.PlayerId}"); 
         _networkManager.GetComponent<UnityTransport>().UseWebSockets = true;
-        NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalManager.AproveConnection;
+        NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalManager.AproveConnection; 
         return NetworkManager.Singleton.StartServer() ? JoinCode : null;
     }
 
@@ -46,7 +49,7 @@ public class LobbyManager : MonoBehaviour
             PlayerName = _playerName
         };
 
-        NetworkManager.Singleton.NetworkConfig.ConnectionData = ConnectionApprovalManager.SerializeConnectionPayload(payload: connectionPayload);
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = ConnectionApprovalManager.SerializeConnectionPayload(payload: connectionPayload); 
         try
         {
             var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode: _joinCode);
@@ -77,6 +80,8 @@ public class LobbyManager : MonoBehaviour
 
     #region Singleton
     public static LobbyManager Instance;
+ 
+
     void Awake()
     {
         if (Instance != null)
