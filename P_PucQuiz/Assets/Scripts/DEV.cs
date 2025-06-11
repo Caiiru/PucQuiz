@@ -41,18 +41,21 @@ public class DEV : MonoBehaviour
         if (wasStarted || !gameManager.IsServer) return;
         wasStarted = true;
 
-        
+
         DeveloperConsole.Console.AddCommand("SetPoints", GivePointsToPlayerCommand);
         DeveloperConsole.Console.AddCommand("PlayersCount", PlayersCountCommand);
         DeveloperConsole.Console.AddCommand("PlayersName", PlayersNameCommand);
-        DeveloperConsole.Console.AddCommand("AddCard", AddCardCommand);
+        //DeveloperConsole.Console.AddCommand("AddCard", AddCardCommand); // -> SERVER
+        DeveloperConsole.Console.AddCommand("AddCard", AddCardToMyselfCommand);
     }
 
     private void AddCardCommand(string[] args)
     {
-        
+
         var player = gameManager.GetPlayerByID(gameManager.players[int.Parse(args[0])].ClientId.Value.ToString());
-        if(player== null)
+
+
+        if (player == null)
         {
             DevPrint($"Player {args[0]} not found");
             return;
@@ -60,20 +63,33 @@ public class DEV : MonoBehaviour
         gameManager.AddCardToPlayer(player.ClientId.Value.ToString(), int.Parse(args[1]));
     }
 
+    private void AddCardToMyselfCommand(string[] args)
+    {
+        var player = gameManager.LocalPlayer;
+
+        if (player == null)
+        {
+            DevPrint("Player not found");
+            return;
+        }
+        player.AddCardByID(int.Parse(args[0]));
+        
+    }
+
     private void PlayersNameCommand(string[] args)
     {
         List<QuizPlayer> _players = gameManager.players;
         string textToPrint = "";
         int _index = 0;
-        foreach(QuizPlayer player in _players)
+        foreach (QuizPlayer player in _players)
         {
-            if(_index == 0)
+            if (_index == 0)
             {
                 textToPrint = player.PlayerName.Value.ToString();
             }
             else
             {
-                textToPrint += ", "+player.PlayerName.Value.ToString();
+                textToPrint += ", " + player.PlayerName.Value.ToString();
             }
 
         }

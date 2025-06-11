@@ -22,13 +22,13 @@ public class Modos
 
 
     public Modos() { }
-    
+
     public void Awake(GameObject obj)
     {
         Debug.Log("Start to set Awake");
 
         //Variaveis De "Sistema"
-        question_manager.Add("Quiz",new Quiz());
+        question_manager.Add("Quiz", new Quiz());
         Quiz quiz_manager = question_manager["Quiz"] as Quiz;
 
         doc = obj.GetComponent<UIDocument>();
@@ -46,8 +46,10 @@ public class Modos
         timer_next.Reset();
 
         //Debug.Log("Variables Awake = Reset Complet");
-
-        ChangeMenu(attributes[question_actualy_index].question_type.ToString());
+        if (!GameManager.Instance.IsServer)
+            ChangeMenu(attributes[question_actualy_index].question_type.ToString());
+        else
+            ChangeMenu("HostQuiz");
 
         //Debug.Log("Variables Awake = ChangeMenu Complet");
     }
@@ -61,7 +63,7 @@ public class Modos
 
         if (question_manager != null && Event_PucQuiz.layout_actualy == "Quiz")
         {
-            if(obj!=null)
+            if (obj != null)
             {
                 doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
                                                                      "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
@@ -73,6 +75,20 @@ public class Modos
                 Debug.Log("Sem obj");
             }
         }
+        else if (Event_PucQuiz.layout_actualy == "HostQuiz")
+        {
+            if (obj != null)
+            {
+                doc.rootVisualElement.Q<TextElement>("Timer").text = "Tempo : " + ((int)attributes[question_actualy_index].timer.time);
+                if (timer_awake.End() == false) { timer_awake.Run(); return; }
+                question_manager["Quiz"].Update_Layout(obj);//TIMER AQUI
+            }
+            else
+            {
+                Debug.Log("Sem obj");
+            }
+        }
+
 
         if (Event_PucQuiz.question_next)
         {
@@ -96,37 +112,47 @@ public class Modos
 
         question_actualy_index++;
 
+        if (GameManager.Instance.IsServer)
+            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.DisplayingQuestion, 3.5f);
         if (!Final())
         {
             Debug.Log("Question = " + question_actualy_index);
 
             //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
 
+            if (GameManager.Instance.IsServer)
+                GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 99f);
+
             manager.ChangeMenuRpc("End", "Rank");
 
             ChangeMenu(attributes[question_actualy_index].question_type.ToString());
-            
-            GameManager.Instance.CurrentGameState.Value = GameState.DisplayingQuestion;
+
         }
         else
         {
+            if (GameManager.Instance.IsServer)
+                GameManager.Instance.ChangeCurrentGameStateRPC(GameState.GameOver, 99f);
             manager.ChangeMenuRpc("End", "End");
         }
-        
+
         //Event_PucQuiz.Change_Scene(config.Layout_Contagem);
     }
 
     public bool Final()//Verifica se chegamos no fim das perguntas.
     {
-        if(question_actualy_index == attributes.Length) { return true; }
+        if (question_actualy_index == attributes.Length) { return true; }
         return false;
     }
     public void FeedBack()
     {
         Debug.Log("Start Feedback.");
 
-        GameManager.Instance.CurrentGameState.Value = GameState.ShowingResults;
-
+        if (GameManager.Instance.IsServer)
+        {
+            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.ShowingResults, 5f);
+            ChangeMenu("HostWaiting");
+            return;
+        }
         switch (Event_PucQuiz.question_result)
         {
             case "win":
@@ -137,6 +163,7 @@ public class Modos
                 break;
             case "":
                 Debug.Log("No Result");
+                ChangeMenu("Incorrect");
                 break;
         }
 
@@ -189,36 +216,10 @@ public class Modos
                 switch (menu[i].getValue1())
                 {
                     case "Quiz":
-
-                        Quiz quiz = question_manager["Quiz"] as Quiz;
-
-                        quiz.attributes = attributes[question_actualy_index];
-                        quiz.mod = this;
-
-                        quiz.attributes.timer.Reset();
-                        doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
-                                                             "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
-
-                        doc.rootVisualElement.Q<TextElement>("Pergunta").text = attributes[question_actualy_index].question;
-
-                        Debug.Log("Start set quiz buttons");
-
-                        doc.rootVisualElement.Q<Button>("Resposta_1").text = attributes[question_actualy_index].options[0];
-                        doc.rootVisualElement.Q<Button>("Resposta_1").RegisterCallback<ClickEvent>(quiz.ClickPergunta1);
-
-                        doc.rootVisualElement.Q<Button>("Resposta_2").text = attributes[question_actualy_index].options[1];
-                        doc.rootVisualElement.Q<Button>("Resposta_2").RegisterCallback<ClickEvent>(quiz.ClickPergunta2);
-
-                        doc.rootVisualElement.Q<Button>("Resposta_3").text = attributes[question_actualy_index].options[2];
-                        doc.rootVisualElement.Q<Button>("Resposta_3").RegisterCallback<ClickEvent>(quiz.ClickPergunta3);
-
-                        doc.rootVisualElement.Q<Button>("Resposta_4").text = attributes[question_actualy_index].options[3];
-                        doc.rootVisualElement.Q<Button>("Resposta_4").RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
-
-
-                        timer_awake.Reset();
-                        timer_next.Reset();
-
+                        SetQ(false);
+                        break;
+                    case "HostQuiz":
+                        SetQ(true);
                         break;
                     case "Correct":
                         doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
@@ -237,7 +238,45 @@ public class Modos
                 Debug.Log(error);
             }
         }
-        
-        
+
+
+    }
+
+    public void SetQ(bool isServer)
+    {
+
+        Quiz quiz = question_manager["Quiz"] as Quiz;
+
+        quiz.attributes = attributes[question_actualy_index];
+        quiz.mod = this;
+
+        quiz.attributes.timer.Reset();
+        if (isServer)
+            doc.rootVisualElement.Q<TextElement>("Timer").text = "Tempo : " + ((int)attributes[question_actualy_index].timer.time);
+
+        else
+        {
+            doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
+                                             "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
+        }
+
+        doc.rootVisualElement.Q<TextElement>("Pergunta").text = attributes[question_actualy_index].question;
+
+
+        doc.rootVisualElement.Q<Button>("Resposta_1").text = attributes[question_actualy_index].options[0];
+        doc.rootVisualElement.Q<Button>("Resposta_1").RegisterCallback<ClickEvent>(quiz.ClickPergunta1);
+
+        doc.rootVisualElement.Q<Button>("Resposta_2").text = attributes[question_actualy_index].options[1];
+        doc.rootVisualElement.Q<Button>("Resposta_2").RegisterCallback<ClickEvent>(quiz.ClickPergunta2);
+
+        doc.rootVisualElement.Q<Button>("Resposta_3").text = attributes[question_actualy_index].options[2];
+        doc.rootVisualElement.Q<Button>("Resposta_3").RegisterCallback<ClickEvent>(quiz.ClickPergunta3);
+
+        doc.rootVisualElement.Q<Button>("Resposta_4").text = attributes[question_actualy_index].options[3];
+        doc.rootVisualElement.Q<Button>("Resposta_4").RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
+
+
+        timer_awake.Reset();
+        timer_next.Reset();
     }
 }

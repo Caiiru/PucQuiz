@@ -9,6 +9,7 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
+using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEditor.PackageManager;
@@ -17,6 +18,7 @@ using UnityEngine.UIElements;
 
 public enum GameState
 {
+
     WaitingToStart,
     DisplayingQuestion,
     CollectingAnswers,
@@ -27,10 +29,10 @@ public enum GameState
 
 public class GameManager : NetworkBehaviour
 {
-    [Header("Lobby Settings")]
-    public string JoinCode;
+    [Header("Local Player Settings")]
     public string LocalPlayerName;
-    public bool usingRelay = false;
+    public QuizPlayer LocalPlayer;
+
 
     [Header("Game Config")]
     private float timeToShowQuestion = 99f;
@@ -42,9 +44,10 @@ public class GameManager : NetworkBehaviour
     // --- Variáveis de Rede ---
     #region Network Settings
     [Header("Network Settings")]
-    public NetworkVariable<GameState> CurrentGameState = new NetworkVariable<GameState>(GameState.WaitingToStart);
-    public NetworkVariable<Question> CurrentQuestionData = new NetworkVariable<Question>();
+    public GameState CurrentGameState;
     public NetworkVariable<float> Timer = new NetworkVariable<float>(0f);
+
+    public NetworkVariable<Question> CurrentQuestionData = new NetworkVariable<Question>();
     public NetworkVariable<int> CurrentQuestionNumber = new NetworkVariable<int>(0); // Número da pergunta atual na rodada  
 
 
@@ -52,10 +55,9 @@ public class GameManager : NetworkBehaviour
     NetworkManager _networkManager;
 
     #endregion
-     
+
 
     public List<QuizPlayer> players = new();
-
 
     //EVENTS
 
@@ -63,6 +65,7 @@ public class GameManager : NetworkBehaviour
     public EventHandler OnUpdateUI;
     public EventHandler OnJoiningGame;
     public EventHandler OnQuizStarted;
+    public EventHandler OnGameStateChanged;
     #endregion
 
 
@@ -84,32 +87,27 @@ public class GameManager : NetworkBehaviour
     void Start()
     {
         _networkManager = FindAnyObjectByType<NetworkManager>();
-        
+
     }
 
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        CurrentGameState.OnValueChanged += OnGameStateChanged;
 
 
 
         if (IsServer)
         {
-            CurrentGameState.Value = GameState.WaitingToStart;
+            CurrentGameState = GameState.WaitingToStart;
             Timer.Value = 0;
-            HandleGameStateChange(GameState.WaitingToStart, CurrentGameState.Value);
+
         }
         if (!IsServer)
         {
-            SendPlayerInfoToServerRpc(AuthenticationService.Instance.PlayerId, LocalPlayerName);
+            SendPlayerInfoToServerRpc(AuthenticationService.Instance.PlayerId, LobbyManager.Instance.LocalPlayerName);
         }
-
-        //onPlayerJoined?.Invoke(this, null);
-
-        //DEBUG 
-
+        CurrentGameState = GameState.WaitingToStart;
 
     }
 
@@ -117,7 +115,6 @@ public class GameManager : NetworkBehaviour
     {
         base.OnNetworkDespawn();
 
-        CurrentGameState.OnValueChanged -= OnGameStateChanged;
 
         if (Instance == this) Instance = null;
 
@@ -131,8 +128,8 @@ public class GameManager : NetworkBehaviour
 
         Timer.Value = Timer.Value > 0 ? Timer.Value -= Time.deltaTime : 0;
 
-        if (CurrentGameState.Value == GameState.WaitingToStart) return;
-        CheckGameState(CurrentGameState.Value);
+        if (CurrentGameState == GameState.WaitingToStart) return;
+        CheckGameState(CurrentGameState);
     }
 
     public void CheckGameState(GameState currentState)
@@ -142,19 +139,16 @@ public class GameManager : NetworkBehaviour
             case GameState.DisplayingQuestion:
                 if (Timer.Value <= 0)
                 {
-                    CurrentGameState.Value = GameState.CollectingAnswers;
-                    Timer.Value = timePerQuestion;
+                    ChangeCurrentGameStateRPC(GameState.CollectingAnswers, timePerQuestion);
+                     
 
                 }
 
                 break;
             case GameState.CollectingAnswers:
-
-
                 if (Timer.Value <= 0)
                 {
-                    CurrentGameState.Value = GameState.ShowingResults;
-                    Timer.Value = timeToShowResults;
+                    ChangeCurrentGameStateRPC(GameState.ShowingResults, timeToShowResults); 
                 }
                 break;
 
@@ -182,92 +176,34 @@ public class GameManager : NetworkBehaviour
                 break;
         }
     }
-    public void OnGameStateChanged(GameState previousState, GameState newState)
-    {
-        HandleGameStateChange(previousState, newState);
-    }
 
-    private void HandleGameStateChange(GameState previousState, GameState newState)
-    {
-        DEV.Instance.DevPrint($"Gamestate was changed from {previousState} to {newState}");
-    }
 
 
 
     [Rpc(SendTo.Everyone)]
     public void StartQuizRpc()
     {
-        //Event_PucQuiz.scene_actualy = "Quiz";
-        //LayoutManager.instance.ChangeMenu("Quiz","Quiz"); 
         LayoutManager.instance.StartQuiz();
         OnQuizStarted?.Invoke(this, null);
-        Timer.Value = timeToShowQuestion;
-        CurrentGameState.Value = GameState.DisplayingQuestion;
+        Timer.Value = 3.5f;
+
     }
-
-
-    #region @ Lobby Stuff @
-    public async Task<string> StartHostWithRelay(int maxConnections = 5, string _playerName = "null")
+    [Rpc(SendTo.Everyone)]
+    public void ChangeCurrentGameStateRPC(GameState newGameState, float _timer)
     {
-        LocalPlayerName = _playerName;
-        await InitializeAuth();
+        CurrentGameState = newGameState;
+        OnGameStateChanged?.Invoke(this, null);
+        if (IsServer)
+            Timer.Value = _timer;
 
-        Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
-        _networkManager.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, connectionType: "wss"));
-        JoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-
-
-        //Debug.Log($"My AuthID: {AuthenticationService.Instance.PlayerId}"); 
-        _networkManager.GetComponent<UnityTransport>().UseWebSockets = true;
-        NetworkManager.Singleton.ConnectionApprovalCallback += ConnectionApprovalManager.AproveConnection;
-        return NetworkManager.Singleton.StartServer() ? JoinCode : null;
+        Debug.Log("New State:" + newGameState);
     }
 
-    public async Task<bool> StartClientWithRelay(string _joinCode, string _playerName)
-    {
-        LocalPlayerName = _playerName;
-        JoinCode = _joinCode;
-        await InitializeAuth();
-
-        var connectionPayload = new ConnectionApprovalManager.ConnectionPayload()
-        {
-            PlayerAuthID = AuthenticationService.Instance.PlayerId,
-            PlayerName = _playerName
-        };
-
-        NetworkManager.Singleton.NetworkConfig.ConnectionData = ConnectionApprovalManager.SerializeConnectionPayload(payload: connectionPayload);
-        try
-        {
-            var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode: _joinCode);
-
-            // Configure transport
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(joinAllocation, "wss"));
-
-        }
-        catch (RelayServiceException ex) {
-            Debug.Log(ex.Message);
-            return false;
-        }
-        Debug.Log($"My AuthID: {AuthenticationService.Instance.PlayerId}");
-        return !string.IsNullOrEmpty(_joinCode) && NetworkManager.Singleton.StartClient();
-    }
-    public async Task<bool> InitializeAuth()
-    {
-        await UnityServices.InitializeAsync();
-
-        if (!AuthenticationService.Instance.IsSignedIn)
-        {
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        }
-
-        return true;
-    }
     public NetworkList<QuizPlayerData> GetConnectedPlayers()
     {
         CheckList();
         return ConnectedPlayers;
     }
-    #endregion
 
     #region Server Functions
 
@@ -294,7 +230,7 @@ public class GameManager : NetworkBehaviour
         {
             ClientId = clientNetworkId,
             PlayerName = playerName,
-            
+
         });
         UpdateLobbyRPC();
 
@@ -335,12 +271,12 @@ public class GameManager : NetworkBehaviour
     /// <param name="newScore">Players new score</param>
     public void SetPlayerScore(string clientID, int newScore)
     {
-        if (!IsServer) return; 
-        
-        for(int i = 0; i < players.Count; i++)
+        //if (!IsServer) return; 
+
+        for (int i = 0; i < players.Count; i++)
         {
             var player = players[i];
-            if(player.ClientId.Value == clientID)
+            if (player.ClientId.Value == clientID)
             {
                 player.Score.Value = newScore;
                 return;
@@ -349,13 +285,13 @@ public class GameManager : NetworkBehaviour
     }
 
 
-    
+
 
     public QuizPlayer[] GetTop5Playes()
     {
-        
 
-        List<QuizPlayer> topPlayers = players.OrderByDescending(player => player).Take(players.Count>5?5:players.Count).ToList();
+
+        List<QuizPlayer> topPlayers = players.OrderByDescending(player => player).Take(players.Count > 5 ? 5 : players.Count).ToList();
 
 
 
@@ -391,6 +327,7 @@ public class GameManager : NetworkBehaviour
         OnUpdateUI?.Invoke(this, null);
     }
 
+
     internal void CheckList()
     {
         //if (!IsServer) return;
@@ -406,12 +343,12 @@ public class GameManager : NetworkBehaviour
         }
 
     }
-     
+
     public void AddPlayer(QuizPlayer quizPlayer)
     {
         //DEV.Instance.DevPrint($"Player add - {quizPlayer.PlayerName.Value.ToString()}");
         players.Add(quizPlayer);
-        
+
     }
 
     public void AddCardToPlayer(string playerID, int cardID)
@@ -421,12 +358,13 @@ public class GameManager : NetworkBehaviour
         {
             DEV.Instance.DevPrint($"playerID not found: {playerID}");
 
-            return; }
+            return;
+        }
 
         var card = CardsManager.Instance.GetCardByID(cardID);
         if (card == null) return;
 
-        
+
 
         player.AddCard(card);
     }
@@ -443,17 +381,17 @@ public class GameManager : NetworkBehaviour
 public struct QuizPlayerData : INetworkSerializable, System.IEquatable<QuizPlayerData>
 {
     public FixedString32Bytes ClientId;
-    public FixedString32Bytes PlayerName; 
+    public FixedString32Bytes PlayerName;
     public bool Equals(QuizPlayerData other)
     {
         return ClientId == other.ClientId && PlayerName == other.PlayerName;
     }
- 
+
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref ClientId);
-        serializer.SerializeValue(ref PlayerName); 
+        serializer.SerializeValue(ref PlayerName);
     }
     public override int GetHashCode()
     {

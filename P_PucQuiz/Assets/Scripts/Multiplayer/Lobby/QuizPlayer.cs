@@ -20,11 +20,11 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
     [Space]
     [Header("Points")]
 
-    public NetworkVariable<int> Score = new(0, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> Score = new(0, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
     [Space]
     [Header("Cards")]
     public NetworkVariable<int> slots = new(4, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<FixedString32Bytes> cartas = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);   // Cards uid separated by , 
+    public NetworkVariable<FixedString32Bytes> cartas = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);   // Cards uid separated by , 
     private List<Cartas> playerCards = new List<Cartas>(); 
     [Header("Effects")]
     public NetworkVariable<bool> protetor = new(false, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
@@ -43,10 +43,10 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
 
         if (IsOwner)
         {
-            PlayerName.Value = GameManager.Instance.LocalPlayerName;
-            ClientId.Value = AuthenticationService.Instance.PlayerId;
-            Debug.Log($"Sending to host...{ClientId.Value} - {PlayerName.Value}"); 
+            PlayerName.Value = LobbyManager.Instance.LocalPlayerName;
+            ClientId.Value = AuthenticationService.Instance.PlayerId; 
             cardsManager = CardsManager.Instance;
+            GameManager.Instance.LocalPlayer = this;
         }
 
         if (IsServer)
@@ -64,8 +64,8 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
     { 
         Cartas card_values = card as Cartas;
         //DEV.Instance.DevPrint($"Trying to add {card.name} to {PlayerName.Value}");
-        if (card_values == null) { Debug.Log("Carta não atribuida."); return; }
-        if (slots.Value - card_values.cust < 0) { Debug.Log("O custo desta carta é maior do que seus slots."); return; }
+        if (card_values == null) { Debug.Log("Carta nï¿½o atribuida."); return; }
+        if (slots.Value - card_values.cust < 0) { Debug.Log("O custo desta carta ï¿½ maior do que seus slots."); return; }
         ;
 
         slots.Value -= card_values.cust;
@@ -113,11 +113,11 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
     [Rpc(SendTo.Owner)]
     void SetCardsOnManagerRpc(int id)
     {
-        Debug.Log("RPC OWNER");
-        var card = CardsManager.Instance.GetCardByID(id);
+         
+        var card = cardsManager.GetCardByID(id);
         if (card == null) return;
         Debug.Log($"Card found: {card.name}");
-        CardsManager.Instance.LocalPlayerCards.Add(card);
+        cardsManager.LocalPlayerCards.Add(card);
     }
     /*
     public void RemoveCard(Cartas.Card_Types type)
