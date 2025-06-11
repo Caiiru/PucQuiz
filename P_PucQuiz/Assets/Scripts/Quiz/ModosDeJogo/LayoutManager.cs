@@ -162,6 +162,7 @@ public class LayoutManager : MonoBehaviour
                 menu.ChangeMenu(layout);
                 break;
             case "Quiz":
+
                 quiz.ChangeMenu(layout);
                 break;
             case "End":
@@ -171,13 +172,22 @@ public class LayoutManager : MonoBehaviour
     }
 
     public void StartQuiz()
-    {
+    { 
+        
         scene_actualy = "Quiz";
         Event_PucQuiz.scene_actualy = "Quiz";
         quiz_start = true;
-
         Quiz_Run();
-        quiz.ChangeMenu("Quiz");
+        if (GameManager.Instance.IsServer)
+        {
+            quiz.ChangeMenu("HostQuiz");
+
+        }
+        else
+        {
+            quiz.ChangeMenu("Quiz");
+        }
+
         
     }
     #endregion
@@ -206,7 +216,7 @@ public class LayoutManager : MonoBehaviour
         {
             //players = players.
         }
-        if (GameManager.Instance.CurrentGameState.Value == GameState.WaitingToStart)
+        if (GameManager.Instance.CurrentGameState == GameState.WaitingToStart)
             return;
         GameManager.Instance.GetTop5Playes();
         if (Event_PucQuiz.players == null) { Event_PucQuiz.players = new MyPlayer[5]; }
@@ -232,8 +242,7 @@ public class LayoutManager : MonoBehaviour
     [Rpc(SendTo.Everyone)]
     public void ChangeMenuRpc(string scene, string layout)
     {
-        if (!GameManager.Instance.IsServer) { return; }
-
+        
         switch(scene)
         {
             case "Start":

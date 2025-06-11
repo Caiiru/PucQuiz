@@ -12,17 +12,19 @@ public class GameHandlerUI : NetworkBehaviour
     [SerializeField] List<VisualTreeAsset> visualLayouts;
     [SerializeField] UIDocument currentDocument; 
     public EventHandler OnStateChanged;
+    GameManager _gameManager;
 
     void Start()
     {
-        GameManager.Instance.CurrentGameState.OnValueChanged += ChangeStateUI;
+        _gameManager = GameManager.Instance;
+        _gameManager.OnGameStateChanged += ChangeStateUI;
     }
 
 
 
-    public void ChangeStateUI(GameState previousState, GameState newState)
+    public void ChangeStateUI(object sender, EventArgs e)
     {
-        switch (newState)
+        switch (_gameManager.CurrentGameState)
         {
             case GameState.DisplayingQuestion:
                 StartCoroutine(ShowQuestion(0.5f));

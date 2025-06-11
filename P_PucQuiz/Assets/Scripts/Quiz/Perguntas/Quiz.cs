@@ -169,7 +169,7 @@ public class Quiz : Perguntas
         }
         else
         {
-            
+
         }
 
         mod.FeedBack();
@@ -200,7 +200,12 @@ public class Quiz : Perguntas
 
     #region || Funcoes Rapidas ||
 
-    public void Choice_Event(string chose) { Debug.Log(chose); Event_PucQuiz.question_event = chose; }
+    public void Choice_Event(string chose)
+    {
+        if (GameManager.Instance.IsServer) return;
+        Debug.Log(chose);
+        Event_PucQuiz.question_event = chose;
+    }
     private void Make_Chose() { if (choice_actualy == choice_max) { chose = true; } Event_PucQuiz.question_event = ""; }
     private void Choices_Reset()
     {

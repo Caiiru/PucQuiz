@@ -18,7 +18,7 @@ using UnityEngine.UIElements;
 
 public enum GameState
 {
-    
+
     WaitingToStart,
     DisplayingQuestion,
     CollectingAnswers,
@@ -29,10 +29,10 @@ public enum GameState
 
 public class GameManager : NetworkBehaviour
 {
-    [Header("Local Player Settings")] 
+    [Header("Local Player Settings")]
     public string LocalPlayerName;
     public QuizPlayer LocalPlayer;
- 
+
 
     [Header("Game Config")]
     private float timeToShowQuestion = 99f;
@@ -44,9 +44,9 @@ public class GameManager : NetworkBehaviour
     // --- Variáveis de Rede ---
     #region Network Settings
     [Header("Network Settings")]
-    public NetworkVariable<GameState> CurrentGameState = new NetworkVariable<GameState>(GameState.WaitingToStart);
+    public GameState CurrentGameState;
     public NetworkVariable<float> Timer = new NetworkVariable<float>(0f);
-    
+
     public NetworkVariable<Question> CurrentQuestionData = new NetworkVariable<Question>();
     public NetworkVariable<int> CurrentQuestionNumber = new NetworkVariable<int>(0); // Número da pergunta atual na rodada  
 
@@ -55,7 +55,7 @@ public class GameManager : NetworkBehaviour
     NetworkManager _networkManager;
 
     #endregion
-     
+
 
     public List<QuizPlayer> players = new();
 
@@ -65,6 +65,7 @@ public class GameManager : NetworkBehaviour
     public EventHandler OnUpdateUI;
     public EventHandler OnJoiningGame;
     public EventHandler OnQuizStarted;
+    public EventHandler OnGameStateChanged;
     #endregion
 
 
@@ -86,32 +87,27 @@ public class GameManager : NetworkBehaviour
     void Start()
     {
         _networkManager = FindAnyObjectByType<NetworkManager>();
-        
+
     }
 
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        CurrentGameState.OnValueChanged += OnGameStateChanged;
 
 
 
         if (IsServer)
         {
-            CurrentGameState.Value = GameState.WaitingToStart;
+            CurrentGameState = GameState.WaitingToStart;
             Timer.Value = 0;
-            HandleGameStateChange(GameState.WaitingToStart, CurrentGameState.Value);
+
         }
         if (!IsServer)
         {
             SendPlayerInfoToServerRpc(AuthenticationService.Instance.PlayerId, LobbyManager.Instance.LocalPlayerName);
         }
-
-        //onPlayerJoined?.Invoke(this, null);
-
-        //DEBUG 
-
+        CurrentGameState = GameState.WaitingToStart;
 
     }
 
@@ -119,7 +115,6 @@ public class GameManager : NetworkBehaviour
     {
         base.OnNetworkDespawn();
 
-        CurrentGameState.OnValueChanged -= OnGameStateChanged;
 
         if (Instance == this) Instance = null;
 
@@ -133,8 +128,8 @@ public class GameManager : NetworkBehaviour
 
         Timer.Value = Timer.Value > 0 ? Timer.Value -= Time.deltaTime : 0;
 
-        if (CurrentGameState.Value == GameState.WaitingToStart) return;
-        CheckGameState(CurrentGameState.Value);
+        if (CurrentGameState == GameState.WaitingToStart) return;
+        CheckGameState(CurrentGameState);
     }
 
     public void CheckGameState(GameState currentState)
@@ -144,19 +139,16 @@ public class GameManager : NetworkBehaviour
             case GameState.DisplayingQuestion:
                 if (Timer.Value <= 0)
                 {
-                    CurrentGameState.Value = GameState.CollectingAnswers;
-                    Timer.Value = timePerQuestion;
+                    ChangeCurrentGameStateRPC(GameState.CollectingAnswers, timePerQuestion);
+                     
 
                 }
 
                 break;
             case GameState.CollectingAnswers:
-
-
                 if (Timer.Value <= 0)
                 {
-                    CurrentGameState.Value = GameState.ShowingResults;
-                    Timer.Value = timeToShowResults;
+                    ChangeCurrentGameStateRPC(GameState.ShowingResults, timeToShowResults); 
                 }
                 break;
 
@@ -184,34 +176,34 @@ public class GameManager : NetworkBehaviour
                 break;
         }
     }
-    public void OnGameStateChanged(GameState previousState, GameState newState)
-    {
-        HandleGameStateChange(previousState, newState);
-    }
 
-    private void HandleGameStateChange(GameState previousState, GameState newState)
-    {
-        DEV.Instance.DevPrint($"Gamestate was changed from {previousState} to {newState}");
-    }
 
 
 
     [Rpc(SendTo.Everyone)]
     public void StartQuizRpc()
     {
-        //Event_PucQuiz.scene_actualy = "Quiz";
-        //LayoutManager.instance.ChangeMenu("Quiz","Quiz"); 
         LayoutManager.instance.StartQuiz();
         OnQuizStarted?.Invoke(this, null);
-        Timer.Value = timeToShowQuestion;
-        CurrentGameState.Value = GameState.DisplayingQuestion;
+        Timer.Value = 3.5f;
+
+    }
+    [Rpc(SendTo.Everyone)]
+    public void ChangeCurrentGameStateRPC(GameState newGameState, float _timer)
+    {
+        CurrentGameState = newGameState;
+        OnGameStateChanged?.Invoke(this, null);
+        if (IsServer)
+            Timer.Value = _timer;
+
+        Debug.Log("New State:" + newGameState);
     }
 
     public NetworkList<QuizPlayerData> GetConnectedPlayers()
     {
         CheckList();
         return ConnectedPlayers;
-    } 
+    }
 
     #region Server Functions
 
@@ -238,7 +230,7 @@ public class GameManager : NetworkBehaviour
         {
             ClientId = clientNetworkId,
             PlayerName = playerName,
-            
+
         });
         UpdateLobbyRPC();
 
@@ -280,11 +272,11 @@ public class GameManager : NetworkBehaviour
     public void SetPlayerScore(string clientID, int newScore)
     {
         //if (!IsServer) return; 
-        
-        for(int i = 0; i < players.Count; i++)
+
+        for (int i = 0; i < players.Count; i++)
         {
             var player = players[i];
-            if(player.ClientId.Value == clientID)
+            if (player.ClientId.Value == clientID)
             {
                 player.Score.Value = newScore;
                 return;
@@ -293,13 +285,13 @@ public class GameManager : NetworkBehaviour
     }
 
 
-    
+
 
     public QuizPlayer[] GetTop5Playes()
     {
-        
 
-        List<QuizPlayer> topPlayers = players.OrderByDescending(player => player).Take(players.Count>5?5:players.Count).ToList();
+
+        List<QuizPlayer> topPlayers = players.OrderByDescending(player => player).Take(players.Count > 5 ? 5 : players.Count).ToList();
 
 
 
@@ -333,7 +325,7 @@ public class GameManager : NetworkBehaviour
     void UpdateLobbyRPC()
     {
         OnUpdateUI?.Invoke(this, null);
-    } 
+    }
 
 
     internal void CheckList()
@@ -351,12 +343,12 @@ public class GameManager : NetworkBehaviour
         }
 
     }
-     
+
     public void AddPlayer(QuizPlayer quizPlayer)
     {
         //DEV.Instance.DevPrint($"Player add - {quizPlayer.PlayerName.Value.ToString()}");
         players.Add(quizPlayer);
-        
+
     }
 
     public void AddCardToPlayer(string playerID, int cardID)
@@ -366,12 +358,13 @@ public class GameManager : NetworkBehaviour
         {
             DEV.Instance.DevPrint($"playerID not found: {playerID}");
 
-            return; }
+            return;
+        }
 
         var card = CardsManager.Instance.GetCardByID(cardID);
         if (card == null) return;
 
-        
+
 
         player.AddCard(card);
     }
@@ -388,17 +381,17 @@ public class GameManager : NetworkBehaviour
 public struct QuizPlayerData : INetworkSerializable, System.IEquatable<QuizPlayerData>
 {
     public FixedString32Bytes ClientId;
-    public FixedString32Bytes PlayerName; 
+    public FixedString32Bytes PlayerName;
     public bool Equals(QuizPlayerData other)
     {
         return ClientId == other.ClientId && PlayerName == other.PlayerName;
     }
- 
+
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref ClientId);
-        serializer.SerializeValue(ref PlayerName); 
+        serializer.SerializeValue(ref PlayerName);
     }
     public override int GetHashCode()
     {

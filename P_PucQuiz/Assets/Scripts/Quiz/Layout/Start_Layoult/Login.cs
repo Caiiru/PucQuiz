@@ -18,18 +18,18 @@ public class Login
     [Header("Layouts")]
     public DictionaryThree<String, GameObject, VisualTreeAsset>[] menu;
 
-
+    GameManager gameManager;
 
 
     public void Awake()
     {
-        Event_PucQuiz.layout_actualy = "Start"; 
+        Event_PucQuiz.layout_actualy = "Start";
     }
 
     public void Start()
     {
-        ChangeMenu("Start");
-        DeveloperConsole.Console.AddCommand("loginquiz", LoginStartQuiz);
+        ChangeMenu("Start"); 
+        gameManager = GameManager.Instance;
 
     }
 
@@ -111,17 +111,12 @@ public class Login
     private void ClickStartQuiz(ClickEvent clickEvent)
     {
         //GameManager.Instance.StartQuiz_Rpc();
-        GameManager.Instance.StartQuizRpc();
+        gameManager.StartQuizRpc();
+        gameManager.ChangeCurrentGameStateRPC(GameState.DisplayingQuestion,3.5f);
 
 
     }
 
-    void LoginStartQuiz(string[] args)
-    {
-        Debug.Log("LoginStartQuiz");
-        DeveloperConsole.Console.Print("Login Start Quiz");
-        Event_PucQuiz.scene_actualy = "Quiz";
-    }
 
     private void ClickRegister(ClickEvent click) //Bot�o que transita da tela de login para a tela de registro.
     {
@@ -172,7 +167,7 @@ public class Login
     {
         string code = doc.rootVisualElement.Q<TextField>("Code").value.ToUpper();
         string userName = doc.rootVisualElement.Q<TextField>("Name").value;
- 
+
         if (string.IsNullOrEmpty(userName))
         {
             Debug.LogError("User name is null or empty");
@@ -194,20 +189,20 @@ public class Login
         {
             if (await LobbyManager.Instance.StartClientWithRelay(code, userName))
             {
-                GameManager.Instance.OnUpdateUI += OnUpdateUI;
+                gameManager.OnUpdateUI += OnUpdateUI;
             }
             else
-            { 
+            {
                 ChangeMenu("Codigo");
             }
 
-        } 
+        }
 
     }
 
     private void OnUpdateUI(object sender, EventArgs e)
     {
-        if (!(Event_PucQuiz.layout_actualy =="CriarPartida"))
+        if (!(Event_PucQuiz.layout_actualy == "CriarPartida"))
         {
             ChangeMenu("CriarPartida");
         }
@@ -300,20 +295,20 @@ public class Login
         }
         catch (Exception error)
         {
-             Debug.Log(error);
+            Debug.Log(error);
         }
 
         SetButtons();
     }
 
- 
- 
+
+
 
     void CheckHostStatus()
     {
         //Verifica se o jogador é host ou não para deixar ativo o boão de iniciar quiz/partida
         var _startButton = doc.rootVisualElement.Q<Button>("Iniciar");
-        if (!GameManager.Instance.IsServer)
+        if (!gameManager.IsServer)
         {
             //NOT HOST:
             _startButton.parent.Remove(_startButton);

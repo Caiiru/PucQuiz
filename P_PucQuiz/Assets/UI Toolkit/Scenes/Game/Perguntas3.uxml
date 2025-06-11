@@ -2,8 +2,8 @@
     <Style src="project://database/Assets/UI%20Toolkit/Scenes/Game/Perguntas3.uss?fileID=7433441132597879392&amp;guid=18f04c64b2217a046b22c4a4b23a6ed8&amp;type=3#Perguntas3" />
     <ui:VisualElement name="ScreenCenter">
         <ui:VisualElement name="GridContainer">
-            <ui:Button name="ButtonTopLeft" icon-image="project://database/Assets/Sprites/Icons/AnswersIcons/sprite_red_cube.png?fileID=2800000&amp;guid=65b8c73a560ea414b80da6e07561595a&amp;type=3#sprite_red_cube" text="Resposta mega hyper super correta nossa meu deus" class="icon-button icon-1" />
-            <ui:Button name="ButtonTopRight" icon-image="project://database/Assets/Sprites/Icons/AnswersIcons/sprite_blue_cone.png?fileID=2800000&amp;guid=da99ec0eccbba1c4699a63fabf13aa5d&amp;type=3#sprite_blue_cone" text="To de xixa dura paizao eloco maluco doido ta maluco nengue" class="icon-button icon-2" />
+            <ui:Button name="ButtonTopLeft" icon-image="project://database/Assets/Sprites/Icons/AnswersIcons/sprite_red_cube.png?fileID=2800000&amp;guid=65b8c73a560ea414b80da6e07561595a&amp;type=3#sprite_red_cube" text="aaaadasda&#10;" class="icon-button icon-1" />
+            <ui:Button name="ButtonTopRight" icon-image="project://database/Assets/Sprites/Icons/AnswersIcons/sprite_blue_cone.png?fileID=2800000&amp;guid=da99ec0eccbba1c4699a63fabf13aa5d&amp;type=3#sprite_blue_cone" text="aaaaaaaa&#10;" class="icon-button icon-2" />
             <ui:Button name="ButtonBottomLeft" icon-image="project://database/Assets/Sprites/Icons/AnswersIcons/sprite_green_stairs.png?fileID=2800000&amp;guid=d1e64c1afa6fa5e438fd6553bb84cc61&amp;type=3#sprite_green_stairs" enable-rich-text="true" text="Resposta 3" class="icon-button icon-3" />
             <ui:Button name="ButtonBottomRight" icon-image="project://database/Assets/Sprites/Icons/AnswersIcons/sprite_yellow_cylinder.png?fileID=2800000&amp;guid=da5c136a7af72dc4ab0ae98d7305a55c&amp;type=3#sprite_yellow_cylinder" text="Resposta 4" class="icon-button icon-4" />
         </ui:VisualElement>
