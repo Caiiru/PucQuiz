@@ -74,13 +74,8 @@ public class GameManager : NetworkBehaviour
     public static GameManager Instance;
 
     void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        Instance = this;
-        DontDestroyOnLoad(this.gameObject);
+    { 
+        Instance = this; 
 
     }
     #endregion
@@ -288,7 +283,7 @@ public class GameManager : NetworkBehaviour
 
 
 
-    public QuizPlayer[] GetTop5Playes()
+    public QuizPlayer[] GetTop5Players()
     {
 
 

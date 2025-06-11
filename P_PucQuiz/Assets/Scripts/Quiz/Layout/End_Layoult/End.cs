@@ -65,11 +65,12 @@ public class End
 
     private void SetBars()
     {
-        float[] points = new float[Event_PucQuiz.players.Length];
-        for(int i = 0; i < Event_PucQuiz.players.Length; i++)
+        var players = GameManager.Instance.GetTop5Players();
+        float[] points = new float[players.Length];
+        for(int i = 0; i < players.Length; i++)
         {
             if (i == 5) { break; }
-            points[i] = Event_PucQuiz.players[i].points;
+            points[i] = players[i].Score.Value;
         }
         /*
         float point_1;
@@ -84,7 +85,7 @@ public class End
          */
 
         float[] porcents = new float[points.Length];
-        for(int i = 0; i < Event_PucQuiz.players.Length; i++)
+        for(int i = 0; i < players.Length; i++)
         {
             if(i == 5) { break; }
             if (i == 0) { porcents[i] = 100; }
@@ -109,11 +110,13 @@ public class End
             VisualElement player_bar = doc.rootVisualElement.Q("Progress"+(i+1));
             player_bar.style.width = new Length(porcents[i], LengthUnit.Percent);
         }
-        for (int i = Event_PucQuiz.players.Length; i < 5; i++)
+        /*
+        for (int i = players.Length; i < 5; i++)
         {
-            var remove = doc.rootVisualElement.Q<Label>("PlayerName"+(i+1));
+            var remove = doc.rootVisualElement.Q<Label>("PlayerName" + (i + 1));
             remove.parent.Remove(remove);
         }
+        */
         /*
         VisualElement bar_1 = doc.rootVisualElement.Q("Progress1");
         bar_1.style.width = new Length(porcent_1, LengthUnit.Percent);
@@ -141,26 +144,28 @@ public class End
                         Debug.Log("Rank Set Start");
 
                         Debug.Log("Rank % = Start");
-
-                        string[] names = new string[Event_PucQuiz.players.Length];
-
-                        for(int o = 0; o < Event_PucQuiz.players.Length; o++)
+                        var players = GameManager.Instance.GetTop5Players();
+                        string[] names = new string[players.Length];
+                        doc.visualTreeAsset = layout[i].getValue3();
+                        for (int o = 0; o < players.Length; o++)
                         {
                             if (o == 5) { break; }
-                            doc.rootVisualElement.Q<Label>("PlayerName"+(o+1)).text = Event_PucQuiz.players[o].playerName;
+                            doc.rootVisualElement.Q<Label>("PlayerName" + (o + 1)).text = players[o].PlayerName.Value.ToString();
                         }
-                        for(int o = Event_PucQuiz.players.Length; o < 5; o++)
+                        for (int o = players.Length; o < 5; o++)
                         {
-                            var remove = doc.rootVisualElement.Q<Label>("PlayerName"+(o+1));
-                            remove.parent.Remove(remove);
+                            var remove = doc.rootVisualElement.Q<Label>("PlayerName" + (o + 1));
+                            //remove.parent.Remove(remove);
+                            if(remove != null)
+                                remove.style.opacity = 0;
                         }
                         /*
                         string name_2 = Event_PucQuiz.players[1].playerName;
                         string name_3 = Event_PucQuiz.players[2].playerName;
                         string name_4 = Event_PucQuiz.players[3].playerName;*/
 
-                        Debug.Log("Players Count = " + Event_PucQuiz.players.Length);
-                        
+                        Debug.Log("Players Count = " + players.Length);
+
                         /*
                         Debug.Log("Rank Name = Start");
                         doc.rootVisualElement.Q<Label>("PlayerName1").text = name_1;
