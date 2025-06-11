@@ -22,21 +22,21 @@ public class LayoutManager : MonoBehaviour
     public Login menu;
     public Modos quiz;
     public End end;
-    [Header("Manager Variables - Start Bools",order = 1)]
+    [Header("Manager Variables - Start Bools", order = 1)]
     [SerializeField] public bool quiz_start = true;
     [SerializeField] public bool menu_start, end_start = true;
 
     [Header("Multiplayer Variables")]
-    [SerializeField] public bool multiplayer_on; 
+    [SerializeField] public bool multiplayer_on;
     public List<QuizPlayer> players;
 
     [Header("Multiplayer Test Variables")]
     [SerializeField] public MyPlayer[] local_players = new MyPlayer[5];
 
-    
+
 
     public LayoutManager()
-    { 
+    {
         instance = this;
     }
 
@@ -45,7 +45,7 @@ public class LayoutManager : MonoBehaviour
         Event_PucQuiz.scene_actualy = "Menu";
         quiz.transform = transform;
 
-        if(!multiplayer_on)
+        if (!multiplayer_on)
         {
             //player.AddCard((Cartas)Resources.Load<ScriptableObject>("Cartas/Comum/Retirar"));
         }
@@ -59,8 +59,6 @@ public class LayoutManager : MonoBehaviour
         layout_actualy = Event_PucQuiz.layout_actualy;
         question_result = Event_PucQuiz.question_result;
 
-        if(multiplayer_on) { MultiplayerOn(); }
-        else { MultiplayerOff(); }
 
         switch (Event_PucQuiz.scene_actualy)
         {
@@ -74,7 +72,7 @@ public class LayoutManager : MonoBehaviour
                 End_Run();
                 break;
         }
-        
+
     }
 
     public bool AddQuizPlayer(QuizPlayer _player)
@@ -90,7 +88,7 @@ public class LayoutManager : MonoBehaviour
         {
             players.Remove(_player);
         }
-        
+
     }
     /// <summary>
     /// Tenta colocar um valor Y em um valor X de forma mais segura.
@@ -134,7 +132,7 @@ public class LayoutManager : MonoBehaviour
     {
         if (quiz_start)
         {
-          //  Debug.Log("Call to Start Quiz");
+            //  Debug.Log("Call to Start Quiz");
             quiz.Awake(gameObject);
             quiz.Start(gameObject);
             quiz_start = false;
@@ -144,7 +142,7 @@ public class LayoutManager : MonoBehaviour
     }
     private void End_Run()
     {
-        if(end_start)
+        if (end_start)
         {
             end.Awake(gameObject);
             end.Start(gameObject);
@@ -155,6 +153,9 @@ public class LayoutManager : MonoBehaviour
     public void ChangeMenu(string scene, string layout)
     {
         if (!GameManager.Instance.IsServer) { return; }
+        
+        if (multiplayer_on) { MultiplayerOn(); }
+        else { MultiplayerOff(); }
 
         switch (scene)
         {
@@ -172,8 +173,8 @@ public class LayoutManager : MonoBehaviour
     }
 
     public void StartQuiz()
-    { 
-        
+    {
+
         scene_actualy = "Quiz";
         Event_PucQuiz.scene_actualy = "Quiz";
         quiz_start = true;
@@ -188,7 +189,7 @@ public class LayoutManager : MonoBehaviour
             quiz.ChangeMenu("Quiz");
         }
 
-        
+
     }
     #endregion
 
@@ -212,27 +213,31 @@ public class LayoutManager : MonoBehaviour
     }
     private void MultiplayerOn()
     {
-        if(GameManager.Instance.IsServer)
+        if (GameManager.Instance.IsServer)
         {
             //players = players.
         }
         if (GameManager.Instance.CurrentGameState == GameState.WaitingToStart)
             return;
 
-        QuizPlayer[] players = GameManager.Instance.GetTop5Playes();
+        QuizPlayerData[] players = GameManager.Instance.GetTop5Players();
         if(players != null)
         {
             local_players = new MyPlayer[players.Length];
             Event_PucQuiz.players = new MyPlayer[local_players.Length];
             for (int i = 0; i < local_players.Length; i++)
             {
-                if (players[i] == null) continue;
+                if (players[i].PlayerName == null) {
+                    Debug.LogError($"{i} has a null player");
+                    continue;
+                }
                 MyPlayer _player = new MyPlayer();
                 _player.playerName = players[i].PlayerName.Value.ToString();
-                _player.points = players[i].Score.Value;
+                _player.points = players[i].Score;
                 local_players[i] = _player;
                 Event_PucQuiz.players[i] = _player;
             }
+            
         }
         /*
         local_players[0].playerName = players[0].PlayerName.Value.ToString();
@@ -276,9 +281,9 @@ public class LayoutManager : MonoBehaviour
     [ContextMenu("Cartas/GetRandomCard(Comum)")]
     public void Random_Card()
     {
-        int rand = UnityEngine.Random.Range(1,4);
+        int rand = UnityEngine.Random.Range(1, 4);
 
-        switch(rand)
+        switch (rand)
         {
             case 1:
                 player.AddCard(Cartas.Get_Card(Cartas.Card_Types.Retirar));
@@ -295,7 +300,7 @@ public class LayoutManager : MonoBehaviour
     [ContextMenu("Cartas/Retirar")]
     public void Card_Retirar()
     {
-        if(player.InCartas(Cartas.Card_Types.Retirar))
+        if (player.InCartas(Cartas.Card_Types.Retirar))
         {
             Cartas.Get_Card(Cartas.Card_Types.Retirar).Use();
         }
@@ -325,7 +330,7 @@ public class LayoutManager : MonoBehaviour
 public class MyPlayer
 {
     [Header("Atributos")]
-    public string playerName= "";
+    public string playerName = "";
     public int points = 0;
     public int slots;
     [SerializeField] private Cartas[] cartas = new Cartas[4];
@@ -340,12 +345,13 @@ public class MyPlayer
     {
         Cartas card_values = card as Cartas;
 
-        if(card_values == null) { Debug.Log("Carta não atribuida."); return; }
-        if(slots - card_values.cust < 0) { Debug.Log("O custo desta carta é maior do que seus slots."); return; };
+        if (card_values == null) { Debug.Log("Carta não atribuida."); return; }
+        if (slots - card_values.cust < 0) { Debug.Log("O custo desta carta é maior do que seus slots."); return; }
+        ;
 
-        for(int i = 0; i < cartas.Length; i++)
+        for (int i = 0; i < cartas.Length; i++)
         {
-            if(cartas[i] == null)
+            if (cartas[i] == null)
             {
                 cartas[i] = card;
                 cartas_index++;
@@ -358,7 +364,7 @@ public class MyPlayer
     }
     public void RemoveCard(Cartas.Card_Types type)
     {
-        for(int i = 0; i < cartas.Length; i++)
+        for (int i = 0; i < cartas.Length; i++)
         {
             if (cartas[i] != null)
             {
@@ -375,7 +381,7 @@ public class MyPlayer
     }
     public bool InCartas(Cartas.Card_Types type)
     {
-        for(int i = 0; i < cartas.Length; i++)
+        for (int i = 0; i < cartas.Length; i++)
         {
             if (cartas[i].types == type)
             {

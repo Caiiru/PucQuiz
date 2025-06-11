@@ -39,7 +39,8 @@ public class LobbyUI : MonoBehaviour
 
     private void OnLobbyUIListChanged(NetworkListEvent<QuizPlayerData> changeEvent)
     {
-        UpdateLobbyUI();
+        if(GameManager.Instance.CurrentGameState == GameState.WaitingToStart)
+            UpdateLobbyUI();
     }
 
     void OnDisable()

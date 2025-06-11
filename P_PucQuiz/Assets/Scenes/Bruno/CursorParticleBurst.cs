@@ -22,7 +22,7 @@ public class CursorParticleBurst : MonoBehaviour
         mousePos.z = 0f;
         particleInstance.transform.position = mousePos;
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             // Emit a burst manually
             particleInstance.Play();

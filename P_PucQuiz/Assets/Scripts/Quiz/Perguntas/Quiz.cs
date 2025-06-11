@@ -38,6 +38,8 @@ public class Quiz : Perguntas
         {
             if(attributes)
         }*/
+        if (GameManager.Instance.IsServer)
+            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.DisplayingQuestion, 3.5f);
 
         attributes.choices = new bool[attributes.options.Length];
     }
@@ -165,7 +167,8 @@ public class Quiz : Perguntas
                 var nextCard = CardsManager.Instance.AllCards[r];
                 GameManager.Instance.LocalPlayer.AddCardByID(nextCard.cardID);
             }
-            GameManager.Instance.LocalPlayer.Score.Value = player.points;
+            GameManager.Instance.AddPointsToLocalPLayer(player.points);
+            //GameManager.Instance.LocalPlayer.Score.Value = player.points;
         }
         else
         {
