@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Scenes/Game/Correto.uss?fileID=7433441132597879392&amp;guid=b9ca768de44f4374183442b6510db21a&amp;type=3#Correto" />
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; align-items: center; background-color: rgba(251, 247, 239, 0); height: 430px;">
+        <ui:VisualElement name="Barra" style="flex-grow: 1; width: 100%; height: 20%;" />
+        <ui:VisualElement name="Texto_Container" class="Resposta_Correta_Default">
+            <ui:Label text="Mostrando Respostas..." name="Resposta_Incorreta" style="align-self: center; font-size: 67px; -unity-font-style: bold; color: rgb(72, 210, 114); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/Fonts/LexendDeca-VariableFont_wght.ttf?fileID=12800000&amp;guid=e30bd63670e9bca42927092983a72b4c&amp;type=3#LexendDeca-VariableFont_wght&quot;);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Barra" style="flex-grow: 1; width: 100%; height: 25%;" />
+        <ui:VisualElement name="Barra" style="flex-grow: 1; width: 100%; height: 20%;" />
+    </ui:VisualElement>
+</ui:UXML>

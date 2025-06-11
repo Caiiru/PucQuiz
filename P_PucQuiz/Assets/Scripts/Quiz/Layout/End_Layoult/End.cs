@@ -26,6 +26,7 @@ public class End
     public void Start(GameObject obj)
     {
         time.Reset();
+         
     }
 
     public void Update(GameObject obj)

@@ -1,4 +1,4 @@
-using System; 
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -44,7 +44,7 @@ public class Quiz : Perguntas
 
     public override void Update_Layout(GameObject obj)
     {
- 
+
         if (Event_PucQuiz.start_layout) { Start_Layout(obj); }
 
         int choice_max_local = 0;
@@ -62,7 +62,7 @@ public class Quiz : Perguntas
         pause = Event_PucQuiz.pause;
         if (pause) { Debug.Log("-- Game paused --"); return; }
 
-        if(!chose)
+        if (!chose)
         {
             speed_to_complet = (int)attributes.timer.time;
         }
@@ -73,7 +73,7 @@ public class Quiz : Perguntas
          * rodara o nada abaixo
         \*                    */
 
-        if(!attributes.timer.infinity)
+        if (!attributes.timer.infinity)
             switch (attributes.timer.time)
             {
                 case 0:
@@ -133,37 +133,44 @@ public class Quiz : Perguntas
     {
         if (Event_PucQuiz.question_next) { return; }
 
-        MyPlayer player = LayoutManager.instance.player;
-        Event_PucQuiz.question_event = "";
-        Event_PucQuiz.question_lock = false;
-
-
-        bool correct = true;
-
-        for (int i = 0; i < attributes.choice_correct.Length; i++)
+        if (!GameManager.Instance.IsServer)
         {
-            if (!attributes.choices[i] == attributes.choice_correct[i])
+            MyPlayer player = LayoutManager.instance.player;
+            Event_PucQuiz.question_event = "";
+            Event_PucQuiz.question_lock = false;
+
+
+            bool correct = true;
+
+            for (int i = 0; i < attributes.choice_correct.Length; i++)
             {
-                correct = false;
-                break;
+                if (!attributes.choices[i] == attributes.choice_correct[i])
+                {
+                    correct = false;
+                    break;
+                }
             }
-        }
 
-        speed_to_complet = (1 * speed_to_complet) / attributes.timer.start;
-        Debug.Log("% do Buff de velocidade = " + speed_to_complet);
+            speed_to_complet = (1 * speed_to_complet) / attributes.timer.start;
+            Debug.Log("% do Buff de velocidade = " + speed_to_complet);
 
-        if (correct)
-        {
-            
-            Event_PucQuiz.question_result = "win";
-            player.points += (int)Config_PucQuiz.Get_Points(true, speed_to_complet);
+            Event_PucQuiz.question_result = correct ? "win" : "lose";
+            player.points += (int)Config_PucQuiz.Get_Points(correct, speed_to_complet);
+            Event_PucQuiz.points = player.points;
+
+            //ADD CARD HERE
+            if (Event_PucQuiz.question_result == "lose")
+            {
+                var r = new System.Random().Next(CardsManager.Instance.AllCards.Count - 1);
+                var nextCard = CardsManager.Instance.AllCards[r];
+                GameManager.Instance.LocalPlayer.AddCardByID(nextCard.cardID);
+            }
+            GameManager.Instance.LocalPlayer.Score.Value = player.points;
         }
         else
         {
-            Event_PucQuiz.question_result = "lose";
-            player.points += (int)Config_PucQuiz.Get_Points(false, speed_to_complet);
+
         }
-        Event_PucQuiz.points = player.points;
 
         mod.FeedBack();
         Event_PucQuiz.question_next = true;
@@ -193,12 +200,17 @@ public class Quiz : Perguntas
 
     #region || Funcoes Rapidas ||
 
-    public void Choice_Event(string chose){ Debug.Log(chose); Event_PucQuiz.question_event = chose; }
+    public void Choice_Event(string chose)
+    {
+        if (GameManager.Instance.IsServer) return;
+        Debug.Log(chose);
+        Event_PucQuiz.question_event = chose;
+    }
     private void Make_Chose() { if (choice_actualy == choice_max) { chose = true; } Event_PucQuiz.question_event = ""; }
     private void Choices_Reset()
     {
         Debug.Log("Reset Choices");
-        attributes.choices[0] = false; 
+        attributes.choices[0] = false;
         attributes.choices[1] = false;
         attributes.choices[2] = false;
         attributes.choices[3] = false;

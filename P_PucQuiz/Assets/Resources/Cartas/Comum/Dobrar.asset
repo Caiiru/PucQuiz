@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instance: {fileID: 11400000}
   name: Dobrar
+  cardID: 0
   types: 2
   cust: 2
   description: Use esta carta para dobrar os pontos adquiridos em uma rodada.
+  visualSprite: {fileID: -2746777145875754288, guid: 5b8e79bc0ad0a5e46aedd9f339e2fdf3, type: 3}
+  cardAnimator: {fileID: 0}
+  DefaultAnimation: {fileID: 0}
+  HoverAnimation: {fileID: 0}

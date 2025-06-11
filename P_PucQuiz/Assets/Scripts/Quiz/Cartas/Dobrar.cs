@@ -7,7 +7,9 @@ public class Card_Dobrar : Cartas
     public void Set()
     {
         instance = this;
-        name = "Dobrar";
+
+        //Não precisa ser hardcoded o nome, o intuito de ser scriptable object é a alteração facil pelo editor;
+        //name = "Dobrar";
         types = Card_Types.Dobrar;
     }
 

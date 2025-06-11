@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,9 +10,11 @@ public class DEV : MonoBehaviour
 
 
     public bool isDebug = true;
-    public bool isTimerInfinity = true;
     public static DEV Instance;
- 
+
+
+    GameManager gameManager;
+
 
     void Awake()
     {
@@ -21,46 +25,132 @@ public class DEV : MonoBehaviour
     void Start()
     {
         consoleCanvas.gameObject.SetActive(true);
-
-        DeveloperConsole.Console.AddCommand("testAnim", TestAnimCommand);
-        DeveloperConsole.Console.AddCommand("loadAnim", LoadAnimCommand);
-        DeveloperConsole.Console.AddCommand("changeToQuiz", ChangeToQuizCommand);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        //wasStarted = false;
+        //DeveloperConsole.Console.AddCommand("PlayersNameCommand", PrintPlayersCommand);
+        //DeveloperConsole.Console.AddCommand("AddPlayer", AddPlayerCommand);
+        //DeveloperConsole.Console.AddCommand("RemovePlayer", RemovePlayerCommand);
+        gameManager = GameManager.Instance;
+        LobbyManager.Instance.OnJoiningGame += StartServer;
 
     }
-    public void ChangeToQuizCommand(string[] args)
-    {
-        var layoutManager = FindAnyObjectByType<LayoutManager>();
-        if (layoutManager == null) return;
 
-        //layoutManager.ChangeToQuiz();
-        //TestAnimCommand(null);
-    }
-    public void LoadAnimCommand(string[] args)
+    public void StartServer(object sender, EventArgs e)
     {
-        var document = FindAnyObjectByType<UIDocument>();
-        var textContainer = document.rootVisualElement.Q<VisualElement>("Container_Pergunta");
-        var timerContainer = document.rootVisualElement.Q<VisualElement>("Container_Timer");
-        var answersContainer = document.rootVisualElement.Q<VisualElement>("Container-Resposta1");
-        textContainer.AddToClassList("QuestionTextStart");
-        answersContainer.AddToClassList("ScaleUpStart");
-        timerContainer.AddToClassList("TimerStart");
+        if (!isDebug) return;
+        DeveloperConsole.Console.AddCommand("PlayersCount", PlayersCountCommand);
+        DeveloperConsole.Console.AddCommand("PlayersName", PlayersNameCommand);
+        DeveloperConsole.Console.AddCommand("SetPoints", GivePointsToPlayerCommand);
+        DeveloperConsole.Console.AddCommand("AddCard", AddCardToMyselfCommand);
+ 
+
+        //DeveloperConsole.Console.AddCommand("AddCard", AddCardCommand); // -> SERVER
     }
-    public void TestAnimCommand(string[] args)
+
+    private void AddCardCommand(string[] args)
     {
-       
-        var document = FindAnyObjectByType<UIDocument>();
-        var textContainer = document.rootVisualElement.Q<VisualElement>("Container_Pergunta");
-        var timerContainer = document.rootVisualElement.Q<VisualElement>("Container_Timer");
-        var answersContainer = document.rootVisualElement.Q<VisualElement>("Container-Resposta1");
-        
-        textContainer.RemoveFromClassList("QuestionTextStart");
-        answersContainer.RemoveFromClassList("ScaleUpStart"); 
-        timerContainer.RemoveFromClassList("TimerStart"); 
+
+        var player = gameManager.GetPlayerByID(gameManager.players[int.Parse(args[0])].ClientId.Value.ToString());
+
+
+        if (player == null)
+        {
+            DevPrint($"Player {args[0]} not found");
+            return;
+        }
+        gameManager.AddCardToPlayer(player.ClientId.Value.ToString(), int.Parse(args[1]));
+    }
+
+    private void AddCardToMyselfCommand(string[] args)
+    {
+        var player = gameManager.LocalPlayer;
+
+        if (player == null)
+        {
+            DevPrint("Player not found");
+            return;
+        }
+        var _card = CardsManager.Instance.GetCardByID(int.Parse(args[0]));
+
+        player.AddCard(_card);
+        CardsManager.Instance.SpawnCard(_card);
+
+    }
+
+    private void PlayersNameCommand(string[] args)
+    {
+        List<QuizPlayer> _players = gameManager.players;
+        string textToPrint = "";
+        int _index = 0;
+        foreach (QuizPlayer player in _players)
+        {
+            if (_index == 0)
+            {
+                textToPrint = player.PlayerName.Value.ToString();
+            }
+            else
+            {
+                textToPrint += ", " + player.PlayerName.Value.ToString();
+            }
+
+        }
+
+        DevPrint($"players: {textToPrint}");
+    }
+
+    public void GivePointsToEveryoneCommand(string[] args)
+    {
+        var players = gameManager.players;
+        foreach (var player in players)
+        {
+            gameManager.SetPlayerScore(player.ClientId.Value.ToString(), int.Parse(args[0]));
+
+            DEV.Instance.DevPrint($"{player.PlayerName.Value} has {player.Score.Value} points");
+        }
+    }
+
+    public void GivePointsToPlayerCommand(string[] args)
+    {
+        var _players = gameManager.players;
+        if (_players.Count == 0) return;
+        var player = gameManager.GetPlayerByID(_players[int.Parse(args[0])].ClientId.Value.ToString());
+        gameManager.SetPlayerScore(player.ClientId.Value.ToString(), int.Parse(args[1]));
+        DEV.Instance.DevPrint($"{player.PlayerName.Value} has {player.Score.Value} points");
+    }
+
+    private void PlayersCountCommand(string[] args)
+    {
+        DevPrint($"Players Count: {gameManager.players.Count}");
+    }
+
+    public void AddPlayerCommand(string[] args)
+    {
+        string playerID = (args[0]);
+        string playerName = args[1].ToString();
+
+        gameManager.AddConnectedPlayer(playerID, playerName);
+    }
+    public void PrintPlayersCommand(string[] args)
+    {
+        var printText = "";
+        var _index = 0;
+        foreach (var player in gameManager.ConnectedPlayers)
+        {
+            if (_index == 0)
+            {
+                printText = $"{player.ClientId}:{player.PlayerName}, ";
+            }
+            else
+            {
+                printText = $"{printText}{player.ClientId}:{player.PlayerName}, ";
+            }
+            _index++;
+        }
+        DevPrint($"Players connected: {printText}");
+
+    }
+    public void RemovePlayerCommand(string[] args)
+    {
+        gameManager.RemoveConnectedPlayerByName(args[0]);
     }
 
     public void DevPrint(string text)

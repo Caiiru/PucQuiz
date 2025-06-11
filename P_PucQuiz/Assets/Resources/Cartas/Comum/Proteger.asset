@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Proteger
   m_EditorClassIdentifier: 
   instance: {fileID: 11400000}
-  name: Proteger
+  name: "Proteger Sequ\xEAncia"
+  cardID: 1
   types: 1
   cust: 2
   description: Use esta carta para proteger a sua sequencia.
+  visualSprite: {fileID: -8706159555339397402, guid: a61752165568a754eb27cf459808b2fa, type: 3}

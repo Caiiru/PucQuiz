@@ -7,9 +7,17 @@ public abstract class Cartas : ScriptableObject
 {
     [HideInInspector] public Cartas instance;
     public string name;
+    public int cardID;
     public Card_Types types = Card_Types.NoN;
     public int cust;
     [Multiline] public string description;
+
+    public Sprite visualSprite;
+
+    [Header("Anim")]
+    public Animator cardAnimator;
+    public Animation DefaultAnimation;
+    public Animation HoverAnimation;
     public enum Card_Types
     {
         Retirar,

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Retirar
   m_EditorClassIdentifier: 
   instance: {fileID: 11400000}
-  name: Retirar
+  name: Retirar Resposta Incorreta
+  cardID: 2
   types: 0
   cust: 1
   description: Use esta carta para desabilitar 1 resposta errada.
+  visualSprite: {fileID: 2729045182529978938, guid: e1bf2de5e15d5b245ae8a9c8d6253cad, type: 3}
