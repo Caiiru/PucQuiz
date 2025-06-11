@@ -8,7 +8,11 @@ public class CardsManager : MonoBehaviour
 
     [Space]
 
-    public List<Cartas> LocalPlayerCards = new();
+    public GameObject[] LocalPlayerCards = new GameObject[4];
+
+    [Header("Cards Stuff")]
+    public Transform CardContainer;
+    public GameObject CardPrefab;
 
 
     void Start()
@@ -38,6 +42,27 @@ public class CardsManager : MonoBehaviour
 
         return null;
     }
+
+    public void SpawnCard(Cartas card)
+    {
+        var _cardGO = Instantiate(CardPrefab, CardContainer);
+
+        _cardGO.GetComponent<VisualCard>().CreateCard(card);
+        
+        //_cardGO.transform.localPosition = new Vector3(-5.5f+(LocalPlayerCards * 4) , -1.5f, 0);
+    }
+    public void UpdateCards()
+    {
+        string cards = GameManager.Instance.LocalPlayer.cartas.Value.ToString();
+        foreach (var card in LocalPlayerCards)
+        {
+            if (card.GetComponent<VisualCard>().CardInfo == null)
+            {
+                card.SetActive(false);
+            }
+        }
+    }
+
 
 
 

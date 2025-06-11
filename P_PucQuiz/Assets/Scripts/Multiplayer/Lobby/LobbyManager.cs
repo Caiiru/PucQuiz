@@ -15,6 +15,10 @@ public class LobbyManager : MonoBehaviour
     public string LocalPlayerName;
     public string JoinCode;
 
+
+    //EVENTS
+
+    public EventHandler OnJoiningGame;
     void Start()
     {
         _networkManager = NetworkManager.Singleton; 
@@ -29,7 +33,7 @@ public class LobbyManager : MonoBehaviour
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
         _networkManager.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, connectionType: "wss"));
         JoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-
+        OnJoiningGame?.Invoke(this, null);
 
         //Debug.Log($"My AuthID: {AuthenticationService.Instance.PlayerId}"); 
         _networkManager.GetComponent<UnityTransport>().UseWebSockets = true;
@@ -48,7 +52,7 @@ public class LobbyManager : MonoBehaviour
             PlayerAuthID = AuthenticationService.Instance.PlayerId,
             PlayerName = _playerName
         };
-
+        OnJoiningGame?.Invoke(this, null);
         NetworkManager.Singleton.NetworkConfig.ConnectionData = ConnectionApprovalManager.SerializeConnectionPayload(payload: connectionPayload); 
         try
         {

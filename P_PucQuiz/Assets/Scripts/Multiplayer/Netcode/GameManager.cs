@@ -56,14 +56,15 @@ public class GameManager : NetworkBehaviour
 
     #endregion
 
+    
+
 
     public List<QuizPlayer> players = new();
 
     //EVENTS
 
     #region Events Call
-    public EventHandler OnUpdateUI;
-    public EventHandler OnJoiningGame;
+    public EventHandler OnUpdateUI; 
     public EventHandler OnQuizStarted;
     public EventHandler OnGameStateChanged;
     #endregion

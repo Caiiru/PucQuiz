@@ -15,7 +15,7 @@
     margin: 10px;
     background-color: rgb(74, 74, 74);
     -unity-background-scale-mode: scale-to-fit;
-    font-size: 217%;
+    font-size: 400%;
     color: rgb(255, 255, 255);
     transition-property: scale;
     transition-duration: 0.15s;
@@ -83,6 +83,8 @@
     transition-timing-function: ease-in-out-elastic, ease-out;
     transition-duration: 1.5s, 0.5s;
     height: 80%;
+    -unity-font-definition: resource('Font/LexendDeca-VariableFont_wght');
+    font-size: 19px;
 }
 
 .Buttons_Anim {
@@ -90,4 +92,5 @@
     width: 100%;
     scale: 0 0;
     opacity: 0;
+    -unity-font-definition: resource('Font/LexendDeca-VariableFont_wght');
 }

@@ -13,6 +13,11 @@ public abstract class Cartas : ScriptableObject
     [Multiline] public string description;
 
     public Sprite visualSprite;
+
+    [Header("Anim")]
+    public Animator cardAnimator;
+    public Animation DefaultAnimation;
+    public Animation HoverAnimation;
     public enum Card_Types
     {
         Retirar,

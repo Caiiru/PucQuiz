@@ -117,7 +117,7 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
         var card = cardsManager.GetCardByID(id);
         if (card == null) return;
         Debug.Log($"Card found: {card.name}");
-        cardsManager.LocalPlayerCards.Add(card);
+        //cardsManager.LocalPlayerCards.Add(card);
     }
     /*
     public void RemoveCard(Cartas.Card_Types type)

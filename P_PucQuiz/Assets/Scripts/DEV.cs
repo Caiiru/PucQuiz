@@ -10,10 +10,8 @@ public class DEV : MonoBehaviour
 
 
     public bool isDebug = true;
-    public bool isTimerInfinity = true;
     public static DEV Instance;
 
-    private bool wasStarted;
 
     GameManager gameManager;
 
@@ -27,26 +25,25 @@ public class DEV : MonoBehaviour
     void Start()
     {
         consoleCanvas.gameObject.SetActive(true);
-        wasStarted = false;
+        //wasStarted = false;
         //DeveloperConsole.Console.AddCommand("PlayersNameCommand", PrintPlayersCommand);
         //DeveloperConsole.Console.AddCommand("AddPlayer", AddPlayerCommand);
         //DeveloperConsole.Console.AddCommand("RemovePlayer", RemovePlayerCommand);
         gameManager = GameManager.Instance;
-        gameManager.OnUpdateUI += StartServer;
-    
+        LobbyManager.Instance.OnJoiningGame += StartServer;
+
     }
 
     public void StartServer(object sender, EventArgs e)
     {
-        if (wasStarted || !gameManager.IsServer) return;
-        wasStarted = true;
-
-
-        DeveloperConsole.Console.AddCommand("SetPoints", GivePointsToPlayerCommand);
+        if (!isDebug) return;
         DeveloperConsole.Console.AddCommand("PlayersCount", PlayersCountCommand);
         DeveloperConsole.Console.AddCommand("PlayersName", PlayersNameCommand);
-        //DeveloperConsole.Console.AddCommand("AddCard", AddCardCommand); // -> SERVER
+        DeveloperConsole.Console.AddCommand("SetPoints", GivePointsToPlayerCommand);
         DeveloperConsole.Console.AddCommand("AddCard", AddCardToMyselfCommand);
+ 
+
+        //DeveloperConsole.Console.AddCommand("AddCard", AddCardCommand); // -> SERVER
     }
 
     private void AddCardCommand(string[] args)
@@ -72,8 +69,11 @@ public class DEV : MonoBehaviour
             DevPrint("Player not found");
             return;
         }
-        player.AddCardByID(int.Parse(args[0]));
-        
+        var _card = CardsManager.Instance.GetCardByID(int.Parse(args[0]));
+
+        player.AddCard(_card);
+        CardsManager.Instance.SpawnCard(_card);
+
     }
 
     private void PlayersNameCommand(string[] args)

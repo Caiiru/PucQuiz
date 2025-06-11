@@ -11,9 +11,19 @@ public class VisualCard : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public TextMeshProUGUI textMeshPro;
 
+    [Header("Animation")]
+    public Animator animator;
+    public Animation defaultAnimation;
+    public Animation hoverAnimation;
+    
+
 
     void Start()
     {
+        if (CardInfo != null)
+        {
+            CreateCard(CardInfo);
+        }
     }
     public void CreateCard(Cartas cardSO)
     {
@@ -21,5 +31,9 @@ public class VisualCard : MonoBehaviour
         textMeshPro.text = CardInfo.name;
         spriteRenderer.sprite = CardInfo.visualSprite;
 
-    } 
+        animator = cardSO.cardAnimator;
+        defaultAnimation = cardSO.DefaultAnimation;
+        hoverAnimation = cardSO.HoverAnimation;
+
+    }
 }

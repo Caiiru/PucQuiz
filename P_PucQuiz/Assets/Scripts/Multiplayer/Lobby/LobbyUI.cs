@@ -24,10 +24,11 @@ public class LobbyUI : MonoBehaviour
     GameManager gameManager;
 
 
-    void OnEnable()
+    void Start()
     {
 
         gameManager = GameManager.Instance;
+        if (gameManager == null) return;
         gameManager.OnUpdateUI += OnUpdateUIRequested;
         //gameManager.onPlayerJoined += OnPlayerJoined;
         gameManager.ConnectedPlayers.OnListChanged += OnLobbyUIListChanged;
@@ -43,7 +44,10 @@ public class LobbyUI : MonoBehaviour
 
     void OnDisable()
     {
-        // gameManager.onPlayerJoined -= OnPlayerJoined;
+        gameManager.OnUpdateUI -= OnUpdateUIRequested;
+        //gameManager.onPlayerJoined += OnPlayerJoined;
+        gameManager.ConnectedPlayers.OnListChanged -= OnLobbyUIListChanged;
+        gameManager.OnQuizStarted -= OnQuizStarted;
     }
 
 
