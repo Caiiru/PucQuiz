@@ -113,11 +113,11 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
     [Rpc(SendTo.Owner)]
     void SetCardsOnManagerRpc(int id)
     {
-        Debug.Log("RPC OWNER");
-        var card = CardsManager.Instance.GetCardByID(id);
+         
+        var card = cardsManager.GetCardByID(id);
         if (card == null) return;
         Debug.Log($"Card found: {card.name}");
-        CardsManager.Instance.LocalPlayerCards.Add(card);
+        cardsManager.LocalPlayerCards.Add(card);
     }
     /*
     public void RemoveCard(Cartas.Card_Types type)

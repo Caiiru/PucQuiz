@@ -133,38 +133,44 @@ public class Quiz : Perguntas
     {
         if (Event_PucQuiz.question_next) { return; }
 
-        MyPlayer player = LayoutManager.instance.player;
-        Event_PucQuiz.question_event = "";
-        Event_PucQuiz.question_lock = false;
-
-
-        bool correct = true;
-
-        for (int i = 0; i < attributes.choice_correct.Length; i++)
+        if (!GameManager.Instance.IsServer)
         {
-            if (!attributes.choices[i] == attributes.choice_correct[i])
+            MyPlayer player = LayoutManager.instance.player;
+            Event_PucQuiz.question_event = "";
+            Event_PucQuiz.question_lock = false;
+
+
+            bool correct = true;
+
+            for (int i = 0; i < attributes.choice_correct.Length; i++)
             {
-                correct = false;
-                break;
+                if (!attributes.choices[i] == attributes.choice_correct[i])
+                {
+                    correct = false;
+                    break;
+                }
             }
+
+            speed_to_complet = (1 * speed_to_complet) / attributes.timer.start;
+            Debug.Log("% do Buff de velocidade = " + speed_to_complet);
+
+            Event_PucQuiz.question_result = correct ? "win" : "lose";
+            player.points += (int)Config_PucQuiz.Get_Points(correct, speed_to_complet);
+            Event_PucQuiz.points = player.points;
+
+            //ADD CARD HERE
+            if (Event_PucQuiz.question_result == "lose")
+            {
+                var r = new System.Random().Next(CardsManager.Instance.AllCards.Count - 1);
+                var nextCard = CardsManager.Instance.AllCards[r];
+                GameManager.Instance.LocalPlayer.AddCardByID(nextCard.cardID);
+            }
+            GameManager.Instance.LocalPlayer.Score.Value = player.points;
         }
-
-        speed_to_complet = (1 * speed_to_complet) / attributes.timer.start;
-        Debug.Log("% do Buff de velocidade = " + speed_to_complet);
-
-        Event_PucQuiz.question_result = correct ? "win" : "lose";
-        player.points += (int)Config_PucQuiz.Get_Points(correct, speed_to_complet);
-        Event_PucQuiz.points = player.points;
-
-        //ADD CARD HERE
-        if (Event_PucQuiz.question_result == "lose")
+        else
         {
-            var r = new System.Random().Next(CardsManager.Instance.AllCards.Count - 1);
-            var nextCard = CardsManager.Instance.AllCards[r];
-            GameManager.Instance.LocalPlayer.AddCardByID(nextCard.cardID);
+            
         }
-        GameManager.Instance.LocalPlayer.Score.Value = player.points;
-
 
         mod.FeedBack();
         Event_PucQuiz.question_next = true;

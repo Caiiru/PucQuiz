@@ -126,9 +126,13 @@ public class Modos
         Debug.Log("Start Feedback.");
 
         GameManager.Instance.CurrentGameState.Value = GameState.ShowingResults;
-
-        switch (Event_PucQuiz.question_result)
+        if (GameManager.Instance.IsServer)
         {
+            ChangeMenu("HostWaiting");
+            return;
+        }
+        switch (Event_PucQuiz.question_result)
+        { 
             case "win":
                 ChangeMenu("Correct");
                 break;
@@ -137,6 +141,7 @@ public class Modos
                 break;
             case "":
                 Debug.Log("No Result");
+                ChangeMenu("Incorrect");
                 break;
         }
 

@@ -27,7 +27,10 @@ public class GameHandlerUI : NetworkBehaviour
             case GameState.DisplayingQuestion:
                 StartCoroutine(ShowQuestion(0.5f));
                 break;
-        }
+            case GameState.ShowingResults:
+                 
+                break;
+        } 
     }
 
     IEnumerator ShowQuestion(float delayTime)

@@ -4010,17 +4010,20 @@ MonoBehaviour:
     doc: {fileID: 1254502716}
     menu:
     - value1: Aguardando
-      value2: {fileID: 1277771894}
+      value2: {fileID: 1385919957}
       value3: {fileID: 9197481963319205126, guid: e9f4027c3cf863b42b7e74673b25a512, type: 3}
     - value1: Quiz
-      value2: {fileID: 1277771894}
+      value2: {fileID: 1385919957}
       value3: {fileID: 9197481963319205126, guid: b2572ce63bb4fa14c9cb4f950bedc395, type: 3}
     - value1: Incorrect
-      value2: {fileID: 1277771894}
+      value2: {fileID: 1385919957}
       value3: {fileID: 9197481963319205126, guid: c52d509bbd4df2d4490ca3c09e2a3b52, type: 3}
     - value1: Correct
-      value2: {fileID: 1277771894}
+      value2: {fileID: 1385919957}
       value3: {fileID: 9197481963319205126, guid: 6160a2e2ede5f954d9c4fbcf23a1ecef, type: 3}
+    - value1: HostWaiting
+      value2: {fileID: 1385919957}
+      value3: {fileID: 9197481963319205126, guid: f85bc4a5697f26c418953237c9e8f4b1, type: 3}
     manager: {fileID: 0}
     transform: {fileID: 0}
     attributes:
@@ -4974,7 +4977,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
