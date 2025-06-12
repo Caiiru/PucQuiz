@@ -22,6 +22,7 @@ public class Draggable : MonoBehaviour
         animator = GetComponent<Animator>();
         startPosition = transform.position;
 
+        isDebug = DEV.Instance==null? true : DEV.Instance.isDebug; // Check if DEV instance exists and get isDebug value 
         if (isDebug) return;
 
         cardContainer = CardsManager.Instance.CardContainer.GetComponent<CardContainer>();
@@ -78,7 +79,8 @@ public class Draggable : MonoBehaviour
             transform.DOMove(startPosition, 0.5f).SetEase(Ease.OutBounce).OnComplete(() => 
             {
                 //animator.SetBool("isDropped", false);
-                cardContainer.UpdateCardsPosition();
+                if(!isDebug)
+                    cardContainer.UpdateCardsPosition();
                 canBeDragged = true;
             });
         }
