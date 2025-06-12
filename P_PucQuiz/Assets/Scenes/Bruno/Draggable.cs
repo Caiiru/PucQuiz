@@ -1,89 +1,104 @@
 using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class Draggable : MonoBehaviour
 {
-    private bool isDragging = false;
     private Vector3 offset;
     private Camera cam;
     private Animator animator;
-    private bool isDropped = false;
-    private bool isOverDropZone = false;
+    [SerializeField]private bool isDragging = false;
+    [SerializeField] private bool canBeDragged = true;
+
+    CardContainer cardContainer;
+    private Vector3 startPosition;
+
+
+    public bool isDebug = false;
 
     void Start()
     {
         cam = Camera.main;
         animator = GetComponent<Animator>();
+        startPosition = transform.position;
+
+        if (isDebug) return;
+
+        cardContainer = CardsManager.Instance.CardContainer.GetComponent<CardContainer>();
     }
 
-    void OnMouseDown()
-    {
-        if (isDropped) return;
-
-        Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
-        offset = transform.position - new Vector3(mouseWorldPos.x, mouseWorldPos.y, transform.position.z);
-        isDragging = true;
-
-        Debug.Log("Card is being dragged.");
-    }
 
     void OnMouseDrag()
     {
-        if (isDragging && !isDropped)
+        if (isDragging)
         {
             Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(mouseWorldPos.x, mouseWorldPos.y, transform.position.z) + offset;
 
-            // Check if currently over a DropZone
-            Collider2D hit = Physics2D.OverlapPoint(transform.position);
-            bool nowOverDropZone = hit != null && hit.CompareTag("DropZone");
-
-            if (nowOverDropZone && !isOverDropZone)
-            {
-                isOverDropZone = true;
-                Debug.Log("Card is in drop zone.");
-            }
-            else if (!nowOverDropZone && isOverDropZone)
-            {
-                isOverDropZone = false;
-                Debug.Log("Card is off drop zone.");
-            }
         }
+    }
+    void OnMouseDown()
+    {
+        if (!canBeDragged) return;
+
+        if (!isDebug)
+        {
+            if (!cardContainer.IsUp())
+                return;
+
+            cardContainer.DoMoveDown();
+        }
+
+        Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
+        offset = transform.position - new Vector3(mouseWorldPos.x, mouseWorldPos.y, transform.position.z);
+        
+        isDragging = true; 
+        animator.SetBool("isDragging", isDragging);
+        canBeDragged = false;
+
     }
 
     void OnMouseUp()
     {
-        if (isDropped) return;
-
+        if (canBeDragged) return;
         isDragging = false;
-        Debug.Log("Card stopped being dragged.");
+        animator.SetBool("isDragging", isDragging); 
 
         // Final drop check
         Collider2D hit = Physics2D.OverlapPoint(transform.position);
         if (hit != null && hit.CompareTag("DropZone"))
         {
-            isDropped = true;
-            animator.SetBool("isOnDropZone", true);
-            Debug.Log("Card dropped in drop zone.");
-
+            animator.SetTrigger("CardActivated");
             StartCoroutine(WaitForAnimation());
         }
         else
         {
-            Debug.Log("Card dropped outside of drop zone.");
+            Debug.Log("Card dropped outside of drop zone."); 
+            
+            transform.DOMove(startPosition, 0.5f).SetEase(Ease.OutBounce).OnComplete(() => 
+            {
+                //animator.SetBool("isDropped", false);
+                cardContainer.UpdateCardsPosition();
+                canBeDragged = true;
+            });
         }
     }
 
     private IEnumerator WaitForAnimation()
-    {
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("CardActivated"))
-        {
-            yield return null;
-        }
-
+    { 
         float animationLength = animator.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(animationLength);
+        transform.parent.gameObject.SetActive(false); 
+    }
 
-        Debug.Log("CardActivated animation finished.");
+    //HOVER
+    void OnMouseEnter()
+    {
+        animator.SetBool("isHovered", true);
+    }
+
+    void OnMouseExit()
+    {
+        animator.SetBool("isHovered", false);
     }
 }

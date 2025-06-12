@@ -7,15 +7,10 @@ public class VisualCard : MonoBehaviour
     public Cartas CardInfo;
 
 
-    [Header("Visual References")]
-    public SpriteRenderer spriteRenderer;
+    [Header("Visual References")] 
     public TextMeshProUGUI textMeshPro;
-
-    [Header("Animation")]
-    public Animator animator;
-    public Animation defaultAnimation;
-    public Animation hoverAnimation;
-    
+    public GameObject visualPrefab;
+     
 
 
     void Start()
@@ -24,16 +19,20 @@ public class VisualCard : MonoBehaviour
         {
             CreateCard(CardInfo);
         }
+        if(GetComponent<SpriteRenderer>() != null)
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+        }
     }
     public void CreateCard(Cartas cardSO)
     {
         CardInfo = cardSO;
+        if(cardSO.visualPrefab == null) { return; }
+        visualPrefab = Instantiate(cardSO.visualPrefab,this.transform);
+        textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
         textMeshPro.text = CardInfo.name;
-        spriteRenderer.sprite = CardInfo.visualSprite;
-
-        animator = cardSO.cardAnimator;
-        defaultAnimation = cardSO.DefaultAnimation;
-        hoverAnimation = cardSO.HoverAnimation;
+        //spriteRenderer.sprite = CardInfo.visualSprite;
+         
 
     }
 }

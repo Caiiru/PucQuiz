@@ -10,6 +10,7 @@ public class CardContainer : MonoBehaviour
     SpriteRenderer spriteRenderer;
 
     GameManager _gameManager;
+    public Vector3[] cardsStartPosition;
     void Start()
     {
         _gameManager = GameManager.Instance;
@@ -22,8 +23,30 @@ public class CardContainer : MonoBehaviour
             spriteRenderer.enabled = true;
             isActive = true;
         }
+        cardsStartPosition = new Vector3[transform.childCount];
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            cardsStartPosition[i] = transform.GetChild(i).transform.GetChild(0).position;
+        }
+         
     }
 
+
+    public bool IsUp()
+    {
+        return _isUp;
+    }
+
+    public void DoMoveUp()
+    {
+        _isUp = true;
+        container.transform.DOLocalMoveY(-3.5f, 1, false).SetEase(Ease.InOutBack);
+    }
+    public void DoMoveDown()
+    {
+        container.transform.DOMoveY(-6, 1, false).SetEase(Ease.InOutBack);
+        _isUp = false;
+    }
     private void CheckState(object sender, EventArgs e)
     {
         if (_gameManager.IsServer) return; // SERVER DONT NEED THIS
@@ -35,10 +58,23 @@ public class CardContainer : MonoBehaviour
         }
         if (!isActive)
         {
-            isActive = true; 
+            isActive = true;
             spriteRenderer.enabled = true;
         }
 
+    }
+
+    public void UpdateCardsPosition()
+    {
+        if (_isUp) return;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            var child = transform.GetChild(i).GetChild(0);
+            transform.GetChild(i).gameObject.SetActive(true);
+            //child.DOLocalMove(new Vector3(-5.5f + (i * 5), -1f, 0),0.5f).SetEase(Ease.InBack);
+            child.DOMove(cardsStartPosition[i],0.5f).SetEase(Ease.InBack);
+
+        }
     }
     private void OnMouseOver()
     {
@@ -46,25 +82,13 @@ public class CardContainer : MonoBehaviour
             return;
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Inside");
             if (_isUp)
             {
-
-                container.transform.DOMoveY(-6, 1, false);
-                _isUp = false;
+                DoMoveDown();
                 return;
             }
-            _isUp = true;
-            container.transform.DOLocalMoveY(-3.5f, 1, false);
+            DoMoveUp();
         }
-    }
-    void OnMouseEnter()
-    {
-       
-
-    }
-    void OnMouseExit()
-    { 
     }
 
 
