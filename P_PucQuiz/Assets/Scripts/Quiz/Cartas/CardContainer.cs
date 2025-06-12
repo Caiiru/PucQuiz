@@ -21,7 +21,7 @@ public class CardContainer : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
 
-        if (DEV.Instance.isDebug)
+        if (isDebug)
         {
             spriteRenderer.enabled = true;
             isActive = true;

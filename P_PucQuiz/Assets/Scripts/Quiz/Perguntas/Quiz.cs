@@ -38,8 +38,7 @@ public class Quiz : Perguntas
         {
             if(attributes)
         }*/
-        if (GameManager.Instance.IsServer)
-            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.DisplayingQuestion, 3.5f);
+        
 
         attributes.choices = new bool[attributes.options.Length];
     }

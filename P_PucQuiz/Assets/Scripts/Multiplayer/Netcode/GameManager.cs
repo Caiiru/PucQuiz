@@ -182,13 +182,18 @@ public class GameManager : NetworkBehaviour
         Timer.Value = 3.5f;
 
     }
+    public void ChangeCurrentGameStateMessage(GameState newState, float _timer, string from)
+    {
+        Debug.Log($"From {from} im changin the state to {newState}");
+        ChangeCurrentGameStateRPC(newState, _timer);
+    }
     [Rpc(SendTo.Everyone)]
     public void ChangeCurrentGameStateRPC(GameState newGameState, float _timer)
     {
-        CurrentGameState = newGameState;
-        OnGameStateChanged?.Invoke(this, null);
         if (IsServer)
             Timer.Value = _timer;
+        CurrentGameState = newGameState;
+        OnGameStateChanged?.Invoke(this, null);
 
         Debug.Log("New State:" + newGameState);
     }
@@ -283,7 +288,7 @@ public class GameManager : NetworkBehaviour
         //List<QuizPlayer> topPlayers = players.OrderByDescending(player => player).Take(players.Count > 5 ? 5 : players.Count).ToList();
 
         QuizPlayerData[] players = new QuizPlayerData[ConnectedPlayers.Count];
-        Debug.Log($"Players Inside top 5 count: {players.Count()}");
+        //Debug.Log($"Players Inside top 5 count: {players.Count()}");
 
         for(int i = 0; i< players.Count(); i++)
         {
@@ -311,7 +316,7 @@ public class GameManager : NetworkBehaviour
             }
             players[0] = player;
 
-            DEV.Instance.DevPrint($"{player.PlayerName} has {player.Score}");
+            //DEV.Instance.DevPrint($"{player.PlayerName} has {player.Score}");
 
         }
 
