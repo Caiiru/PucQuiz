@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Sounds
+  m_EditorClassIdentifier: Project.Scripts::Sound_Config
+  sound_list:
+  - name: Start
+    tag: 01000000
+    prefab: {fileID: 2044804091478687740, guid: 0eed24643fde0ef40830ee20995a5d60, type: 3}
+  - name: Menu
+    tag: 01000000
+    prefab: {fileID: 2044804091478687740, guid: c929f28bb6760fe4dbd5bb188b85f70b, type: 3}
+  - name: Game
+    tag: 01000000
+    prefab: {fileID: 2044804091478687740, guid: dda51b4d3a0bbb04b972be3b6423f4fd, type: 3}
