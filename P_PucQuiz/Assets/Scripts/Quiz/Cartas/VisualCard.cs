@@ -30,7 +30,7 @@ public class VisualCard : MonoBehaviour
         if(cardSO.visualPrefab == null) { return; }
         visualPrefab = Instantiate(cardSO.visualPrefab,this.transform);
         textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
-        textMeshPro.text = CardInfo.name;
+        textMeshPro.text = CardInfo.cardName;
         //spriteRenderer.sprite = CardInfo.visualSprite;
          
 

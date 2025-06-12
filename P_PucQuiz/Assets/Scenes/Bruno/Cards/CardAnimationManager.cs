@@ -9,13 +9,4 @@ public class CardHover : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    void OnMouseEnter()
-    {
-        animator.SetBool("isHovered", true);
-    }
-
-    void OnMouseExit()
-    {
-        animator.SetBool("isHovered", false);
-    }
 }

@@ -200,16 +200,7 @@ public class LayoutManager : MonoBehaviour
 
         Event_PucQuiz.player = player;
         Event_PucQuiz.points = player.points;
-        return;
-        Event_PucQuiz.players[0] = local_players[0];
-
-        Event_PucQuiz.players[1] = local_players[1];
-
-        Event_PucQuiz.players[2] = local_players[2];
-
-        Event_PucQuiz.players[3] = local_players[3];
-
-        Event_PucQuiz.players[4] = local_players[4];
+        return; 
     }
     private void MultiplayerOn()
     {
@@ -395,7 +386,7 @@ public class MyPlayer
         if (cartas[i] != null)
         {
             Cartas card = (Cartas)cartas[i];
-            return card.name;
+            return card.cardName;
         }
         return "";
     }

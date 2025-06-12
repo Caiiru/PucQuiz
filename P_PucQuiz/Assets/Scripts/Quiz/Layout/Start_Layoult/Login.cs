@@ -11,7 +11,7 @@ public class Login
     public LayoutManager manager;
 
     [Header("Login Variables")]
-    [SerializeField] private bool test = false;
+    //[SerializeField] private bool test = false;
     public string email;
     public string senha;
 

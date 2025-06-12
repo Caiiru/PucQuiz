@@ -26,7 +26,7 @@ public class GameManager : NetworkBehaviour
 
 
     [Header("Game Config")]
-    private float timeToShowQuestion = 99f;
+    //private float timeToShowQuestion = 99f;
     private float timePerQuestion = 15f;
     private float timeToShowResults = 5f;
 

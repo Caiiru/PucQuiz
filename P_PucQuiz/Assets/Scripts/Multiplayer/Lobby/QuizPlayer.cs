@@ -83,7 +83,7 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
             _index ++;
         }
         SetCardsOnManagerRpc(card.cardID);
-        DEV.Instance.DevPrint($"{card.name} was added to {PlayerName.Value}");
+        DEV.Instance.DevPrint($"{card.cardName} was added to {PlayerName.Value}");
         /*
         for (int i = 0; i < cartas.Value.Length; i++)
         {
@@ -111,7 +111,7 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
          
         var card = cardsManager.GetCardByID(id);
         if (card == null) return;
-        Debug.Log($"Card found: {card.name}");
+        Debug.Log($"Card found: {card.cardName}");
         //cardsManager.LocalPlayerCards.Add(card);
     }
     /*
