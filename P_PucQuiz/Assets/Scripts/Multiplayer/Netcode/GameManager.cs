@@ -1,20 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DeveloperConsole;
+using System.Linq; 
 using Unity.Collections;
-using Unity.Netcode;
-using Unity.Netcode.Transports.UTP;
-using Unity.Services.Authentication;
-using Unity.Services.Core;
-using Unity.Services.Lobbies.Models;
-using Unity.Services.Relay;
-using Unity.Services.Relay.Models;
-using UnityEditor.PackageManager;
-using UnityEngine;
-using UnityEngine.UIElements;
+using Unity.Netcode; 
+using Unity.Services.Authentication; 
+using UnityEngine; 
 
 public enum GameState
 {
@@ -103,7 +94,12 @@ public class GameManager : NetworkBehaviour
         }
         if (!IsServer)
         {
-            SendPlayerInfoToServerRpc(AuthenticationService.Instance.PlayerId, LobbyManager.Instance.LocalPlayerName);
+            if(DEV.Instance.OnlineMode == OnlineMode.Relay)
+                SendPlayerInfoToServerRpc(AuthenticationService.Instance.PlayerId, LobbyManager.Instance.LocalPlayerName);
+            else
+            {
+                SendPlayerInfoToServerRpc(LobbyManager.Instance.playerID, LobbyManager.Instance.LocalPlayerName);
+            }
         }
         CurrentGameState = GameState.WaitingToStart;
 

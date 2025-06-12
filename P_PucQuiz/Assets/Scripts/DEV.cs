@@ -12,6 +12,7 @@ public class DEV : MonoBehaviour
     public bool isDebug = true;
     public static DEV Instance;
 
+    public OnlineMode OnlineMode;
 
     GameManager gameManager;
 
@@ -155,4 +156,10 @@ public class DEV : MonoBehaviour
         Debug.Log(text);
         DeveloperConsole.Console.Print(text);
     }
+}
+
+public enum OnlineMode
+{
+    Local,
+    Relay
 }

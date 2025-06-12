@@ -43,7 +43,7 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
         if (IsOwner)
         {
             PlayerName.Value = LobbyManager.Instance.LocalPlayerName;
-            ClientId.Value = AuthenticationService.Instance.PlayerId; 
+            ClientId.Value = LobbyManager.Instance.playerID; 
             cardsManager = CardsManager.Instance;
             GameManager.Instance.LocalPlayer = this;
         }
