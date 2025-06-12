@@ -7,25 +7,26 @@ public class Draggable : MonoBehaviour
     private Vector3 offset;
     private Camera cam;
     private Animator animator;
-    [SerializeField]private bool isDragging = false;
+    [SerializeField] private bool isDragging = false;
     [SerializeField] private bool canBeDragged = true;
 
-    CardContainer cardContainer;
+    [SerializeField]CardContainer cardContainer;
     private Vector3 startPosition;
 
 
     public bool isDebug = false;
 
-    void Start()
+    void OnEnable()
     {
         cam = Camera.main;
         animator = GetComponent<Animator>();
         startPosition = transform.position;
 
-        isDebug = DEV.Instance==null? true : DEV.Instance.isDebug; // Check if DEV instance exists and get isDebug value 
+        isDebug = DEV.Instance == null ? true : DEV.Instance.isDebug; // Check if DEV instance exists and get isDebug value 
+        cardContainer = CardsManager.Instance.CardContainer.GetComponent<CardContainer>();
         if (isDebug) return;
 
-        cardContainer = CardsManager.Instance.CardContainer.GetComponent<CardContainer>();
+        //cardContainer = FindAnyObjectByType<CardContainer>(); 
     }
 
 
@@ -42,18 +43,16 @@ public class Draggable : MonoBehaviour
     {
         if (!canBeDragged) return;
 
-        if (!isDebug)
-        {
-            if (!cardContainer.IsUp())
-                return;
+        if (!cardContainer.IsUp())
+            return;
 
-            cardContainer.DoMoveDown();
-        }
+        cardContainer.DoMoveDown();
+
 
         Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
         offset = transform.position - new Vector3(mouseWorldPos.x, mouseWorldPos.y, transform.position.z);
-        
-        isDragging = true; 
+
+        isDragging = true;
         animator.SetBool("isDragging", isDragging);
         canBeDragged = false;
 
@@ -63,7 +62,7 @@ public class Draggable : MonoBehaviour
     {
         if (canBeDragged) return;
         isDragging = false;
-        animator.SetBool("isDragging", isDragging); 
+        animator.SetBool("isDragging", isDragging);
 
         // Final drop check
         Collider2D hit = Physics2D.OverlapPoint(transform.position);
@@ -74,12 +73,12 @@ public class Draggable : MonoBehaviour
         }
         else
         {
-            Debug.Log("Card dropped outside of drop zone."); 
-            
-            transform.DOMove(startPosition, 0.5f).SetEase(Ease.OutBounce).OnComplete(() => 
+            Debug.Log("Card dropped outside of drop zone.");
+
+            transform.DOMove(startPosition, 0.5f).SetEase(Ease.OutBounce).OnComplete(() =>
             {
                 //animator.SetBool("isDropped", false);
-                if(!isDebug)
+                if (!isDebug)
                     cardContainer.UpdateCardsPosition();
                 canBeDragged = true;
             });
@@ -87,10 +86,14 @@ public class Draggable : MonoBehaviour
     }
 
     private IEnumerator WaitForAnimation()
-    { 
+    {
         float animationLength = animator.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(animationLength);
-        transform.parent.gameObject.SetActive(false); 
+        CardsManager.Instance.UseCard(transform.parent.GetComponent<VisualCard>().CardInfo.cardID); // Use the card
+        Destroy(gameObject);
+
+        transform.parent.gameObject.SetActive(false);
+        transform.parent.GetComponent<VisualCard>().CardInfo = null; // Clear the card info
     }
 
     //HOVER

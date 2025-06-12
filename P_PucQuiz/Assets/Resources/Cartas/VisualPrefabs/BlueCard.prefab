@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8013199936977926475}
-  - component: {fileID: 1004342985962718788}
   - component: {fileID: 1539946280180696378}
   - component: {fileID: 1658131783825014288}
   - component: {fileID: 2267329841282501051}
@@ -42,21 +41,6 @@ Transform:
   - {fileID: 6483475939935193351}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1004342985962718788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 238809531745168915}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3a3ff66a44b70a408f21502ad555b95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CardInfo: {fileID: 11400000, guid: b1b30f417800a0e4a9cf8aacda1d20e1, type: 2}
-  textMeshPro: {fileID: 0}
-  visualPrefab: {fileID: 0}
 --- !u!95 &1539946280180696378
 Animator:
   serializedVersion: 7
@@ -150,7 +134,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDragging: 0
-  isDropped: 0
+  canBeDragged: 1
+  cardContainer: {fileID: 0}
+  isDebug: 0
 --- !u!1 &1525451999457806000
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ public class CardsManager : MonoBehaviour
             LocalPlayerCards[i] = CardContainer.GetChild(i).gameObject;
             LocalPlayerCards[i].SetActive(false);
         }
+        transform.position = Vector3.zero; // Garantees that is 0
     }
 
     #region @ Cards Functions @
@@ -68,7 +70,8 @@ public class CardsManager : MonoBehaviour
             {
                 card.SetActive(false);
             }
-            visual.CreateCard(visual.CardInfo);
+            if(visual.transform.childCount==0)
+                visual.CreateCard(visual.CardInfo);
             card.SetActive(true);
         }
     }
@@ -76,7 +79,7 @@ public class CardsManager : MonoBehaviour
     {
         for (int i = 0; i < LocalPlayerCards.Length; i++)
         {
-            if (LocalPlayerCards[i].GetComponent<VisualCard>().CardInfo == null)
+            if (LocalPlayerCards[i].GetComponentInChildren<VisualCard>().CardInfo == null)
             {
                 return i;
             }
@@ -98,5 +101,10 @@ public class CardsManager : MonoBehaviour
 
         Instance = this;
     }
-    #endregion 
+
+    public void UseCard(int cardID)
+    {
+
+    }
+    #endregion
 }

@@ -3531,6 +3531,7 @@ MonoBehaviour:
   container: {fileID: 1483061993}
   isActive: 0
   cardsStartPosition: []
+  isDebug: 0
 --- !u!61 &1483061997
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4638,7 +4639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   consoleCanvas: {fileID: 1238345917}
-  isDebug: 0
+  isDebug: 1
 --- !u!4 &2039296513
 Transform:
   m_ObjectHideFlags: 0

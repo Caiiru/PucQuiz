@@ -11,6 +11,9 @@ public class CardContainer : MonoBehaviour
 
     GameManager _gameManager;
     public Vector3[] cardsStartPosition;
+
+
+    public bool isDebug;
     void Start()
     {
         _gameManager = GameManager.Instance;
@@ -24,9 +27,20 @@ public class CardContainer : MonoBehaviour
             isActive = true;
         }
         cardsStartPosition = new Vector3[transform.childCount];
+
+        
         for (int i = 0; i < transform.childCount; i++)
         {
             cardsStartPosition[i] = transform.GetChild(i).transform.GetChild(0).position;
+            transform.GetChild(i).gameObject.SetActive(false); // Hide all cards at start
+
+            if (isDebug) {
+                Debug.Log("DEBUG MODE ON CARD CONTAINER IS ACTIVE");
+                continue;
+            }
+            
+            Destroy(transform.GetChild(i).GetChild(0).gameObject);
+            transform.GetChild(i).GetComponent<VisualCard>().CardInfo = null;
         }
          
     }
