@@ -1,12 +1,11 @@
 using System;
 using UnityEditor;
 using UnityEngine;
-
-[InitializeOnLoad]
+ 
 public abstract class Cartas : ScriptableObject
 {
     [HideInInspector] public Cartas instance;
-    public string name;
+    public string cardName;
     public int cardID;
     public Card_Types types = Card_Types.NoN;
     public int cust;
@@ -15,9 +14,8 @@ public abstract class Cartas : ScriptableObject
     public Sprite visualSprite;
 
     [Header("Anim")]
-    public Animator cardAnimator;
-    public Animation DefaultAnimation;
-    public Animation HoverAnimation;
+    public GameObject visualPrefab; 
+
     public enum Card_Types
     {
         Retirar,
