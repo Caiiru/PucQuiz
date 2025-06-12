@@ -38,8 +38,8 @@ public class DEV : MonoBehaviour
     {
         if (!isDebug) return;
         DeveloperConsole.Console.AddCommand("PlayersCount", PlayersCountCommand);
-        DeveloperConsole.Console.AddCommand("PlayersName", PlayersNameCommand);
-        DeveloperConsole.Console.AddCommand("SetPoints", GivePointsToPlayerCommand);
+        DeveloperConsole.Console.AddCommand("PrintPlayers", PrintPlayersScoreCommand);
+        DeveloperConsole.Console.AddCommand("SetPoints", SetMyPointsCommand);
         DeveloperConsole.Console.AddCommand("AddCard", AddCardToMyselfCommand);
  
 
@@ -97,26 +97,12 @@ public class DEV : MonoBehaviour
         DevPrint($"players: {textToPrint}");
     }
 
-    public void GivePointsToEveryoneCommand(string[] args)
-    {
-        var players = gameManager.players;
-        foreach (var player in players)
-        {
-            gameManager.SetPlayerScore(player.ClientId.Value.ToString(), int.Parse(args[0]));
-
-            DEV.Instance.DevPrint($"{player.PlayerName.Value} has {player.Score.Value} points");
-        }
+    public void SetMyPointsCommand(string[] args)
+    { 
+        gameManager.SetPlayerScore(int.Parse(args[0]));
+         
     }
-
-    public void GivePointsToPlayerCommand(string[] args)
-    {
-        var _players = gameManager.players;
-        if (_players.Count == 0) return;
-        var player = gameManager.GetPlayerByID(_players[int.Parse(args[0])].ClientId.Value.ToString());
-        gameManager.SetPlayerScore(player.ClientId.Value.ToString(), int.Parse(args[1]));
-        DEV.Instance.DevPrint($"{player.PlayerName.Value} has {player.Score.Value} points");
-    }
-
+     
     private void PlayersCountCommand(string[] args)
     {
         DevPrint($"Players Count: {gameManager.players.Count}");
@@ -147,6 +133,16 @@ public class DEV : MonoBehaviour
         }
         DevPrint($"Players connected: {printText}");
 
+    }
+
+    public void PrintPlayersScoreCommand(string[] args)
+    {
+        QuizPlayerData[] p = GameManager.Instance.GetTop5Players();
+        foreach (QuizPlayerData player in p)
+        {
+            DevPrint($"Player {player.PlayerName} has {player.Score} points");
+
+        }
     }
     public void RemovePlayerCommand(string[] args)
     {

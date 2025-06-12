@@ -505,7 +505,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0f1ff317d7041a548a819dc1c9991f0d, type: 2}
   LocalPlayerCards: []
   CardContainer: {fileID: 0}
-  CardPrefab: {fileID: 7260577537437597795, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
+  CardPrefab: {fileID: 0}
 --- !u!1 &360664835
 GameObject:
   m_ObjectHideFlags: 0

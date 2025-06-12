@@ -34,21 +34,31 @@ public class CardContainer : MonoBehaviour
         }
 
     }
- 
-    void OnMouseEnter()
+    private void OnMouseOver()
     {
         if (!isActive)
             return;
-        if (_isUp) return;
-        container.transform.DOLocalMoveY(-3.5f, 1, false);
-        _isUp = true;
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Inside");
+            if (_isUp)
+            {
+
+                container.transform.DOMoveY(-6, 1, false);
+                _isUp = false;
+                return;
+            }
+            _isUp = true;
+            container.transform.DOLocalMoveY(-3.5f, 1, false);
+        }
+    }
+    void OnMouseEnter()
+    {
+       
 
     }
     void OnMouseExit()
-    {
-        if (!_isUp) return;
-        container.transform.DOMoveY(-6, 1, false);
-        _isUp = false;
+    { 
     }
 
 
