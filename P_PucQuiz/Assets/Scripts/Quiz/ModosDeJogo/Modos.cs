@@ -56,6 +56,8 @@ public class Modos
     public void Start(GameObject obj)
     {
         Event_PucQuiz.start_layout = true;
+
+        manager.sound_manager.Play("Game Music","Game");
     }
     public void Update(GameObject obj)
     {
@@ -174,6 +176,8 @@ public class Modos
         Event_PucQuiz.scene_actualy = "Quiz";
         Event_PucQuiz.layout_actualy = menu_new;
 
+        if (!GameManager.Instance.IsServer) { ChangeMenu("HostQuiz"); ; return; }
+
         GameObject background = null;
 
         try
@@ -182,6 +186,7 @@ public class Modos
             {
                 if (menu[i].getValue1() == menu_new)
                 {
+                    Debug.Log("Visual Three = " + menu_new);
                     background = menu[i].getValue2();
                     doc.visualTreeAsset = menu[i].getValue3();
                 }
@@ -227,14 +232,6 @@ public class Modos
                         break;
                 }
             }
-            try
-            {
-
-            }
-            catch (Exception error)
-            {
-                Debug.Log(error);
-            }
         }
 
 
@@ -259,20 +256,30 @@ public class Modos
                                              "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
         }
 
-        doc.rootVisualElement.Q<TextElement>("Pergunta").text = attributes[question_actualy_index].question;
+        TextElement pergunta = doc.rootVisualElement.Q<TextElement>("Pergunta");
+        pergunta.text = attributes[question_actualy_index].question;
+        pergunta.styleSheets.Remove(pergunta.styleSheets[1]);
 
 
-        doc.rootVisualElement.Q<Button>("Resposta_1").text = attributes[question_actualy_index].options[0];
-        doc.rootVisualElement.Q<Button>("Resposta_1").RegisterCallback<ClickEvent>(quiz.ClickPergunta1);
+        Button resposta_1 = doc.rootVisualElement.Q<Button>("Resposta_1");
+        resposta_1.text = attributes[question_actualy_index].options[0];
+        resposta_1.RegisterCallback<ClickEvent>(quiz.ClickPergunta1);
+        resposta_1.styleSheets.Remove(pergunta.styleSheets[1]);
 
-        doc.rootVisualElement.Q<Button>("Resposta_2").text = attributes[question_actualy_index].options[1];
-        doc.rootVisualElement.Q<Button>("Resposta_2").RegisterCallback<ClickEvent>(quiz.ClickPergunta2);
+        Button resposta_2 = doc.rootVisualElement.Q<Button>("Resposta_2");
+        resposta_2.text = attributes[question_actualy_index].options[1];
+        resposta_2.RegisterCallback<ClickEvent>(quiz.ClickPergunta2);
+        resposta_2.styleSheets.Remove(pergunta.styleSheets[1]);
 
-        doc.rootVisualElement.Q<Button>("Resposta_3").text = attributes[question_actualy_index].options[2];
-        doc.rootVisualElement.Q<Button>("Resposta_3").RegisterCallback<ClickEvent>(quiz.ClickPergunta3);
+        Button resposta_3 = doc.rootVisualElement.Q<Button>("Resposta_3");
+        resposta_3.text = attributes[question_actualy_index].options[2];
+        resposta_3.RegisterCallback<ClickEvent>(quiz.ClickPergunta3);
+        resposta_3.styleSheets.Remove(pergunta.styleSheets[1]);
 
-        doc.rootVisualElement.Q<Button>("Resposta_4").text = attributes[question_actualy_index].options[3];
-        doc.rootVisualElement.Q<Button>("Resposta_4").RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
+        Button resposta_4 = doc.rootVisualElement.Q<Button>("Resposta_4");
+        resposta_4.text = attributes[question_actualy_index].options[3];
+        resposta_4.RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
+        resposta_4.styleSheets.Remove(pergunta.styleSheets[1]);
 
 
         timer_awake.Reset();

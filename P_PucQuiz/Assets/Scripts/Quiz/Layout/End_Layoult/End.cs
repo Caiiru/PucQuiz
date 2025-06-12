@@ -26,6 +26,7 @@ public class End
     public void Start(GameObject obj)
     {
         time.Reset();
+        if (!manager.multiplayer_on) { return; }
         if (GameManager.Instance.IsServer)
             GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 3.5f);
 
@@ -90,7 +91,8 @@ public class End
         {
             if(i == 5) { break; }
             if (i == 0) { porcents[i] = 100; }
-            else { porcents[i] = ((100 * points[i]) / points[0]); }
+            else if (points[i] != 0 && points[0] != 0) { porcents[i] = ((100 * points[i]) / points[0]); }
+            else { porcents[i] = 0; }
             porcents[i] *= bar.getSize();
         }
         /*
@@ -140,8 +142,9 @@ public class End
                 switch (layout[i].getValue1())
                 {
                     case "Rank":
-
                         Debug.Log("Rank Set Start");
+
+                        manager.sound_manager.Play("Rank Music", "Rank");
 
                         Debug.Log("Rank % = Start");
 
@@ -180,7 +183,7 @@ public class End
 
                         break;
                     case "End":
-
+                        manager.sound_manager.Play("Rank Music", "End");
                         break;
                     default:
                         break;

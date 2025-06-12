@@ -27,13 +27,14 @@ public class Login
 
     public void Start()
     {
-        ChangeMenu("Start"); 
+        ChangeMenu("Start");
         gameManager = GameManager.Instance;
 
     }
 
     public void Update()
     {
+        //if(manager.multiplayer_on == false) { manager.ChangeMenuRpc("Quiz","Quiz"); }
         /* A cada frame essa verificação é feita
         switch (Event_PucQuiz.login.ToLower())
         {
@@ -233,6 +234,7 @@ public class Login
                     switch (menu[i].getValue1())
                     {
                         case "Start":
+                            manager.sound_manager.Play("Musica Inicio","Start");
                             Button start = doc.rootVisualElement.Q<Button>("Play");
                             start.RegisterCallback<ClickEvent>(ClickStart);
                             break;
@@ -242,6 +244,7 @@ public class Login
                         case "CreateOrCode":
                             break;
                         case "Codigo":
+                            manager.sound_manager.Play("Musica Menu", "Menu");
                             doc.rootVisualElement.Q<Button>("Entrar").RegisterCallback<ClickEvent>(ClickEntrar);
                             break;
                         case "CriarPartida":

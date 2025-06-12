@@ -3273,15 +3273,15 @@ MonoBehaviour:
     - value1: End
       value2: {fileID: 1385919957}
       value3: {fileID: 9197481963319205126, guid: 32d5e77e9e6a5c8498a86a26851a9abc, type: 3}
-  manager: {fileID: 0}
+  sound_manager: {fileID: 1254502718}
   quiz_start: 1
   menu_start: 1
   end_start: 1
-  multiplayer_on: 1
+  multiplayer_on: 0
   players: []
   local_players:
-  - playerName: 
-    points: 0
+  - playerName: Jorge
+    points: 100
     slots: 0
     cartas:
     - {fileID: 0}
@@ -3291,8 +3291,8 @@ MonoBehaviour:
     cartas_index: 0
     protetor: 0
     dobrar: 0
-  - playerName: 
-    points: 0
+  - playerName: Joao
+    points: 75
     slots: 0
     cartas:
     - {fileID: 0}
@@ -3302,8 +3302,8 @@ MonoBehaviour:
     cartas_index: 0
     protetor: 0
     dobrar: 0
-  - playerName: 
-    points: 0
+  - playerName: Josemar
+    points: 50
     slots: 0
     cartas:
     - {fileID: 0}
@@ -3313,8 +3313,8 @@ MonoBehaviour:
     cartas_index: 0
     protetor: 0
     dobrar: 0
-  - playerName: 
-    points: 0
+  - playerName: Jasmael
+    points: 25
     slots: 0
     cartas:
     - {fileID: 0}
@@ -3324,7 +3324,7 @@ MonoBehaviour:
     cartas_index: 0
     protetor: 0
     dobrar: 0
-  - playerName: 
+  - playerName: Jamanta
     points: 0
     slots: 0
     cartas:
@@ -3380,10 +3380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4640b20311ad6a74181a7f8d785d8120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds:
-  - name: 
-    tag: 
-    prefab: {fileID: 0}
+  sounds: {fileID: 11400000, guid: b767cdcade5a00d4d9665aaff0d12a9f, type: 2}
   sounds_play: []
 --- !u!1 &1261129217
 GameObject:
