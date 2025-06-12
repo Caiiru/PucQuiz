@@ -16,6 +16,12 @@ public class CardContainer : MonoBehaviour
         _gameManager.OnGameStateChanged += CheckState;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
+
+        if (DEV.Instance.isDebug)
+        {
+            spriteRenderer.enabled = true;
+            isActive = true;
+        }
     }
 
     private void CheckState(object sender, EventArgs e)
