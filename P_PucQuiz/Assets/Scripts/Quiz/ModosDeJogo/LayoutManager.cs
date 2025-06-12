@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Unity.Netcode;
-using UnityEditor;
-using UnityEditor.EditorTools;
-using UnityEditor.Toolbars;
+using UnityEditor; 
 using UnityEngine;
 
 public class LayoutManager : MonoBehaviour

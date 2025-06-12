@@ -1,8 +1,7 @@
 using System;
 using UnityEditor;
 using UnityEngine;
-
-[InitializeOnLoad]
+ 
 public abstract class Cartas : ScriptableObject
 {
     [HideInInspector] public Cartas instance;
