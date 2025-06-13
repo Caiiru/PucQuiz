@@ -25,7 +25,6 @@ public class Modos
 
     public void Awake(GameObject obj)
     {
-        Debug.Log("Start to set Awake");
 
         //Variaveis De "Sistema"
         question_manager.Add("Quiz", new Quiz());
@@ -56,8 +55,6 @@ public class Modos
     public void Start(GameObject obj)
     {
         Event_PucQuiz.start_layout = true;
-
-        manager.sound_manager.Play("Game Music","Game");
     }
     public void Update(GameObject obj)
     {
@@ -182,7 +179,7 @@ public class Modos
             {
                 if (menu[i].getValue1() == menu_new)
                 {
-                    Debug.Log("Visual Three = " + menu_new);
+                    //Debug.Log("Visual Three = " + menu_new);
                     background = menu[i].getValue2();
                     doc.visualTreeAsset = menu[i].getValue3();
                 }

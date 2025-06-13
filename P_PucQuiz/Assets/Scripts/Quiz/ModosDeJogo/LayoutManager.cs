@@ -283,7 +283,7 @@ public class LayoutManager : MonoBehaviour
     [Rpc(SendTo.Everyone)]
     public void ChangeMenuRpc(string scene, string layout)
     {
-        Debug.Log("Change to scene = " + scene);
+        //Debug.Log("Change to scene = " + scene);
 
         switch (scene)
         {
