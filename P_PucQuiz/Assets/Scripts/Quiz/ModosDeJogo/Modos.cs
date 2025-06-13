@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -28,7 +29,7 @@ public class Modos
         Debug.Log("Start to set Awake");
 
         //Variaveis De "Sistema"
-        question_manager.Add("Quiz", new Quiz());
+        if (!question_manager.ContainsKey("Quiz")) { question_manager.Clear(); question_manager.Add("Quiz", new Quiz()); }
         Quiz quiz_manager = question_manager["Quiz"] as Quiz;
 
         doc = obj.GetComponent<UIDocument>();
@@ -119,6 +120,14 @@ public class Modos
             Debug.Log("Question = " + question_actualy_index);
 
             //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
+            question_manager.Clear();
+            var textContainer = doc.rootVisualElement.Q<VisualElement>("Container_Pergunta");
+            var timerContainer = doc.rootVisualElement.Q<VisualElement>("Container_Timer");
+            var answersContainer = doc.rootVisualElement.Q<VisualElement>("GridContainer");
+
+            textContainer.AddToClassList("QuestionText_Anim");
+            answersContainer.AddToClassList("Buttons_Anim");
+            timerContainer.AddToClassList("TimerText_Anim");
 
             if (GameManager.Instance.IsServer)
                 GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 99f);
@@ -130,6 +139,15 @@ public class Modos
         }
         else
         {
+            question_manager.Clear();
+            var textContainer = doc.rootVisualElement.Q<VisualElement>("Container_Pergunta");
+            var timerContainer = doc.rootVisualElement.Q<VisualElement>("Container_Timer");
+            var answersContainer = doc.rootVisualElement.Q<VisualElement>("GridContainer");
+
+            textContainer.AddToClassList("QuestionText_Anim");
+            answersContainer.AddToClassList("Buttons_Anim");
+            timerContainer.AddToClassList("TimerText_Anim");
+
             if (GameManager.Instance.IsServer)
                 GameManager.Instance.ChangeCurrentGameStateRPC(GameState.GameOver, 99f);
             manager.ChangeMenuRpc("End", "End");
@@ -219,9 +237,11 @@ public class Modos
                 switch (menu[i].getValue1())
                 {
                     case "Quiz":
+                        if (!question_manager.ContainsKey("Quiz")) { question_manager.Clear(); question_manager.Add("Quiz", new Quiz()); }
                         SetQ(false);
                         break;
                     case "HostQuiz":
+                        if (!question_manager.ContainsKey("Quiz")) { question_manager.Clear(); question_manager.Add("Quiz", new Quiz()); }
                         SetQ(true);
                         break;
                     case "Correct":
@@ -246,6 +266,8 @@ public class Modos
         quiz.attributes = attributes[question_actualy_index];
         quiz.mod = this;
 
+        ShowQuestion(0.0f);
+
         quiz.attributes.timer.Reset();
         if (isServer)
             doc.rootVisualElement.Q<TextElement>("Timer").text = "Tempo : " + ((int)attributes[question_actualy_index].timer.time);
@@ -258,31 +280,51 @@ public class Modos
 
         TextElement pergunta = doc.rootVisualElement.Q<TextElement>("Pergunta");
         pergunta.text = attributes[question_actualy_index].question;
-        pergunta.styleSheets.Remove(pergunta.styleSheets[1]);
+        VisualElementStyleSheetSet pergunta_style = pergunta.styleSheets;
 
 
         Button resposta_1 = doc.rootVisualElement.Q<Button>("Resposta_1");
         resposta_1.text = attributes[question_actualy_index].options[0];
         resposta_1.RegisterCallback<ClickEvent>(quiz.ClickPergunta1);
-        resposta_1.styleSheets.Remove(pergunta.styleSheets[1]);
 
         Button resposta_2 = doc.rootVisualElement.Q<Button>("Resposta_2");
         resposta_2.text = attributes[question_actualy_index].options[1];
         resposta_2.RegisterCallback<ClickEvent>(quiz.ClickPergunta2);
-        resposta_2.styleSheets.Remove(pergunta.styleSheets[1]);
 
         Button resposta_3 = doc.rootVisualElement.Q<Button>("Resposta_3");
         resposta_3.text = attributes[question_actualy_index].options[2];
         resposta_3.RegisterCallback<ClickEvent>(quiz.ClickPergunta3);
-        resposta_3.styleSheets.Remove(pergunta.styleSheets[1]);
 
         Button resposta_4 = doc.rootVisualElement.Q<Button>("Resposta_4");
         resposta_4.text = attributes[question_actualy_index].options[3];
         resposta_4.RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
-        resposta_4.styleSheets.Remove(pergunta.styleSheets[1]);
 
 
         timer_awake.Reset();
         timer_next.Reset();
+    }
+
+    IEnumerator ShowQuestion(float delayTime)
+    {
+        //DEV.Instance.DevPrint("Showing Questions");
+        yield return new WaitForSeconds(delayTime);
+        //document.visualTreeAsset = questionDocument;
+
+        var textContainer = doc.rootVisualElement.Q<VisualElement>("Container_Pergunta");
+        var timerContainer = doc.rootVisualElement.Q<VisualElement>("Container_Timer");
+        var answersContainer = doc.rootVisualElement.Q<VisualElement>("GridContainer");
+
+        if (textContainer == null)
+        {
+            Debug.LogError($"Cant find question text container, current Document: {doc.name}");
+        }
+        /*
+        textContainer.AddToClassList("QuestionTextStart");
+        answersContainer.AddToClassList("ScaleUpStart");
+        timerContainer.AddToClassList("TimerStart");*/
+
+        textContainer.RemoveFromClassList("QuestionText_Anim");
+        answersContainer.RemoveFromClassList("Buttons_Anim");
+        timerContainer.RemoveFromClassList("TimerText_Anim");
     }
 }

@@ -109,7 +109,7 @@ public class End
 
         for(int i = 0; i < porcents.Length; i++)
         {
-            if(i == 5) { break; }
+            if(i >= 4) { break; }
             VisualElement player_bar = doc.rootVisualElement.Q("Progress"+(i+1));
             player_bar.style.width = new Length(porcents[i], LengthUnit.Percent);
         }
@@ -152,7 +152,7 @@ public class End
 
                         for(int o = 0; o < Event_PucQuiz.players.Length; o++)
                         {
-                            if (o == 5) { break; }
+                            if (o >= 4) { break; }
                             doc.rootVisualElement.Q<Label>("PlayerName"+(o+1)).text = Event_PucQuiz.players[o].playerName;
                         }
                         for(int o = Event_PucQuiz.players.Length; o < 4; o++)

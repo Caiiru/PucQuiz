@@ -3277,7 +3277,7 @@ MonoBehaviour:
   quiz_start: 1
   menu_start: 1
   end_start: 1
-  multiplayer_on: 0
+  multiplayer_on: 1
   players: []
   local_players:
   - playerName: Jorge
@@ -3380,7 +3380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4640b20311ad6a74181a7f8d785d8120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: {fileID: 11400000, guid: b767cdcade5a00d4d9665aaff0d12a9f, type: 2}
+  sounds: {fileID: 11400000, guid: 8791fe4e7463ce44f8046e4eaeb29fca, type: 2}
   sounds_play: []
 --- !u!1 &1261129217
 GameObject:
