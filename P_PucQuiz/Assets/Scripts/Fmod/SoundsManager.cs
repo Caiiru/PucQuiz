@@ -1,4 +1,3 @@
-using Codice.CM.WorkspaceServer.DataStore;
 using System;
 using UnityEngine;
 
@@ -31,7 +30,7 @@ public class SoundsManager : MonoBehaviour
                 {
                     for (int i = 0; i < sounds_play.Length; i++)
                     {
-                        Debug.Log("Sound Play na posição "+i);
+                        Debug.Log("Sound Play na posicao "+i);
                         Sound_Play compare_sound = sounds_play[i];
                         if (compare_sound != null)
                         {

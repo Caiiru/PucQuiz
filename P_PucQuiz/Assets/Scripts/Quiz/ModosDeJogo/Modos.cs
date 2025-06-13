@@ -39,7 +39,7 @@ public class Modos
         //Debug.Log("Variables Awake = Sistem Complet");
 
         //Variaveis do Quiz
-        attributes = attributes;
+       //attributes = attributes;
         question_actualy_index = 0;
 
         //Debug.Log("Variables Awake = Quiz Complet");
@@ -211,7 +211,7 @@ public class Modos
 
             }
 
-            if (background.active == false && background != null) { background.SetActive(true); }
+            if (background.activeSelf == false && background != null) { background.SetActive(true); }
 
             for (int i = 0; i < menu.Length; i++)
             {

@@ -21,6 +21,8 @@ public class End
     {
         manager = LayoutManager.instance;
         doc = obj.GetComponent<UIDocument>();
+        if (GameManager.Instance.IsServer)
+            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 3.5f);
     }
 
     public void Start(GameObject obj)
@@ -68,11 +70,12 @@ public class End
 
     private void SetBars()
     {
-        float[] points = new float[Event_PucQuiz.players.Length];
-        for(int i = 0; i < Event_PucQuiz.players.Length; i++)
+        var players = GameManager.Instance.GetTop5Players();
+        float[] points = new float[players.Length];
+        for(int i = 0; i < players.Length; i++)
         {
             if (i == 5) { break; }
-            points[i] = Event_PucQuiz.players[i].points;
+            points[i] = players[i].Score;
         }
         /*
         float point_1;
@@ -87,7 +90,7 @@ public class End
          */
 
         float[] porcents = new float[points.Length];
-        for(int i = 0; i < Event_PucQuiz.players.Length; i++)
+        for(int i = 0; i < players.Length; i++)
         {
             if(i == 5) { break; }
             if (i == 0) { porcents[i] = 100; }
@@ -109,16 +112,17 @@ public class End
 
         for(int i = 0; i < porcents.Length; i++)
         {
-            if(i >= 4) { break; }
+            if(i == 5) { break; }
             VisualElement player_bar = doc.rootVisualElement.Q("Progress"+(i+1));
             player_bar.style.width = new Length(porcents[i], LengthUnit.Percent);
         }
-        for (int i = Event_PucQuiz.players.Length; i < 4; i++)
+        for (int i =  players.Length; i < 4; i++)
         {
             var remove = doc.rootVisualElement.Q("Progress"+(i+1));
             //remove.parent.Remove(remove); 
             remove.style.opacity = 0;
         }
+        
         /*
         VisualElement bar_1 = doc.rootVisualElement.Q("Progress1");
         bar_1.style.width = new Length(porcent_1, LengthUnit.Percent);
@@ -135,6 +139,7 @@ public class End
     }
     private void SetLayout()
     {
+        var players = GameManager.Instance.GetTop5Players();
         for (int i = 0; i < layout.Length; i++)
         {
             if (layout[i].getValue1() == Event_PucQuiz.layout_actualy)
@@ -148,14 +153,14 @@ public class End
 
                         Debug.Log("Rank % = Start");
 
-                        string[] names = new string[Event_PucQuiz.players.Length];
+                        string[] names = new string[players.Length];
 
-                        for(int o = 0; o < Event_PucQuiz.players.Length; o++)
+                        for(int o = 0; o < players.Length; o++)
                         {
-                            if (o >= 4) { break; }
-                            doc.rootVisualElement.Q<Label>("PlayerName"+(o+1)).text = Event_PucQuiz.players[o].playerName;
+                            if (o == 5) { break; }
+                            doc.rootVisualElement.Q<Label>("PlayerName"+(o+1)).text =  players[o].PlayerName.Value.ToString();
                         }
-                        for(int o = Event_PucQuiz.players.Length; o < 4; o++)
+                        for(int o = players.Length; o < 4; o++)
                         {
                             var remove = doc.rootVisualElement.Q<Label>("PlayerName"+(o+1));
                             //remove.parent.Remove(remove);
@@ -166,7 +171,7 @@ public class End
                         string name_3 = Event_PucQuiz.players[2].playerName;
                         string name_4 = Event_PucQuiz.players[3].playerName;*/
 
-                        Debug.Log("Players Count = " + Event_PucQuiz.players.Length);
+                        Debug.Log("Players Count = " + players.Length);
                         
                         /*
                         Debug.Log("Rank Name = Start");
@@ -176,10 +181,6 @@ public class End
                         doc.rootVisualElement.Q<Label>("PlayerName4").text = name_4;*/
 
                         SetBars();
-
-                        Debug.Log("Rank Set End");
-                        if (GameManager.Instance.IsServer)
-                            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.DisplayingQuestion, 3.5f);
 
                         break;
                     case "End":
@@ -209,7 +210,6 @@ public class End
                 {
                     background = layout[i].getValue2();
                     doc.visualTreeAsset = layout[i].getValue3();
-                    Debug.Log(layout[i].getValue3().name);
                 }
 
             }
