@@ -214,19 +214,39 @@ public class LayoutManager : MonoBehaviour
     }
     private void MultiplayerOn()
     {
-        if (GameManager.Instance.IsServer)
-        {
-            //players = players.
-        }
+        
         if (GameManager.Instance.CurrentGameState == GameState.WaitingToStart)
             return;
 
         QuizPlayerData[] players = GameManager.Instance.GetTop5Players();
-        if(players != null)
+        Debug.Log("Checking players - multiplayer");
+        if (players == null || players.Length == 0)
+        {
+            Debug.LogWarning("No players found in multiplayer mode.");
+            return;
+        }
+        foreach (QuizPlayerData player in players)
+        {
+            Debug.Log($"Player: {player.PlayerName.Value} - Score: {player.Score}");
+        }
+
+        if (players != null)
         {
             local_players = new MyPlayer[players.Length];
             Event_PucQuiz.players = new MyPlayer[local_players.Length];
-            for (int i = 0; i < local_players.Length; i++)
+            int _index = 0;
+            foreach(var quizPlayerData in players)
+            {
+                MyPlayer _player = new MyPlayer();
+                _player.playerName = quizPlayerData.PlayerName.Value.ToString();
+                _player.points = quizPlayerData.Score;
+                local_players[_index] = _player;
+                Event_PucQuiz.players[_index] = _player;
+                _index++;
+            }
+
+            /*
+            for (int i = 0; i < players.Length; i++)
             {
                 if (players[i].PlayerName == null) {
                     Debug.LogError($"{i} has a null player");
@@ -238,6 +258,7 @@ public class LayoutManager : MonoBehaviour
                 local_players[i] = _player;
                 Event_PucQuiz.players[i] = _player;
             }
+            */
             
         }
         /*

@@ -28,9 +28,6 @@ public class End
     public void Start(GameObject obj)
     {
         time.Reset();
-        if (!manager.multiplayer_on) { return; }
-        if (GameManager.Instance.IsServer)
-            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 3.5f);
 
     }
 
@@ -60,7 +57,10 @@ public class End
 
         if (Event_PucQuiz.layout_actualy == "Rank")
         {
-            manager.ChangeMenu("Quiz", quiz.attributes[quiz.question_actualy_index].question_type.ToString());
+            Debug.Log("Return to Quiz");
+            manager.ChangeMenuRpc("Quiz", quiz.attributes[quiz.question_actualy_index].question_type.ToString());
+            GameManager.Instance.ChangeCurrentGameStateMessage(GameState.DisplayingQuestion, 3.5f, "End");
+
         }
         else
         {

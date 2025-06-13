@@ -120,8 +120,6 @@ public class Modos
 
             //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
 
-            if (GameManager.Instance.IsServer)
-                GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 99f);
 
             manager.ChangeMenuRpc("End", "Rank");
 
@@ -130,8 +128,6 @@ public class Modos
         }
         else
         {
-            if (GameManager.Instance.IsServer)
-                GameManager.Instance.ChangeCurrentGameStateRPC(GameState.GameOver, 99f);
             manager.ChangeMenuRpc("End", "End");
         }
 
