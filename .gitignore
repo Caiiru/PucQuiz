@@ -90,3 +90,5 @@ crashlytics-build.properties
 
 # TextMesh Pro files
 **/[Aa]ssets/TextMesh*Pro*
+P_PucQuiz/Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
+P_PucQuiz/fmod_editor.log
