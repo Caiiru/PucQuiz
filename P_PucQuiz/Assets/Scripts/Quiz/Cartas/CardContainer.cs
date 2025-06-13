@@ -31,7 +31,7 @@ public class CardContainer : MonoBehaviour
         
         for (int i = 0; i < transform.childCount; i++)
         {
-            cardsStartPosition[i] = transform.GetChild(i).transform.GetChild(0).position;
+            cardsStartPosition[i] = transform.GetChild(i).position; // GET Cards start position
             transform.GetChild(i).gameObject.SetActive(false); // Hide all cards at start
 
             if (isDebug) {
@@ -39,8 +39,8 @@ public class CardContainer : MonoBehaviour
                 continue;
             }
             
-            Destroy(transform.GetChild(i).GetChild(0).gameObject);
             transform.GetChild(i).GetComponent<VisualCard>().CardInfo = null;
+            Destroy(transform.GetChild(i).GetChild(0).gameObject);
         }
          
     }

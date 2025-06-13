@@ -176,7 +176,7 @@ public class Modos
         Event_PucQuiz.scene_actualy = "Quiz";
         Event_PucQuiz.layout_actualy = menu_new;
 
-        if (!GameManager.Instance.IsServer) { ChangeMenu("HostQuiz"); ; return; }
+        //if (!GameManager.Instance.IsServer) { ChangeMenu("HostQuiz"); ; return; }
 
         GameObject background = null;
 
@@ -258,28 +258,28 @@ public class Modos
 
         TextElement pergunta = doc.rootVisualElement.Q<TextElement>("Pergunta");
         pergunta.text = attributes[question_actualy_index].question;
-        pergunta.styleSheets.Remove(pergunta.styleSheets[1]);
+        //pergunta.styleSheets.Remove(pergunta.styleSheets[1]);
 
 
         Button resposta_1 = doc.rootVisualElement.Q<Button>("Resposta_1");
         resposta_1.text = attributes[question_actualy_index].options[0];
         resposta_1.RegisterCallback<ClickEvent>(quiz.ClickPergunta1);
-        resposta_1.styleSheets.Remove(pergunta.styleSheets[1]);
+        //resposta_1.styleSheets.Remove(pergunta.styleSheets[1]);
 
         Button resposta_2 = doc.rootVisualElement.Q<Button>("Resposta_2");
         resposta_2.text = attributes[question_actualy_index].options[1];
         resposta_2.RegisterCallback<ClickEvent>(quiz.ClickPergunta2);
-        resposta_2.styleSheets.Remove(pergunta.styleSheets[1]);
+        //resposta_2.styleSheets.Remove(pergunta.styleSheets[1]);
 
         Button resposta_3 = doc.rootVisualElement.Q<Button>("Resposta_3");
         resposta_3.text = attributes[question_actualy_index].options[2];
         resposta_3.RegisterCallback<ClickEvent>(quiz.ClickPergunta3);
-        resposta_3.styleSheets.Remove(pergunta.styleSheets[1]);
+        //resposta_3.styleSheets.Remove(pergunta.styleSheets[1]);
 
         Button resposta_4 = doc.rootVisualElement.Q<Button>("Resposta_4");
         resposta_4.text = attributes[question_actualy_index].options[3];
         resposta_4.RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
-        resposta_4.styleSheets.Remove(pergunta.styleSheets[1]);
+        //resposta_4.styleSheets.Remove(pergunta.styleSheets[1]);
 
 
         timer_awake.Reset();
