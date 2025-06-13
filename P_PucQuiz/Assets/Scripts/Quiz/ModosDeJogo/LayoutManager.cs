@@ -291,7 +291,11 @@ public class LayoutManager : MonoBehaviour
                 menu.ChangeMenu(layout);
                 break;
             case "Quiz":
-                quiz.ChangeMenu(layout);
+                if (GameManager.Instance.IsServer)
+                    quiz.ChangeMenu("HostQuiz");
+                
+                else
+                    quiz.ChangeMenu(layout);
                 break;
             case "End":
                 end.ChangeMenu(layout);
