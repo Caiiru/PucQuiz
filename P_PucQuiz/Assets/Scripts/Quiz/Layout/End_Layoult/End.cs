@@ -21,6 +21,7 @@ public class End
     {
         manager = LayoutManager.instance;
         doc = obj.GetComponent<UIDocument>();
+        bar.Reset();
         if (GameManager.Instance.IsServer)
             GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 3.5f);
     }
