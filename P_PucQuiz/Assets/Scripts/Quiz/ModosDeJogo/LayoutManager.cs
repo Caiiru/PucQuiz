@@ -20,7 +20,8 @@ public class LayoutManager : MonoBehaviour
     public Login menu;
     public Modos quiz;
     public End end;
-    [Header("Manager Variables - Start Bools", order = 1)]
+    public SoundsManager sound_manager;
+    [Header("Manager Variables - Start Bools",order = 1)]
     [SerializeField] public bool quiz_start = true;
     [SerializeField] public bool menu_start, end_start = true;
 
@@ -198,7 +199,18 @@ public class LayoutManager : MonoBehaviour
 
         Event_PucQuiz.player = player;
         Event_PucQuiz.points = player.points;
-        return; 
+
+        if (multiplayer_on) { return; }
+        
+        Event_PucQuiz.players[0] = local_players[0];
+
+        Event_PucQuiz.players[1] = local_players[1];
+
+        Event_PucQuiz.players[2] = local_players[2];
+
+        Event_PucQuiz.players[3] = local_players[3];
+
+        Event_PucQuiz.players[4] = local_players[4];
     }
     private void MultiplayerOn()
     {
@@ -250,8 +262,9 @@ public class LayoutManager : MonoBehaviour
     [Rpc(SendTo.Everyone)]
     public void ChangeMenuRpc(string scene, string layout)
     {
-        
-        switch(scene)
+        Debug.Log("Change to scene = " + scene);
+
+        switch (scene)
         {
             case "Start":
                 menu.ChangeMenu(layout);
