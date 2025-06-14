@@ -1,25 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7476578910583309002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FMODBanks/Desktop/Master.strings.bank
-  Name: Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 638851833582095094
-  FileSizes:
-  - Name: Desktop
-    Value: 870
-  Exists: 1
 --- !u!114 &-6982311454908715864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,7 +27,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 122422
---- !u!114 &-6340357388425664137
+--- !u!114 &-4925462895229985330
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,24 +37,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/PrincipalMusic
+  m_Name: event:/RespostaCerta
   m_EditorClassIdentifier: 
-  Path: event:/PrincipalMusic
+  Path: event:/RespostaCerta
   Guid:
-    Data1: 890933580
-    Data2: 1123006939
-    Data3: -17813627
-    Data4: -1893708581
+    Data1: -58227805
+    Data2: 1234812190
+    Data3: -321389894
+    Data4: -1387341663
   Banks:
-  - {fileID: 4870548954758905298}
-  IsStream: 1
+  - {fileID: -87381090599426122}
+  IsStream: 0
   Is3D: 0
   IsOneShot: 1
-  Parameters: []
+  Parameters:
+  - {fileID: -547027966961630507}
   MinDistance: 1
   MaxDistance: 20
-  Length: 123766
---- !u!114 &-2620468641660486474
+  Length: 2000
+--- !u!114 &-547027966961630507
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,24 +64,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/InicioMusic
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/RespostaCerta/AcertoContinuo
   m_EditorClassIdentifier: 
-  Path: event:/InicioMusic
-  Guid:
-    Data1: -228131779
-    Data2: 1194413805
-    Data3: 574889905
-    Data4: -530000204
-  Banks:
-  - {fileID: 4870548954758905298}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 69491
+  Name: AcertoContinuo
+  StudioPath: 
+  Min: 1
+  Max: 4
+  Default: 1
+  ID:
+    data1: 62626872
+    data2: 1488525807
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-87381090599426122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,10 +94,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638852439031890759
+  lastModified: 638854501396491473
   FileSizes:
   - Name: Desktop
-    Value: 4021856
+    Value: 4329536
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -134,19 +112,21 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: -7476578910583309002}
-  - {fileID: 4870548954758905298}
+  - {fileID: 1125798297998424090}
+  - {fileID: -87381090599426122}
   EditorEvents:
-  - {fileID: -2620468641660486474}
-  - {fileID: -6340357388425664137}
-  - {fileID: 6230747811901618272}
+  - {fileID: 2284603470890706299}
+  - {fileID: 412219430074188070}
+  - {fileID: -6982311454908715864}
+  - {fileID: 6670287515291142901}
+  - {fileID: -4925462895229985330}
   EditorParameters: []
   MasterBanks:
-  - {fileID: 4870548954758905298}
+  - {fileID: -87381090599426122}
   StringsBanks:
-  - {fileID: -7476578910583309002}
+  - {fileID: 1125798297998424090}
   cacheVersion: 131847
-  cacheTime: 638851833582095094
+  cacheTime: 638854501396501558
   SerializableEventsDict:
   - key: event:/InicioMusic
     index: 0
@@ -154,6 +134,10 @@ MonoBehaviour:
     index: 1
   - key: event:/MenuMusic
     index: 2
+  - key: event:/ClickBottom
+    index: 3
+  - key: event:/RespostaCerta
+    index: 4
 --- !u!114 &412219430074188070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +160,7 @@ MonoBehaviour:
   - {fileID: -87381090599426122}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -196,10 +180,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638852439031901059
+  lastModified: 638854501396501558
   FileSizes:
   - Name: Desktop
-    Value: 870
+    Value: 1012
   Exists: 1
 --- !u!114 &2284603470890706299
 MonoBehaviour:
@@ -228,27 +212,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 69491
---- !u!114 &4870548954758905298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FMODBanks/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 638851833582074813
-  FileSizes:
-  - Name: Desktop
-    Value: 4021856
-  Exists: 1
---- !u!114 &6230747811901618272
+--- !u!114 &6670287515291142901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,20 +222,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/MenuMusic
+  m_Name: event:/ClickBottom
   m_EditorClassIdentifier: 
-  Path: event:/MenuMusic
+  Path: event:/ClickBottom
   Guid:
-    Data1: 1874384253
-    Data2: 1074409472
-    Data3: 1639823761
-    Data4: 1535934437
+    Data1: -418732444
+    Data2: 1140997589
+    Data3: 869610376
+    Data4: -2081738744
   Banks:
-  - {fileID: 4870548954758905298}
-  IsStream: 1
+  - {fileID: -87381090599426122}
+  IsStream: 0
   Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 122422
+  Length: 300
