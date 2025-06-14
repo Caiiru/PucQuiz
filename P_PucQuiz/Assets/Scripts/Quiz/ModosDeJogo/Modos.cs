@@ -121,13 +121,6 @@ public class Modos
 
             //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
             question_manager.Clear();
-            var textContainer = doc.rootVisualElement.Q<VisualElement>("Container_Pergunta");
-            var timerContainer = doc.rootVisualElement.Q<VisualElement>("Container_Timer");
-            var answersContainer = doc.rootVisualElement.Q<VisualElement>("GridContainer");
-
-            textContainer.AddToClassList("QuestionText_Anim");
-            answersContainer.AddToClassList("Buttons_Anim");
-            timerContainer.AddToClassList("TimerText_Anim");
 
             if (GameManager.Instance.IsServer)
                 GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 99f);
@@ -140,16 +133,10 @@ public class Modos
         else
         {
             question_manager.Clear();
-            var textContainer = doc.rootVisualElement.Q<VisualElement>("Container_Pergunta");
-            var timerContainer = doc.rootVisualElement.Q<VisualElement>("Container_Timer");
-            var answersContainer = doc.rootVisualElement.Q<VisualElement>("GridContainer");
-
-            textContainer.AddToClassList("QuestionText_Anim");
-            answersContainer.AddToClassList("Buttons_Anim");
-            timerContainer.AddToClassList("TimerText_Anim");
 
             if (GameManager.Instance.IsServer)
                 GameManager.Instance.ChangeCurrentGameStateRPC(GameState.GameOver, 99f);
+
             manager.ChangeMenuRpc("End", "End");
         }
 
@@ -266,8 +253,6 @@ public class Modos
         quiz.attributes = attributes[question_actualy_index];
         quiz.mod = this;
 
-        ShowQuestion(0.0f);
-
         quiz.attributes.timer.Reset();
         if (isServer)
             doc.rootVisualElement.Q<TextElement>("Timer").text = "Tempo : " + ((int)attributes[question_actualy_index].timer.time);
@@ -277,6 +262,14 @@ public class Modos
             doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
                                              "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
         }
+
+        var textContainer = doc.rootVisualElement.Q<VisualElement>("Container_Pergunta");
+        var timerContainer = doc.rootVisualElement.Q<VisualElement>("Container_Timer");
+        var answersContainer = doc.rootVisualElement.Q<VisualElement>("GridContainer");
+
+        textContainer.RemoveFromClassList("QuestionText_Anim");
+        answersContainer.RemoveFromClassList("Buttons_Anim");
+        timerContainer.RemoveFromClassList("TimerText_Anim");
 
         TextElement pergunta = doc.rootVisualElement.Q<TextElement>("Pergunta");
         pergunta.text = attributes[question_actualy_index].question;
@@ -302,29 +295,5 @@ public class Modos
 
         timer_awake.Reset();
         timer_next.Reset();
-    }
-
-    IEnumerator ShowQuestion(float delayTime)
-    {
-        //DEV.Instance.DevPrint("Showing Questions");
-        yield return new WaitForSeconds(delayTime);
-        //document.visualTreeAsset = questionDocument;
-
-        var textContainer = doc.rootVisualElement.Q<VisualElement>("Container_Pergunta");
-        var timerContainer = doc.rootVisualElement.Q<VisualElement>("Container_Timer");
-        var answersContainer = doc.rootVisualElement.Q<VisualElement>("GridContainer");
-
-        if (textContainer == null)
-        {
-            Debug.LogError($"Cant find question text container, current Document: {doc.name}");
-        }
-        /*
-        textContainer.AddToClassList("QuestionTextStart");
-        answersContainer.AddToClassList("ScaleUpStart");
-        timerContainer.AddToClassList("TimerStart");*/
-
-        textContainer.RemoveFromClassList("QuestionText_Anim");
-        answersContainer.RemoveFromClassList("Buttons_Anim");
-        timerContainer.RemoveFromClassList("TimerText_Anim");
     }
 }

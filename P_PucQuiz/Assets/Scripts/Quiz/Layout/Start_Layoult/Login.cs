@@ -34,6 +34,11 @@ public class Login
 
     public void Update()
     {
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            manager.sound_manager.Stop("Musica Inicio",Sound_Play.Sound_Play_Tag.BreakInFirst);
+        }
+
         //if(manager.multiplayer_on == false) { manager.ChangeMenuRpc("Quiz","Quiz"); }
         /* A cada frame essa verificação é feita
         switch (Event_PucQuiz.login.ToLower())
