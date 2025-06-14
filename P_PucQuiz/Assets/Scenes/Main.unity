@@ -3125,11 +3125,15 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      time_max: 10
+      time_max: 9
       size: 0
       time: 0
-    time:
-      start: 15
+    time_rank:
+      start: 5
+      time: 0
+      infinity: 0
+    timer_end:
+      start: 17
       time: 0
       infinity: 0
     layout:
@@ -3142,7 +3146,7 @@ MonoBehaviour:
   quiz_start: 1
   menu_start: 1
   end_start: 1
-  multiplayer_on: 1
+  multiplayer_on: 0
   players: []
   local_players:
   - playerName: Jorge

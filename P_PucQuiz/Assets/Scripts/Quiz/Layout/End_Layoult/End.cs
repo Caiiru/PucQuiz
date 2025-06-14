@@ -143,7 +143,7 @@ public class End
 
                         for (int o = 0; o < players.Length; o++)
                         {
-                            if (i >= 4) { break; }
+                            if (o >= 4) { break; }
                             doc.rootVisualElement.Q<Label>("PlayerName"+(o+1)).text =  players[o].playerName;
                         }
                         for(int o = players.Length; o < 4; o++)
@@ -168,6 +168,7 @@ public class End
                         for (int o = 0; o < players.Length; o++)
                         {
                             if (o >= 3) { break; }
+                            if(o == 0) { doc.rootVisualElement.Q<Label>("win_name").text = players[o].playerName; }
                             doc.rootVisualElement.Q<Label>((o+1)+"Lugar_Name").text = players[o].playerName;
                         }
                         for (int o = players.Length; o < 3; o++)

@@ -16,7 +16,7 @@ public class SoundsManager
 
     public void Awake()
     {
-        if(sounds == null) { sounds = Resources.Load<Sound_Config>("Config/Sounds"); }
+        //if(sounds == null) { sounds = Resources.Load<Sound_Config>("Config/Sounds"); }
     }
     public void Update()
     {
