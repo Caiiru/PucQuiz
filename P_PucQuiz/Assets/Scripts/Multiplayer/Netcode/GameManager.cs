@@ -283,43 +283,51 @@ public class GameManager : NetworkBehaviour
 
 
     public QuizPlayerData[] GetTop5Players()
-    {
-        
-        //List<QuizPlayer> topPlayers = players.OrderByDescending(player => player).Take(players.Count > 5 ? 5 : players.Count).ToList();
+    { 
 
         QuizPlayerData[] players = new QuizPlayerData[ConnectedPlayers.Count];
-        //Debug.Log($"Players Inside top 5 count: {players.Count()}");
+        Debug.Log($"Players Inside top 5 count: {players.Count()}");
 
         for(int i = 0; i< players.Count(); i++)
         {
             players[i] = new QuizPlayerData()
             {
-                ClientId = "",
-                PlayerName="",
-                Score=-99,
+                PlayerName = ConnectedPlayers[i].PlayerName,
+                Score = ConnectedPlayers[i].Score,
 
             };
 
         }
 
-         
-        foreach(var player in ConnectedPlayers)
+
+        int n = players.Length;
+        bool trocou; // Flag para otimização: se nenhuma troca ocorrer em uma passagem, o array está ordenado
+
+        for (int i = 0; i < n - 1; i++)
         {
-            if(player.Score < players[0].Score)
+            trocou = false;
+            // A cada iteração externa (i), o maior elemento "borbulha" para sua posição correta no final do array não ordenado.
+            // Por isso, na iteração interna (j), comparamos apenas até n - i - 1.
+            for (int j = 0; j < n - i - 1; j++)
             {
-                continue;
+                // Se o elemento atual for menor que o próximo, troque-os de lugar.
+                if (players[j].Score < players[j + 1].Score)
+                {
+                    // Realiza a troca
+                    QuizPlayerData temp = players[j];
+                    players[j] = players[j + 1];
+                    players[j + 1] = temp;
+                    trocou = true; // Indica que uma troca ocorreu
+                    Debug.Log("Swapping players: " + players[j].PlayerName + " with " + players[j + 1].PlayerName);
+                }
             }
 
-            for(int i = players.Count(); i > 1; i--)
+            // Otimização: Se nenhuma troca ocorreu nesta passagem, o array já está ordenado.
+            if (!trocou)
             {
-                players[i] = players[i-1]; 
+                break;
             }
-            players[0] = player;
-
-            //DEV.Instance.DevPrint($"{player.PlayerName} has {player.Score}");
-
         }
-
 
 
         return players;

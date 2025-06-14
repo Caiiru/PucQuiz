@@ -27,7 +27,7 @@ public class LayoutManager : MonoBehaviour
 
     [Header("Multiplayer Variables")]
     [SerializeField] public bool multiplayer_on;
-    public List<QuizPlayer> players;
+    QuizPlayerData[] players;
 
     [Header("Multiplayer Test Variables")]
     [SerializeField] public MyPlayer[] local_players = new MyPlayer[5];
@@ -48,6 +48,7 @@ public class LayoutManager : MonoBehaviour
         {
             //player.AddCard((Cartas)Resources.Load<ScriptableObject>("Cartas/Comum/Retirar"));
         }
+        
     }
 
     public void Update()
@@ -73,22 +74,7 @@ public class LayoutManager : MonoBehaviour
         }
 
     }
-
-    public bool AddQuizPlayer(QuizPlayer _player)
-    {
-        players.Add(_player);
-        return true;
-    }
-
-    public void RemovePlayer(QuizPlayer _player)
-    {
-
-        if (players.Contains(_player))
-        {
-            players.Remove(_player);
-        }
-
-    }
+     
     /// <summary>
     /// Tenta colocar um valor Y em um valor X de forma mais segura.
     /// </summary>
@@ -137,6 +123,7 @@ public class LayoutManager : MonoBehaviour
             quiz_start = false;
         }
         //Debug.Log("Call to Update Quiz");
+ 
         quiz.Update(gameObject);
     }
     private void End_Run()
@@ -218,7 +205,7 @@ public class LayoutManager : MonoBehaviour
         if (GameManager.Instance.CurrentGameState == GameState.WaitingToStart)
             return;
 
-        QuizPlayerData[] players = GameManager.Instance.GetTop5Players();
+
         Debug.Log("Checking players - multiplayer");
         if (players == null || players.Length == 0)
         {

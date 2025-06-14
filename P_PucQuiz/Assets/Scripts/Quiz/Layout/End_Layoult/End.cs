@@ -8,11 +8,10 @@ using UnityEngine.UIElements;
 public class End
 {
     Config_PucQuiz config;
-    public MyPlayer[] players => Event_PucQuiz.players;
     public LayoutManager manager;
     public UIDocument doc;
     public anim_bar bar;
-    public int length => players.Length;
+    QuizPlayerData[] players;
 
     public Timer time;
 
@@ -27,19 +26,21 @@ public class End
         time.Reset();
         if (GameManager.Instance.IsServer)
             GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 3.5f);
+
+
     }
 
     public void Start(GameObject obj)
     {
         if (!manager.multiplayer_on) { return; }
         if (GameManager.Instance.IsServer)
-            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 3.5f);
+            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 3.5f); 
 
     }
 
     public void Update(GameObject obj)
     {
-        if (!bar.finish() && Event_PucQuiz.layout_actualy == "Rank") 
+        if (!bar.finish() && Event_PucQuiz.layout_actualy == "Rank")
         {
             bar.Run();
             SetBars();
@@ -70,13 +71,13 @@ public class End
         }
         else if(Event_PucQuiz.layout_actualy == "End")
         {
-            manager.ChangeMenu("Start", "Start");
+            //manager.ChangeMenu("Start", "Start");
         }
     }
 
     private void SetBars()
     {
-        var players = GameManager.Instance.GetTop5Players();
+        //var players = GameManager.Instance.GetTop5Players();
         float[] points = new float[players.Length];
         for (int i = 0; i < players.Length; i++)
         {
@@ -102,7 +103,7 @@ public class End
         }
         for (int i = players.Length; i < 4; i++)
         {
-            var remove = doc.rootVisualElement.Q("Progress"+(i+1));
+            var remove = doc.rootVisualElement.Q("Progress" + (i + 1));
             remove.style.opacity = 0;
         }
     }
@@ -119,9 +120,12 @@ public class End
     }
     private void SetLayout()
     {
-        var players = GameManager.Instance.GetTop5Players();
-        string[] names;
-
+        Debug.Log("Set layout call");
+        players = GameManager.Instance.GetTop5Players();
+        foreach(var p in players)
+        {
+            Debug.Log($"{p.PlayerName.ToString()} - {p.Score}");
+        }
         for (int i = 0; i < layout.Length; i++)
         {
             if (layout[i].getValue1() == Event_PucQuiz.layout_actualy)
@@ -135,7 +139,6 @@ public class End
 
                         Debug.Log("Rank % = Start");
 
-                        names = new string[players.Length];
 
                         for (int o = 0; o < players.Length; o++)
                         {
@@ -144,7 +147,7 @@ public class End
                         }
                         for (int o = players.Length; o < 4; o++)
                         {
-                            var remove = doc.rootVisualElement.Q<Label>("PlayerName"+(o+1));
+                            var remove = doc.rootVisualElement.Q<Label>("PlayerName" + (o + 1));
                             remove.style.opacity = 0;
                         }
 
@@ -154,23 +157,28 @@ public class End
                         break;
                     case "End":
 
-                        names = new string[players.Length];
 
-                        for (int o = 0; o < players.Length; o++)
+                        for (int o = 0; o < 3; o++)
                         {
-                            if (o >= 3) { break; }
-                            doc.rootVisualElement.Q<Label>((o+1)+"Lugar_Name").text = players[o].PlayerName.ToString();
+                            var remove = doc.rootVisualElement.Q($"Coluna_{o+1}Lugar");
+                            remove.style.opacity = 0;
                         }
                         for (int o = players.Length; o < 3; o++)
                         {
-                            var remove = doc.rootVisualElement.Q<Label>((o+1)+"Lugar_Name");
+                            var remove = doc.rootVisualElement.Q<Label>((o + 1) + "Lugar_Name");
                             remove.style.opacity = 0;
                         }
-
+                        for (int o = 0; o < players.Length; o++)
+                        {
+                            if (o >= 3) { break; }
+                            Debug.Log($"{players[o].PlayerName.ToString()} - {players[o].Score}");
+                            doc.rootVisualElement.Q<Label>($"{o+1}Lugar_Name").text = players[o].PlayerName.ToString();
+                            doc.rootVisualElement.Q($"Coluna_{o + 1}Lugar").style.opacity = 1;
+                        } 
                         Debug.Log("Players Count = " + players.Length);
 
                         manager.StartCoroutine(SetEndBars(1.5f));
-                        if(GameManager.Instance.IsServer)
+                        if (GameManager.Instance.IsServer)
                             manager.sound_manager.Play("Rank Music", "End");
                         break;
                     default:

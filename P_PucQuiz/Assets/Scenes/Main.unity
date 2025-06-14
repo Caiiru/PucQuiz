@@ -1105,11 +1105,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 651135571}
   m_CullTransparentMesh: 1
---- !u!4 &664689371 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 934763748628154082, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
-  m_PrefabInstance: {fileID: 1159133674}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &669478020
 GameObject:
   m_ObjectHideFlags: 0
@@ -2911,7 +2906,6 @@ MonoBehaviour:
     cartas_index: 0
     protetor: 0
     dobrar: 0
-  player_global: []
   scene_actualy: 
   layout_actualy: 
   question_result: 
@@ -3076,7 +3070,6 @@ MonoBehaviour:
   menu_start: 1
   end_start: 1
   multiplayer_on: 1
-  players: []
   local_players:
   - playerName: Jorge
     points: 100
@@ -3541,7 +3534,6 @@ RectTransform:
   - {fileID: 1982667411}
   - {fileID: 2137246704}
   - {fileID: 1669623029}
-  - {fileID: 664689371}
   m_Father: {fileID: 339119786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4678,7 +4670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   consoleCanvas: {fileID: 1238345917}
   isDebug: 1
-  OnlineMode: 0
+  OnlineMode: 1
 --- !u!4 &2039296513
 Transform:
   m_ObjectHideFlags: 0
