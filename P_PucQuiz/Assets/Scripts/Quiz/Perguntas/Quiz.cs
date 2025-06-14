@@ -91,7 +91,14 @@ public class Quiz : Perguntas
 
         if (question_event != "" && !question_lock)
         {
-            if (chose && !attributes.change) { Debug.Log("Escolha feita."); question_event = ""; return; } //Quebra a execucao do codigo.
+            if (chose && !attributes.change)
+            {
+                if (question_event != "")
+                {
+                    Debug.Log("Escolha feita."); question_event = "";
+                }
+                return; //Quebra a execucao do codigo.
+            } 
 
             if (choice_max == 1) { Choices_Reset(); }
 

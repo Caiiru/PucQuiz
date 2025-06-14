@@ -46,14 +46,14 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
             ClientId.Value = LobbyManager.Instance.playerID; 
             cardsManager = CardsManager.Instance;
             GameManager.Instance.LocalPlayer = this;
+            slots.Value = 40; 
         }
 
         if (IsServer)
         {
-            slots.Value = 40; 
             GameManager.Instance.AddPlayer(this);
         }
-        LayoutManager.instance.AddQuizPlayer(this);
+        //LayoutManager.instance.AddQuizPlayer(this);
 
     }
      

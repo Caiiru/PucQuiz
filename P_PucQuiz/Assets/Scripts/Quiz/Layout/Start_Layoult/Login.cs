@@ -121,7 +121,7 @@ public class Login
         manager.sound_manager.Click();
         //GameManager.Instance.StartQuiz_Rpc();
         gameManager.StartQuizRpc();
-        gameManager.ChangeCurrentGameStateRPC(GameState.DisplayingQuestion,3.5f);
+        gameManager.ChangeCurrentGameStateRPC(GameState.DisplayingQuestion, 3.5f);
 
 
     }
@@ -244,7 +244,7 @@ public class Login
                     switch (menu[i].getValue1())
                     {
                         case "Start":
-                            manager.sound_manager.Play("Musica Inicio","Start");
+                            manager.sound_manager.Play("Musica Inicio", "Start");
                             Button start = doc.rootVisualElement.Q<Button>("Play");
                             start.RegisterCallback<ClickEvent>(ClickStart);
                             break;
@@ -326,8 +326,12 @@ public class Login
             //NOT HOST:
             _startButton.parent.Remove(_startButton);
 
+            return;
         }
+        manager.sound_manager.Play("Game Music", "Game");
         _startButton.RegisterCallback<ClickEvent>(ClickStartQuiz);
+
+
 
 
     }

@@ -13,7 +13,7 @@
             </ui:VisualElement>
             <ui:VisualElement name="Coluna_1Lugar" class="Coluna_1Lugar_Default Coluna_1Lugar_Start">
                 <ui:VisualElement name="Barra" style="flex-grow: 1; width: 258px; background-color: rgb(255, 200, 95); max-width: 258px; max-height: 782%; flex-direction: column-reverse; flex-wrap: nowrap;" />
-                <ui:Label text="Lebron James" name="1Lugar_Name" style="font-size: 40px; -unity-font-style: bold; white-space: normal; color: rgb(70, 69, 70); -unity-font-definition: resource(&apos;Font/LexendDeca-VariableFont_wght&apos;); -unity-text-align: upper-center; max-width: 258px;" />
+                <ui:Label text="Jaime" name="1Lugar_Name" style="font-size: 40px; -unity-font-style: bold; white-space: normal; color: rgb(70, 69, 70); -unity-font-definition: resource(&apos;Font/LexendDeca-VariableFont_wght&apos;); -unity-text-align: upper-center; max-width: 258px;" />
             </ui:VisualElement>
             <ui:VisualElement name="Coluna_3Lugar" class="Coluna_3Lugar_Default Coluna_3Lugar_Start">
                 <ui:VisualElement name="Barra" style="flex-grow: 1; width: 258px; background-color: rgb(75, 209, 240); max-width: 258px; max-height: 25%; flex-direction: column-reverse; flex-wrap: nowrap;" />

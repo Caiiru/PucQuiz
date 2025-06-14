@@ -26,7 +26,6 @@ public class Modos
 
     public void Awake(GameObject obj)
     {
-        Debug.Log("Start to set Awake");
 
         //Variaveis De "Sistema"
         if (!question_manager.ContainsKey("Quiz")) { question_manager.Clear(); question_manager.Add("Quiz", new Quiz()); }
@@ -57,8 +56,6 @@ public class Modos
     public void Start(GameObject obj)
     {
         Event_PucQuiz.start_layout = true;
-
-        manager.sound_manager.Play("Game Music","Game");
     }
     public void Update(GameObject obj)
     {
@@ -122,10 +119,8 @@ public class Modos
             //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
             question_manager.Clear();
 
-            if (GameManager.Instance.IsServer)
-                GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 99f);
-
-            manager.ChangeMenuRpc("End", "Rank");
+            if (GameManager.Instance.IsServer) { GameManager.Instance.ChangeMenuRpc("End","Rank"); }
+            
 
             //ChangeMenu(attributes[question_actualy_index].question_type.ToString());
 
@@ -134,10 +129,7 @@ public class Modos
         {
             question_manager.Clear();
 
-            if (GameManager.Instance.IsServer)
-                GameManager.Instance.ChangeCurrentGameStateRPC(GameState.GameOver, 99f);
-
-            manager.ChangeMenuRpc("End", "End");
+            if (GameManager.Instance.IsServer) { GameManager.Instance.ChangeMenuRpc("End","End"); }
         }
 
         //Event_PucQuiz.Change_Scene(config.Layout_Contagem);
@@ -181,7 +173,7 @@ public class Modos
         Event_PucQuiz.scene_actualy = "Quiz";
         Event_PucQuiz.layout_actualy = menu_new;
 
-        if (!GameManager.Instance.IsServer) { ChangeMenu("HostQuiz"); ; return; }
+        //if (!GameManager.Instance.IsServer) { ChangeMenu("HostQuiz"); ; return; }
 
         GameObject background = null;
 
@@ -191,7 +183,7 @@ public class Modos
             {
                 if (menu[i].getValue1() == menu_new)
                 {
-                    Debug.Log("Visual Three = " + menu_new);
+                    //Debug.Log("Visual Three = " + menu_new);
                     background = menu[i].getValue2();
                     doc.visualTreeAsset = menu[i].getValue3();
                 }
@@ -258,24 +250,15 @@ public class Modos
         quiz.attributes.timer.Reset();
         if (isServer)
             doc.rootVisualElement.Q<TextElement>("Timer").text = "Tempo : " + ((int)attributes[question_actualy_index].timer.time);
-
         else
         {
             doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
                                              "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
         }
 
-        var textContainer = doc.rootVisualElement.Q<VisualElement>("Container_Pergunta");
-        var timerContainer = doc.rootVisualElement.Q<VisualElement>("Container_Timer");
-        var answersContainer = doc.rootVisualElement.Q<VisualElement>("GridContainer");
-
-        textContainer.RemoveFromClassList("QuestionText_Anim");
-        answersContainer.RemoveFromClassList("Buttons_Anim");
-        timerContainer.RemoveFromClassList("TimerText_Anim");
-
         TextElement pergunta = doc.rootVisualElement.Q<TextElement>("Pergunta");
         pergunta.text = attributes[question_actualy_index].question;
-        VisualElementStyleSheetSet pergunta_style = pergunta.styleSheets;
+        //pergunta.styleSheets.Remove(pergunta.styleSheets[1]);
 
 
         Button resposta_1 = doc.rootVisualElement.Q<Button>("Resposta_1");
@@ -294,8 +277,21 @@ public class Modos
         resposta_4.text = attributes[question_actualy_index].options[3];
         resposta_4.RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
 
-
         timer_awake.Reset();
         timer_next.Reset();
+
+        manager.StartCoroutine(SetAnim(0.5f));
+    }
+
+    IEnumerator SetAnim(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        VisualElement questions = doc.rootVisualElement.Q<VisualElement>("Container_Pergunta");
+        VisualElement timer = doc.rootVisualElement.Q<VisualElement>("Container_Timer");
+        VisualElement buttons = doc.rootVisualElement.Q<VisualElement>("GridContainer");
+        questions.RemoveFromClassList("QuestionText_Anim");
+        timer.RemoveFromClassList("TimerText_Anim");
+        buttons.RemoveFromClassList("Buttons_Anim");
     }
 }

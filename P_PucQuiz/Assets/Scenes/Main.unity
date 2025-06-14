@@ -2975,7 +2975,6 @@ MonoBehaviour:
     cartas_index: 0
     protetor: 0
     dobrar: 0
-  player_global: []
   scene_actualy: 
   layout_actualy: 
   question_result: 
@@ -3114,13 +3113,22 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0.039829303
         - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0.16564642
-          outSlope: 0.16564642
+          time: 0.51645875
+          value: 0.8217432
+          inSlope: 0.69969386
+          outSlope: 0.69969386
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.07965857
+          inWeight: 0.14020881
+          outWeight: 0.33504596
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0.25573397
+          outSlope: 0.25573397
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.3354195
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -3146,8 +3154,7 @@ MonoBehaviour:
   quiz_start: 1
   menu_start: 1
   end_start: 1
-  multiplayer_on: 0
-  players: []
+  multiplayer_on: 1
   local_players:
   - playerName: Jorge
     points: 100

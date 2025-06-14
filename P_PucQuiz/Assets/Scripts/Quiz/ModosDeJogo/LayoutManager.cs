@@ -12,7 +12,6 @@ public class LayoutManager : MonoBehaviour
 
     [Header("Event Variables")]
     [SerializeField] public MyPlayer player;
-    [SerializeField] private MyPlayer[] player_global;
     [SerializeField] private string scene_actualy;
     [SerializeField] private string layout_actualy;
     [SerializeField] private string question_result;
@@ -28,7 +27,7 @@ public class LayoutManager : MonoBehaviour
 
     [Header("Multiplayer Variables")]
     [SerializeField] public bool multiplayer_on;
-    public List<QuizPlayer> players;
+    QuizPlayerData[] host_players;
 
     [Header("Multiplayer Test Variables")]
     [SerializeField] public MyPlayer[] local_players = new MyPlayer[5];
@@ -52,6 +51,7 @@ public class LayoutManager : MonoBehaviour
         {
             //player.AddCard((Cartas)Resources.Load<ScriptableObject>("Cartas/Comum/Retirar"));
         }
+        
     }
 
     public void Update()
@@ -61,7 +61,6 @@ public class LayoutManager : MonoBehaviour
         scene_actualy = Event_PucQuiz.scene_actualy;
         layout_actualy = Event_PucQuiz.layout_actualy;
         question_result = Event_PucQuiz.question_result;
-        player_global = Event_PucQuiz.players;
 
 
         switch (Event_PucQuiz.scene_actualy)
@@ -80,22 +79,7 @@ public class LayoutManager : MonoBehaviour
         sound_manager.Update();
 
     }
-
-    public bool AddQuizPlayer(QuizPlayer _player)
-    {
-        players.Add(_player);
-        return true;
-    }
-
-    public void RemovePlayer(QuizPlayer _player)
-    {
-
-        if (players.Contains(_player))
-        {
-            players.Remove(_player);
-        }
-
-    }
+     
     /// <summary>
     /// Tenta colocar um valor Y em um valor X de forma mais segura.
     /// </summary>
@@ -144,6 +128,7 @@ public class LayoutManager : MonoBehaviour
             quiz_start = false;
         }
         //Debug.Log("Call to Update Quiz");
+ 
         quiz.Update(gameObject);
     }
     private void End_Run()
@@ -158,10 +143,10 @@ public class LayoutManager : MonoBehaviour
     }
     public void ChangeMenu(string scene, string layout)
     {
-        if (!GameManager.Instance.IsServer) { return; }
-        
         if (multiplayer_on) { MultiplayerOn(); }
         else { MultiplayerOff(); }
+
+        Debug.Log("LayoutManager change menu is calling");
 
         switch (scene)
         {
@@ -205,26 +190,42 @@ public class LayoutManager : MonoBehaviour
 
         Event_PucQuiz.player = player;
         Event_PucQuiz.points = player.points;
-
-        if (multiplayer_on) { return; }
-
         Event_PucQuiz.players = local_players;
     }
     private void MultiplayerOn()
     {
-        if (GameManager.Instance.IsServer)
-        {
-            //players = players.
-        }
-        if (GameManager.Instance.CurrentGameState == GameState.WaitingToStart)
-            return;
 
-        QuizPlayerData[] players = GameManager.Instance.GetTop5Players();
-        if(players != null)
+        host_players = GameManager.Instance.GetTop5Players();
+        Debug.Log("Checking players - multiplayer");
+        if (host_players == null || host_players.Length == 0)
         {
-            local_players = new MyPlayer[players.Length];
+            Debug.LogWarning("No players found in multiplayer mode.");
+            MultiplayerOff();
+            return;
+        }
+
+        foreach (QuizPlayerData player in host_players)
+        {
+            Debug.Log($"Player: {player.PlayerName.Value} - Score: {player.Score}");
+        }
+
+        if (host_players != null)
+        {
+            local_players = new MyPlayer[host_players.Length];
             Event_PucQuiz.players = new MyPlayer[local_players.Length];
-            for (int i = 0; i < local_players.Length; i++)
+            int _index = 0;
+            foreach(var quizPlayerData in host_players)
+            {
+                MyPlayer _player = new MyPlayer();
+                _player.playerName = quizPlayerData.PlayerName.Value.ToString();
+                _player.points = quizPlayerData.Score;
+                local_players[_index] = _player;
+                Event_PucQuiz.players[_index] = _player;
+                _index++;
+            }
+
+            /*
+            for (int i = 0; i < players.Length; i++)
             {
                 if (players[i].PlayerName == null) {
                     Debug.LogError($"{i} has a null player");
@@ -236,31 +237,10 @@ public class LayoutManager : MonoBehaviour
                 local_players[i] = _player;
                 Event_PucQuiz.players[i] = _player;
             }
+            */
             
         }
         MultiplayerOff();
-    }
-
-    [Rpc(SendTo.Everyone)]
-    public void ChangeMenuRpc(string scene, string layout)
-    {
-        Debug.Log("Change to scene = " + scene);
-
-        if (multiplayer_on) { MultiplayerOn(); }
-        else { MultiplayerOff(); }
-
-        switch (scene)
-        {
-            case "Start":
-                menu.ChangeMenu(layout);
-                break;
-            case "Quiz":
-                quiz.ChangeMenu(layout);
-                break;
-            case "End":
-                end.ChangeMenu(layout);
-                break;
-        }
     }
     #endregion
 
