@@ -2850,7 +2850,6 @@ GameObject:
   - component: {fileID: 1254502709}
   - component: {fileID: 1254502714}
   - component: {fileID: 1254502716}
-  - component: {fileID: 1254502718}
   - component: {fileID: 1254502715}
   - component: {fileID: 1254502717}
   m_Layer: 5
@@ -2980,6 +2979,10 @@ MonoBehaviour:
   scene_actualy: 
   layout_actualy: 
   question_result: 
+  sound_manager:
+    manager: {fileID: 1254502715}
+    sounds: {fileID: 11400000, guid: 8791fe4e7463ce44f8046e4eaeb29fca, type: 2}
+    sounds_play: []
   menu:
     doc: {fileID: 1254502716}
     manager: {fileID: 1254502715}
@@ -3136,7 +3139,6 @@ MonoBehaviour:
     - value1: End
       value2: {fileID: 1385919957}
       value3: {fileID: 9197481963319205126, guid: afb5754777cf77e479364e897d5d3f8f, type: 3}
-  sound_manager: {fileID: 1254502718}
   quiz_start: 1
   menu_start: 1
   end_start: 1
@@ -3231,20 +3233,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 1254502707}
---- !u!114 &1254502718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1254502707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4640b20311ad6a74181a7f8d785d8120, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sounds: {fileID: 11400000, guid: 8791fe4e7463ce44f8046e4eaeb29fca, type: 2}
-  sounds_play: []
 --- !u!1 &1261129217
 GameObject:
   m_ObjectHideFlags: 0
@@ -4633,6 +4621,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1929569597 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6421896490989598194, guid: e2fd4791d51db0046b2e27cebdf5c157, type: 3}
+  m_PrefabInstance: {fileID: 423000900}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1982667410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4859,8 +4852,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyPlayerPrefab: {fileID: 2911691245093787948, guid: 22d9f56bafd417540a0533fdca363e85, type: 3}
   container: {fileID: 1160642653}
-  _backgroundBlocks: {fileID: 0}
-  particlesMenu: {fileID: 0}
+  _backgroundBlocks: {fileID: 1929569597}
+  particlesMenu: {fileID: 669478020}
 --- !u!4 &2145240074
 Transform:
   m_ObjectHideFlags: 0

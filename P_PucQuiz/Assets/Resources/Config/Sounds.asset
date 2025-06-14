@@ -16,9 +16,56 @@ MonoBehaviour:
   - name: Start
     tag: 01000000
     prefab: {fileID: 2044804091478687740, guid: 0eed24643fde0ef40830ee20995a5d60, type: 3}
+    timer:
+      start: 0
+      time: 0
+      infinity: 1
   - name: Menu
     tag: 01000000
     prefab: {fileID: 2044804091478687740, guid: c929f28bb6760fe4dbd5bb188b85f70b, type: 3}
+    timer:
+      start: 0
+      time: 0
+      infinity: 1
   - name: Game
     tag: 01000000
     prefab: {fileID: 2044804091478687740, guid: dda51b4d3a0bbb04b972be3b6423f4fd, type: 3}
+    timer:
+      start: 0
+      time: 0
+      infinity: 1
+  - name: Click
+    tag: 03000000
+    prefab: {fileID: 2044804091478687740, guid: 8bf98da260528344ea3ab96cc94e601a, type: 3}
+    timer:
+      start: 1
+      time: 0
+      infinity: 0
+  - name: Correct
+    tag: 03000000
+    prefab: {fileID: 2044804091478687740, guid: 511fed50ebef9da4883a1380a37d6389, type: 3}
+    timer:
+      start: 3
+      time: 0
+      infinity: 0
+  - name: Error
+    tag: 03000000
+    prefab: {fileID: 2044804091478687740, guid: 8bef778240ae9aa498610fae7ac7c692, type: 3}
+    timer:
+      start: 3
+      time: 0
+      infinity: 0
+  - name: Rank
+    tag: 03000000
+    prefab: {fileID: 2044804091478687740, guid: a65e54d10251071479d344fedf324f40, type: 3}
+    timer:
+      start: 0
+      time: 0
+      infinity: 1
+  - name: End
+    tag: 03000000
+    prefab: {fileID: 2044804091478687740, guid: de36f217c24fe504aa1b0ac8a1534d95, type: 3}
+    timer:
+      start: 0
+      time: 0
+      infinity: 1

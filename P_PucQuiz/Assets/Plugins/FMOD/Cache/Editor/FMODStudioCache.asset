@@ -94,10 +94,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638854501396491473
+  lastModified: 638854581212395514
   FileSizes:
   - Name: Desktop
-    Value: 4329536
+    Value: 4663712
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -120,13 +120,16 @@ MonoBehaviour:
   - {fileID: -6982311454908715864}
   - {fileID: 6670287515291142901}
   - {fileID: -4925462895229985330}
+  - {fileID: 2118318449273699716}
+  - {fileID: 4203013073862995639}
+  - {fileID: 7392010440229957838}
   EditorParameters: []
   MasterBanks:
   - {fileID: -87381090599426122}
   StringsBanks:
   - {fileID: 1125798297998424090}
   cacheVersion: 131847
-  cacheTime: 638854501396501558
+  cacheTime: 638854581212425545
   SerializableEventsDict:
   - key: event:/InicioMusic
     index: 0
@@ -180,11 +183,38 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638854501396501558
+  lastModified: 638854581212425545
   FileSizes:
   - Name: Desktop
-    Value: 1012
+    Value: 1166
   Exists: 1
+--- !u!114 &2118318449273699716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ProgressoFinalRank
+  m_EditorClassIdentifier: 
+  Path: event:/ProgressoFinalRank
+  Guid:
+    Data1: -1019731194
+    Data2: 1098410979
+    Data3: 1028324504
+    Data4: -1453422611
+  Banks:
+  - {fileID: -87381090599426122}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 16000
 --- !u!114 &2284603470890706299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +242,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 69491
+--- !u!114 &4203013073862995639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ProgressoRank
+  m_EditorClassIdentifier: 
+  Path: event:/ProgressoRank
+  Guid:
+    Data1: 1486261943
+    Data2: 1164779876
+    Data3: -1567080275
+    Data4: 469168856
+  Banks:
+  - {fileID: -87381090599426122}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7000
 --- !u!114 &6670287515291142901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,3 +296,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 300
+--- !u!114 &7392010440229957838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/RespostaErrada
+  m_EditorClassIdentifier: 
+  Path: event:/RespostaErrada
+  Guid:
+    Data1: -1477287997
+    Data2: 1330363643
+    Data3: -2008216133
+    Data4: -813502423
+  Banks:
+  - {fileID: -87381090599426122}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1510

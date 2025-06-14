@@ -1,10 +1,18 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static Sound;
 
-public class SoundsManager : MonoBehaviour
+[Serializable]
+public class SoundsManager
 {
+    static public SoundsManager Instance;
+    [SerializeField] public LayoutManager manager;
     [SerializeField] private Sound_Config sounds;
+    [SerializeField] private SoundAction_List sound_action_list;
     [SerializeField] private Sound_Play[] sounds_play;
+
+    public SoundsManager() { Instance = this; }
 
     public void Awake()
     {
@@ -13,9 +21,27 @@ public class SoundsManager : MonoBehaviour
     public void Update()
     {
         
+        foreach(Sound_Play sound_play in sounds_play)
+        {
+            sound_play.Run();
+        }
+    }
+    public void Click()
+    {
+        Debug.Log("Click");
+        Play("Click","Click");
     }
 
     public void Play(string sound_tag_name, string sound_name)
+    {
+        LocalPlay(sound_tag_name,sound_name);
+    }
+    public void Stop(string sound_tag, params Sound_Play.Sound_Play_Tag[] use_tag)
+    {
+        //sound_action_list.Add(new SoundAction(sound_tag));
+        LocalStop(sound_tag,use_tag);
+    }
+    private void LocalPlay(string sound_tag_name, string sound_name)
     {
         Debug.Log("Sound Play Chamado");
 
@@ -48,7 +74,7 @@ public class SoundsManager : MonoBehaviour
                                             case Sound.Sound_Tag.None: break;
                                             case Sound.Sound_Tag.Music:
                                                 Debug.Log("Sound Tag = Music");
-                                                Destroy(sounds_play[i].sound.prefab);
+                                                GameObject.Destroy(sounds_play[i].sound.prefab);
                                                 new_sound_play.Set(sound_tag_name, sound);
                                                 sounds_play[i] = new_sound_play;
                                                 return;
@@ -56,11 +82,14 @@ public class SoundsManager : MonoBehaviour
                                                 if (sound_tag_name == sounds_play[i].tag_name)
                                                 {
                                                     Debug.Log("Sound Tag = Substitute");
-                                                    Destroy(sounds_play[i].sound.prefab);
+                                                    GameObject.Destroy(sounds_play[i].sound.prefab);
                                                     new_sound_play.Set(sound_tag_name, sound);
                                                     sounds_play[i] = new_sound_play;
                                                     return;
                                                 }
+                                                break;
+                                            case Sound.Sound_Tag.OneForOne:
+                                                if (sound_tag_name == sounds_play[i].tag_name) { return; }
                                                 break;
                                         }
                                     }
@@ -88,8 +117,28 @@ public class SoundsManager : MonoBehaviour
             }
         }
     }
+    private void Action()
+    {
+        Debug.Log("Sound Stop Chamado");
+        
+        for(int i = 0; i < sound_action_list.Length(); i++)
+        {
+            SoundAction action = sound_action_list[i];
+            if(action == null) { continue; }
 
-    public void Stop(string sound_tag, params Sound_Play.Sound_Play_Tag[] use_tag)
+            switch(action.action)
+            {
+                case SoundAction.Action.Play:
+                    break;
+                case SoundAction.Action.Stop:
+                    break;
+            }
+        }
+
+        sound_action_list.Clear();
+    }
+
+    private void LocalStop(string sound_tag, params Sound_Play.Sound_Play_Tag[] use_tag)
     {
         Debug.Log("Sound Stop Chamado");
         int nulls = 0;
@@ -100,29 +149,35 @@ public class SoundsManager : MonoBehaviour
             if (sound_play.tag_name == sound_tag)
             {
                 bool break_in_first = false;
-                foreach(Sound_Play.Sound_Play_Tag tag in sound_play.tag)
+
+                if(sound_play.tag != null)
                 {
-                    switch(tag)
+                    foreach (Sound_Play.Sound_Play_Tag tag in sound_play.tag)
                     {
-                        case Sound_Play.Sound_Play_Tag.BreakInFirst:
-                            break_in_first = true;
-                            break;
+                        switch (tag)
+                        {
+                            case Sound_Play.Sound_Play_Tag.BreakInFirst:
+                                break_in_first = true;
+                                break;
+                        }
                     }
                 }
-                foreach (Sound_Play.Sound_Play_Tag tag in use_tag)
+                if(use_tag != null)
                 {
-                    switch (tag)
+                    foreach (Sound_Play.Sound_Play_Tag tag in use_tag)
                     {
-                        case Sound_Play.Sound_Play_Tag.BreakInFirst:
-                            break_in_first = true;
-                            break;
+                        switch (tag)
+                        {
+                            case Sound_Play.Sound_Play_Tag.BreakInFirst:
+                                break_in_first = true;
+                                break;
+                        }
                     }
                 }
-                Destroy(sounds_play[i].sound.prefab);
-                sounds_play[i].sound = null;
-                sounds_play[i] = null;
+
+                GameObject.Destroy(sounds_play[i].sound.prefab);
                 nulls++;
-                if (break_in_first) { break; }
+                if (break_in_first) { Debug.Log("BreakInFirst"); break; }
             }
         }
 
@@ -135,7 +190,7 @@ public class SoundsManager : MonoBehaviour
         {
             for (int i = 0; i < new_sounds_play.Length; i++)
             {
-                if (sounds_play[i] != null) { new_sounds_play[i - nulls] = sounds_play[i]; }
+                if (sounds_play[i].sound.prefab != null) { new_sounds_play[i - nulls] = sounds_play[i]; }
                 else { nulls++; }
             }
         }
@@ -144,19 +199,74 @@ public class SoundsManager : MonoBehaviour
     }
 }
 
+[Serializable]
+public class SoundAction_List
+{
+    private SoundAction[] sound_actions;
 
+    public SoundAction this[int chave]
+    {
+        get
+        {
+            if(sound_actions == null) { return null; }
+            else{ return sound_actions[chave]; } 
+        }
+    }
+    public int Length()
+    {
+        return sound_actions.Length;
+    }
+    public void Add(SoundAction action)
+    {
+        SoundAction[] old = sound_actions;
+
+        if (sound_actions.Length == 0 || sound_actions == null)
+            sound_actions = new SoundAction[1];
+        else
+            sound_actions = new SoundAction[sound_actions.Length+1];
+
+        for (int i = 0; i < old.Length; i++)
+        {
+            sound_actions[i] = old[i];
+        }
+        sound_actions[sound_actions.Length-1] = action;
+    }
+    public void Clear()
+    {
+        sound_actions = null;
+    }
+}
+[Serializable]
+public class SoundAction
+{
+    public string play;
+    public Sound_Play.Sound_Play_Tag[] tags;
+    public Action action;
+    public enum Action
+    {
+        Play,
+        Stop
+    }
+    public SoundAction(string play, params Sound_Play.Sound_Play_Tag[] tags)
+    {
+        this.play = play;
+        this.tags = tags;
+    }
+}
 [Serializable]
 public class Sound
 {
     public string name;
     public Sound_Tag[] tag;
     public GameObject prefab;
+    public Timer timer;
 
     public enum Sound_Tag
     {
         None,
         Music,
-        Substitute
+        Substitute,
+        OneForOne
     }
 }
 [Serializable]
@@ -171,7 +281,7 @@ public class Sound_Play
         BreakInFirst,
     }
 
-    public void Set(string name, Sound sound_prefab, params Sound_Play_Tag[] tags)
+    public void Set(string name, Sound sound_prefab, Timer timer = null ,params Sound_Play_Tag[] tags)
     {
         tag_name = name;
         tag = tags;
@@ -181,6 +291,26 @@ public class Sound_Play
         new_sound.tag = sound_prefab.tag;
         new_sound.prefab = GameObject.Instantiate(sound_prefab.prefab);
 
+        Timer new_timer = new Timer(5);
+
+        if(timer != null) { new_timer.start = timer.start; new_timer.infinity = timer.infinity; }
+        else { new_timer.start = sound_prefab.timer.start; new_timer.infinity = sound_prefab.timer.infinity; }
+
+        new_sound.timer = new_timer;
+        new_sound.timer.start += 0.2f;
+        new_sound.timer.Reset();
+
         sound = new_sound;
+    }
+    public void Run()
+    {
+        if(!sound.timer.End())
+        {
+            sound.timer.Run();
+        }
+        else
+        {
+            if (sound.timer != null && !sound.timer.infinity) { SoundsManager.Instance.Stop(tag_name, Sound_Play_Tag.BreakInFirst); }
+        }
     }
 }

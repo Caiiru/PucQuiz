@@ -183,18 +183,22 @@ public class Quiz : Perguntas
 
     public void ClickPergunta1(ClickEvent click)
     {
+        mod.manager.sound_manager.Click();
         Choice_Event("chose_01");
     }
     public void ClickPergunta2(ClickEvent click)
     {
+        mod.manager.sound_manager.Click();
         Choice_Event("chose_02");
     }
     public void ClickPergunta3(ClickEvent click)
     {
+        mod.manager.sound_manager.Click();
         Choice_Event("chose_03");
     }
     public void ClickPergunta4(ClickEvent click)
     {
+        mod.manager.sound_manager.Click();
         Choice_Event("chose_04");
     }
 

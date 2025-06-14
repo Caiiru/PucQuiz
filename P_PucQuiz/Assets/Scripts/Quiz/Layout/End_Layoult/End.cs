@@ -14,7 +14,8 @@ public class End
     public anim_bar bar;
     public int length => players.Length;
 
-    public Timer time;
+    public Timer time_rank;
+    public Timer timer_end;
 
     [Header("Layouts")]
     public DictionaryThree<String, GameObject, VisualTreeAsset>[] layout;
@@ -24,7 +25,8 @@ public class End
         manager = LayoutManager.instance;
         doc = obj.GetComponent<UIDocument>();
         bar.Reset();
-        time.Reset();
+        time_rank.Reset();
+        timer_end.Reset();
         if (GameManager.Instance.IsServer)
             GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 3.5f);
     }
@@ -46,20 +48,25 @@ public class End
             return;
         }
 
-        if(!time.End())
+        if(!time_rank.End() && Event_PucQuiz.layout_actualy == "Rank")
         {
-            time.Run();
+            time_rank.Run();
+        }
+        else if(!timer_end.End() && Event_PucQuiz.layout_actualy == "End")
+        {
+            timer_end.Run();
         }
         else
         {
-            Return(obj);
+            Return();
         }
     }
 
-    private void Return(GameObject obj)
+    private void Return()
     {
         manager.end_start = true;
         Modos quiz = manager.quiz;
+        manager.sound_manager.Stop("Rank Sound");
 
         if (Event_PucQuiz.layout_actualy == "Rank")
         {
@@ -128,7 +135,7 @@ public class End
                     case "Rank":
                         Debug.Log("Rank Set Start");
 
-                        manager.sound_manager.Play("Rank Music", "Rank");
+                        manager.sound_manager.Play("Rank Sound", "Rank");
 
                         Debug.Log("Rank % = Start");
 
@@ -152,7 +159,7 @@ public class End
                     case "End":
                         Debug.Log("End Set Start");
 
-                        manager.sound_manager.Play("Rank Music", "End");
+                        manager.sound_manager.Play("Rank Sound", "End");
 
                         Debug.Log("End % = Start");
 

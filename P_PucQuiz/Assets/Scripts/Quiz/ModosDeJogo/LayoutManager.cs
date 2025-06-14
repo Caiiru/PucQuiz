@@ -18,10 +18,10 @@ public class LayoutManager : MonoBehaviour
     [SerializeField] private string question_result;
 
     [Header("Manager Variables")]
+    public SoundsManager sound_manager;
     public Login menu;
     public Modos quiz;
     public End end;
-    public SoundsManager sound_manager;
     [Header("Manager Variables - Start Bools",order = 1)]
     [SerializeField] public bool quiz_start = true;
     [SerializeField] public bool menu_start, end_start = true;
@@ -44,6 +44,9 @@ public class LayoutManager : MonoBehaviour
     {
         Event_PucQuiz.scene_actualy = "Menu";
         quiz.transform = transform;
+        if(sound_manager == null) { sound_manager = new SoundsManager(); }
+        sound_manager.manager = this;
+        sound_manager.Awake();
 
         if (!multiplayer_on)
         {
@@ -73,6 +76,8 @@ public class LayoutManager : MonoBehaviour
                 End_Run();
                 break;
         }
+
+        sound_manager.Update();
 
     }
 

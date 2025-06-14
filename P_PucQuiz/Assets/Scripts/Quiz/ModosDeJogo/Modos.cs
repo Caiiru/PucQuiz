@@ -232,9 +232,11 @@ public class Modos
                         SetQ(true);
                         break;
                     case "Correct":
+                        manager.sound_manager.Play("Feedback - Correct","Correct");
                         doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
                         break;
                     case "Incorrect":
+                        manager.sound_manager.Play("Feedback - Incorrect", "Error");
                         doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
                         break;
                 }
