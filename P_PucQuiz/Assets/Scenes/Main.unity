@@ -1105,6 +1105,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 651135571}
   m_CullTransparentMesh: 1
+--- !u!4 &664689371 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 934763748628154082, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
+  m_PrefabInstance: {fileID: 1159133674}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &669478020
 GameObject:
   m_ObjectHideFlags: 0
@@ -2906,6 +2911,7 @@ MonoBehaviour:
     cartas_index: 0
     protetor: 0
     dobrar: 0
+  player_global: []
   scene_actualy: 
   layout_actualy: 
   question_result: 
@@ -3064,7 +3070,7 @@ MonoBehaviour:
       value3: {fileID: 9197481963319205126, guid: 32d5e77e9e6a5c8498a86a26851a9abc, type: 3}
     - value1: End
       value2: {fileID: 1385919957}
-      value3: {fileID: 9197481963319205126, guid: 32d5e77e9e6a5c8498a86a26851a9abc, type: 3}
+      value3: {fileID: 9197481963319205126, guid: afb5754777cf77e479364e897d5d3f8f, type: 3}
   sound_manager: {fileID: 1254502718}
   quiz_start: 1
   menu_start: 1
@@ -3172,7 +3178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4640b20311ad6a74181a7f8d785d8120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: {fileID: 11400000, guid: b767cdcade5a00d4d9665aaff0d12a9f, type: 2}
+  sounds: {fileID: 11400000, guid: 8791fe4e7463ce44f8046e4eaeb29fca, type: 2}
   sounds_play: []
 --- !u!1 &1261129217
 GameObject:
@@ -3535,6 +3541,7 @@ RectTransform:
   - {fileID: 1982667411}
   - {fileID: 2137246704}
   - {fileID: 1669623029}
+  - {fileID: 664689371}
   m_Father: {fileID: 339119786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

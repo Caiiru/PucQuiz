@@ -89,20 +89,70 @@ public class SoundsManager : MonoBehaviour
         }
     }
 
-    public void Stop()
+    public void Stop(string sound_tag, params Sound_Play.Sound_Play_Tag[] use_tag)
+    {
+        Debug.Log("Sound Stop Chamado");
+        int nulls = 0;
+
+        for(int i = 0; i < sounds_play.Length; i++)
+        {
+            Sound_Play sound_play = sounds_play[i];
+            if (sound_play.tag_name == sound_tag)
+            {
+                bool break_in_first = false;
+                foreach(Sound_Play.Sound_Play_Tag tag in sound_play.tag)
+                {
+                    switch(tag)
+                    {
+                        case Sound_Play.Sound_Play_Tag.BreakInFirst:
+                            break_in_first = true;
+                            break;
+                    }
+                }
+                foreach (Sound_Play.Sound_Play_Tag tag in use_tag)
+                {
+                    switch (tag)
+                    {
+                        case Sound_Play.Sound_Play_Tag.BreakInFirst:
+                            break_in_first = true;
+                            break;
+                    }
+                }
+                Destroy(sounds_play[i].sound.prefab);
+                sounds_play[i].sound = null;
+                sounds_play[i] = null;
+                nulls++;
+                if (break_in_first) { break; }
+            }
+        }
+
+        Sound_Play[] new_sounds_play = new Sound_Play[sounds_play.Length - nulls];
+
+        if (nulls == 0) { return; }
+        else { nulls = 0; }
+
+        if(new_sounds_play.Length != 0)
+        {
+            for (int i = 0; i < new_sounds_play.Length; i++)
+            {
+                if (sounds_play[i] != null) { new_sounds_play[i - nulls] = sounds_play[i]; }
+                else { nulls++; }
+            }
+        }
+
+        sounds_play = new_sounds_play;
+    }
+    public void StopAllSounds()
     {
         foreach (var sound in sounds_play)
         {
+
             Destroy(sound.sound.prefab);
         }
     }
 }
 
-[CreateAssetMenu(fileName = "NewSoundsConfig",menuName = "SoundsManager/SoundsConfig")]
-public class Sound_Config : ScriptableObject
-{
-    public Sound[] sound_list;
-}
+
 [Serializable]
 public class Sound
 {
@@ -114,18 +164,25 @@ public class Sound
     {
         None,
         Music,
-        Substitute,
+        Substitute
     }
 }
 [Serializable]
 public class Sound_Play
 {
     public string tag_name;
+    public Sound_Play_Tag[] tag;
     public Sound sound;
+    public enum Sound_Play_Tag
+    {
+        None,
+        BreakInFirst,
+    }
 
-    public void Set(string name, Sound sound_prefab)
+    public void Set(string name, Sound sound_prefab, params Sound_Play_Tag[] tags)
     {
         tag_name = name;
+        tag = tags;
 
         Sound new_sound = new Sound();
         new_sound.name = sound_prefab.name;
