@@ -12,6 +12,7 @@ public class LayoutManager : MonoBehaviour
 
     [Header("Event Variables")]
     [SerializeField] public MyPlayer player;
+    [SerializeField] private MyPlayer[] player_global;
     [SerializeField] private string scene_actualy;
     [SerializeField] private string layout_actualy;
     [SerializeField] private string question_result;
@@ -57,6 +58,7 @@ public class LayoutManager : MonoBehaviour
         scene_actualy = Event_PucQuiz.scene_actualy;
         layout_actualy = Event_PucQuiz.layout_actualy;
         question_result = Event_PucQuiz.question_result;
+        player_global = Event_PucQuiz.players;
 
 
         switch (Event_PucQuiz.scene_actualy)
@@ -162,7 +164,6 @@ public class LayoutManager : MonoBehaviour
                 menu.ChangeMenu(layout);
                 break;
             case "Quiz":
-
                 quiz.ChangeMenu(layout);
                 break;
             case "End":
@@ -201,16 +202,8 @@ public class LayoutManager : MonoBehaviour
         Event_PucQuiz.points = player.points;
 
         if (multiplayer_on) { return; }
-        
-        Event_PucQuiz.players[0] = local_players[0];
 
-        Event_PucQuiz.players[1] = local_players[1];
-
-        Event_PucQuiz.players[2] = local_players[2];
-
-        Event_PucQuiz.players[3] = local_players[3];
-
-        Event_PucQuiz.players[4] = local_players[4];
+        Event_PucQuiz.players = local_players;
     }
     private void MultiplayerOn()
     {
@@ -240,22 +233,6 @@ public class LayoutManager : MonoBehaviour
             }
             
         }
-        /*
-        local_players[0].playerName = players[0].PlayerName.Value.ToString();
-        local_players[0].points = players[0].Score.Value;
-
-        local_players[1].playerName = players[1].PlayerName.Value.ToString();
-        local_players[1].points = players[1].Score.Value;
-
-        local_players[2].playerName = players[2].PlayerName.Value.ToString();
-        local_players[2].points = players[2].Score.Value;
-
-        local_players[3].playerName = players[3].PlayerName.Value.ToString();
-        local_players[3].points = players[3].Score.Value;
-
-        local_players[4].playerName = players[4].PlayerName.Value.ToString();
-        local_players[4].points = players[4].Score.Value;
-        */
         MultiplayerOff();
     }
 
@@ -263,6 +240,9 @@ public class LayoutManager : MonoBehaviour
     public void ChangeMenuRpc(string scene, string layout)
     {
         Debug.Log("Change to scene = " + scene);
+
+        if (multiplayer_on) { MultiplayerOn(); }
+        else { MultiplayerOff(); }
 
         switch (scene)
         {
