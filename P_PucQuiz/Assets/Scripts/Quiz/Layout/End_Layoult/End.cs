@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DG.Tweening.Core.Easing;
+using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,13 +9,13 @@ using UnityEngine.UIElements;
 public class End
 {
     Config_PucQuiz config;
-    public MyPlayer[] players => Event_PucQuiz.players;
+    public QuizPlayerData[] players;
     public LayoutManager manager;
     public UIDocument doc;
     public anim_bar bar;
-    public int length => players.Length;
 
-    public Timer time;
+    public Timer time_rank;
+    public Timer timer_end;
 
     [Header("Layouts")]
     public DictionaryThree<String, GameObject, VisualTreeAsset>[] layout;
@@ -21,81 +24,105 @@ public class End
     {
         manager = LayoutManager.instance;
         doc = obj.GetComponent<UIDocument>();
+        bar.Reset();
+        time_rank.Reset();
+        timer_end.Reset();
+        if (GameManager.Instance.IsServer)
+            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 3.5f);
+
+        players = GameManager.Instance.GetTop5Players();
     }
 
     public void Start(GameObject obj)
     {
-        time.Reset();
-         
+        if (!manager.multiplayer_on) { return; }
+        players = GameManager.Instance.GetTop5Players();
+
     }
 
     public void Update(GameObject obj)
     {
-        if (!bar.finish()) 
+        if (!bar.finish() && Event_PucQuiz.layout_actualy == "Rank") 
         {
             bar.Run();
             SetBars();
             return;
         }
 
-        if(!time.End())
+        if(!time_rank.End() && Event_PucQuiz.layout_actualy == "Rank")
         {
-            time.Run();
+            time_rank.Run();
+        }
+        else if(!timer_end.End() && Event_PucQuiz.layout_actualy == "End")
+        {
+            timer_end.Run();
         }
         else
         {
-            Return(obj);
+            Return();
         }
     }
 
-    private void Return(GameObject obj)
+    private void Return()
     {
         manager.end_start = true;
         Modos quiz = manager.quiz;
+        manager.sound_manager.Stop("Rank Sound");
 
-        if (Event_PucQuiz.layout_actualy == "Rank")
+        if (GameManager.Instance.IsServer)
         {
-            manager.ChangeMenu("Quiz", quiz.attributes[quiz.question_actualy_index].question_type.ToString());
-        }
-        else
-        {
-            manager.ChangeMenu("Start", "Start");
+            if (Event_PucQuiz.layout_actualy == "Rank")
+            {
+                GameManager.Instance.ChangeMenuRpc("Quiz", quiz.attributes[quiz.question_actualy_index].question_type.ToString());
+            }
+            else if (Event_PucQuiz.layout_actualy == "End")
+            {
+                //GameManager.Instance.ChangeMenuRpc("Start", "Start");
+            }
         }
     }
 
     private void SetBars()
     {
-        float point_1;
-        float point_2;
-        float point_3;
-        float point_4;
+        float[] points = new float[players.Length];
+        for(int i = 0; i < players.Length; i++)
+        {
+            if (i == 5) { break; }
+            points[i] = players[i].Score;
+        }
 
-        point_1 = Event_PucQuiz.players[0].points;
-        point_2 = Event_PucQuiz.players[1].points;
-        point_3 = Event_PucQuiz.players[2].points;
-        point_4 = Event_PucQuiz.players[3].points;
+        float[] porcents = new float[points.Length];
+        for(int i = 0; i < players.Length; i++)
+        {
+            if (i >= 4) { break; }
+            if (i == 0) { porcents[i] = 100; }
+            else if (points[i] != 0 && points[0] != 0) { porcents[i] = ((100 * points[i]) / points[0]); }
+            else { porcents[i] = 0; }
+            porcents[i] *= bar.getSize();
+        }
 
-        float porcent_1 = 100;
-        float porcent_2 = ((100 * point_2) / point_1);
-        float porcent_3 = ((100 * point_3) / point_1);
-        float porcent_4 = ((100 * point_4) / point_1);
+        for(int i = 0; i < porcents.Length; i++)
+        {
+            if (i >= 4) { break; }
+            VisualElement player_bar = doc.rootVisualElement.Q("Progress"+(i+1));
+            player_bar.style.width = new Length(porcents[i], LengthUnit.Percent);
+        }
+        for (int i =  players.Length; i < 4; i++)
+        {
+            var remove = doc.rootVisualElement.Q("Progress"+(i+1));
+            remove.style.opacity = 0;
+        }
+    }
+    IEnumerator SetEndBars(float time)
+    {
+        yield return new WaitForSeconds(time);
 
-        porcent_1 *= bar.getSize();
-        porcent_2 *= bar.getSize();
-        porcent_3 *= bar.getSize();
-        porcent_4 *= bar.getSize();
-
-        VisualElement bar_1 = doc.rootVisualElement.Q("Progress1");
-        bar_1.style.width = new Length(porcent_1, LengthUnit.Percent);
-
-        VisualElement bar_2 = doc.rootVisualElement.Q("Progress2");
-        bar_2.Q("Progress2").style.width = new Length(porcent_2, LengthUnit.Percent);
-
-        VisualElement bar_3 = doc.rootVisualElement.Q("Progress3");
-        bar_3.style.width = new Length(porcent_3, LengthUnit.Percent);
-
-        VisualElement bar_4 = doc.rootVisualElement.Q("Progress4");
-        bar_4.style.width = new Length(porcent_4, LengthUnit.Percent);
+        VisualElement bar1 = doc.rootVisualElement.Q("Coluna_1Lugar");
+        VisualElement bar2 = doc.rootVisualElement.Q("Coluna_2Lugar");
+        VisualElement bar3 = doc.rootVisualElement.Q("Coluna_3Lugar");
+        bar1.RemoveFromClassList("Coluna_1Lugar_Start");
+        bar2.RemoveFromClassList("Coluna_2Lugar_Start");
+        bar3.RemoveFromClassList("Coluna_3Lugar_Start");
     }
     private void SetLayout()
     {
@@ -106,32 +133,49 @@ public class End
                 switch (layout[i].getValue1())
                 {
                     case "Rank":
-
                         Debug.Log("Rank Set Start");
+
+                        manager.sound_manager.Play("Rank Sound", "Rank");
 
                         Debug.Log("Rank % = Start");
 
-                        string name_1 = Event_PucQuiz.players[0].playerName;
-                        string name_2 = Event_PucQuiz.players[1].playerName;
-                        string name_3 = Event_PucQuiz.players[2].playerName;
-                        string name_4 = Event_PucQuiz.players[3].playerName;
 
-                        Debug.Log("Players Count = " + Event_PucQuiz.players.Length);
-                        
+                        for (int o = 0; o < players.Length; o++)
+                        {
+                            if (o >= 4) { break; }
+                            doc.rootVisualElement.Q<Label>("PlayerName"+(o+1)).text =  players[o].PlayerName.ToString();
+                        }
+                        for(int o = players.Length; o < 4; o++)
+                        {
+                            var remove = doc.rootVisualElement.Q<Label>("PlayerName"+(o+1));
+                            remove.style.opacity = 0;
+                        }
 
-                        Debug.Log("Rank Name = Start");
-                        doc.rootVisualElement.Q<Label>("PlayerName1").text = name_1;
-                        doc.rootVisualElement.Q<Label>("PlayerName2").text = name_2;
-                        doc.rootVisualElement.Q<Label>("PlayerName3").text = name_3;
-                        doc.rootVisualElement.Q<Label>("PlayerName4").text = name_4;
+                        Debug.Log("Players Count = " + players.Length);
 
                         SetBars();
-
-                        Debug.Log("Rank Set End");
-
                         break;
-                    case "End":
+                    case "End": 
+                        if(GameManager.Instance.IsServer)
+                            manager.sound_manager.Play("Rank Sound", "End");
+                         
 
+
+                        for (int o = 0; o < players.Length; o++)
+                        {
+                            if (o >= 3) { break; }
+                            if(o == 0) { doc.rootVisualElement.Q<Label>("win_name").text = players[o].PlayerName.ToString(); }
+                            doc.rootVisualElement.Q<Label>((o+1)+"Lugar_Name").text = players[o].PlayerName.ToString();
+                        }
+                        for (int o = players.Length; o < 3; o++)
+                        {
+                            var remove = doc.rootVisualElement.Q<Label>((o+1)+"Lugar_Name");
+                            remove.style.opacity = 0;
+                        }
+
+                        Debug.Log("Players Count = " + players.Length);
+
+                        manager.StartCoroutine(SetEndBars(1.5f));
                         break;
                     default:
                         break;
@@ -200,7 +244,7 @@ public class anim_bar
         }
     }
 
-    public void Reset() { time = 0; }
+    public void Reset() { time = 0; size = 0; }
     public bool finish() { return time >= time_max; }
     public float getSize()
     {

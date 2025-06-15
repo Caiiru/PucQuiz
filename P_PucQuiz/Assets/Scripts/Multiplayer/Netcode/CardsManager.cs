@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,29 +9,36 @@ public class CardsManager : MonoBehaviour
 
     [Space]
 
-    public List<Cartas> LocalPlayerCards = new();
+    public GameObject[] LocalPlayerCards;
+
+    [Header("Cards Stuff")]
+    public Transform CardContainer;
+    public GameObject CardPrefab;
 
 
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        CardPrefab = Resources.Load<GameObject>("Cartas/CardPrefab");
+        CardContainer = FindAnyObjectByType<CardContainer>().gameObject.transform;
+        LocalPlayerCards = new GameObject[4];
+        for (int i = 0; i < LocalPlayerCards.Length; i++)
+        {
+            LocalPlayerCards[i] = CardContainer.GetChild(i).gameObject;
+            LocalPlayerCards[i].SetActive(false);
+        }
+        transform.position = Vector3.zero; // Garantees that is 0
     }
 
     #region @ Cards Functions @
 
-     
+
 
     public Cartas GetCardByID(int id)
     {
         foreach (var card in AllCards)
         {
-            if (card.cardID == id) {
+            if (card.cardID == id)
+            {
                 //DEV.Instance.DevPrint($"Find by ID: {id}-{card.name}");
                 return card;
             }
@@ -38,6 +46,47 @@ public class CardsManager : MonoBehaviour
 
         return null;
     }
+
+    public void SpawnCard(Cartas card)
+    {
+        //var _cardGO = Instantiate(CardPrefab, CardContainer);
+
+        //_cardGO.GetComponent<VisualCard>().CreateCard(card);
+
+        //_cardGO.transform.localPosition = new Vector3(-5.5f+(LocalPlayerCards * 4) , -1.5f, 0);
+
+        int freeCardSlot = GetFreeCardSlot();
+        if (freeCardSlot == -1) return; // IS FULL
+
+        LocalPlayerCards[freeCardSlot].GetComponent<VisualCard>().CardInfo = card;
+        UpdateCards();
+    }
+    public void UpdateCards()
+    {
+        foreach (var card in LocalPlayerCards)
+        {
+            var visual = card.GetComponent<VisualCard>();
+            if (visual.CardInfo == null)
+            {
+                card.SetActive(false);
+            }
+            if(visual.transform.childCount==0)
+                visual.CreateCard(visual.CardInfo);
+            card.SetActive(true);
+        }
+    }
+    private int GetFreeCardSlot()
+    {
+        for (int i = 0; i < LocalPlayerCards.Length; i++)
+        {
+            if (LocalPlayerCards[i].GetComponentInChildren<VisualCard>().CardInfo == null)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
 
 
@@ -52,5 +101,10 @@ public class CardsManager : MonoBehaviour
 
         Instance = this;
     }
-    #endregion 
+
+    public void UseCard(int cardID)
+    {
+
+    }
+    #endregion
 }

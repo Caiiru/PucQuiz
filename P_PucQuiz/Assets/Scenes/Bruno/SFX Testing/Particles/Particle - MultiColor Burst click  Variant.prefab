@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Particle - MultiColor Burst click  Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 91057185084749403, guid: 5d2c5a530718633489d313bbd3e58fc8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 642912616274813238, guid: 5d2c5a530718633489d313bbd3e58fc8, type: 3}
       propertyPath: UVModule.tilesX
       value: 10
@@ -30,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4978560871076916359, guid: 5d2c5a530718633489d313bbd3e58fc8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: -2.29
       objectReference: {fileID: 0}
     - target: {fileID: 4978560871076916359, guid: 5d2c5a530718633489d313bbd3e58fc8, type: 3}
       propertyPath: m_LocalRotation.w

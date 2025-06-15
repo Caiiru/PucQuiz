@@ -5,8 +5,7 @@ using System.Text;
 using Multiplayer.Lobby;
 using Unity.Collections;
 using Unity.Netcode;
-using Unity.Services.Authentication;
-using UnityEditor.PackageManager;
+using Unity.Services.Authentication; 
 using UnityEngine;
 
 public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<QuizPlayer>
@@ -23,7 +22,7 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
     public NetworkVariable<int> Score = new(0, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
     [Space]
     [Header("Cards")]
-    public NetworkVariable<int> slots = new(4, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> slots = new(40, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
     public NetworkVariable<FixedString32Bytes> cartas = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);   // Cards uid separated by , 
     private List<Cartas> playerCards = new List<Cartas>(); 
     [Header("Effects")]
@@ -44,31 +43,27 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
         if (IsOwner)
         {
             PlayerName.Value = LobbyManager.Instance.LocalPlayerName;
-            ClientId.Value = AuthenticationService.Instance.PlayerId; 
+            ClientId.Value = LobbyManager.Instance.playerID; 
             cardsManager = CardsManager.Instance;
             GameManager.Instance.LocalPlayer = this;
+            slots.Value = 40; 
         }
 
         if (IsServer)
         {
-            slots.Value = 40; 
             GameManager.Instance.AddPlayer(this);
         }
-        LayoutManager.instance.AddQuizPlayer(this);
+        //LayoutManager.instance.AddQuizPlayer(this);
 
     }
      
 
     #region @ CARD FUNCTIONS @ 
     public void AddCard(Cartas card)
-    { 
-        Cartas card_values = card as Cartas;
+    {
+        Cartas card_values = card;
         //DEV.Instance.DevPrint($"Trying to add {card.name} to {PlayerName.Value}");
-        if (card_values == null) { Debug.Log("Carta n�o atribuida."); return; }
-        if (slots.Value - card_values.cust < 0) { Debug.Log("O custo desta carta � maior do que seus slots."); return; }
-        ;
-
-        slots.Value -= card_values.cust;
+        if (card_values == null) { Debug.Log("Carta n�o atribuida."); return; } 
 
         playerCards.Add(card_values);
 
@@ -88,7 +83,7 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
             _index ++;
         }
         SetCardsOnManagerRpc(card.cardID);
-        DEV.Instance.DevPrint($"{card.name} was added to {PlayerName.Value}");
+        DEV.Instance.DevPrint($"{card.cardName} was added to {PlayerName.Value}");
         /*
         for (int i = 0; i < cartas.Value.Length; i++)
         {
@@ -116,8 +111,8 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
          
         var card = cardsManager.GetCardByID(id);
         if (card == null) return;
-        Debug.Log($"Card found: {card.name}");
-        cardsManager.LocalPlayerCards.Add(card);
+        Debug.Log($"Card found: {card.cardName}");
+        //cardsManager.LocalPlayerCards.Add(card);
     }
     /*
     public void RemoveCard(Cartas.Card_Types type)

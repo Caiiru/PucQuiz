@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using Multiplayer.Lobby;
 using TMPro;
 using Unity.Netcode;
@@ -11,14 +12,23 @@ public class LobbyUI : MonoBehaviour
 {
     [SerializeField] private GameObject lobbyPlayerPrefab;
     [SerializeField] private Transform container;
+    
 
+    [Header("Menu Background")]
+    [SerializeField] private GameObject _backgroundBlocks; 
+
+    [SerializeField] GameObject particlesMenu;
+
+
+    // PRIVATE
     GameManager gameManager;
 
 
-    void OnEnable()
+    void Start()
     {
 
         gameManager = GameManager.Instance;
+        if (gameManager == null) return;
         gameManager.OnUpdateUI += OnUpdateUIRequested;
         //gameManager.onPlayerJoined += OnPlayerJoined;
         gameManager.ConnectedPlayers.OnListChanged += OnLobbyUIListChanged;
@@ -29,12 +39,16 @@ public class LobbyUI : MonoBehaviour
 
     private void OnLobbyUIListChanged(NetworkListEvent<QuizPlayerData> changeEvent)
     {
-        UpdateLobbyUI();
+        if(GameManager.Instance.CurrentGameState == GameState.WaitingToStart)
+            UpdateLobbyUI();
     }
 
     void OnDisable()
     {
-        // gameManager.onPlayerJoined -= OnPlayerJoined;
+        gameManager.OnUpdateUI -= OnUpdateUIRequested;
+        //gameManager.onPlayerJoined += OnPlayerJoined;
+        gameManager.ConnectedPlayers.OnListChanged -= OnLobbyUIListChanged;
+        gameManager.OnQuizStarted -= OnQuizStarted;
     }
 
 
@@ -62,11 +76,17 @@ public class LobbyUI : MonoBehaviour
     private void Hide()
     {
         container.gameObject.SetActive(false);
+        particlesMenu.SetActive(false);
+        //_backgroundBlocks.SetActive(false);
+        _backgroundBlocks.transform.DOScale(140f, 2f);
     }
 
     private void Show()
     {
-        container.gameObject.SetActive(true);
+        container.gameObject.SetActive(true); 
+        particlesMenu.SetActive(true);
+        _backgroundBlocks.SetActive(true);
+        _backgroundBlocks.transform.DOScale(108f, 2f);
     }
 
     #region Events 

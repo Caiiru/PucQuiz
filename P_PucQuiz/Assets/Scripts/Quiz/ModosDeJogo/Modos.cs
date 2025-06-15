@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,7 +16,7 @@ public class Modos
 
     [Header("Quiz Variables")]
     [SerializeField] public Quiz_Attributes[] attributes;
-    [SerializeField] private Dictionary<String, Perguntas> question_manager = new Dictionary<string, Perguntas>();
+    [SerializeField] public Dictionary<String, Perguntas> question_manager = new Dictionary<string, Perguntas>();
     [SerializeField] public int question_actualy_index;
     [SerializeField] private Timer timer_awake;
     [SerializeField] private Timer timer_next;
@@ -25,10 +26,9 @@ public class Modos
 
     public void Awake(GameObject obj)
     {
-        Debug.Log("Start to set Awake");
 
         //Variaveis De "Sistema"
-        question_manager.Add("Quiz", new Quiz());
+        if (!question_manager.ContainsKey("Quiz")) { question_manager.Clear(); question_manager.Add("Quiz", new Quiz()); }
         Quiz quiz_manager = question_manager["Quiz"] as Quiz;
 
         doc = obj.GetComponent<UIDocument>();
@@ -38,7 +38,7 @@ public class Modos
         //Debug.Log("Variables Awake = Sistem Complet");
 
         //Variaveis do Quiz
-        attributes = attributes;
+       //attributes = attributes;
         question_actualy_index = 0;
 
         //Debug.Log("Variables Awake = Quiz Complet");
@@ -46,10 +46,10 @@ public class Modos
         timer_next.Reset();
 
         //Debug.Log("Variables Awake = Reset Complet");
-        if (!GameManager.Instance.IsServer)
-            ChangeMenu(attributes[question_actualy_index].question_type.ToString());
-        else
+        if (GameManager.Instance.IsServer)
             ChangeMenu("HostQuiz");
+        else
+            ChangeMenu(attributes[question_actualy_index].question_type.ToString());
 
         //Debug.Log("Variables Awake = ChangeMenu Complet");
     }
@@ -106,41 +106,22 @@ public class Modos
 
     private void Change_Question()//Muda a pergunta.
     {
-        Event_PucQuiz.start_layout = true;
-        Event_PucQuiz.question_next = false;
-        Event_PucQuiz.question_result = "";
+        GameManager gameManager = GameManager.Instance;
 
-        question_actualy_index++;
-
-        if (GameManager.Instance.IsServer)
-            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.DisplayingQuestion, 3.5f);
         if (!Final())
         {
-            Debug.Log("Question = " + question_actualy_index);
-
-            //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
-
-            if (GameManager.Instance.IsServer)
-                GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 99f);
-
-            manager.ChangeMenuRpc("End", "Rank");
-
-            ChangeMenu(attributes[question_actualy_index].question_type.ToString());
+            if (GameManager.Instance.IsServer) { gameManager.ChangeQuestionRpc(); gameManager.ChangeMenuRpc("End","Rank"); }
 
         }
         else
         {
-            if (GameManager.Instance.IsServer)
-                GameManager.Instance.ChangeCurrentGameStateRPC(GameState.GameOver, 99f);
-            manager.ChangeMenuRpc("End", "End");
+            if (GameManager.Instance.IsServer) { gameManager.ChangeQuestionRpc(); gameManager.ChangeMenuRpc("End","End"); }
         }
-
-        //Event_PucQuiz.Change_Scene(config.Layout_Contagem);
     }
 
     public bool Final()//Verifica se chegamos no fim das perguntas.
     {
-        if (question_actualy_index == attributes.Length) { return true; }
+        if (question_actualy_index == attributes.Length-1) { return true; }
         return false;
     }
     public void FeedBack()
@@ -176,6 +157,8 @@ public class Modos
         Event_PucQuiz.scene_actualy = "Quiz";
         Event_PucQuiz.layout_actualy = menu_new;
 
+        //if (!GameManager.Instance.IsServer) { ChangeMenu("HostQuiz"); ; return; }
+
         GameObject background = null;
 
         try
@@ -184,13 +167,14 @@ public class Modos
             {
                 if (menu[i].getValue1() == menu_new)
                 {
+                    //Debug.Log("Visual Three = " + menu_new);
                     background = menu[i].getValue2();
                     doc.visualTreeAsset = menu[i].getValue3();
                 }
 
             }
 
-            if (background.active == false && background != null) { background.SetActive(true); }
+            if (background.activeSelf == false && background != null) { background.SetActive(true); }
 
             for (int i = 0; i < menu.Length; i++)
             {
@@ -216,26 +200,22 @@ public class Modos
                 switch (menu[i].getValue1())
                 {
                     case "Quiz":
+                        if (!question_manager.ContainsKey("Quiz")) { question_manager.Clear(); question_manager.Add("Quiz", new Quiz()); }
                         SetQ(false);
                         break;
                     case "HostQuiz":
+                        if (!question_manager.ContainsKey("Quiz")) { question_manager.Clear(); question_manager.Add("Quiz", new Quiz()); }
                         SetQ(true);
                         break;
                     case "Correct":
+                        manager.sound_manager.Play("Feedback - Correct","Correct");
                         doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
                         break;
                     case "Incorrect":
+                        manager.sound_manager.Play("Feedback - Incorrect", "Error");
                         doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
                         break;
                 }
-            }
-            try
-            {
-
-            }
-            catch (Exception error)
-            {
-                Debug.Log(error);
             }
         }
 
@@ -244,7 +224,8 @@ public class Modos
 
     public void SetQ(bool isServer)
     {
-
+        question_manager.Clear();
+        question_manager.Add("Quiz",new Quiz());
         Quiz quiz = question_manager["Quiz"] as Quiz;
 
         quiz.attributes = attributes[question_actualy_index];
@@ -253,30 +234,48 @@ public class Modos
         quiz.attributes.timer.Reset();
         if (isServer)
             doc.rootVisualElement.Q<TextElement>("Timer").text = "Tempo : " + ((int)attributes[question_actualy_index].timer.time);
-
         else
         {
             doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
                                              "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
         }
 
-        doc.rootVisualElement.Q<TextElement>("Pergunta").text = attributes[question_actualy_index].question;
+        TextElement pergunta = doc.rootVisualElement.Q<TextElement>("Pergunta");
+        pergunta.text = attributes[question_actualy_index].question;
+        //pergunta.styleSheets.Remove(pergunta.styleSheets[1]);
 
 
-        doc.rootVisualElement.Q<Button>("Resposta_1").text = attributes[question_actualy_index].options[0];
-        doc.rootVisualElement.Q<Button>("Resposta_1").RegisterCallback<ClickEvent>(quiz.ClickPergunta1);
+        Button resposta_1 = doc.rootVisualElement.Q<Button>("Resposta_1");
+        resposta_1.text = attributes[question_actualy_index].options[0];
+        resposta_1.RegisterCallback<ClickEvent>(quiz.ClickPergunta1);
 
-        doc.rootVisualElement.Q<Button>("Resposta_2").text = attributes[question_actualy_index].options[1];
-        doc.rootVisualElement.Q<Button>("Resposta_2").RegisterCallback<ClickEvent>(quiz.ClickPergunta2);
+        Button resposta_2 = doc.rootVisualElement.Q<Button>("Resposta_2");
+        resposta_2.text = attributes[question_actualy_index].options[1];
+        resposta_2.RegisterCallback<ClickEvent>(quiz.ClickPergunta2);
 
-        doc.rootVisualElement.Q<Button>("Resposta_3").text = attributes[question_actualy_index].options[2];
-        doc.rootVisualElement.Q<Button>("Resposta_3").RegisterCallback<ClickEvent>(quiz.ClickPergunta3);
+        Button resposta_3 = doc.rootVisualElement.Q<Button>("Resposta_3");
+        resposta_3.text = attributes[question_actualy_index].options[2];
+        resposta_3.RegisterCallback<ClickEvent>(quiz.ClickPergunta3);
 
-        doc.rootVisualElement.Q<Button>("Resposta_4").text = attributes[question_actualy_index].options[3];
-        doc.rootVisualElement.Q<Button>("Resposta_4").RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
-
+        Button resposta_4 = doc.rootVisualElement.Q<Button>("Resposta_4");
+        resposta_4.text = attributes[question_actualy_index].options[3];
+        resposta_4.RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
 
         timer_awake.Reset();
         timer_next.Reset();
+
+        manager.StartCoroutine(SetAnim(0.5f));
+    }
+
+    IEnumerator SetAnim(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        VisualElement questions = doc.rootVisualElement.Q<VisualElement>("Container_Pergunta");
+        VisualElement timer = doc.rootVisualElement.Q<VisualElement>("Container_Timer");
+        VisualElement buttons = doc.rootVisualElement.Q<VisualElement>("GridContainer");
+        questions.RemoveFromClassList("QuestionText_Anim");
+        timer.RemoveFromClassList("TimerText_Anim");
+        buttons.RemoveFromClassList("Buttons_Anim");
     }
 }

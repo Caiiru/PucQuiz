@@ -9,7 +9,8 @@ public class Card_Retirar : Cartas
     public void Set()
     {
         instance = this;
-        name = "Retirar";
+        //Não precisa ser hardcoded o nome, o intuito de ser scriptable object é a alteração facil pelo editor;
+        //name = "Retirar";
         types = Card_Types.Retirar;
     }
 

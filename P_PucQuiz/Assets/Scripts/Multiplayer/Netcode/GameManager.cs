@@ -1,20 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DeveloperConsole;
+using System.Linq; 
 using Unity.Collections;
-using Unity.Netcode;
-using Unity.Netcode.Transports.UTP;
-using Unity.Services.Authentication;
-using Unity.Services.Core;
-using Unity.Services.Lobbies.Models;
-using Unity.Services.Relay;
-using Unity.Services.Relay.Models;
-using UnityEditor.PackageManager;
-using UnityEngine;
-using UnityEngine.UIElements;
+using Unity.Netcode; 
+using Unity.Services.Authentication; 
+using UnityEngine; 
 
 public enum GameState
 {
@@ -35,7 +26,7 @@ public class GameManager : NetworkBehaviour
 
 
     [Header("Game Config")]
-    private float timeToShowQuestion = 99f;
+    //private float timeToShowQuestion = 99f;
     private float timePerQuestion = 15f;
     private float timeToShowResults = 5f;
 
@@ -52,9 +43,13 @@ public class GameManager : NetworkBehaviour
 
 
     public NetworkList<QuizPlayerData> ConnectedPlayers = new();
+
+    
     NetworkManager _networkManager;
 
     #endregion
+
+    
 
 
     public List<QuizPlayer> players = new();
@@ -62,8 +57,7 @@ public class GameManager : NetworkBehaviour
     //EVENTS
 
     #region Events Call
-    public EventHandler OnUpdateUI;
-    public EventHandler OnJoiningGame;
+    public EventHandler OnUpdateUI; 
     public EventHandler OnQuizStarted;
     public EventHandler OnGameStateChanged;
     #endregion
@@ -73,13 +67,8 @@ public class GameManager : NetworkBehaviour
     public static GameManager Instance;
 
     void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        Instance = this;
-        DontDestroyOnLoad(this.gameObject);
+    { 
+        Instance = this; 
 
     }
     #endregion
@@ -105,7 +94,12 @@ public class GameManager : NetworkBehaviour
         }
         if (!IsServer)
         {
-            SendPlayerInfoToServerRpc(AuthenticationService.Instance.PlayerId, LobbyManager.Instance.LocalPlayerName);
+            if(DEV.Instance.OnlineMode == OnlineMode.Relay)
+                SendPlayerInfoToServerRpc(AuthenticationService.Instance.PlayerId, LobbyManager.Instance.LocalPlayerName);
+            else
+            {
+                SendPlayerInfoToServerRpc(LobbyManager.Instance.playerID, LobbyManager.Instance.LocalPlayerName);
+            }
         }
         CurrentGameState = GameState.WaitingToStart;
 
@@ -177,8 +171,23 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    [Rpc(SendTo.Everyone)]
+    public void ChangeQuestionRpc()
+    {
+        Event_PucQuiz.start_layout = true;
+        Event_PucQuiz.question_next = false;
+        Event_PucQuiz.question_result = "";
 
+        Modos quiz = LayoutManager.instance.quiz;
+        quiz.question_actualy_index++;
+        quiz.question_manager.Clear();
+    }
 
+    [Rpc(SendTo.Everyone)]
+    public void ChangeMenuRpc(string scene, string layout)
+    {
+        LayoutManager.instance.ChangeMenu(scene, layout);
+    }
 
     [Rpc(SendTo.Everyone)]
     public void StartQuizRpc()
@@ -187,14 +196,20 @@ public class GameManager : NetworkBehaviour
         OnQuizStarted?.Invoke(this, null);
         Timer.Value = 3.5f;
 
+
+    }
+    public void ChangeCurrentGameStateMessage(GameState newState, float _timer, string from)
+    {
+        Debug.Log($"From {from} im changin the state to {newState}");
+        ChangeCurrentGameStateRPC(newState, _timer);
     }
     [Rpc(SendTo.Everyone)]
     public void ChangeCurrentGameStateRPC(GameState newGameState, float _timer)
     {
-        CurrentGameState = newGameState;
-        OnGameStateChanged?.Invoke(this, null);
         if (IsServer)
             Timer.Value = _timer;
+        CurrentGameState = newGameState;
+        OnGameStateChanged?.Invoke(this, null);
 
         Debug.Log("New State:" + newGameState);
     }
@@ -217,10 +232,12 @@ public class GameManager : NetworkBehaviour
         if (!IsServer) return;
 
 
+        
         foreach (var player in ConnectedPlayers)
         {
             if (player.ClientId == clientNetworkId)
             {
+
                 return;
             }
 
@@ -232,7 +249,8 @@ public class GameManager : NetworkBehaviour
             PlayerName = playerName,
 
         });
-        UpdateLobbyRPC();
+        if(CurrentGameState == GameState.WaitingToStart)
+            UpdateLobbyRPC();
 
     }
     internal void RemoveConnectedPlayerByID(string clientNetworkId)
@@ -269,33 +287,66 @@ public class GameManager : NetworkBehaviour
     /// </summary>
     /// <param name="clientID">Authentication id of the player, this is save on Quiz Player class as ClientID </param>
     /// <param name="newScore">Players new score</param>
-    public void SetPlayerScore(string clientID, int newScore)
+    public void SetPlayerScore( int newScore)
     {
         //if (!IsServer) return; 
 
-        for (int i = 0; i < players.Count; i++)
-        {
-            var player = players[i];
-            if (player.ClientId.Value == clientID)
-            {
-                player.Score.Value = newScore;
-                return;
-            }
-        }
+        AddPointsToLocalPLayer(newScore);
+        return; 
     }
 
 
 
 
-    public QuizPlayer[] GetTop5Playes()
-    {
+    public QuizPlayerData[] GetTop5Players()
+    { 
+
+        QuizPlayerData[] players = new QuizPlayerData[ConnectedPlayers.Count];
+        //Debug.Log($"Players Inside top 5 count: {players.Count()}");
+
+        for(int i = 0; i< players.Count(); i++)
+        {
+            players[i] = new QuizPlayerData()
+            {
+                PlayerName = ConnectedPlayers[i].PlayerName,
+                Score = ConnectedPlayers[i].Score,
+
+            };
+
+        }
 
 
-        List<QuizPlayer> topPlayers = players.OrderByDescending(player => player).Take(players.Count > 5 ? 5 : players.Count).ToList();
+        int n = players.Length;
+        bool trocou; // Flag para otimização: se nenhuma troca ocorrer em uma passagem, o array está ordenado
+
+        for (int i = 0; i < n - 1; i++)
+        {
+            trocou = false;
+            // A cada iteração externa (i), o maior elemento "borbulha" para sua posição correta no final do array não ordenado.
+            // Por isso, na iteração interna (j), comparamos apenas até n - i - 1.
+            for (int j = 0; j < n - i - 1; j++)
+            {
+                // Se o elemento atual for menor que o próximo, troque-os de lugar.
+                if (players[j].Score < players[j + 1].Score)
+                {
+                    // Realiza a troca
+                    QuizPlayerData temp = players[j];
+                    players[j] = players[j + 1];
+                    players[j + 1] = temp;
+                    trocou = true; // Indica que uma troca ocorreu
+                    Debug.Log("Swapping players: " + players[j].PlayerName + " with " + players[j + 1].PlayerName);
+                }
+            }
+
+            // Otimização: Se nenhuma troca ocorreu nesta passagem, o array já está ordenado.
+            if (!trocou)
+            {
+                break;
+            }
+        }
 
 
-
-        return topPlayers.ToArray();
+        return players;
     }
 
     public QuizPlayer GetPlayerByID(string playerID)
@@ -315,7 +366,7 @@ public class GameManager : NetworkBehaviour
     /// </summary>
     /// <param name="clientId"></param>
     /// <param name="playerName"></param>
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Everyone)]
     void SendPlayerInfoToServerRpc(string clientId, string playerName)
     {
         Debug.Log($"Adding {clientId}->{playerName} to connectedPlayers ");
@@ -325,9 +376,7 @@ public class GameManager : NetworkBehaviour
     void UpdateLobbyRPC()
     {
         OnUpdateUI?.Invoke(this, null);
-    }
-
-
+    } 
     internal void CheckList()
     {
         //if (!IsServer) return;
@@ -343,11 +392,11 @@ public class GameManager : NetworkBehaviour
         }
 
     }
-
+    
     public void AddPlayer(QuizPlayer quizPlayer)
-    {
-        //DEV.Instance.DevPrint($"Player add - {quizPlayer.PlayerName.Value.ToString()}");
-        players.Add(quizPlayer);
+    { 
+        players.Add(quizPlayer); 
+
 
     }
 
@@ -369,6 +418,45 @@ public class GameManager : NetworkBehaviour
         player.AddCard(card);
     }
 
+    internal void AddPointsToLocalPLayer(int points)
+    {
+        LocalPlayer.Score.Value = points;
+        int _index = 0;
+        foreach(var player in ConnectedPlayers)
+        {
+            if(player.ClientId == LocalPlayer.ClientId.Value)
+            {
+                QuizPlayerData playerData = new QuizPlayerData();
+                playerData.ClientId = player.ClientId.Value;
+                playerData.PlayerName = player.PlayerName;
+                playerData.Score = points; 
+                DEV.Instance.DevPrint($"Player {playerData.PlayerName} updated his points to {playerData.Score}");  
+                UpdatePlayerInfoOnServerRpc(playerData);
+
+            }
+            _index++;
+        }
+    }
+
+    [Rpc(SendTo.Server)]
+    public void UpdatePlayerInfoOnServerRpc(QuizPlayerData playerData)
+    {
+        int _index = 0;
+        foreach(var player in ConnectedPlayers)
+        {
+            if(player.ClientId == playerData.ClientId)
+            {
+                ConnectedPlayers[_index] = playerData;
+
+                DEV.Instance.DevPrint($"Player Name {playerData.PlayerName.ToString()} has {playerData.Score} points updated on server");
+                break;
+            }
+            _index++;
+        }
+
+        Debug.Log("Player was updated");
+    }
+
 
     #endregion
 
@@ -382,6 +470,8 @@ public struct QuizPlayerData : INetworkSerializable, System.IEquatable<QuizPlaye
 {
     public FixedString32Bytes ClientId;
     public FixedString32Bytes PlayerName;
+    public int Score;
+    public FixedString32Bytes cards;
     public bool Equals(QuizPlayerData other)
     {
         return ClientId == other.ClientId && PlayerName == other.PlayerName;
@@ -392,6 +482,8 @@ public struct QuizPlayerData : INetworkSerializable, System.IEquatable<QuizPlaye
     {
         serializer.SerializeValue(ref ClientId);
         serializer.SerializeValue(ref PlayerName);
+        serializer.SerializeValue(ref Score);
+        serializer.SerializeValue(ref cards);
     }
     public override int GetHashCode()
     {
