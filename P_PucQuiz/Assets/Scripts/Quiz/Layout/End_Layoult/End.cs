@@ -42,18 +42,18 @@ public class End
 
     public void Update(GameObject obj)
     {
-        if (!bar.finish() && Event_PucQuiz.layout_actualy == "Rank") 
+        if (!bar.finish() && Event_PucQuiz.layout_actualy == "Rank")
         {
             bar.Run();
             SetBars();
             return;
         }
 
-        if(!time_rank.End() && Event_PucQuiz.layout_actualy == "Rank")
+        if (!time_rank.End() && Event_PucQuiz.layout_actualy == "Rank")
         {
             time_rank.Run();
         }
-        else if(!timer_end.End() && Event_PucQuiz.layout_actualy == "End")
+        else if (!timer_end.End() && Event_PucQuiz.layout_actualy == "End")
         {
             timer_end.Run();
         }
@@ -85,14 +85,14 @@ public class End
     private void SetBars()
     {
         float[] points = new float[players.Length];
-        for(int i = 0; i < players.Length; i++)
+        for (int i = 0; i < players.Length; i++)
         {
             if (i == 5) { break; }
             points[i] = players[i].Score;
         }
 
         float[] porcents = new float[points.Length];
-        for(int i = 0; i < players.Length; i++)
+        for (int i = 0; i < players.Length; i++)
         {
             if (i >= 4) { break; }
             if (i == 0) { porcents[i] = 100; }
@@ -101,15 +101,15 @@ public class End
             porcents[i] *= bar.getSize();
         }
 
-        for(int i = 0; i < porcents.Length; i++)
+        for (int i = 0; i < porcents.Length; i++)
         {
             if (i >= 4) { break; }
-            VisualElement player_bar = doc.rootVisualElement.Q("Progress"+(i+1));
+            VisualElement player_bar = doc.rootVisualElement.Q("Progress" + (i + 1));
             player_bar.style.width = new Length(porcents[i], LengthUnit.Percent);
         }
-        for (int i =  players.Length; i < 4; i++)
+        for (int i = players.Length; i < 4; i++)
         {
-            var remove = doc.rootVisualElement.Q("Progress"+(i+1));
+            var remove = doc.rootVisualElement.Q("Progress" + (i + 1));
             remove.style.opacity = 0;
         }
     }
@@ -126,6 +126,10 @@ public class End
     }
     private void SetLayout()
     {
+        ///Caiiru: DONT REMOVE THIS
+        ///Start Layout and get players (happens just one time I guess
+
+        //Debug.Log("Set Layout Start");
         players = GameManager.Instance.GetTop5Players();
         for (int i = 0; i < layout.Length; i++)
         {
@@ -134,47 +138,47 @@ public class End
                 switch (layout[i].getValue1())
                 {
                     case "Rank":
-                        Debug.Log("Rank Set Start");
+                        //Debug.Log("Rank Set Start");
 
                         manager.sound_manager.Play("Rank Sound", "Rank");
 
-                        Debug.Log("Rank % = Start");
+                        //Debug.Log("Rank % = Start");
 
 
                         for (int o = 0; o < players.Length; o++)
                         {
                             if (o >= 4) { break; }
-                            doc.rootVisualElement.Q<Label>("PlayerName"+(o+1)).text =  players[o].PlayerName.ToString();
+                            doc.rootVisualElement.Q<Label>("PlayerName" + (o + 1)).text = players[o].PlayerName.ToString();
                         }
-                        for(int o = players.Length; o < 4; o++)
+                        for (int o = players.Length; o < 4; o++)
                         {
-                            var remove = doc.rootVisualElement.Q<Label>("PlayerName"+(o+1));
+                            var remove = doc.rootVisualElement.Q<Label>("PlayerName" + (o + 1));
                             remove.style.opacity = 0;
                         }
 
-                        Debug.Log("Players Count = " + players.Length);
+                        //Debug.Log("Players Count = " + players.Length);
 
                         SetBars();
                         break;
-                    case "End": 
-                        if(GameManager.Instance.IsServer)
+                    case "End":
+                        if (GameManager.Instance.IsServer)
                             manager.sound_manager.Play("Rank Sound", "End");
-                         
+
 
 
                         for (int o = 0; o < players.Length; o++)
                         {
                             if (o >= 3) { break; }
-                            if(o == 0) { doc.rootVisualElement.Q<Label>("win_name").text = players[o].PlayerName.ToString(); }
-                            doc.rootVisualElement.Q<Label>((o+1)+"Lugar_Name").text = players[o].PlayerName.ToString();
+                            if (o == 0) { doc.rootVisualElement.Q<Label>("win_name").text = players[o].PlayerName.ToString(); }
+                            doc.rootVisualElement.Q<Label>((o + 1) + "Lugar_Name").text = players[o].PlayerName.ToString();
                         }
                         for (int o = players.Length; o < 3; o++)
                         {
-                            var remove = doc.rootVisualElement.Q<Label>((o+1)+"Lugar_Name");
+                            var remove = doc.rootVisualElement.Q<Label>((o + 1) + "Lugar_Name");
                             remove.style.opacity = 0;
                         }
 
-                        Debug.Log("Players Count = " + players.Length);
+                        //Debug.Log("Players Count = " + players.Length);
 
                         manager.StartCoroutine(SetEndBars(1.5f));
                         break;

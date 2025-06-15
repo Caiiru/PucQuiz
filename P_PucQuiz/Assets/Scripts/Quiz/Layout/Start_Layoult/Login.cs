@@ -77,7 +77,7 @@ public class Login
     private void ClickStart(ClickEvent evt) //Bot�o que transita da tela inicial para a tela de login.
     {
         manager.sound_manager.Click();
-        Debug.Log("Start = Sucesso");
+        //Debug.Log("Start = Sucesso");
 
         //menu[0].getValue2().SetActive(false);
         //menu[1].getValue2().SetActive(true);

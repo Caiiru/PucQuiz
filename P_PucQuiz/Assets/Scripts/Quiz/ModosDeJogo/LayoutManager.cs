@@ -146,7 +146,7 @@ public class LayoutManager : MonoBehaviour
         if (multiplayer_on) { MultiplayerOn(); }
         else { MultiplayerOff(); }
 
-        Debug.Log("LayoutManager change menu is calling");
+        //Debug.Log("LayoutManager change menu is calling");
 
         switch (scene)
         {
@@ -154,6 +154,7 @@ public class LayoutManager : MonoBehaviour
                 menu.ChangeMenu(layout);
                 break;
             case "Quiz":
+                GameManager.Instance.ChangeCurrentGameStateRPC(GameState.DisplayingQuestion, 3.5f);
                 if (GameManager.Instance.IsServer)
                     quiz.ChangeMenu("HostQuiz");
                 else
@@ -199,18 +200,14 @@ public class LayoutManager : MonoBehaviour
     {
 
         host_players = GameManager.Instance.GetTop5Players();
-        Debug.Log("Checking players - multiplayer");
+        //Debug.Log("Checking players - multiplayer");
         if (host_players == null || host_players.Length == 0)
         {
             Debug.LogWarning("No players found in multiplayer mode.");
             MultiplayerOff();
             return;
         }
-
-        foreach (QuizPlayerData player in host_players)
-        {
-            Debug.Log($"Player: {player.PlayerName.Value} - Score: {player.Score}");
-        }
+         
 
         if (host_players != null)
         {
