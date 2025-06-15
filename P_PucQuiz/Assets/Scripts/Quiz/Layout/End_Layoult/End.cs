@@ -36,6 +36,7 @@ public class End
     public void Start(GameObject obj)
     {
         if (!manager.multiplayer_on) { return; }
+        players = GameManager.Instance.GetTop5Players();
 
     }
 

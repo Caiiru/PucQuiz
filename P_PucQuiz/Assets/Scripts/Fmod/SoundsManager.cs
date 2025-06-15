@@ -37,7 +37,7 @@ public class SoundsManager
     }
     private void LocalPlay(string sound_tag_name, string sound_name)
     {
-        Debug.Log("Sound Play Chamado");
+        //Debug.Log("Sound Play Chamado");
 
         Sound_Play new_sound_play = new Sound_Play();
 
@@ -45,29 +45,29 @@ public class SoundsManager
         {
             if(sound.name == sound_name)
             {
-                Debug.Log("Sound Name Encontrado");
+                //Debug.Log("Sound Name Encontrado");
                 if (sound.tag != null)
                 {
                     for (int i = 0; i < sounds_play.Length; i++)
                     {
-                        Debug.Log("Sound Play na posicao "+i);
+                        //Debug.Log("Sound Play na posicao "+i);
                         Sound_Play compare_sound = sounds_play[i];
                         if (compare_sound != null)
                         {
                             for (int t1 = 0; t1 < sound.tag.Length; t1++)
                             {
-                                Debug.Log("Sound Tag is " + sound.tag[t1]);
+                                //Debug.Log("Sound Tag is " + sound.tag[t1]);
                                 for (int t2 = 0; t2 < compare_sound.sound.tag.Length; t2++)
                                 {
-                                    Debug.Log("Sound Play Tag is " + compare_sound.sound.tag[t2]);
+                                    //Debug.Log("Sound Play Tag is " + compare_sound.sound.tag[t2]);
                                     if (sound.tag[t1] == compare_sound.sound.tag[t2])
                                     {
-                                        Debug.Log("Sound Play Tag and Sound Tag is equal. ");
+                                        //Debug.Log("Sound Play Tag and Sound Tag is equal. ");
                                         switch (sound.tag[t1])
                                         {
                                             case Sound.Sound_Tag.None: break;
                                             case Sound.Sound_Tag.Music:
-                                                Debug.Log("Sound Tag = Music");
+                                                //Debug.Log("Sound Tag = Music");
                                                 GameObject.Destroy(sounds_play[i].sound.prefab);
                                                 new_sound_play.Set(sound_tag_name, sound);
                                                 sounds_play[i] = new_sound_play;
@@ -75,7 +75,7 @@ public class SoundsManager
                                             case Sound.Sound_Tag.Substitute:
                                                 if (sound_tag_name == sounds_play[i].tag_name)
                                                 {
-                                                    Debug.Log("Sound Tag = Substitute");
+                                                    //Debug.Log("Sound Tag = Substitute");
                                                     GameObject.Destroy(sounds_play[i].sound.prefab);
                                                     new_sound_play.Set(sound_tag_name, sound);
                                                     sounds_play[i] = new_sound_play;
