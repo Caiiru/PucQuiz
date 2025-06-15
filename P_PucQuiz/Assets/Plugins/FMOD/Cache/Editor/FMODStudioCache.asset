@@ -27,6 +27,58 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 122422
+--- !u!114 &-4925462895229985330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/RespostaCerta
+  m_EditorClassIdentifier: 
+  Path: event:/RespostaCerta
+  Guid:
+    Data1: -58227805
+    Data2: 1234812190
+    Data3: -321389894
+    Data4: -1387341663
+  Banks:
+  - {fileID: -87381090599426122}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -547027966961630507}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
+--- !u!114 &-547027966961630507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/RespostaCerta/AcertoContinuo
+  m_EditorClassIdentifier: 
+  Name: AcertoContinuo
+  StudioPath: 
+  Min: 1
+  Max: 4
+  Default: 1
+  ID:
+    data1: 62626872
+    data2: 1488525807
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-87381090599426122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,10 +94,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638850164402591067
+  lastModified: 638854501396491473
   FileSizes:
   - Name: Desktop
-    Value: 4021856
+    Value: 4329536
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -66,13 +118,15 @@ MonoBehaviour:
   - {fileID: 2284603470890706299}
   - {fileID: 412219430074188070}
   - {fileID: -6982311454908715864}
+  - {fileID: 6670287515291142901}
+  - {fileID: -4925462895229985330}
   EditorParameters: []
   MasterBanks:
   - {fileID: -87381090599426122}
   StringsBanks:
   - {fileID: 1125798297998424090}
   cacheVersion: 131847
-  cacheTime: 638850164402601068
+  cacheTime: 638854501396501558
   SerializableEventsDict:
   - key: event:/InicioMusic
     index: 0
@@ -80,6 +134,10 @@ MonoBehaviour:
     index: 1
   - key: event:/MenuMusic
     index: 2
+  - key: event:/ClickBottom
+    index: 3
+  - key: event:/RespostaCerta
+    index: 4
 --- !u!114 &412219430074188070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,7 +160,7 @@ MonoBehaviour:
   - {fileID: -87381090599426122}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -122,10 +180,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638850164402601068
+  lastModified: 638854501396501558
   FileSizes:
   - Name: Desktop
-    Value: 870
+    Value: 1012
   Exists: 1
 --- !u!114 &2284603470890706299
 MonoBehaviour:
@@ -154,3 +212,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 69491
+--- !u!114 &6670287515291142901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ClickBottom
+  m_EditorClassIdentifier: 
+  Path: event:/ClickBottom
+  Guid:
+    Data1: -418732444
+    Data2: 1140997589
+    Data3: 869610376
+    Data4: -2081738744
+  Banks:
+  - {fileID: -87381090599426122}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 300
