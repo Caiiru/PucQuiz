@@ -36,7 +36,9 @@ public class Login
     {
         if(Input.GetKeyUp(KeyCode.Space))
         {
+            manager.sound_manager.Click();
             manager.sound_manager.Stop("Musica Inicio",Sound_Play.Sound_Play_Tag.BreakInFirst);
+            manager.sound_manager.Stop("Musica Menu", Sound_Play.Sound_Play_Tag.BreakInFirst);
         }
 
         //if(manager.multiplayer_on == false) { manager.ChangeMenuRpc("Quiz","Quiz"); }
@@ -74,6 +76,7 @@ public class Login
     #region # Click Events #
     private void ClickStart(ClickEvent evt) //Bot�o que transita da tela inicial para a tela de login.
     {
+        manager.sound_manager.Click();
         Debug.Log("Start = Sucesso");
 
         //menu[0].getValue2().SetActive(false);
@@ -83,6 +86,7 @@ public class Login
 
     private void ClickLogin(ClickEvent click) //Bot�o que confere se o email e senha est�o corretos e permite logar caso estejam.
     {
+        manager.sound_manager.Click();
         /*
         try
         {
@@ -115,6 +119,7 @@ public class Login
     }
     private void ClickStartQuiz(ClickEvent clickEvent)
     {
+        manager.sound_manager.Click();
         //GameManager.Instance.StartQuiz_Rpc();
         gameManager.StartQuizRpc();
         gameManager.ChangeCurrentGameStateRPC(GameState.DisplayingQuestion, 3.5f);
@@ -170,6 +175,7 @@ public class Login
 
     private async void ClickEntrar(ClickEvent click) //Bot�o que verifica o codigo e vai para a tela de espera caso seja encontrado.
     {
+        manager.sound_manager.Click();
         string code = doc.rootVisualElement.Q<TextField>("Code").value.ToUpper();
         string userName = doc.rootVisualElement.Q<TextField>("Name").value;
 
@@ -316,7 +322,6 @@ public class Login
     {
         //Verifica se o jogador é host ou não para deixar ativo o boão de iniciar quiz/partida
         var _startButton = doc.rootVisualElement.Q<Button>("Iniciar");
-        manager.sound_manager.StopAllSounds();
         if (!gameManager.IsServer)
         {
             //NOT HOST:

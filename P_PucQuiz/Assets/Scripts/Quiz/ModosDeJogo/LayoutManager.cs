@@ -17,17 +17,17 @@ public class LayoutManager : MonoBehaviour
     [SerializeField] private string question_result;
 
     [Header("Manager Variables")]
+    public SoundsManager sound_manager;
     public Login menu;
     public Modos quiz;
     public End end;
-    public SoundsManager sound_manager;
     [Header("Manager Variables - Start Bools",order = 1)]
     [SerializeField] public bool quiz_start = true;
     [SerializeField] public bool menu_start, end_start = true;
 
     [Header("Multiplayer Variables")]
     [SerializeField] public bool multiplayer_on;
-    QuizPlayerData[] players;
+    QuizPlayerData[] host_players;
 
     [Header("Multiplayer Test Variables")]
     [SerializeField] public MyPlayer[] local_players = new MyPlayer[5];
@@ -43,6 +43,9 @@ public class LayoutManager : MonoBehaviour
     {
         Event_PucQuiz.scene_actualy = "Menu";
         quiz.transform = transform;
+        if(sound_manager == null) { sound_manager = new SoundsManager(); }
+        sound_manager.manager = this;
+        sound_manager.Awake();
 
         if (!multiplayer_on)
         {
@@ -72,6 +75,8 @@ public class LayoutManager : MonoBehaviour
                 End_Run();
                 break;
         }
+
+        sound_manager.Update();
 
     }
      
@@ -138,10 +143,10 @@ public class LayoutManager : MonoBehaviour
     }
     public void ChangeMenu(string scene, string layout)
     {
-        if (!GameManager.Instance.IsServer) { return; }
-        
         if (multiplayer_on) { MultiplayerOn(); }
         else { MultiplayerOff(); }
+
+        Debug.Log("LayoutManager change menu is calling");
 
         switch (scene)
         {
@@ -149,7 +154,6 @@ public class LayoutManager : MonoBehaviour
                 menu.ChangeMenu(layout);
                 break;
             case "Quiz":
-
                 quiz.ChangeMenu(layout);
                 break;
             case "End":
@@ -186,43 +190,31 @@ public class LayoutManager : MonoBehaviour
 
         Event_PucQuiz.player = player;
         Event_PucQuiz.points = player.points;
-
-        if (multiplayer_on) { return; }
-        
-        Event_PucQuiz.players[0] = local_players[0];
-
-        Event_PucQuiz.players[1] = local_players[1];
-
-        Event_PucQuiz.players[2] = local_players[2];
-
-        Event_PucQuiz.players[3] = local_players[3];
-
-        Event_PucQuiz.players[4] = local_players[4];
+        Event_PucQuiz.players = local_players;
     }
     private void MultiplayerOn()
     {
-        
-        if (GameManager.Instance.CurrentGameState == GameState.WaitingToStart)
-            return;
 
-
+        host_players = GameManager.Instance.GetTop5Players();
         Debug.Log("Checking players - multiplayer");
-        if (players == null || players.Length == 0)
+        if (host_players == null || host_players.Length == 0)
         {
             Debug.LogWarning("No players found in multiplayer mode.");
+            MultiplayerOff();
             return;
         }
-        foreach (QuizPlayerData player in players)
+
+        foreach (QuizPlayerData player in host_players)
         {
             Debug.Log($"Player: {player.PlayerName.Value} - Score: {player.Score}");
         }
 
-        if (players != null)
+        if (host_players != null)
         {
-            local_players = new MyPlayer[players.Length];
+            local_players = new MyPlayer[host_players.Length];
             Event_PucQuiz.players = new MyPlayer[local_players.Length];
             int _index = 0;
-            foreach(var quizPlayerData in players)
+            foreach(var quizPlayerData in host_players)
             {
                 MyPlayer _player = new MyPlayer();
                 _player.playerName = quizPlayerData.PlayerName.Value.ToString();
@@ -248,46 +240,7 @@ public class LayoutManager : MonoBehaviour
             */
             
         }
-        /*
-        local_players[0].playerName = players[0].PlayerName.Value.ToString();
-        local_players[0].points = players[0].Score.Value;
-
-        local_players[1].playerName = players[1].PlayerName.Value.ToString();
-        local_players[1].points = players[1].Score.Value;
-
-        local_players[2].playerName = players[2].PlayerName.Value.ToString();
-        local_players[2].points = players[2].Score.Value;
-
-        local_players[3].playerName = players[3].PlayerName.Value.ToString();
-        local_players[3].points = players[3].Score.Value;
-
-        local_players[4].playerName = players[4].PlayerName.Value.ToString();
-        local_players[4].points = players[4].Score.Value;
-        */
         MultiplayerOff();
-    }
-
-    [Rpc(SendTo.Everyone)]
-    public void ChangeMenuRpc(string scene, string layout)
-    {
-        //Debug.Log("Change to scene = " + scene);
-
-        switch (scene)
-        {
-            case "Start":
-                menu.ChangeMenu(layout);
-                break;
-            case "Quiz":
-                if (GameManager.Instance.IsServer)
-                    quiz.ChangeMenu("HostQuiz");
-                
-                else
-                    quiz.ChangeMenu(layout);
-                break;
-            case "End":
-                end.ChangeMenu(layout);
-                break;
-        }
     }
     #endregion
 
