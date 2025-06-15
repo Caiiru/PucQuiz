@@ -126,6 +126,7 @@ public class End
     }
     private void SetLayout()
     {
+        players = GameManager.Instance.GetTop5Players();
         for (int i = 0; i < layout.Length; i++)
         {
             if (layout[i].getValue1() == Event_PucQuiz.layout_actualy)
