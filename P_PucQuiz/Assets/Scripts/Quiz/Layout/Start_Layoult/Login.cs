@@ -38,6 +38,7 @@ public class Login
         {
             manager.sound_manager.Click();
             manager.sound_manager.Stop("Musica Inicio",Sound_Play.Sound_Play_Tag.BreakInFirst);
+            manager.sound_manager.Stop("Musica Menu", Sound_Play.Sound_Play_Tag.BreakInFirst);
         }
 
         //if(manager.multiplayer_on == false) { manager.ChangeMenuRpc("Quiz","Quiz"); }

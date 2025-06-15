@@ -171,6 +171,17 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    [Rpc(SendTo.Everyone)]
+    public void ChangeQuestionRpc()
+    {
+        Event_PucQuiz.start_layout = true;
+        Event_PucQuiz.question_next = false;
+        Event_PucQuiz.question_result = "";
+
+        Modos quiz = LayoutManager.instance.quiz;
+        quiz.question_actualy_index++;
+        quiz.question_manager.Clear();
+    }
 
     [Rpc(SendTo.Everyone)]
     public void ChangeMenuRpc(string scene, string layout)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening.Core.Easing;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -68,13 +69,16 @@ public class End
         Modos quiz = manager.quiz;
         manager.sound_manager.Stop("Rank Sound");
 
-        if (Event_PucQuiz.layout_actualy == "Rank")
+        if (GameManager.Instance.IsServer)
         {
-            manager.ChangeMenu("Quiz", quiz.attributes[quiz.question_actualy_index].question_type.ToString());
-        }
-        else if(Event_PucQuiz.layout_actualy == "End")
-        {
-            manager.ChangeMenu("Start", "Start");
+            if (Event_PucQuiz.layout_actualy == "Rank")
+            {
+                GameManager.Instance.ChangeMenuRpc("Quiz", quiz.attributes[quiz.question_actualy_index].question_type.ToString());
+            }
+            else if (Event_PucQuiz.layout_actualy == "End")
+            {
+                GameManager.Instance.ChangeMenuRpc("Start", "Start");
+            }
         }
     }
 

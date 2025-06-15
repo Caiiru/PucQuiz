@@ -9,7 +9,6 @@ public class SoundsManager
     static public SoundsManager Instance;
     [SerializeField] public LayoutManager manager;
     [SerializeField] private Sound_Config sounds;
-    [SerializeField] private SoundAction_List sound_action_list;
     [SerializeField] private Sound_Play[] sounds_play;
 
     public SoundsManager() { Instance = this; }
@@ -24,6 +23,19 @@ public class SoundsManager
         foreach(Sound_Play sound_play in sounds_play)
         {
             sound_play.Run();
+            if(sound_play.sound.tag != null || sound_play.sound.tag.Length != 0)
+            {
+                foreach(Sound.Sound_Tag tag in sound_play.sound.tag)
+                {
+                    if (tag == Sound.Sound_Tag.InHost)
+                    {
+                        if(!GameManager.Instance.IsHost && GameManager.Instance.GetTop5Players().Length != 0)
+                        {
+                            Stop(sound_play.tag_name,Sound_Play.Sound_Play_Tag.BreakInFirst);
+                        }
+                    }
+                }
+            }
         }
     }
     public void Click()
@@ -65,7 +77,7 @@ public class SoundsManager
                                 Debug.Log("Sound Tag is " + sound.tag[t1]);
                                 for (int t2 = 0; t2 < compare_sound.sound.tag.Length; t2++)
                                 {
-                                    Debug.Log("Sound Play Tag is " + sound.tag[t2]);
+                                    Debug.Log("Sound Play Tag is " + compare_sound.sound.tag[t2]);
                                     if (sound.tag[t1] == compare_sound.sound.tag[t2])
                                     {
                                         Debug.Log("Sound Play Tag and Sound Tag is equal. ");
@@ -116,26 +128,6 @@ public class SoundsManager
                 sounds_play[sounds_play.Length-1] = new_sound_play;
             }
         }
-    }
-    private void Action()
-    {
-        Debug.Log("Sound Stop Chamado");
-        
-        for(int i = 0; i < sound_action_list.Length(); i++)
-        {
-            SoundAction action = sound_action_list[i];
-            if(action == null) { continue; }
-
-            switch(action.action)
-            {
-                case SoundAction.Action.Play:
-                    break;
-                case SoundAction.Action.Stop:
-                    break;
-            }
-        }
-
-        sound_action_list.Clear();
     }
 
     private void LocalStop(string sound_tag, params Sound_Play.Sound_Play_Tag[] use_tag)
@@ -198,61 +190,6 @@ public class SoundsManager
         sounds_play = new_sounds_play;
     }
 }
-
-[Serializable]
-public class SoundAction_List
-{
-    private SoundAction[] sound_actions;
-
-    public SoundAction this[int chave]
-    {
-        get
-        {
-            if(sound_actions == null) { return null; }
-            else{ return sound_actions[chave]; } 
-        }
-    }
-    public int Length()
-    {
-        return sound_actions.Length;
-    }
-    public void Add(SoundAction action)
-    {
-        SoundAction[] old = sound_actions;
-
-        if (sound_actions.Length == 0 || sound_actions == null)
-            sound_actions = new SoundAction[1];
-        else
-            sound_actions = new SoundAction[sound_actions.Length+1];
-
-        for (int i = 0; i < old.Length; i++)
-        {
-            sound_actions[i] = old[i];
-        }
-        sound_actions[sound_actions.Length-1] = action;
-    }
-    public void Clear()
-    {
-        sound_actions = null;
-    }
-}
-[Serializable]
-public class SoundAction
-{
-    public string play;
-    public Sound_Play.Sound_Play_Tag[] tags;
-    public Action action;
-    public enum Action
-    {
-        Play,
-        Stop
-    }
-    public SoundAction(string play, params Sound_Play.Sound_Play_Tag[] tags)
-    {
-        this.play = play;
-        this.tags = tags;
-    }
-}
 [Serializable]
 public class Sound
 {
@@ -266,7 +203,8 @@ public class Sound
         None,
         Music,
         Substitute,
-        OneForOne
+        OneForOne,
+        InHost
     }
 }
 [Serializable]

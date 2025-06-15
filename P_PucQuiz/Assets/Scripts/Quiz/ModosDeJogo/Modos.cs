@@ -16,7 +16,7 @@ public class Modos
 
     [Header("Quiz Variables")]
     [SerializeField] public Quiz_Attributes[] attributes;
-    [SerializeField] private Dictionary<String, Perguntas> question_manager = new Dictionary<string, Perguntas>();
+    [SerializeField] public Dictionary<String, Perguntas> question_manager = new Dictionary<string, Perguntas>();
     [SerializeField] public int question_actualy_index;
     [SerializeField] private Timer timer_awake;
     [SerializeField] private Timer timer_next;
@@ -106,38 +106,22 @@ public class Modos
 
     private void Change_Question()//Muda a pergunta.
     {
-        Event_PucQuiz.start_layout = true;
-        Event_PucQuiz.question_next = false;
-        Event_PucQuiz.question_result = "";
-
-        question_actualy_index++;
+        GameManager gameManager = GameManager.Instance;
 
         if (!Final())
         {
-            Debug.Log("Question = " + question_actualy_index);
-
-            //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
-            question_manager.Clear();
-
-            if (GameManager.Instance.IsServer) { GameManager.Instance.ChangeMenuRpc("End","Rank"); }
-            
-
-            //ChangeMenu(attributes[question_actualy_index].question_type.ToString());
+            if (GameManager.Instance.IsServer) { gameManager.ChangeQuestionRpc(); gameManager.ChangeMenuRpc("End","Rank"); }
 
         }
         else
         {
-            question_manager.Clear();
-
-            if (GameManager.Instance.IsServer) { GameManager.Instance.ChangeMenuRpc("End","End"); }
+            if (GameManager.Instance.IsServer) { gameManager.ChangeQuestionRpc(); gameManager.ChangeMenuRpc("End","End"); }
         }
-
-        //Event_PucQuiz.Change_Scene(config.Layout_Contagem);
     }
 
     public bool Final()//Verifica se chegamos no fim das perguntas.
     {
-        if (question_actualy_index == attributes.Length) { return true; }
+        if (question_actualy_index == attributes.Length-1) { return true; }
         return false;
     }
     public void FeedBack()
