@@ -3815,6 +3815,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2624409724063303428, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7260577537437597795, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
       propertyPath: m_Name
       value: CardPrefab
@@ -4366,6 +4370,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2624409724063303428, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7260577537437597795, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
       propertyPath: m_Name
       value: CardPrefab (1)
@@ -4620,6 +4628,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2624409724063303428, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7260577537437597795, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
       propertyPath: m_Name
       value: CardPrefab (2)
@@ -4670,7 +4682,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   consoleCanvas: {fileID: 1238345917}
   isDebug: 1
-  OnlineMode: 1
+  OnlineMode: 0
 --- !u!4 &2039296513
 Transform:
   m_ObjectHideFlags: 0
@@ -4745,6 +4757,10 @@ PrefabInstance:
     - target: {fileID: 2389110520011093218, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624409724063303428, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7260577537437597795, guid: 600a3955eaed54d4e913b96a02c42872, type: 3}
       propertyPath: m_Name
