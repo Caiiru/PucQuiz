@@ -9,11 +9,10 @@ using UnityEngine.UIElements;
 public class End
 {
     Config_PucQuiz config;
-    public MyPlayer[] players => Event_PucQuiz.players;
+    public QuizPlayerData[] players;
     public LayoutManager manager;
     public UIDocument doc;
     public anim_bar bar;
-    public int length => players.Length;
 
     public Timer time_rank;
     public Timer timer_end;
@@ -30,13 +29,13 @@ public class End
         timer_end.Reset();
         if (GameManager.Instance.IsServer)
             GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 3.5f);
+
+        players = GameManager.Instance.GetTop5Players();
     }
 
     public void Start(GameObject obj)
     {
         if (!manager.multiplayer_on) { return; }
-        if (GameManager.Instance.IsServer)
-            GameManager.Instance.ChangeCurrentGameStateRPC(GameState.RoundOver, 3.5f);
 
     }
 
@@ -77,19 +76,18 @@ public class End
             }
             else if (Event_PucQuiz.layout_actualy == "End")
             {
-                GameManager.Instance.ChangeMenuRpc("Start", "Start");
+                //GameManager.Instance.ChangeMenuRpc("Start", "Start");
             }
         }
     }
 
     private void SetBars()
     {
-        var players = Event_PucQuiz.players;
         float[] points = new float[players.Length];
         for(int i = 0; i < players.Length; i++)
         {
             if (i == 5) { break; }
-            points[i] = players[i].points;
+            points[i] = players[i].Score;
         }
 
         float[] porcents = new float[points.Length];
@@ -127,9 +125,6 @@ public class End
     }
     private void SetLayout()
     {
-        var players = Event_PucQuiz.players;
-        string[] names;
-
         for (int i = 0; i < layout.Length; i++)
         {
             if (layout[i].getValue1() == Event_PucQuiz.layout_actualy)
@@ -143,12 +138,11 @@ public class End
 
                         Debug.Log("Rank % = Start");
 
-                        names = new string[players.Length];
 
                         for (int o = 0; o < players.Length; o++)
                         {
                             if (o >= 4) { break; }
-                            doc.rootVisualElement.Q<Label>("PlayerName"+(o+1)).text =  players[o].playerName;
+                            doc.rootVisualElement.Q<Label>("PlayerName"+(o+1)).text =  players[o].PlayerName.ToString();
                         }
                         for(int o = players.Length; o < 4; o++)
                         {
@@ -160,20 +154,17 @@ public class End
 
                         SetBars();
                         break;
-                    case "End":
-                        Debug.Log("End Set Start");
+                    case "End": 
+                        if(GameManager.Instance.IsServer)
+                            manager.sound_manager.Play("Rank Sound", "End");
+                         
 
-                        manager.sound_manager.Play("Rank Sound", "End");
-
-                        Debug.Log("End % = Start");
-
-                        names = new string[players.Length];
 
                         for (int o = 0; o < players.Length; o++)
                         {
                             if (o >= 3) { break; }
-                            if(o == 0) { doc.rootVisualElement.Q<Label>("win_name").text = players[o].playerName; }
-                            doc.rootVisualElement.Q<Label>((o+1)+"Lugar_Name").text = players[o].playerName;
+                            if(o == 0) { doc.rootVisualElement.Q<Label>("win_name").text = players[o].PlayerName.ToString(); }
+                            doc.rootVisualElement.Q<Label>((o+1)+"Lugar_Name").text = players[o].PlayerName.ToString();
                         }
                         for (int o = players.Length; o < 3; o++)
                         {

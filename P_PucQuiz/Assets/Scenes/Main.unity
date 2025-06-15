@@ -3027,6 +3027,7 @@ MonoBehaviour:
       time: 0
       infinity: 0
   end:
+    players: []
     manager: {fileID: 1254502715}
     doc: {fileID: 1254502716}
     bar:

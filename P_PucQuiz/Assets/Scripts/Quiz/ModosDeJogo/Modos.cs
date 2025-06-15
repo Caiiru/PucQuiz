@@ -46,10 +46,10 @@ public class Modos
         timer_next.Reset();
 
         //Debug.Log("Variables Awake = Reset Complet");
-        if (!GameManager.Instance.IsServer)
-            ChangeMenu(attributes[question_actualy_index].question_type.ToString());
-        else
+        if (GameManager.Instance.IsServer)
             ChangeMenu("HostQuiz");
+        else
+            ChangeMenu(attributes[question_actualy_index].question_type.ToString());
 
         //Debug.Log("Variables Awake = ChangeMenu Complet");
     }

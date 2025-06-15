@@ -326,7 +326,7 @@ public class Login
         {
             //NOT HOST:
             _startButton.parent.Remove(_startButton);
-
+            manager.sound_manager.StopAllSounds();
             return;
         }
         manager.sound_manager.Play("Game Music", "Game");

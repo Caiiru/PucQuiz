@@ -302,7 +302,7 @@ public class GameManager : NetworkBehaviour
     { 
 
         QuizPlayerData[] players = new QuizPlayerData[ConnectedPlayers.Count];
-        Debug.Log($"Players Inside top 5 count: {players.Count()}");
+        //Debug.Log($"Players Inside top 5 count: {players.Count()}");
 
         for(int i = 0; i< players.Count(); i++)
         {

@@ -18,25 +18,7 @@ public class SoundsManager
         //if(sounds == null) { sounds = Resources.Load<Sound_Config>("Config/Sounds"); }
     }
     public void Update()
-    {
-        
-        foreach(Sound_Play sound_play in sounds_play)
-        {
-            sound_play.Run();
-            if(sound_play.sound.tag != null || sound_play.sound.tag.Length != 0)
-            {
-                foreach(Sound.Sound_Tag tag in sound_play.sound.tag)
-                {
-                    if (tag == Sound.Sound_Tag.InHost)
-                    {
-                        if(!GameManager.Instance.IsHost && GameManager.Instance.GetTop5Players().Length != 0)
-                        {
-                            Stop(sound_play.tag_name,Sound_Play.Sound_Play_Tag.BreakInFirst);
-                        }
-                    }
-                }
-            }
-        }
+    { 
     }
     public void Click()
     {
@@ -188,6 +170,15 @@ public class SoundsManager
         }
 
         sounds_play = new_sounds_play;
+    }
+
+    internal void StopAllSounds()
+    {
+        foreach (var sound in sounds_play)
+        {
+
+            GameObject.Destroy(sound.sound.prefab);
+        }
     }
 }
 [Serializable]
