@@ -16,7 +16,7 @@ public class Modos
 
     [Header("Quiz Variables")]
     [SerializeField] public Quiz_Attributes[] attributes;
-    [SerializeField] private Dictionary<String, Perguntas> question_manager = new Dictionary<string, Perguntas>();
+    [SerializeField] public Dictionary<String, Perguntas> question_manager = new Dictionary<string, Perguntas>();
     [SerializeField] public int question_actualy_index;
     [SerializeField] private Timer timer_awake;
     [SerializeField] private Timer timer_next;
@@ -46,10 +46,10 @@ public class Modos
         timer_next.Reset();
 
         //Debug.Log("Variables Awake = Reset Complet");
-        if (!GameManager.Instance.IsServer)
-            ChangeMenu(attributes[question_actualy_index].question_type.ToString());
-        else
+        if (GameManager.Instance.IsServer)
             ChangeMenu("HostQuiz");
+        else
+            ChangeMenu(attributes[question_actualy_index].question_type.ToString());
 
         //Debug.Log("Variables Awake = ChangeMenu Complet");
     }
@@ -106,38 +106,22 @@ public class Modos
 
     private void Change_Question()//Muda a pergunta.
     {
-        Event_PucQuiz.start_layout = true;
-        Event_PucQuiz.question_next = false;
-        Event_PucQuiz.question_result = "";
-
-        question_actualy_index++;
+        GameManager gameManager = GameManager.Instance;
 
         if (!Final())
         {
-            Debug.Log("Question = " + question_actualy_index);
-
-            //Colocar no "End"/"FeedBack layout" uma verificação o resultado do jogador e alterar o menu para o feedback correto.
-            question_manager.Clear();
-
-
-            manager.ChangeMenuRpc("End", "Rank");
-
-            //ChangeMenu(attributes[question_actualy_index].question_type.ToString());
+            if (GameManager.Instance.IsServer) { gameManager.ChangeQuestionRpc(); gameManager.ChangeMenuRpc("End","Rank"); }
 
         }
         else
         {
-            question_manager.Clear();
-
-            manager.ChangeMenuRpc("End", "End");
+            if (GameManager.Instance.IsServer) { gameManager.ChangeQuestionRpc(); gameManager.ChangeMenuRpc("End","End"); }
         }
-
-        //Event_PucQuiz.Change_Scene(config.Layout_Contagem);
     }
 
     public bool Final()//Verifica se chegamos no fim das perguntas.
     {
-        if (question_actualy_index == attributes.Length) { return true; }
+        if (question_actualy_index == attributes.Length-1) { return true; }
         return false;
     }
     public void FeedBack()
@@ -224,9 +208,11 @@ public class Modos
                         SetQ(true);
                         break;
                     case "Correct":
+                        manager.sound_manager.Play("Feedback - Correct","Correct");
                         doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
                         break;
                     case "Incorrect":
+                        manager.sound_manager.Play("Feedback - Incorrect", "Error");
                         doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
                         break;
                 }
@@ -248,13 +234,11 @@ public class Modos
         quiz.attributes.timer.Reset();
         if (isServer)
             doc.rootVisualElement.Q<TextElement>("Timer").text = "Tempo : " + ((int)attributes[question_actualy_index].timer.time);
-
         else
         {
             doc.rootVisualElement.Q<TextElement>("Timer").text = "Points : " + ((int)Event_PucQuiz.points + " | " +
                                              "Tempo : " + ((int)attributes[question_actualy_index].timer.time));
         }
-
 
         TextElement pergunta = doc.rootVisualElement.Q<TextElement>("Pergunta");
         pergunta.text = attributes[question_actualy_index].question;
@@ -277,8 +261,21 @@ public class Modos
         resposta_4.text = attributes[question_actualy_index].options[3];
         resposta_4.RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
 
-
         timer_awake.Reset();
         timer_next.Reset();
+
+        manager.StartCoroutine(SetAnim(0.5f));
+    }
+
+    IEnumerator SetAnim(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        VisualElement questions = doc.rootVisualElement.Q<VisualElement>("Container_Pergunta");
+        VisualElement timer = doc.rootVisualElement.Q<VisualElement>("Container_Timer");
+        VisualElement buttons = doc.rootVisualElement.Q<VisualElement>("GridContainer");
+        questions.RemoveFromClassList("QuestionText_Anim");
+        timer.RemoveFromClassList("TimerText_Anim");
+        buttons.RemoveFromClassList("Buttons_Anim");
     }
 }
