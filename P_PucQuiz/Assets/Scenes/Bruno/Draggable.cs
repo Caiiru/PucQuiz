@@ -43,10 +43,7 @@ public class Draggable : MonoBehaviour
     {
         if (!canBeDragged) return;
 
-        if (!cardContainer.IsUp())
-            return;
 
-        cardContainer.DoMoveDown();
 
 
         Vector3 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
@@ -65,7 +62,7 @@ public class Draggable : MonoBehaviour
         animator.SetBool("isDragging", isDragging);
 
         // Final drop check
-        Collider2D hit = Physics2D.OverlapPoint(transform.position);
+        Collider2D hit = Physics2D.OverlapCircle(transform.position,2f);
         if (hit != null && hit.CompareTag("DropZone"))
         {
             animator.SetTrigger("CardActivated");
