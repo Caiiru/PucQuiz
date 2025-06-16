@@ -69,10 +69,12 @@ public class CardsManager : MonoBehaviour
             if (visual.CardInfo == null)
             {
                 card.SetActive(false);
+                continue;
             }
             if(visual.transform.childCount==0)
                 visual.CreateCard(visual.CardInfo);
             card.SetActive(true);
+            break;
         }
     }
     private int GetFreeCardSlot()
@@ -104,7 +106,10 @@ public class CardsManager : MonoBehaviour
 
     public void UseCard(int cardID)
     {
+        Debug.Log(GetCardByID(cardID)?.cardName ?? "Card not found");
 
+        var card= GetCardByID(cardID);
+        card.Use();
     }
     #endregion
 }

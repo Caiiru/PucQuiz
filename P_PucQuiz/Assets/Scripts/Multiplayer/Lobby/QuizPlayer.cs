@@ -5,7 +5,7 @@ using System.Text;
 using Multiplayer.Lobby;
 using Unity.Collections;
 using Unity.Netcode;
-using Unity.Services.Authentication; 
+using Unity.Services.Authentication;
 using UnityEngine;
 
 public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<QuizPlayer>
@@ -13,7 +13,7 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
 
     [Header("Player Name")]
 
-    public NetworkVariable<FixedString32Bytes> PlayerName = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner); 
+    public NetworkVariable<FixedString32Bytes> PlayerName = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<FixedString32Bytes> ClientId = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Space]
@@ -24,7 +24,7 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
     [Header("Cards")]
     public NetworkVariable<int> slots = new(40, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
     public NetworkVariable<FixedString32Bytes> cartas = new("", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);   // Cards uid separated by , 
-    private List<Cartas> playerCards = new List<Cartas>(); 
+    [SerializeField] private List<Cartas> playerCards = new List<Cartas>();
     [Header("Effects")]
     public NetworkVariable<bool> protetor = new(false, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> dobrar = new(false, readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
@@ -32,7 +32,7 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
 
     CardsManager cardsManager;
     public void Start()
-    { 
+    {
     }
 
     public override void OnNetworkSpawn()
@@ -43,10 +43,10 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
         if (IsOwner)
         {
             PlayerName.Value = LobbyManager.Instance.LocalPlayerName;
-            ClientId.Value = LobbyManager.Instance.playerID; 
+            ClientId.Value = LobbyManager.Instance.playerID;
             cardsManager = CardsManager.Instance;
             GameManager.Instance.LocalPlayer = this;
-            slots.Value = 40; 
+            slots.Value = 40;
         }
 
         if (IsServer)
@@ -56,50 +56,38 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
         //LayoutManager.instance.AddQuizPlayer(this);
 
     }
-     
+
 
     #region @ CARD FUNCTIONS @ 
     public void AddCard(Cartas card)
     {
         Cartas card_values = card;
-        //DEV.Instance.DevPrint($"Trying to add {card.name} to {PlayerName.Value}");
-        if (card_values == null) { Debug.Log("Carta n�o atribuida."); return; } 
+        DEV.Instance.DevPrint($"Trying to add {card.name} to {PlayerName.Value}");
+        if (card_values == null) { Debug.Log("Carta n�o atribuida."); return; }
 
         playerCards.Add(card_values);
+        CardsManager.Instance.SpawnCard(card);
 
         cartas.Value = "";
         int _index = 0;
-        foreach(Cartas c in playerCards)
+        foreach (Cartas c in playerCards)
         {
-            if(_index == 0)
+            if (_index == 0)
             {
                 cartas.Value = c.cardID.ToString();
-
             }
             else
             {
-                cartas.Value += $",{c.cardID.ToString()}";
+                cartas.Value = $"{cartas.Value},{c.cardID.ToString()}";
+                Debug.Log(cartas.Value);
             }
-            _index ++;
-        }
-        SetCardsOnManagerRpc(card.cardID);
-        DEV.Instance.DevPrint($"{card.cardName} was added to {PlayerName.Value}");
-        /*
-        for (int i = 0; i < cartas.Value.Length; i++)
-        {
-            if (cartas.Value[i] == null)
-            {
-                cartas.Value = card.cardID.ToString();
-                slots.Value -= card.cust;
-                break;
-            }
-        }
-        */
+            _index++;
+        } 
     }
     public void AddCardByID(int id)
     {
         var card = CardsManager.Instance.GetCardByID(id);
-        if(card != null)
+        if (card != null)
         {
             AddCard(card);
         }
@@ -108,7 +96,7 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
     [Rpc(SendTo.Owner)]
     void SetCardsOnManagerRpc(int id)
     {
-         
+
         var card = cardsManager.GetCardByID(id);
         if (card == null) return;
         Debug.Log($"Card found: {card.cardName}");
@@ -180,5 +168,5 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
 
         else return this.Score.Value.CompareTo(other.Score.Value);
     }
- 
+
 }

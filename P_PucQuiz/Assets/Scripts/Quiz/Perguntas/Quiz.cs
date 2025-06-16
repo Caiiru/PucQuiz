@@ -20,6 +20,9 @@ public class Quiz : Perguntas
     private bool question_lock = Event_PucQuiz.question_lock; //Puxa o evento que bloqueia as escolhas.
     public bool pause = Event_PucQuiz.pause;
 
+
+    private bool wasEnded = false;
+
     public override void Pre_Load(GameObject obj)
     {
 
@@ -38,7 +41,7 @@ public class Quiz : Perguntas
         {
             if(attributes)
         }*/
-        
+        wasEnded = false;
 
         attributes.choices = new bool[attributes.options.Length];
     }
@@ -78,7 +81,11 @@ public class Quiz : Perguntas
             switch (attributes.timer.time)
             {
                 case 0:
-                    End_Layout(obj);
+                    if (!wasEnded)
+                    {
+                        End_Layout(obj);
+                        wasEnded = true; 
+                    }
                     break;
                 default:
                     attributes.timer.Run();
@@ -95,7 +102,7 @@ public class Quiz : Perguntas
             {
                 if (question_event != "")
                 {
-                    Debug.Log("Escolha feita."); question_event = "";
+                    question_event = "";   
                 }
                 return; //Quebra a execucao do codigo.
             } 
@@ -139,6 +146,7 @@ public class Quiz : Perguntas
 
     public override void End_Layout(GameObject obj)
     {
+        if(wasEnded) { return; } //Se ja foi finalizado, nao faz nada.
         if (Event_PucQuiz.question_next) { return; }
 
         if (!GameManager.Instance.IsServer)
@@ -160,7 +168,7 @@ public class Quiz : Perguntas
             }
 
             speed_to_complet = (1 * speed_to_complet) / attributes.timer.start;
-            Debug.Log("% do Buff de velocidade = " + speed_to_complet);
+            //Debug.Log("% do Buff de velocidade = " + speed_to_complet);
 
             Event_PucQuiz.question_result = correct ? "win" : "lose";
             player.points += (int)Config_PucQuiz.Get_Points(correct, speed_to_complet);
@@ -170,8 +178,8 @@ public class Quiz : Perguntas
             if (Event_PucQuiz.question_result == "lose")
             {
                 var r = new System.Random().Next(CardsManager.Instance.AllCards.Count - 1);
-                var nextCard = CardsManager.Instance.AllCards[r];
-                GameManager.Instance.LocalPlayer.AddCardByID(nextCard.cardID);
+                Cartas nextCard = CardsManager.Instance.AllCards[r];
+                GameManager.Instance.LocalPlayer.AddCard(nextCard);
             }
             GameManager.Instance.AddPointsToLocalPLayer(player.points);
             //GameManager.Instance.LocalPlayer.Score.Value = player.points;
@@ -216,13 +224,13 @@ public class Quiz : Perguntas
     public void Choice_Event(string chose)
     {
         if (GameManager.Instance.IsServer) return;
-        Debug.Log(chose);
+        //Debug.Log(chose);
         Event_PucQuiz.question_event = chose;
     }
     private void Make_Chose() { if (choice_actualy == choice_max) { chose = true; } Event_PucQuiz.question_event = ""; }
     private void Choices_Reset()
     {
-        Debug.Log("Reset Choices");
+        //Debug.Log("Reset Choices");
         attributes.choices[0] = false;
         attributes.choices[1] = false;
         attributes.choices[2] = false;

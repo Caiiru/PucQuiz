@@ -306,6 +306,7 @@ public class MyPlayer
     [Header("Efeitos")]
     public bool protetor = false;
     public bool dobrar = false;
+    public bool velocidade = false;
 
     #region @ Card Functions @
     public void AddCard(Cartas card)

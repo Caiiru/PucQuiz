@@ -16,8 +16,8 @@ public class Card_Dobrar : Cartas
     override
     public void Use()
     {
-        if (!LayoutManager.instance.player.InCartas(types)) { return; }
+        //if (!LayoutManager.instance.player.InCartas(types)) { return; }
         LayoutManager.instance.player.dobrar = this;
-        LayoutManager.instance.player.RemoveCard(Card_Types.Dobrar);
+        //LayoutManager.instance.player.RemoveCard(Card_Types.Dobrar);
     }
 }

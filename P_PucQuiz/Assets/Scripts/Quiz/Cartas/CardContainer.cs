@@ -77,6 +77,13 @@ public class CardContainer : MonoBehaviour
         }
 
     }
+    public void ActivateContainer()
+    {
+        if (isActive) return;
+        isActive = true;
+        spriteRenderer.enabled = true;
+        UpdateCardsPosition(); 
+    }
 
     public void UpdateCardsPosition()
     {
@@ -84,6 +91,7 @@ public class CardContainer : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             var child = transform.GetChild(i).GetChild(0);
+            if (child == null) continue;
             transform.GetChild(i).gameObject.SetActive(true);
             //child.DOLocalMove(new Vector3(-5.5f + (i * 5), -1f, 0),0.5f).SetEase(Ease.InBack);
             child.DOMove(cardsStartPosition[i],0.5f).SetEase(Ease.InBack);

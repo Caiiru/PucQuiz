@@ -369,7 +369,7 @@ public class GameManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void SendPlayerInfoToServerRpc(string clientId, string playerName)
     {
-        Debug.Log($"Adding {clientId}->{playerName} to connectedPlayers ");
+        //Debug.Log($"Adding {clientId}->{playerName} to connectedPlayers ");
         AddConnectedPlayer(clientId, playerName);
     }
     [Rpc(SendTo.Everyone)]

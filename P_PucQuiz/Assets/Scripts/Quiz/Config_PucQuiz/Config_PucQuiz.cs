@@ -34,11 +34,11 @@ public class Config_PucQuiz : ScriptableObject
         Config_PucQuiz config = Config_PucQuiz.Get_Config();
         MyPlayer player = LayoutManager.instance.player;
 
-        Debug.Log("--------------------------------");
-        Debug.Log("Vitoria = " + win);
-        Debug.Log("Streak Atual = " + Event_PucQuiz.streak);
-        Debug.Log("Speed Atual = " + speed);
-        Debug.Log("--------------------------------");
+        //Debug.Log("--------------------------------");
+        //Debug.Log("Vitoria = " + win);
+        //Debug.Log("Streak Atual = " + Event_PucQuiz.streak);
+        //Debug.Log("Speed Atual = " + speed);
+        //Debug.Log("--------------------------------");
 
         float base_ = config.base_incorrect;
 
@@ -52,15 +52,18 @@ public class Config_PucQuiz : ScriptableObject
 
         float real_bonus_streak = 0;
         if(real_bonus_streak > 0) { real_bonus_streak = config.bonus_streak * Event_PucQuiz.streak; }
-
+        if (player.velocidade)
+        {
+            speed = 1;
+        }
         float points = base_ + rec + real_bonus_streak + (config.bonus_velocidade*speed);
 
-        Debug.Log("--------------------------------");
-        Debug.Log("Points = " + points);
-        Debug.Log("Streak Bonus = " + config.bonus_streak * Event_PucQuiz.streak);
-        Debug.Log("Speed Bonus = " + config.bonus_velocidade * speed);
-        Debug.Log("--------------------------------");
-
+        //Debug.Log("--------------------------------");
+        //Debug.Log("Points = " + points);
+        //Debug.Log("Streak Bonus = " + config.bonus_streak * Event_PucQuiz.streak);
+        //Debug.Log("Speed Bonus = " + config.bonus_velocidade * speed);
+        //Debug.Log("--------------------------------");
+        
         if (player.protetor) { player.protetor = false; }
 
         if (player.dobrar) { player.dobrar = false; points = points * 2; }

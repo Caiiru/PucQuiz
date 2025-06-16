@@ -47,20 +47,6 @@ public class DEV : MonoBehaviour
         //DeveloperConsole.Console.AddCommand("AddCard", AddCardCommand); // -> SERVER
     }
 
-    private void AddCardCommand(string[] args)
-    {
-
-        var player = gameManager.GetPlayerByID(gameManager.players[int.Parse(args[0])].ClientId.Value.ToString());
-
-
-        if (player == null)
-        {
-            DevPrint($"Player {args[0]} not found");
-            return;
-        }
-        gameManager.AddCardToPlayer(player.ClientId.Value.ToString(), int.Parse(args[1]));
-    }
-
     private void AddCardToMyselfCommand(string[] args)
     {
         var player = gameManager.LocalPlayer;
@@ -73,7 +59,8 @@ public class DEV : MonoBehaviour
         var _card = CardsManager.Instance.GetCardByID(int.Parse(args[0]));
 
         player.AddCard(_card);
-        CardsManager.Instance.SpawnCard(_card);
+        FindAnyObjectByType<CardContainer>().ActivateContainer();
+        
 
     }
 

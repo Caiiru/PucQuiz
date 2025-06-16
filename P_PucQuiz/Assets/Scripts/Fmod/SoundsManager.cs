@@ -19,6 +19,7 @@ public class SoundsManager
     }
     public void Update()
     {
+        if (GameManager.Instance.IsClient) return;
         foreach (Sound_Play sound_play in sounds_play)
         {
             sound_play.Run();
@@ -28,7 +29,7 @@ public class SoundsManager
                 {
                     if (tag == Sound.Sound_Tag.InHost)
                     {
-                        if (!GameManager.Instance.IsHost && GameManager.Instance.GetTop5Players().Length != 0)
+                        if ((!GameManager.Instance.IsHost|| !GameManager.Instance.IsServer) && GameManager.Instance.GetTop5Players().Length != 0)
                         {
                             Stop(sound_play.tag_name, Sound_Play.Sound_Play_Tag.BreakInFirst);
                         }
@@ -39,7 +40,7 @@ public class SoundsManager
     }
     public void Click()
     {
-        Debug.Log("Click");
+        //Debug.Log("Click");
         Play("Click","Click");
     }
 
@@ -131,7 +132,7 @@ public class SoundsManager
 
     private void LocalStop(string sound_tag, params Sound_Play.Sound_Play_Tag[] use_tag)
     {
-        Debug.Log("Sound Stop Chamado");
+        //Debug.Log("Sound Stop Chamado");
         int nulls = 0;
 
         for(int i = 0; i < sounds_play.Length; i++)
@@ -168,7 +169,7 @@ public class SoundsManager
 
                 GameObject.Destroy(sounds_play[i].sound.prefab);
                 nulls++;
-                if (break_in_first) { Debug.Log("BreakInFirst"); break; }
+                if (break_in_first) {  break; }
             }
         }
 

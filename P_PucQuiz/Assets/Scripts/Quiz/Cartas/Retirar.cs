@@ -17,8 +17,7 @@ public class Card_Retirar : Cartas
     override
     public void Use()
     {
-        LayoutManager manager = LayoutManager.instance;
-        if (!manager.player.InCartas(types)) { return; }
+        LayoutManager manager = LayoutManager.instance; 
 
         int index = manager.quiz.question_actualy_index;
         Quiz_Attributes attributes = manager.quiz.attributes[index];
@@ -51,7 +50,7 @@ public class Card_Retirar : Cartas
             button.style.color = Color.grey;
             button.SetEnabled(false);
 
-            manager.player.RemoveCard(Card_Types.Retirar);
+            //manager.player.RemoveCard(Card_Types.Retirar);
         }
     }
 }

@@ -15,9 +15,7 @@ public class Card_Proteger : Cartas
 
     override
     public void Use()
-    {
-        if (!LayoutManager.instance.player.InCartas(types)) { return; }
-        LayoutManager.instance.player.protetor = this;
-        LayoutManager.instance.player.RemoveCard(Card_Types.Proteger);
+    { 
+        LayoutManager.instance.player.protetor = this; 
     }
 }
