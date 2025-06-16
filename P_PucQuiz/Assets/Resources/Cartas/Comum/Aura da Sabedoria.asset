@@ -19,4 +19,4 @@ MonoBehaviour:
   cust: 2
   description: Use esta carta para dobrar os pontos adquiridos em uma rodada.
   visualSprite: {fileID: -2746777145875754288, guid: 5b8e79bc0ad0a5e46aedd9f339e2fdf3, type: 3}
-  visualPrefab: {fileID: 2541241504192452450, guid: 386e28ad53e55594e8b14d472a3f0b9b, type: 3}
+  visualPrefab: {fileID: 585485296487302505, guid: de0eb7b3d240a2142815a63647ea336b, type: 3}
