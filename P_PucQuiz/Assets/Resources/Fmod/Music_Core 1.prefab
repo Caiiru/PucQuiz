@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3607965454815325462}
   - component: {fileID: 6458120896990936261}
   m_Layer: 0
-  m_Name: Music_Core
+  m_Name: Music_Core 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
       Data2: 1123006939
       Data3: -17813627
       Data4: -1893708581
-    Path: event:/PrincipalMusic
+    Path: event:/MusicaPrincipalInicio
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2

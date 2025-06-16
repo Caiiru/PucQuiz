@@ -41,17 +41,26 @@ public class Config_PucQuiz : ScriptableObject
         //Debug.Log("--------------------------------");
 
         float base_ = config.base_incorrect;
+        float rec = 0;
+        float real_bonus_streak = 0;
 
-        
-        if (win) { base_ = config.base_correct; Event_PucQuiz.streak++; }
-        else if(Event_PucQuiz.streak > 0) { if (!player.protetor) { Event_PucQuiz.streak = 0; } }
+        if (win) 
+        { 
+            base_ = config.base_correct;
+
+            if (Event_PucQuiz.streak < 0) { Event_PucQuiz.streak = 0; }
+            else { Event_PucQuiz.streak++; }
+        }
+        else if(Event_PucQuiz.streak > 0) 
+        { 
+            if (!player.protetor) { Event_PucQuiz.streak = 0; }
+        }
         else { Event_PucQuiz.streak --; }
 
-        float rec = 0;
         if (Event_PucQuiz.streak < 0) { rec = config.bonus_recuperacao; }
 
-        float real_bonus_streak = 0;
-        if(real_bonus_streak > 0) { real_bonus_streak = config.bonus_streak * Event_PucQuiz.streak; }
+        if (Event_PucQuiz.streak > 0) { real_bonus_streak = config.bonus_streak * Event_PucQuiz.streak; }
+
         if (player.velocidade)
         {
             speed = 1;
@@ -67,6 +76,7 @@ public class Config_PucQuiz : ScriptableObject
         if (player.protetor) { player.protetor = false; }
 
         if (player.dobrar) { player.dobrar = false; points = points * 2; }
+
         return points;
     }
     public Perguntas Get_Layout(Attributes.Type type)

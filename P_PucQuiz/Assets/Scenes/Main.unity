@@ -3065,7 +3065,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      time_max: 4
+      time_max: 10
       size: 0
       time: 0
     time_rank:

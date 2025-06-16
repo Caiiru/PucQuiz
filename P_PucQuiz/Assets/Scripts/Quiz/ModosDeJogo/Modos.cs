@@ -200,15 +200,48 @@ public class Modos
                 switch (menu[i].getValue1())
                 {
                     case "Quiz":
+                        if (question_actualy_index>attributes.Length/2)
+                        {
+                            if (!manager.sound_manager.InSound("Game2"))
+                            {
+                                manager.sound_manager.Play("Game Music", "Game2");
+                            }
+                        }
+                        else
+                        {
+                            if (!manager.sound_manager.InSound("Game1"))
+                            {
+                                manager.sound_manager.Play("Game Music", "Game1");
+                            }
+                        }
                         if (!question_manager.ContainsKey("Quiz")) { question_manager.Clear(); question_manager.Add("Quiz", new Quiz()); }
                         SetQ(false);
                         break;
                     case "HostQuiz":
+                        if (question_actualy_index+1 > attributes.Length/2)
+                        {
+                            if (!manager.sound_manager.InSound("Game2"))
+                            {
+                                manager.sound_manager.Play("Game Music", "Game2");
+                            }
+                        }
+                        else
+                        {
+                            if (!manager.sound_manager.InSound("Game1"))
+                            {
+                                manager.sound_manager.Play("Game Music", "Game1");
+                            }
+                        }
                         if (!question_manager.ContainsKey("Quiz")) { question_manager.Clear(); question_manager.Add("Quiz", new Quiz()); }
                         SetQ(true);
                         break;
                     case "Correct":
-                        manager.sound_manager.Play("Feedback - Correct","Correct");
+                        if(Event_PucQuiz.streak <= 4 && Event_PucQuiz.streak >= 1)
+                        {
+                            manager.sound_manager.Play("Feedback - Correct", "Correct"+Event_PucQuiz.streak);
+                        }
+                        else if(Event_PucQuiz.streak > 4) { manager.sound_manager.Play("Feedback - Correct", "Correct4"); }
+                        else { manager.sound_manager.Play("Feedback - Correct", "Correct1"); }
                         doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
                         break;
                     case "Incorrect":

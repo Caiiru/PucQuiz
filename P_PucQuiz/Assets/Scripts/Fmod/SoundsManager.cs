@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -19,7 +20,6 @@ public class SoundsManager
     }
     public void Update()
     {
-        if (GameManager.Instance.IsClient) return;
         foreach (Sound_Play sound_play in sounds_play)
         {
             sound_play.Run();
@@ -29,7 +29,7 @@ public class SoundsManager
                 {
                     if (tag == Sound.Sound_Tag.InHost)
                     {
-                        if ((!GameManager.Instance.IsHost|| !GameManager.Instance.IsServer) && GameManager.Instance.GetTop5Players().Length != 0)
+                        if ((!GameManager.Instance.IsHost || !GameManager.Instance.IsServer) && GameManager.Instance.GetTop5Players().Length != 0)
                         {
                             Stop(sound_play.tag_name, Sound_Play.Sound_Play_Tag.BreakInFirst);
                         }
@@ -52,6 +52,17 @@ public class SoundsManager
     {
         //sound_action_list.Add(new SoundAction(sound_tag));
         LocalStop(sound_tag,use_tag);
+    }
+    public bool InSound(string name)
+    {
+        if(sounds_play != null)
+        {
+            foreach (Sound_Play sound_play in sounds_play)
+            {
+                if (sound_play.sound.name == name) { return true; }
+            }
+        }
+        return false;
     }
     private void LocalPlay(string sound_tag_name, string sound_name)
     {
@@ -129,7 +140,6 @@ public class SoundsManager
             }
         }
     }
-
     private void LocalStop(string sound_tag, params Sound_Play.Sound_Play_Tag[] use_tag)
     {
         //Debug.Log("Sound Stop Chamado");
@@ -192,9 +202,13 @@ public class SoundsManager
 
     internal void StopAllSounds()
     {
-        foreach (var sound in sounds_play)
+        Sound_Play[] soundsOld = sounds_play;
+        foreach (var sound in soundsOld)
         {
-
+            Stop(sound.tag_name);
+        }
+        foreach (var sound in soundsOld)
+        {
             GameObject.Destroy(sound.sound.prefab);
         }
     }
