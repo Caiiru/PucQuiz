@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
+using static Codice.Client.BaseCommands.Import.Commit;
 
 [Serializable]
 public class Quiz : Perguntas
@@ -58,6 +60,63 @@ public class Quiz : Perguntas
             if (i)
             {
                 choice_max_local++;
+            }
+        }
+
+        bool changeOpacity = false;
+
+        foreach (bool i in attributes.choices)
+        {
+            if (i)
+            {
+                changeOpacity = true;
+                break;
+            }
+        }
+
+        if(changeOpacity)
+        {
+            for (int i = 0; i < attributes.choices.Length; i++)
+            {
+                VisualElement button = mod.doc.rootVisualElement.Q<VisualElement>("Resposta_" + (i + 1));
+
+                if (attributes.choices[i])
+                {
+                    try
+                    {
+                        button.AddToClassList("selected");
+                        button.RemoveFromClassList("unSelected");
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                else
+                {
+                    button.AddToClassList("unSelected");
+                    button.RemoveFromClassList("selected");
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < attributes.choices.Length; i++)
+            {
+                VisualElement button = mod.doc.rootVisualElement.Q<VisualElement>("Resposta_" + (i + 1));
+
+                if (attributes.choices[i])
+                {
+                    try
+                    {
+                        button.RemoveFromClassList("selected");
+                        button.RemoveFromClassList("unSelected");
+                    }
+                    catch
+                    {
+
+                    }
+                }
             }
         }
 

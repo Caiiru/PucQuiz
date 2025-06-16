@@ -200,7 +200,7 @@ public class Modos
                 switch (menu[i].getValue1())
                 {
                     case "Quiz":
-                        if (question_actualy_index>attributes.Length/2)
+                        if (question_actualy_index+1>attributes.Length/2)
                         {
                             if (!manager.sound_manager.InSound("Game2"))
                             {
