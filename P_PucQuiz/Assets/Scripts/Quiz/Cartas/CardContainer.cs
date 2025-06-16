@@ -68,6 +68,7 @@ public class CardContainer : MonoBehaviour
         {
             isActive = false;
             spriteRenderer.enabled = false;
+            DoMoveDown();
             return;
         }
         if (!isActive)
