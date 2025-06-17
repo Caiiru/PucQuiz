@@ -1741,6 +1741,90 @@ MonoBehaviour:
         start: 22
         time: 0
         infinity: 0
+    - question_type: 1
+      question: "Qual dessas op\xE7\xF5es N\xC3O \xE9 um continente?"
+      choice_correct: 00000100
+      change: 1
+      options:
+      - "Ant\xE1rtida"
+      - "\xC1frica"
+      - Australia
+      - "Am\xE9rica"
+      choices: 00000000
+      timer:
+        start: 15
+        time: 0
+        infinity: 0
+    - question_type: 1
+      question: 'Quantos minutos tem uma semana inteira? '
+      choice_correct: 01000000
+      change: 1
+      options:
+      - 10080
+      - 900
+      - 1300
+      - 20060
+      choices: 00000000
+      timer:
+        start: 15
+        time: 0
+        infinity: 0
+    - question_type: 1
+      question: "Kratos \xE9 personagem de qual jogo? "
+      choice_correct: 00010000
+      change: 1
+      options:
+      - Devil May Cry
+      - God of War
+      - 'The Witcher 3 '
+      - Factorio
+      choices: 00000000
+      timer:
+        start: 15
+        time: 0
+        infinity: 0
+    - question_type: 1
+      question: 'Quantos ossos temos na orelha? '
+      choice_correct: 00000100
+      change: 1
+      options:
+      - 5
+      - 2
+      - 3
+      - 1
+      choices: 00000000
+      timer:
+        start: 15
+        time: 0
+        infinity: 0
+    - question_type: 1
+      question: "Quantos el\xE9trons o H\xE9lio possui? "
+      choice_correct: 01000000
+      change: 1
+      options:
+      - 1
+      - 2
+      - 3
+      - 4
+      choices: 00000000
+      timer:
+        start: 15
+        time: 0
+        infinity: 0
+    - question_type: 1
+      question: 'Qual desses deuses faz parte da mitologia hindu? '
+      choice_correct: 00010000
+      change: 1
+      options:
+      - Susano
+      - Brahma
+      - "Os\xEDris"
+      - Balder
+      choices: 00000000
+      timer:
+        start: 15
+        time: 0
+        infinity: 0
     question_actualy_index: 0
     timer_awake:
       start: 5
