@@ -52,6 +52,7 @@ public class Draggable : MonoBehaviour
         isDragging = true;
         animator.SetBool("isDragging", isDragging);
         canBeDragged = false;
+        cardContainer.DoMoveDown();
 
     }
 
