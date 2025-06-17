@@ -1,8 +1,9 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 [Serializable]
-public class Timer
+public class Timer : Unity.Netcode.INetworkSerializable
 {
     public float start = 0;
     public float time = 0;
@@ -44,5 +45,12 @@ public class Timer
     public void Reset()
     {
         time = start;
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref start);
+        serializer.SerializeValue(ref time);
+        serializer.SerializeValue(ref infinity); 
     }
 }

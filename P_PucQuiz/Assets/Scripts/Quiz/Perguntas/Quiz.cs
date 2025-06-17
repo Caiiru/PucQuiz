@@ -252,6 +252,11 @@ public class Quiz : Perguntas
 
     }
 
+    public void SetAttributes(Quiz_Attributes _attributes)
+    {
+        attributes = _attributes;
+    }
+
     #region ClickEvents
 
     public void ClickPergunta1(ClickEvent click)

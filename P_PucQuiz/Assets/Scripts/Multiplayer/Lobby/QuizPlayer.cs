@@ -52,11 +52,27 @@ public class QuizPlayer : NetworkBehaviour, IEquatable<QuizPlayer>, IComparable<
         if (IsServer)
         {
             GameManager.Instance.AddPlayer(this);
-        }
+            Debug.Log("Is server and is Owner");
+            SendAttributesToClientRPC(LayoutManager.instance.quiz.attributes);
+
+        } 
         //LayoutManager.instance.AddQuizPlayer(this);
 
     }
 
+    [Rpc(SendTo.Owner)]
+    private void SendAttributesToClientRPC(Quiz_Attributes[] _attributes)
+    {
+        Debug.Log("Im owner and received message");
+
+        if (_attributes == null || _attributes.Length == 0)
+        {
+            Debug.LogError("Received attributes are null or empty.");
+            return;
+        }
+        Debug.Log(_attributes[0].question);
+        LayoutManager.instance.quiz.attributes = _attributes;
+    }
 
     #region @ CARD FUNCTIONS @ 
     public void AddCard(Cartas card)

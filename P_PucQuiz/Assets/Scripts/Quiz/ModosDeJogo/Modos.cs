@@ -293,15 +293,16 @@ public class Modos
         resposta_1.RegisterCallback<ClickEvent>(quiz.ClickPergunta1);
 
         newFontSize = ((6 * 76) / resposta_1.text.Length);
-        newFontSize = Mathf.Clamp(newFontSize, 36, 76);
-
+        newFontSize = Mathf.Clamp(newFontSize, 36, 56);
+        resposta_1.style.fontSize = newFontSize;
 
         Button resposta_2 = doc.rootVisualElement.Q<Button>("Resposta_2");
         resposta_2.text = attributes[question_actualy_index].options[1];
         resposta_2.RegisterCallback<ClickEvent>(quiz.ClickPergunta2);
 
         newFontSize = ((6 * 76) / resposta_2.text.Length);
-        newFontSize = Mathf.Clamp(newFontSize, 36, 76);
+        newFontSize = Mathf.Clamp(newFontSize, 36, 56);
+        resposta_2.style.fontSize = newFontSize;
 
 
         Button resposta_3 = doc.rootVisualElement.Q<Button>("Resposta_3");
@@ -309,14 +310,16 @@ public class Modos
         resposta_3.RegisterCallback<ClickEvent>(quiz.ClickPergunta3);
 
         newFontSize = ((6 * 76) / resposta_3.text.Length);
-        newFontSize = Mathf.Clamp(newFontSize, 36, 76);
+        newFontSize = Mathf.Clamp(newFontSize, 36, 56);
+        resposta_3.style.fontSize = newFontSize;
 
         Button resposta_4 = doc.rootVisualElement.Q<Button>("Resposta_4");
         resposta_4.text = attributes[question_actualy_index].options[3];
         resposta_4.RegisterCallback<ClickEvent>(quiz.ClickPergunta4);
 
         newFontSize = ((6 * 76) / resposta_4.text.Length);
-        newFontSize = Mathf.Clamp(newFontSize, 36, 76);
+        newFontSize = Mathf.Clamp(newFontSize, 36, 56);
+        resposta_4.style.fontSize = newFontSize;
 
         timer_awake.Reset();
         timer_next.Reset();
