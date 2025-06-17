@@ -1733,26 +1733,12 @@ MonoBehaviour:
     transform: {fileID: 1254502712}
     attributes:
     - question_type: 1
-      question: "Kratos \xE9 personagem de qual jogo? "
-      choice_correct: 00010000
-      change: 1
-      options:
-      - Devil May Cry
-      - God of War
-      - 'The Witcher 3 '
-      - Factorio
-      choices: 00000000
-      timer:
-        start: 15
-        time: 0
-        infinity: 0
-    - question_type: 1
-      question: "Qual desses \xE9 um vegetal???"
+      question: "Qual desses \xE9 um vegetal?"
       choice_correct: 00000001
       change: 0
       options:
       - Tomate
-      - Abaxi
+      - Abacaxi
       - Laranja
       - Cenoura
       choices: 00000000
@@ -1783,6 +1769,20 @@ MonoBehaviour:
       - 900
       - 1300
       - 20060
+      choices: 00000000
+      timer:
+        start: 15
+        time: 0
+        infinity: 0
+    - question_type: 1
+      question: "Kratos \xE9 personagem de qual jogo? "
+      choice_correct: 00010000
+      change: 1
+      options:
+      - Devil May Cry
+      - God of War
+      - 'The Witcher 3 '
+      - Factorio
       choices: 00000000
       timer:
         start: 15
@@ -3501,8 +3501,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   consoleCanvas: {fileID: 1238345917}
-  isDebug: 1
-  OnlineMode: 0
+  isDebug: 0
+  OnlineMode: 1
 --- !u!4 &2039296513
 Transform:
   m_ObjectHideFlags: 0

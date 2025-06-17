@@ -38,7 +38,7 @@ public class Modos
         //Debug.Log("Variables Awake = Sistem Complet");
 
         //Variaveis do Quiz
-       //attributes = attributes;
+        //attributes = attributes;
         question_actualy_index = 0;
 
         //Debug.Log("Variables Awake = Quiz Complet");
@@ -110,18 +110,18 @@ public class Modos
 
         if (!Final())
         {
-            if (GameManager.Instance.IsServer) { gameManager.ChangeQuestionRpc(); gameManager.ChangeMenuRpc("End","Rank"); }
+            if (GameManager.Instance.IsServer) { gameManager.ChangeQuestionRpc(); gameManager.ChangeMenuRpc("End", "Rank"); }
 
         }
         else
         {
-            if (GameManager.Instance.IsServer) { gameManager.ChangeQuestionRpc(); gameManager.ChangeMenuRpc("End","End"); }
+            if (GameManager.Instance.IsServer) { gameManager.ChangeQuestionRpc(); gameManager.ChangeMenuRpc("End", "End"); }
         }
     }
 
     public bool Final()//Verifica se chegamos no fim das perguntas.
     {
-        if (question_actualy_index == attributes.Length-1) { return true; }
+        if (question_actualy_index == attributes.Length - 1) { return true; }
         return false;
     }
     public void FeedBack()
@@ -200,52 +200,66 @@ public class Modos
                 switch (menu[i].getValue1())
                 {
                     case "Quiz":
-                        if (question_actualy_index+1>attributes.Length/2)
+                        if (question_actualy_index + 1 > attributes.Length / 2)
                         {
                             if (!manager.sound_manager.InSound("Game2"))
                             {
-                                manager.sound_manager.Play("Game Music", "Game2");
+                                if (GameManager.Instance.IsServer)
+                                    manager.sound_manager.Play("Game Music", "Game2");
                             }
                         }
                         else
                         {
                             if (!manager.sound_manager.InSound("Game1"))
                             {
-                                manager.sound_manager.Play("Game Music", "Game1");
+                                if (GameManager.Instance.IsServer)
+                                    manager.sound_manager.Play("Game Music", "Game1");
                             }
                         }
                         if (!question_manager.ContainsKey("Quiz")) { question_manager.Clear(); question_manager.Add("Quiz", new Quiz()); }
                         SetQ(false);
                         break;
                     case "HostQuiz":
-                        if (question_actualy_index+1 > attributes.Length/2)
+                        if (question_actualy_index + 1 > attributes.Length / 2)
                         {
                             if (!manager.sound_manager.InSound("Game2"))
                             {
-                                manager.sound_manager.Play("Game Music", "Game2");
+                                if (GameManager.Instance.IsServer)
+                                    manager.sound_manager.Play("Game Music", "Game2");
                             }
                         }
                         else
                         {
                             if (!manager.sound_manager.InSound("Game1"))
                             {
-                                manager.sound_manager.Play("Game Music", "Game1");
+                                if (GameManager.Instance.IsServer)
+                                    manager.sound_manager.Play("Game Music", "Game1");
                             }
                         }
                         if (!question_manager.ContainsKey("Quiz")) { question_manager.Clear(); question_manager.Add("Quiz", new Quiz()); }
                         SetQ(true);
                         break;
                     case "Correct":
-                        if(Event_PucQuiz.streak <= 4 && Event_PucQuiz.streak >= 1)
+                        if (Event_PucQuiz.streak <= 4 && Event_PucQuiz.streak >= 1)
                         {
-                            manager.sound_manager.Play("Feedback - Correct", "Correct"+Event_PucQuiz.streak);
+                            if (GameManager.Instance.IsServer)
+                                manager.sound_manager.Play("Feedback - Correct", "Correct" + Event_PucQuiz.streak);
                         }
-                        else if(Event_PucQuiz.streak > 4) { manager.sound_manager.Play("Feedback - Correct", "Correct4"); }
-                        else { manager.sound_manager.Play("Feedback - Correct", "Correct1"); }
+                        else if (Event_PucQuiz.streak > 4)
+                        {
+                            if (GameManager.Instance.IsServer)
+                                manager.sound_manager.Play("Feedback - Correct", "Correct4");
+                        }
+                        else
+                        {
+                            if (GameManager.Instance.IsServer)
+                                manager.sound_manager.Play("Feedback - Correct", "Correct1");
+                        }
                         doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
                         break;
                     case "Incorrect":
-                        manager.sound_manager.Play("Feedback - Incorrect", "Error");
+                        if (GameManager.Instance.IsServer)
+                            manager.sound_manager.Play("Feedback - Incorrect", "Error");
                         doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
                         break;
                 }
@@ -258,7 +272,7 @@ public class Modos
     public void SetQ(bool isServer)
     {
         question_manager.Clear();
-        question_manager.Add("Quiz",new Quiz());
+        question_manager.Add("Quiz", new Quiz());
         Quiz quiz = question_manager["Quiz"] as Quiz;
 
         quiz.attributes = attributes[question_actualy_index];

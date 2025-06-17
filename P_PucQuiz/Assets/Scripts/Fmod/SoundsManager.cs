@@ -29,10 +29,7 @@ public class SoundsManager
                 {
                     if (tag == Sound.Sound_Tag.InHost)
                     {
-                        if ((!GameManager.Instance.IsHost || !GameManager.Instance.IsServer) && GameManager.Instance.GetTop5Players().Length != 0)
-                        {
-                            Stop(sound_play.tag_name, Sound_Play.Sound_Play_Tag.BreakInFirst);
-                        }
+                         
                     }
                 }
             }

@@ -27,7 +27,7 @@ public class VisualCard : MonoBehaviour
     public void CreateCard(Cartas cardSO)
     {
         CardInfo = cardSO;
-        Debug.Log(cardSO.visualPrefab.name);
+         
         visualPrefab = Instantiate(cardSO.visualPrefab,this.transform);
         textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
         textMeshPro.text = CardInfo.cardName;
