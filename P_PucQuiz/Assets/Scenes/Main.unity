@@ -1783,7 +1783,7 @@ MonoBehaviour:
         time: 0
         infinity: 0
     - question_type: 1
-      question: 'Quantos ossos temos na orelha? '
+      question: 'Quantos ossos temos no ouvido? '
       choice_correct: 00000100
       change: 1
       options:
@@ -1798,7 +1798,7 @@ MonoBehaviour:
         infinity: 0
     - question_type: 1
       question: "Quantos el\xE9trons o H\xE9lio possui? "
-      choice_correct: 01000000
+      choice_correct: 00010000
       change: 1
       options:
       - 1

@@ -210,6 +210,8 @@ public class Login
         //}
         else
         {
+
+            ChangeMenu("Conectando");
             if (await LobbyManager.Instance.StartClientWithRelay(code, userName))
             {
                 gameManager.OnUpdateUI += OnUpdateUI;
