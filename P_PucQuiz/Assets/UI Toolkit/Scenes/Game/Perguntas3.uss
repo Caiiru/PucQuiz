@@ -9,6 +9,11 @@
     background-color: rgba(255, 255, 255, 0);
 }
 
+.icon-button:active {
+    scale: 1.2 1.2;
+    opacity: 1;
+}
+
 .icon-button {
     width: 300px;
     height: 100px;
