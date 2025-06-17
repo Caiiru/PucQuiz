@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using static Codice.Client.BaseCommands.Import.Commit;
+using UnityEngine.UIElements; 
 
 [Serializable]
 public class Quiz : Perguntas

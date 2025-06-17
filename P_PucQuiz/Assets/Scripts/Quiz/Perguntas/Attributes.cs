@@ -4,8 +4,8 @@ using UnityEngine;
 [Serializable]
 public class Attributes
 {
-    [SerializeField] public Attributes.Type question_type; //O tipo da questão.
-    [SerializeField] public string question; //A questão que busca-se a resposta.
+    [SerializeField] public Attributes.Type question_type; //O tipo da questï¿½o.
+    [SerializeField] public string question; //A questï¿½o que busca-se a resposta.
 
     public enum Type
     {
@@ -18,11 +18,11 @@ public class Attributes
 [Serializable]
 public class Quiz_Attributes : Attributes
 {
-    [SerializeField] public bool[] choice_correct; //Quais respostas estão corretas.
+    [SerializeField] public bool[] choice_correct; //Quais respostas estï¿½o corretas.
     [SerializeField] public bool change; //Pode mudar a resposta?
-    [SerializeField] public string[] options; //Texto de cada opção
-    [SerializeField] public bool[] choices; //Bool que define quais opções foram escolhidas.
+    [SerializeField] public string[] options; //Texto de cada opï¿½ï¿½o
+    [SerializeField] public bool[] choices; //Bool que define quais opï¿½ï¿½es foram escolhidas.
 
     [Header("Time")]
-    [SerializeField] public Timer timer = new Timer(30f); //Tempo max até o fim da pergunta.
+    [SerializeField] public Timer timer = new Timer(30f); //Tempo max atï¿½ o fim da pergunta.
 }

@@ -37,9 +37,7 @@ public class GameManager : NetworkBehaviour
     [Header("Network Settings")]
     public GameState CurrentGameState;
     public NetworkVariable<float> Timer = new NetworkVariable<float>(0f);
-
-    public NetworkVariable<Question> CurrentQuestionData = new NetworkVariable<Question>();
-    public NetworkVariable<int> CurrentQuestionNumber = new NetworkVariable<int>(0); // Número da pergunta atual na rodada  
+     
 
 
     public NetworkList<QuizPlayerData> ConnectedPlayers = new();
