@@ -13,7 +13,7 @@ public class VisualCard : MonoBehaviour
      
 
 
-    void Start()
+    void Awake()
     {
         if (CardInfo != null)
         {
