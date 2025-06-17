@@ -27,12 +27,13 @@ public class VisualCard : MonoBehaviour
     public void CreateCard(Cartas cardSO)
     {
         CardInfo = cardSO;
-         
+        Debug.Log("Creating Card");
         visualPrefab = Instantiate(cardSO.visualPrefab,this.transform);
         textMeshPro = GetComponentInChildren<TextMeshProUGUI>();
         textMeshPro.text = CardInfo.cardName;
+        GetComponentInChildren<SpriteRenderer>().enabled = false;
         //spriteRenderer.sprite = CardInfo.visualSprite;
-         
+
 
     }
 }

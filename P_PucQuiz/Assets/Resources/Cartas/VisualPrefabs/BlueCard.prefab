@@ -376,7 +376,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Congela Pontos
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: beaef2a9910a9384dbce3d2774cc52dd, type: 2}
   m_sharedMaterial: {fileID: 2434043683640109911, guid: beaef2a9910a9384dbce3d2774cc52dd, type: 2}

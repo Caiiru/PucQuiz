@@ -74,6 +74,7 @@ public class CardsManager : MonoBehaviour
             if(visual.transform.childCount==0)
                 visual.CreateCard(visual.CardInfo);
             card.SetActive(true);
+            break;
             
         }
     }

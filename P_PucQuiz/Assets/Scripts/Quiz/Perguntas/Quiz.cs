@@ -237,7 +237,7 @@ public class Quiz : Perguntas
             {
                 var r = new System.Random().Next(CardsManager.Instance.AllCards.Count - 1);
                 Cartas nextCard = CardsManager.Instance.AllCards[r];
-                GameManager.Instance.LocalPlayer.AddCard(nextCard);
+                GameManager.Instance.LocalPlayer.AddCard(nextCard); 
             }
             GameManager.Instance.AddPointsToLocalPLayer(player.points);
             //GameManager.Instance.LocalPlayer.Score.Value = player.points;

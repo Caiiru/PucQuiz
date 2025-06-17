@@ -123,7 +123,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638856800324111771
+  lastModified: 638856080325467894
   FileSizes:
   - Name: Desktop
     Value: 4667808
@@ -163,7 +163,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 1125798297998424090}
   cacheVersion: 131847
-  cacheTime: 638856800324141995
+  cacheTime: 638856080325467894
   SerializableEventsDict:
   - key: event:/InicioMusic
     index: 0
@@ -206,7 +206,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638856800324141995
+  lastModified: 638856080325467894
   FileSizes:
   - Name: Desktop
     Value: 1310
