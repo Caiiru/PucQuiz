@@ -99,3 +99,10 @@
     opacity: 0;
     -unity-font-definition: resource('Font/LexendDeca-VariableFont_wght');
 }
+
+.selected {
+}
+
+.unSelected {
+    opacity: 0.4;
+}

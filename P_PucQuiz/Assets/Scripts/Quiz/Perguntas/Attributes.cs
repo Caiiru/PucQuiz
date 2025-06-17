@@ -1,11 +1,12 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 [Serializable]
 public class Attributes
 {
-    [SerializeField] public Attributes.Type question_type; //O tipo da questão.
-    [SerializeField] public string question; //A questão que busca-se a resposta.
+    [SerializeField] public Attributes.Type question_type; //O tipo da questï¿½o.
+    [SerializeField] public string question; //A questï¿½o que busca-se a resposta.
 
     public enum Type
     {
@@ -16,13 +17,54 @@ public class Attributes
 }
 
 [Serializable]
-public class Quiz_Attributes : Attributes
+public class Quiz_Attributes : Attributes, Unity.Netcode.INetworkSerializable
 {
-    [SerializeField] public bool[] choice_correct; //Quais respostas estão corretas.
+    [SerializeField] public bool[] choice_correct; //Quais respostas estï¿½o corretas.
     [SerializeField] public bool change; //Pode mudar a resposta?
-    [SerializeField] public string[] options; //Texto de cada opção
-    [SerializeField] public bool[] choices; //Bool que define quais opções foram escolhidas.
+    [SerializeField] public string[] options; //Texto de cada opï¿½ï¿½o
+    [SerializeField] public bool[] choices; //Bool que define quais opï¿½ï¿½es foram escolhidas.
 
     [Header("Time")]
-    [SerializeField] public Timer timer = new Timer(30f); //Tempo max até o fim da pergunta.
+    [SerializeField] public Timer timer = new Timer(30f); //Tempo max atï¿½ o fim da pergunta.
+     
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    { 
+        serializer.SerializeValue(ref question);
+        serializer.SerializeValue(ref question_type);
+
+        serializer.SerializeValue(ref change);
+
+        if (serializer.IsWriter)
+        {
+            //choice correct
+            int length = choice_correct != null ? choice_correct.Length : 0;
+            serializer.SerializeValue(ref length); 
+            for(int i = 0; i < length; i++)
+            {
+                serializer.SerializeValue(ref choice_correct[i]);
+                serializer.SerializeValue(ref options[i]);
+                serializer.SerializeValue(ref choices[i]);
+            }
+
+            
+        }
+        else
+        {
+            int length = 0; 
+            serializer.SerializeValue(ref length);
+            choice_correct = new bool[length];
+            options = new string[length];
+            choices = new bool[length];  
+            for (int i = 0; i < length; i++)
+            {
+                serializer.SerializeValue(ref choice_correct[i]);
+                serializer.SerializeValue(ref options[i]);
+                serializer.SerializeValue(ref choices[i]);
+            }
+        }
+        serializer.SerializeValue(ref timer.start);
+        serializer.SerializeValue(ref timer.time);
+        serializer.SerializeValue(ref timer.infinity);
+    }
 }

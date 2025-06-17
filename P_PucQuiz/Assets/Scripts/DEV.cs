@@ -25,13 +25,15 @@ public class DEV : MonoBehaviour
     }
     void Start()
     {
-        consoleCanvas.gameObject.SetActive(true);
+        //consoleCanvas.gameObject.SetActive(true);
         //wasStarted = false;
         //DeveloperConsole.Console.AddCommand("PlayersNameCommand", PrintPlayersCommand);
         //DeveloperConsole.Console.AddCommand("AddPlayer", AddPlayerCommand);
         //DeveloperConsole.Console.AddCommand("RemovePlayer", RemovePlayerCommand);
         gameManager = GameManager.Instance;
         LobbyManager.Instance.OnJoiningGame += StartServer;
+        if (!isDebug)
+            Destroy(consoleCanvas);
 
     }
 

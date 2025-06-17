@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
+using UnityEngine.UIElements; 
 
 [Serializable]
 public class Quiz : Perguntas
@@ -58,6 +59,63 @@ public class Quiz : Perguntas
             if (i)
             {
                 choice_max_local++;
+            }
+        }
+
+        bool changeOpacity = false;
+
+        foreach (bool i in attributes.choices)
+        {
+            if (i)
+            {
+                changeOpacity = true;
+                break;
+            }
+        }
+
+        if(changeOpacity)
+        {
+            for (int i = 0; i < attributes.choices.Length; i++)
+            {
+                VisualElement button = mod.doc.rootVisualElement.Q<VisualElement>("Resposta_" + (i + 1));
+
+                if (attributes.choices[i])
+                {
+                    try
+                    {
+                        button.AddToClassList("selected");
+                        button.RemoveFromClassList("unSelected");
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                else
+                {
+                    button.AddToClassList("unSelected");
+                    button.RemoveFromClassList("selected");
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < attributes.choices.Length; i++)
+            {
+                VisualElement button = mod.doc.rootVisualElement.Q<VisualElement>("Resposta_" + (i + 1));
+
+                if (attributes.choices[i])
+                {
+                    try
+                    {
+                        button.RemoveFromClassList("selected");
+                        button.RemoveFromClassList("unSelected");
+                    }
+                    catch
+                    {
+
+                    }
+                }
             }
         }
 
@@ -192,6 +250,11 @@ public class Quiz : Perguntas
         mod.FeedBack();
         Event_PucQuiz.question_next = true;
 
+    }
+
+    public void SetAttributes(Quiz_Attributes _attributes)
+    {
+        attributes = _attributes;
     }
 
     #region ClickEvents

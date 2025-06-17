@@ -27,9 +27,37 @@ MonoBehaviour:
       start: 0
       time: 0
       infinity: 1
-  - name: Game
+  - name: Game1
     tag: 0100000004000000
-    prefab: {fileID: 2044804091478687740, guid: dda51b4d3a0bbb04b972be3b6423f4fd, type: 3}
+    prefab: {fileID: 2044804091478687740, guid: 87874acc6c2541d429903300cc91e71e, type: 3}
+    timer:
+      start: 0
+      time: 0
+      infinity: 1
+  - name: Game2
+    tag: 0100000004000000
+    prefab: {fileID: 2044804091478687740, guid: c9639f46555342147985b54e5c924de4, type: 3}
+    timer:
+      start: 0
+      time: 0
+      infinity: 1
+  - name: Game3
+    tag: 0100000004000000
+    prefab: {fileID: 2044804091478687740, guid: 71e9cf7e387895240b9c7f76a33965e4, type: 3}
+    timer:
+      start: 0
+      time: 0
+      infinity: 1
+  - name: Rank
+    tag: 0100000004000000
+    prefab: {fileID: 2044804091478687740, guid: a65e54d10251071479d344fedf324f40, type: 3}
+    timer:
+      start: 0
+      time: 0
+      infinity: 1
+  - name: End
+    tag: 0100000004000000
+    prefab: {fileID: 2044804091478687740, guid: de36f217c24fe504aa1b0ac8a1534d95, type: 3}
     timer:
       start: 0
       time: 0
@@ -41,9 +69,30 @@ MonoBehaviour:
       start: 1
       time: 0
       infinity: 0
-  - name: Correct
+  - name: Correct1
     tag: 03000000
     prefab: {fileID: 2044804091478687740, guid: 511fed50ebef9da4883a1380a37d6389, type: 3}
+    timer:
+      start: 3
+      time: 0
+      infinity: 0
+  - name: Correct2
+    tag: 03000000
+    prefab: {fileID: 2044804091478687740, guid: f478593c2ee266e42b99459d65e3cb4a, type: 3}
+    timer:
+      start: 3
+      time: 0
+      infinity: 0
+  - name: Correct3
+    tag: 03000000
+    prefab: {fileID: 2044804091478687740, guid: 55f2c4aca54335b418a9bd2983ae59b7, type: 3}
+    timer:
+      start: 3
+      time: 0
+      infinity: 0
+  - name: Correct4
+    tag: 03000000
+    prefab: {fileID: 2044804091478687740, guid: b073f9fce2ce7ae4bbfe6f2efd8a77e3, type: 3}
     timer:
       start: 3
       time: 0
@@ -55,17 +104,3 @@ MonoBehaviour:
       start: 3
       time: 0
       infinity: 0
-  - name: Rank
-    tag: 0300000004000000
-    prefab: {fileID: 2044804091478687740, guid: a65e54d10251071479d344fedf324f40, type: 3}
-    timer:
-      start: 0
-      time: 0
-      infinity: 1
-  - name: End
-    tag: 0300000004000000
-    prefab: {fileID: 2044804091478687740, guid: de36f217c24fe504aa1b0ac8a1534d95, type: 3}
-    timer:
-      start: 0
-      time: 0
-      infinity: 1

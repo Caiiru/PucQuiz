@@ -29,7 +29,7 @@ MonoBehaviour:
       - question_type: 1
         question: Teste 1
         choice_correct: 0102
-        change: 0
+        change: 1
         options:
         - Resposta Certa
         - Resposta Certa
@@ -41,18 +41,18 @@ MonoBehaviour:
           time: 25
           infinity: 0
       - question_type: 1
-        question: Teste 2
-        choice_correct: 01
+        question: "Quais desses N\xC3O \xE9 um continente?"
+        choice_correct: 00000001
         change: 1
         options:
-        - Resposta Certa
-        - Resposta Errada
-        - Resposta Errada
-        - Respsota Errada
-        choices: 00000000
+        - "\xC1frica"
+        - "Ant\xE1rtida"
+        - "\xC1sia"
+        - Australia
+        choices: 00000001
         timer:
-          start: 99
-          time: 99
+          start: 15
+          time: 15
           infinity: 0
       - question_type: 1
         question: Teste 3

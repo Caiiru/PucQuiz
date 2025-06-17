@@ -70,7 +70,7 @@ MonoBehaviour:
       Data2: 1234812190
       Data3: -321389894
       Data4: -1387341663
-    Path: event:/RespostaCerta
+    Path: event:/RespostaCerta1
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2

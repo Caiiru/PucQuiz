@@ -34,7 +34,7 @@ public class LobbyUI : MonoBehaviour
         gameManager.ConnectedPlayers.OnListChanged += OnLobbyUIListChanged;
         gameManager.OnQuizStarted += OnQuizStarted;
 
-        DeveloperConsole.Console.AddCommand("updateUI", UpdateUICommand);
+        //DeveloperConsole.Console.AddCommand("updateUI", UpdateUICommand);
     }
 
     private void OnLobbyUIListChanged(NetworkListEvent<QuizPlayerData> changeEvent)
