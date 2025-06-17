@@ -16,10 +16,10 @@
         </ui:VisualElement>
         <ui:VisualElement name="Horizontal_Buttons_Component" style="flex-direction: row; margin-top: 32px; height: 10%; justify-content: center; -unity-background-scale-mode: stretch-to-fill; -unity-font-definition: resource(&apos;Font/LexendDeca-VariableFont_wght&apos;); align-content: flex-start; align-items: stretch; flex-wrap: nowrap;">
             <ui:VisualElement name="Barra" style="flex-grow: 1;" />
-            <ui:Button text="Login" name="Login" class="login-button" />
+            <ui:Button text="Criar Quiz" name="Login" class="login-button" style="width: 298px; background-color: rgb(191, 79, 166);" />
         </ui:VisualElement>
         <ui:VisualElement name="Barra_Voltar" style="flex-grow: 1; height: 10%; align-self: center; width: 100%; align-content: flex-start; justify-content: center;">
-            <ui:Button text="Voltar" name="Voltar" class="login-button" style="align-self: flex-start;" />
+            <ui:Button text="Voltar" name="Voltar" class="login-button" style="align-self: flex-start; opacity: 0;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

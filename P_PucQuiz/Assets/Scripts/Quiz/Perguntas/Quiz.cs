@@ -236,6 +236,7 @@ public class Quiz : Perguntas
             if (Event_PucQuiz.question_result == "lose")
             {
                 var r = new System.Random().Next(CardsManager.Instance.AllCards.Count - 1);
+                Debug.Log($"Card Id:{r}");
                 Cartas nextCard = CardsManager.Instance.AllCards[r];
                 GameManager.Instance.LocalPlayer.AddCard(nextCard); 
             }

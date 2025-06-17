@@ -34,10 +34,10 @@ public class Login
 
     public void Update()
     {
-        if(Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             manager.sound_manager.Click();
-            manager.sound_manager.Stop("Musica Inicio",Sound_Play.Sound_Play_Tag.BreakInFirst);
+            manager.sound_manager.Stop("Musica Inicio", Sound_Play.Sound_Play_Tag.BreakInFirst);
             manager.sound_manager.Stop("Musica Menu", Sound_Play.Sound_Play_Tag.BreakInFirst);
         }
 
@@ -84,9 +84,21 @@ public class Login
         ChangeMenu("Codigo");
     }
 
-    private void ClickLogin(ClickEvent click) //Bot�o que confere se o email e senha est�o corretos e permite logar caso estejam.
+    private async void ClickLogin(ClickEvent click) //Bot�o que confere se o email e senha est�o corretos e permite logar caso estejam.
     {
         manager.sound_manager.Click();
+
+
+
+        ChangeMenu("Conectando");
+        var r = new System.Random();
+        var host = await LobbyManager.Instance.StartHostWithRelay(30, $"userHostName{r.Next(0,99)}");
+
+        if (host != null)
+        {
+            ChangeMenu("CriarPartida");
+        }
+
         /*
         try
         {
@@ -186,16 +198,16 @@ public class Login
         }
 
         //GameManager.Instance.onJoiningGame?.Invoke(this,null);
-        ChangeMenu("Conectando");
-        if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
-        {
-            var host = await LobbyManager.Instance.StartHostWithRelay(30, userName);
+        //ChangeMenu("Conectando");
+        //if (string.IsNullOrEmpty(code) || string.IsNullOrWhiteSpace(code))
+        //{
+        //    var host = await LobbyManager.Instance.StartHostWithRelay(30, userName);
 
-            if (host != null)
-            {
-                ChangeMenu("CriarPartida");
-            }
-        }
+        //    if (host != null)
+        //    {
+        //        ChangeMenu("CriarPartida");
+        //    }
+        //}
         else
         {
             if (await LobbyManager.Instance.StartClientWithRelay(code, userName))
@@ -257,6 +269,7 @@ public class Login
                         case "Codigo":
                             manager.sound_manager.Play("Musica Menu", "Menu");
                             doc.rootVisualElement.Q<Button>("Entrar").RegisterCallback<ClickEvent>(ClickEntrar);
+                            doc.rootVisualElement.Q<Button>("Login").RegisterCallback<ClickEvent>(ClickLogin);
                             break;
                         case "CriarPartida":
                             doc.rootVisualElement.Q<Label>("CodeText").text = $"Codigo: {LobbyManager.Instance.JoinCode}";
