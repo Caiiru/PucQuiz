@@ -139,8 +139,8 @@ public class End
                 {
                     case "Rank":
                         //Debug.Log("Rank Set Start");
-
-                        manager.sound_manager.Play("Rank Sound", "Rank");
+                        if (GameManager.Instance.IsServer)
+                            manager.sound_manager.Play("Rank Sound", "Rank");
 
                         //Debug.Log("Rank % = Start");
 
@@ -237,14 +237,14 @@ public class anim_bar
     [SerializeField] private float size = 0;
     [SerializeField] private float time = 0;
 
-    public void Run() 
+    public void Run()
     {
         if (time <= time_max)
-        { 
-            time += Time.deltaTime; size = anim.Evaluate(time/time_max); 
-        } 
-        else 
-        { 
+        {
+            time += Time.deltaTime; size = anim.Evaluate(time / time_max);
+        }
+        else
+        {
             time = 1; size = anim.Evaluate(time);
         }
     }

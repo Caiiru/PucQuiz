@@ -329,7 +329,8 @@ public class Login
             manager.sound_manager.StopAllSounds();
             return;
         }
-        manager.sound_manager.Play("Game Music", "Game");
+        if (GameManager.Instance.IsServer)
+            manager.sound_manager.Play("Game Music", "Game");
         _startButton.RegisterCallback<ClickEvent>(ClickStartQuiz);
 
 

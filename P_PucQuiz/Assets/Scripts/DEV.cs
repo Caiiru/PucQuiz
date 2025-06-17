@@ -5,8 +5,7 @@ using UnityEngine.UIElements;
 
 public class DEV : MonoBehaviour
 {
-
-    public GameObject consoleCanvas;
+     
 
 
     public bool isDebug = true;
@@ -30,24 +29,10 @@ public class DEV : MonoBehaviour
         //DeveloperConsole.Console.AddCommand("PlayersNameCommand", PrintPlayersCommand);
         //DeveloperConsole.Console.AddCommand("AddPlayer", AddPlayerCommand);
         //DeveloperConsole.Console.AddCommand("RemovePlayer", RemovePlayerCommand);
-        gameManager = GameManager.Instance;
-        LobbyManager.Instance.OnJoiningGame += StartServer;
-        if (!isDebug)
-            Destroy(consoleCanvas);
+        gameManager = GameManager.Instance;  
 
     }
-
-    public void StartServer(object sender, EventArgs e)
-    {
-        if (!isDebug) return;
-        DeveloperConsole.Console.AddCommand("PlayersCount", PlayersCountCommand);
-        DeveloperConsole.Console.AddCommand("PrintPlayers", PrintPlayersScoreCommand);
-        DeveloperConsole.Console.AddCommand("SetPoints", SetMyPointsCommand);
-        DeveloperConsole.Console.AddCommand("AddCard", AddCardToMyselfCommand);
- 
-
-        //DeveloperConsole.Console.AddCommand("AddCard", AddCardCommand); // -> SERVER
-    }
+     
 
     private void AddCardToMyselfCommand(string[] args)
     {
@@ -142,8 +127,7 @@ public class DEV : MonoBehaviour
     public void DevPrint(string text)
     {
         if (!isDebug) return;
-        Debug.Log(text);
-        DeveloperConsole.Console.Print(text);
+        Debug.Log(text); 
     }
 }
 
