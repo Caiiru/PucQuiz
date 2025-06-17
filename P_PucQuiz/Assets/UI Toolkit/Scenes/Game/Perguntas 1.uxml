@@ -10,7 +10,7 @@
                     <ui:Label text="Qual é o planeta vermelho?" name="Pergunta" style="font-size: 96px; align-self: center;" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="GridContainer" class="Buttons_Default Buttons_Anim" style="width: 100%;">
+            <ui:VisualElement name="GridContainer" class="Buttons_Default" style="width: 100%;">
                 <ui:VisualElement name="Container_interno" style="flex-grow: 1; background-color: rgba(188, 172, 62, 0); height: 50%; width: 50%; justify-content: center; flex-direction: row;">
                     <ui:VisualElement name="Padding_Left" style="flex-grow: 1; align-self: flex-start; width: 25%; height: 100%;" />
                     <ui:Button text="Button" name="Resposta_1" icon-image="project://database/Assets/Sprites/Icons/AnswersIcons/sprite_green_stairs.png?fileID=2800000&amp;guid=d1e64c1afa6fa5e438fd6553bb84cc61&amp;type=3#sprite_green_stairs" class="icon-button" style="align-content: flex-start; min-width: 690px; min-height: 140px; flex-direction: row; flex-wrap: nowrap; justify-content: center; padding-right: 80px; padding-left: 80px; white-space: normal; max-width: 700px; max-height: 160px; background-color: rgb(104, 208, 136);" />
@@ -23,7 +23,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="Container_interno" style="flex-grow: 1; background-color: rgba(188, 172, 62, 0); height: 50%; width: 50%; justify-content: center; flex-direction: row;">
                     <ui:VisualElement name="Padding_Left" style="flex-grow: 1; align-self: flex-start; width: 25%; height: 100%;" />
-                    <ui:Button text="Button" name="Resposta_3" icon-image="project://database/Assets/Sprites/Icons/AnswersIcons/sprite_yellow_cylinder.png?fileID=2800000&amp;guid=da5c136a7af72dc4ab0ae98d7305a55c&amp;type=3#sprite_yellow_cylinder" class="icon-button" style="align-content: flex-start; min-width: 690px; min-height: 140px; flex-direction: row; flex-wrap: nowrap; justify-content: center; padding-right: 80px; padding-left: 80px; max-width: 700px; white-space: normal; max-height: 160px; background-color: rgb(255, 200, 95); display: flex; text-shadow: 0 0 0 rgba(0, 0, 0, 0);" />
+                    <ui:Button text="Button" name="Resposta_3" icon-image="project://database/Assets/Sprites/Icons/AnswersIcons/sprite_yellow_cylinder.png?fileID=2800000&amp;guid=da5c136a7af72dc4ab0ae98d7305a55c&amp;type=3#sprite_yellow_cylinder" class="icon-button" style="align-content: flex-start; min-width: 690px; min-height: 140px; flex-direction: row; flex-wrap: nowrap; justify-content: center; padding-right: 80px; padding-left: 80px; max-width: 700px; white-space: normal; max-height: 160px; background-color: rgb(255, 200, 95); display: flex; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
                     <ui:VisualElement name="Padding_right" style="flex-grow: 1; align-self: flex-start; width: 10%; height: 100%;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="Container_interno" style="flex-grow: 1; background-color: rgba(188, 172, 62, 0); height: 50%; width: 50%; justify-content: center; flex-direction: row;">
