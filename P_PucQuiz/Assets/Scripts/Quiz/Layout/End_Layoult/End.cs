@@ -134,6 +134,15 @@ public class End
         for (int i = players.Length; i < 4; i++)
         {
             int number = i + 1;
+
+            Label points_old_label = doc.rootVisualElement.Q<Label>("Points_Old" + number);
+            Label points_new_label = doc.rootVisualElement.Q<Label>("Points_New" + number);
+            Label points_doble_label = doc.rootVisualElement.Q<Label>("Points_Doble" + number);
+
+            points_old_label.style.opacity = 0;
+            points_new_label.style.opacity = 0;
+            points_doble_label.style.opacity = 0;
+
             var remove = doc.rootVisualElement.Q("Progress" + number);
             remove.style.opacity = 0;
         }

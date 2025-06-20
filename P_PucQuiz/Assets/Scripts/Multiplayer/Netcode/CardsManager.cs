@@ -14,6 +14,7 @@ public class CardsManager : MonoBehaviour
     [Header("Cards Stuff")]
     public Transform CardContainer;
     public GameObject CardPrefab;
+    public GameObject EmptyText;
 
 
     void Start()
@@ -27,6 +28,9 @@ public class CardsManager : MonoBehaviour
             LocalPlayerCards[i].SetActive(false);
         }
         transform.position = Vector3.zero; // Garantees that is 0
+
+        EmptyText.SetActive(true);
+        UpdateCards();
     }
 
     #region @ Cards Functions @
@@ -63,6 +67,7 @@ public class CardsManager : MonoBehaviour
     }
     public void UpdateCards()
     {
+        
         foreach (var card in LocalPlayerCards)
         {
             var visual = card.GetComponent<VisualCard>();
@@ -74,7 +79,18 @@ public class CardsManager : MonoBehaviour
             if(visual.transform.childCount==0)
                 visual.CreateCard(visual.CardInfo);
             card.SetActive(true);
-            
+        }
+        foreach (var card in LocalPlayerCards)
+        {
+            var visual = card.GetComponent<VisualCard>();
+            if (visual.CardInfo == null)
+            {
+                EmptyText.SetActive(true); 
+            }
+            else
+            {
+                EmptyText.SetActive(false); break;
+            }
         }
     }
     private int GetFreeCardSlot()

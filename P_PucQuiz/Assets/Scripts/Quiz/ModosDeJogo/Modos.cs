@@ -55,6 +55,8 @@ public class Modos
     }
     public void Start(GameObject obj)
     {
+        CardsManager cardsManager = CardsManager.Instance;
+        cardsManager.UpdateCards();
         Event_PucQuiz.start_layout = true;
     }
     public void Update(GameObject obj)
