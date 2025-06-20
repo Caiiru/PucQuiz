@@ -15,6 +15,7 @@ public class Quiz : Perguntas
     public Modos mod = null;
     public float speed_to_complet;
     public Quiz_Attributes attributes;
+    private GameManager gameManager = GameManager.Instance;
 
     [Header("Event Variables")]
     private string question_event = Event_PucQuiz.question_event; //Puxa o evento de respota e qual pergunta foi respondida.
@@ -146,7 +147,15 @@ public class Quiz : Perguntas
                     }
                     break;
                 default:
-                    attributes.timer.Run();
+
+                    if(gameManager.IsServer)
+                    {
+                        attributes.timer.Run();
+                    }
+                    else
+                    {
+                        attributes.timer.time = gameManager.quiz_time.Value;
+                    }
                     break;
             }
 
@@ -239,7 +248,8 @@ public class Quiz : Perguntas
                 Cartas nextCard = CardsManager.Instance.AllCards[r];
                 GameManager.Instance.LocalPlayer.AddCard(nextCard);
             }
-            GameManager.Instance.AddPointsToLocalPLayer(player.points);
+            
+            GameManager.Instance.AddPointsToLocalPLayer(player.points/*,Event_PucQuiz.new_points*/);
             //GameManager.Instance.LocalPlayer.Score.Value = player.points;
         }
         else

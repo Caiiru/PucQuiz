@@ -1666,6 +1666,7 @@ MonoBehaviour:
   player:
     playerName: 
     points: 0
+    points_new: 0
     slots: 0
     cartas:
     - {fileID: 0}
@@ -1732,6 +1733,34 @@ MonoBehaviour:
     manager: {fileID: 1254502715}
     transform: {fileID: 1254502712}
     attributes:
+    - question_type: 1
+      question: "Qual desses \xE9 um vegetal?"
+      choice_correct: 00000001
+      change: 0
+      options:
+      - Tomate
+      - Abacaxi
+      - Laranja
+      - Cenoura
+      choices: 00000000
+      timer:
+        start: 22
+        time: 0
+        infinity: 0
+    - question_type: 1
+      question: "Qual desses \xE9 um vegetal?"
+      choice_correct: 00000001
+      change: 0
+      options:
+      - Tomate
+      - Abacaxi
+      - Laranja
+      - Cenoura
+      choices: 00000000
+      timer:
+        start: 22
+        time: 0
+        infinity: 0
     - question_type: 1
       question: "Qual desses \xE9 um vegetal?"
       choice_correct: 00000001
@@ -1818,6 +1847,7 @@ MonoBehaviour:
   local_players:
   - playerName: Jorge
     points: 100
+    points_new: 0
     slots: 0
     cartas:
     - {fileID: 0}
@@ -1830,6 +1860,7 @@ MonoBehaviour:
     velocidade: 0
   - playerName: Joao
     points: 75
+    points_new: 0
     slots: 0
     cartas:
     - {fileID: 0}
@@ -1842,6 +1873,7 @@ MonoBehaviour:
     velocidade: 0
   - playerName: Josemar
     points: 50
+    points_new: 0
     slots: 0
     cartas:
     - {fileID: 0}
@@ -1854,6 +1886,7 @@ MonoBehaviour:
     velocidade: 0
   - playerName: Jasmael
     points: 25
+    points_new: 0
     slots: 0
     cartas:
     - {fileID: 0}
@@ -1866,6 +1899,7 @@ MonoBehaviour:
     velocidade: 0
   - playerName: Jamanta
     points: 0
+    points_new: 0
     slots: 0
     cartas:
     - {fileID: 0}

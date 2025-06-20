@@ -29,7 +29,7 @@ public class Config_PucQuiz : ScriptableObject
         if(instance == null) { instance = Resources.Load<Config_PucQuiz>("Config/PucQuiz"); }
         return instance;
     }
-    public static float Get_Points(bool win, float speed)
+    public static int Get_Points(bool win, float speed)
     {
         Config_PucQuiz config = Config_PucQuiz.Get_Config();
         MyPlayer player = LayoutManager.instance.player;
@@ -76,8 +76,9 @@ public class Config_PucQuiz : ScriptableObject
         if (player.protetor) { player.protetor = false; }
 
         if (player.dobrar) { player.dobrar = false; points = points * 2; }
-
-        return points;
+        
+        Event_PucQuiz.new_points = (int)points;
+        return (int)points;
     }
     public Perguntas Get_Layout(Attributes.Type type)
     {

@@ -255,12 +255,12 @@ public class Modos
                             if (GameManager.Instance.IsServer)
                                 manager.sound_manager.Play("Feedback - Correct", "Correct1");
                         }
-                        doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
+                        doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.new_points;
                         break;
                     case "Incorrect":
                         if (GameManager.Instance.IsServer)
                             manager.sound_manager.Play("Feedback - Incorrect", "Error");
-                        doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.points;
+                        doc.rootVisualElement.Q<TextElement>("Points").text = "+" + Event_PucQuiz.new_points;
                         break;
                 }
             }

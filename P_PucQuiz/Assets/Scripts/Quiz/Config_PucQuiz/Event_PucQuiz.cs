@@ -25,6 +25,7 @@ public static class Event_PucQuiz
     #region @ Player Events @
 
     public static int streak = 0;
+    public static float new_points = 0;
     public static float points = 0;
 
     #endregion

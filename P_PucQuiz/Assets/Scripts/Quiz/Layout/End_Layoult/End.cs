@@ -104,12 +104,37 @@ public class End
         for (int i = 0; i < porcents.Length; i++)
         {
             if (i >= 4) { break; }
-            VisualElement player_bar = doc.rootVisualElement.Q("Progress" + (i + 1));
+
+            int number = i + 1;
+
+            Label points_old_label = doc.rootVisualElement.Q<Label>("Points_Old" + number);
+            Label points_new_label = doc.rootVisualElement.Q<Label>("Points_New" + number);
+            Label points_doble_label = doc.rootVisualElement.Q<Label>("Points_Doble" + number);
+            
+            int points_old = players[i].Score - players[i].Score_New;
+            int points_new = players[i].Score_New;
+            int points_doble = players[i].Score_New;
+
+            points_old_label.text = "" + points_old;
+            if (false/*players[i].doble*/)
+            {
+                points_new /= 2;
+                points_doble /= 2;
+                points_doble_label.text = "+" + points_doble;
+            }
+            else
+            {
+                points_doble = 0;
+            }
+            points_new_label.text = "+" + points_new;
+
+            VisualElement player_bar = doc.rootVisualElement.Q("Progress" + number);
             player_bar.style.width = new Length(porcents[i], LengthUnit.Percent);
         }
         for (int i = players.Length; i < 4; i++)
         {
-            var remove = doc.rootVisualElement.Q("Progress" + (i + 1));
+            int number = i + 1;
+            var remove = doc.rootVisualElement.Q("Progress" + number);
             remove.style.opacity = 0;
         }
     }

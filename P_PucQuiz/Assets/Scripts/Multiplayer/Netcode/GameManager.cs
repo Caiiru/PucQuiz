@@ -1,3 +1,4 @@
+using DG.Tweening.Core.Easing;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ public class GameManager : NetworkBehaviour
     //private float timeToShowQuestion = 99f;
     private float timePerQuestion = 15f;
     private float timeToShowResults = 5f;
+    public NetworkVariable<float> quiz_time = new NetworkVariable<float>(0f);
 
 
 
@@ -117,6 +119,13 @@ public class GameManager : NetworkBehaviour
         //ONLY SERVER
         if (!IsServer) return;
 
+        if (Event_PucQuiz.layout_actualy == "HostQuiz")
+        {
+            Modos quiz = LayoutManager.instance.quiz;
+            float quiz_time_value = quiz.attributes[quiz.question_actualy_index].timer.time;
+            quiz_time.Value = quiz_time_value;
+            Debug.Log("[Tempo do quiz no host = " + quiz_time + "]");
+        }
 
         Timer.Value = Timer.Value > 0 ? Timer.Value -= Time.deltaTime : 0;
 
@@ -469,6 +478,7 @@ public struct QuizPlayerData : INetworkSerializable, System.IEquatable<QuizPlaye
     public FixedString32Bytes ClientId;
     public FixedString32Bytes PlayerName;
     public int Score;
+    public int Score_New;
     public FixedString32Bytes cards;
     public bool Equals(QuizPlayerData other)
     {
@@ -481,6 +491,7 @@ public struct QuizPlayerData : INetworkSerializable, System.IEquatable<QuizPlaye
         serializer.SerializeValue(ref ClientId);
         serializer.SerializeValue(ref PlayerName);
         serializer.SerializeValue(ref Score);
+        serializer.SerializeValue(ref Score_New);
         serializer.SerializeValue(ref cards);
     }
     public override int GetHashCode()

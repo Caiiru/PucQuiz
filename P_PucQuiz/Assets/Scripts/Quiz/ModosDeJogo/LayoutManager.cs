@@ -56,6 +56,7 @@ public class LayoutManager : MonoBehaviour
 
     public void Update()
     {
+        GameManager gameManager = GameManager.Instance;
         instance = this;
 
         scene_actualy = Event_PucQuiz.scene_actualy;
@@ -299,6 +300,7 @@ public class MyPlayer
     [Header("Atributos")]
     public string playerName = "";
     public int points = 0;
+    public int points_new = 0;
     public int slots;
     [SerializeField] private Cartas[] cartas = new Cartas[4];
     public int cartas_index = 0;
